@@ -1,0 +1,48 @@
+{
+ "frozen_utc": "2026-10-07T18:08:38Z",
+ "note": "this machine's model fit on rd1 + rd2 records only, applied to the Phase 1 base forward lists; written once, before the base pipeline ran here",
+ "sets": {
+  "ifeval541": {
+   "items": 541,
+   "pred_base_here_s": 47973.78652133366,
+   "pred_base_here_gpu_s": 12559.188524879779,
+   "pred_base_here_tok_s": 3.8650274127839546
+  },
+  "math500": {
+   "items": 500,
+   "pred_base_here_s": 36786.83627729557,
+   "pred_base_here_gpu_s": 9777.420546536261,
+   "pred_base_here_tok_s": 7.0606234806962025
+  },
+  "gpqa": {
+   "items": 198,
+   "pred_base_here_s": 23907.434446192012,
+   "pred_base_here_gpu_s": 6291.105418364149,
+   "pred_base_here_tok_s": 4.452004259995082
+  },
+  "aime": {
+   "items": 90,
+   "pred_base_here_s": 11159.077366778707,
+   "pred_base_here_gpu_s": 2954.791522592974,
+   "pred_base_here_tok_s": 6.163143935604175
+  },
+  "humaneval": {
+   "items": 164,
+   "pred_base_here_s": 2701.8991578008554,
+   "pred_base_here_gpu_s": 716.1240760449808,
+   "pred_base_here_tok_s": 6.442135321648046
+  },
+  "mbpp": {
+   "items": 257,
+   "pred_base_here_s": 3690.0547767081225,
+   "pred_base_here_gpu_s": 972.0561832818092,
+   "pred_base_here_tok_s": 3.74764084459927
+  },
+  "gsm8k500": {
+   "items": 500,
+   "pred_base_here_s": 15410.375493795957,
+   "pred_base_here_gpu_s": 4088.5158170350087,
+   "pred_base_here_tok_s": 5.5217992601320764
+  }
+ }
+}

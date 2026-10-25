@@ -14,7 +14,7 @@ flushes the MoE's FINAL tokens afterwards (teacher forcing).
 """
 from __future__ import annotations
 
-from typing import Dict
+from typing import Dict, Optional
 
 import torch
 import torch.nn.functional as F
@@ -37,10 +37,14 @@ def masked_base(final: torch.Tensor, valid: torch.Tensor, mask_id: int) -> torch
 
 @torch.no_grad()
 def draft_block(seq, final: torch.Tensor, valid: torch.Tensor, lo: int, setting: str,
-                mask_id: int, threshold_strict: bool = True) -> dict:
+                mask_id: int, threshold_strict: bool = True, static_steps: Optional[int] = None,
+                kind: Optional[str] = None) -> dict:
     """Generate the valid slots of block [lo, lo+bl) with the drafter behind `seq`.
 
-    final [bl] long (device), valid [bl] bool (device). Returns a dict of device tensors
+    final [bl] long (device), valid [bl] bool (device). `static_steps` (static settings only)
+    replaces the setting's step count (still capped at the number of open slots); `kind`
+    replaces the timing label (default draft_<setting>; the phase-3 re-draft passes "redraft").
+    Both default to None, which is exactly the original call. Returns a dict of device tensors
     + python ints:
       tokens [bl]        the drafted block (fixed slots untouched)
       p_commit [bl]      fp32 confidence of each slot's token at the forward that committed it
@@ -65,15 +69,19 @@ def draft_block(seq, final: torch.Tensor, valid: torch.Tensor, lo: int, setting:
                 "n_fwd": 0, "n_steps": 0, "raw_mask_argmax": 0, "ms": []}
 
     if cfg["mode"] == "static":
-        steps = min(int(cfg["steps"]), n_open)
+        steps = min(int(cfg["steps"] if static_steps is None else static_steps), n_open)
+        assert steps >= 1, static_steps
         nt = get_num_transfer_tokens(n_open, steps)           # sums to n_open
         assert int(nt.sum()) == n_open
     else:
+        if static_steps is not None:
+            raise ValueError(f"static_steps applies to static settings only, not {setting}")
         steps = min(int(cfg["cap"]), n_open)                   # >= 1 commit per step
         nt = None
+    label = kind or f"draft_{setting}"
 
     for step in range(steps):
-        logits = seq.block_forward(cur, lo, store_kv=False, kind=f"draft_{setting}")
+        logits = seq.block_forward(cur, lo, store_kv=False, kind=label)
         lg = logits[0].to(torch.float32, copy=True)            # [bl, V] fp32 copy (MASK logit is overwritten)
         raw_mask += (lg.argmax(-1) == mask_id)[open_].sum()
         lg[:, mask_id] = float("-inf")

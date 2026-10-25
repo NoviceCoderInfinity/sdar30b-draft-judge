@@ -1,0 +1,332 @@
+<title>Phase 3 Re-draft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=STIX+Two+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Layout: the Phase 2 preprint look, continued. 66ch prose; Table 1, progress and diagnostics break out to 1200px. */
+:root {
+  --paper: #f6f6f9; --card: #ffffff; --ink: #16172a; --ink-2: #46485c; --muted: #6c6e82; --hair: #e0e1e9;
+  --axis: #b5b7c5; --rule: #16172a; --accent: #3b3f9a; --pick: #1e7f5c; --warn: #b4540a;
+  --s-stock: #868896; --s-sdar: #2a78d6; --s-coda: #eb6834; --s-qwen: #1baf7a; --s-rd1: #4a3aa7; --s-rd2: #e87ba4;
+  --font-serif: "STIX Two Text", "STIX Two", "Times New Roman", Times, serif;
+  --font-sans: "Instrument Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark; --paper: #14151f; --card: #1b1c29; --ink: #e8e9f1; --ink-2: #b6b8c9; --muted: #8c8ea3; --hair: #2a2c3c;
+    --axis: #4b4d61; --rule: #d8d9e5; --accent: #a9adf3; --pick: #4cba8e; --warn: #f0a050;
+    --s-stock: #6b6e80; --s-sdar: #3987e5; --s-coda: #d95926; --s-qwen: #199e70; --s-rd1: #9085e9; --s-rd2: #d55181;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark; --paper: #14151f; --card: #1b1c29; --ink: #e8e9f1; --ink-2: #b6b8c9; --muted: #8c8ea3; --hair: #2a2c3c;
+  --axis: #4b4d61; --rule: #d8d9e5; --accent: #a9adf3; --pick: #4cba8e; --warn: #f0a050;
+  --s-stock: #6b6e80; --s-sdar: #3987e5; --s-coda: #d95926; --s-qwen: #199e70; --s-rd1: #9085e9; --s-rd2: #d55181;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-serif); font-size: 1.0625rem; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1200px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 44px); padding-block: 48px 80px; display: grid; gap: 56px; }
+section { display: grid; gap: 18px; min-width: 0; }
+section > * { min-width: 0; }
+p { margin: 0; }
+h1, h2 { margin: 0; text-wrap: balance; font-weight: 600; }
+h1 { font-size: 2.5rem; line-height: 1.08; letter-spacing: -0.015em; }
+h2 { font-size: 1.5rem; line-height: 1.25; display: flex; align-items: baseline; gap: 14px; }
+h2 .secno { font-family: var(--font-sans); font-weight: 500; font-size: 0.875rem; color: var(--accent); }
+.kicker { font-family: var(--font-sans); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+.masthead { display: grid; gap: 14px; padding-bottom: 28px; border-bottom: 1px solid var(--hair); }
+.lede { font-size: 1.25rem; line-height: 1.45; color: var(--ink-2); max-width: 64ch; }
+.status { font-family: var(--font-sans); font-size: 0.875rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 18px; font-variant-numeric: tabular-nums; }
+.status b { color: var(--ink); font-weight: 600; }
+.caption { font-size: 0.95rem; line-height: 1.55; color: var(--ink-2); max-width: 112ch; }
+.caption b { color: var(--ink); font-weight: 600; }
+.baserow td { font-style: italic; }
+.xt, .mt { display: block; font-family: var(--font-sans); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1.25; white-space: nowrap; }
+.xt { color: var(--warn); } .mt { color: var(--pick); }
+table.sm td.xc { background: color-mix(in srgb, var(--warn) 7%, transparent); }
+table.sm td.xc.basecell { background: color-mix(in srgb, var(--pick) 9%, transparent); }
+table.sm td.calc { color: var(--muted); }
+table.sm td.bench { vertical-align: top; font-weight: 600; color: var(--ink); }
+table.sm tr.first.sep td { border-top: 1.5px solid var(--hair); }
+.gm { background: color-mix(in srgb, var(--s-sdar) 7%, transparent); }
+.gx { background: color-mix(in srgb, var(--warn) 8%, transparent); }
+table.bt th.gm-h, table.bt th.gx-h { text-align: center; font-family: var(--font-sans); font-size: 0.72rem; letter-spacing: 0.06em; font-weight: 600; border-bottom: 1px solid var(--hair); }
+table.bt th.gm-h { color: var(--s-sdar); } table.bt th.gx-h { color: var(--warn); }
+.sub3 { margin: 10px 0 0; font-family: var(--font-sans); font-size: 1rem; font-weight: 600; }
+.tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; }
+table.bt { border-collapse: collapse; width: 100%; min-width: 980px; font-variant-numeric: tabular-nums lining-nums; font-size: 0.95rem;
+  border-top: 1.5px solid var(--rule); border-bottom: 1.5px solid var(--rule); }
+table.bt thead { border-bottom: 0.8px solid var(--rule); }
+table.bt th, table.bt td { padding: 4px 10px; text-align: right; vertical-align: baseline; white-space: nowrap; }
+table.bt th { font-weight: 400; color: var(--ink-2); line-height: 1.3; vertical-align: bottom; padding-top: 9px; padding-bottom: 7px; }
+table.bt th .sub { display: block; font-family: var(--font-sans); font-size: 0.75rem; color: var(--muted); }
+table.bt th.new { color: var(--ink); font-weight: 600; }
+table.bt .l { text-align: left; }
+table.bt tr.first td { padding-top: 8px; }
+table.bt tr.first.sep td { border-top: 1px solid var(--hair); }
+table.bt tr.last td { padding-bottom: 8px; }
+table.bt td.bench { vertical-align: top; font-weight: 600; color: var(--ink); }
+table.bt td.bench .n { display: block; font-weight: 400; font-size: 0.82rem; color: var(--muted); }
+table.bt td.m { font-family: var(--font-sans); font-size: 0.8125rem; color: var(--muted); }
+table.bt td.ref { color: var(--ink-2); }
+table.bt td.win { font-weight: 700; background: color-mix(in srgb, var(--pick) 15%, transparent); }
+table.bt td.win .ci { color: var(--ink-2); font-weight: 500; }
+table.bt .ci { color: var(--muted); }
+table.bt td.pending { text-align: center; font-family: var(--font-sans); font-size: 0.78rem; font-style: italic; color: var(--muted); }
+table.bt td.na { color: var(--muted); }
+table.bt tbody.all tr:first-child td { border-top: 0.8px solid var(--rule); }
+table.sm { border-collapse: collapse; width: 100%; min-width: 760px; font-family: var(--font-sans); font-size: 0.875rem; font-variant-numeric: tabular-nums;
+  border-top: 1.5px solid var(--rule); border-bottom: 1.5px solid var(--rule); }
+table.sm thead { border-bottom: 0.8px solid var(--rule); }
+table.sm th { font-weight: 500; font-size: 0.6875rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); text-align: right; padding: 8px 10px; vertical-align: bottom; }
+table.sm td { padding: 6px 10px; text-align: right; border-top: 1px solid var(--hair); color: var(--ink-2); white-space: nowrap; }
+table.sm .l { text-align: left; }
+table.sm td.l { color: var(--ink); }
+table.sm .ci { color: var(--muted); }
+.flag { color: var(--warn); opacity: .85; }
+.est { font-family: var(--font-sans); font-size: 0.65rem; color: var(--warn); margin-left: 3px; }
+.pt { font-size: 0.72rem; color: var(--warn); }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 1px 10px 1px 8px; border-radius: 999px; font-size: 0.75rem; font-weight: 500; }
+.chip i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.chip.done { background: var(--ink); color: var(--paper); }
+.chip.running { color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.chip.queued { color: var(--muted); box-shadow: inset 0 0 0 1px var(--axis); }
+.chip.queued i { background: transparent; box-shadow: inset 0 0 0 1.5px currentColor; }
+.notes { font-family: var(--font-sans); font-size: 0.8125rem; color: var(--muted); display: grid; gap: 6px; max-width: 110ch; line-height: 1.5; }
+.notes b { color: var(--ink-2); font-weight: 600; }
+dl.cal { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: 0 24px; margin: 0; }
+dl.cal > div { padding: 10px 0 12px; border-top: 1px solid var(--hair); display: grid; gap: 2px; }
+dl.cal dt { font-family: var(--font-sans); font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+dl.cal dd { margin: 0; font-size: 1.5rem; font-weight: 600; font-variant-numeric: tabular-nums lining-nums; }
+dl.cal dd small { font-family: var(--font-sans); font-size: 0.78rem; font-weight: 400; color: var(--muted); margin-left: 4px; }
+footer { border-top: 1px solid var(--hair); padding-top: 16px; font-family: var(--font-sans); font-size: 0.8125rem; color: var(--muted); }
+
+/* figures: small multiples, as the Phase 2 page's Figure 1 / 2 */
+.figwrap { display: grid; gap: 10px; }
+.figwrap .fig-no { font-family: var(--font-sans); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.figwrap h3 { margin: 0; font-family: var(--font-sans); font-size: 0.95rem; font-weight: 600; }
+.figwrap figcaption { font-size: 0.92rem; color: var(--ink-2); line-height: 1.5; max-width: 110ch; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 16px; list-style: none; margin: 0; padding: 0; font-family: var(--font-sans); font-size: 0.8125rem; color: var(--ink-2); }
+.legend li { display: inline-flex; align-items: center; gap: 6px; }
+.smgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: 26px 22px; }
+.smp { display: grid; gap: 2px; align-content: start; min-width: 0; }
+.smp h4 { margin: 0; font-family: var(--font-sans); font-size: 0.85rem; font-weight: 600; color: var(--ink); }
+.smp h4 span { margin-left: 8px; font-weight: 400; font-size: 0.75rem; color: var(--muted); }
+.smb { min-width: 0; }
+.smb svg { display: block; overflow: visible; }
+.smb svg text { font-family: var(--font-sans); }
+.smp.pend .smb { height: 190px; display: grid; place-items: center; border: 1px dashed var(--axis); border-radius: 4px; font-family: var(--font-sans); font-size: 0.8125rem; font-style: italic; color: var(--muted); }
+.tip { position: fixed; z-index: 10; pointer-events: none; background: var(--card); color: var(--ink); border: 1px solid var(--hair); border-radius: 6px;
+  box-shadow: 0 6px 22px rgba(12, 12, 30, 0.16); padding: 8px 10px; font-family: var(--font-sans); font-size: 0.8rem; line-height: 1.45; max-width: 300px; display: grid; gap: 2px; }
+.tip b { font-size: 0.95rem; }
+.tip span { color: var(--muted); }
+.hit { fill: transparent; outline: none; }
+.hit:focus-visible { stroke: var(--accent); stroke-width: 1.5; }
+</style>
+
+<main class="wrap">
+  <header class="masthead">
+    <p class="kicker">Phase 3 &middot; pure inference &middot; nothing trained</p>
+    <h1>Phase 3 Re-draft</h1>
+    <p class="lede">Hand the slots the judge rejects back to the drafter, after every judge pass (rd1) or every second pass (rd2). Same frozen 30B, same Phase 1 judge, SDAR-1.7B drafter, no expert pool.</p>
+    <p class="status"><span>Updated <b>{{UPDATED}} IST</b></span><span><b>{{NDONE}}</b> of {{NTOTAL}} runs finished</span><span>Run finishes about <b>{{FINISH}} IST</b></span></p>
+  </header>
+
+  <section id="unified" aria-labelledby="h-uni">
+    <h2 id="h-uni"><span class="secno">3</span>Every run, measured on this box</h2>
+    <p class="caption"><b>Table 0.</b> Every run, <b>all numbers measured on this 4-GPU box</b> (batch size 1, the same 4-GPU load for every row): rd1 and rd2 per benchmark, plus a <b>base</b> row, the base pipeline (SDAR-1.7B drafter + the trained 128M judge, rd's exact flags without re-draft), where that run exists. Accuracy is items correct, %, with the paired difference from the base pipeline in points (the base pipeline's per-item records are the Phase 1 ones, which this box reproduces token for token). Passes per block and 30B expert loads per token (unique expert loads summed over layers &divide; generated tokens) are counted per item. Tokens per second = total generated tokens &divide; total decode seconds; base tokens per second is on the same items as rd, and speedup = rd &divide; base tokens per second on identical items (item count in brackets). Wall is the run's wall-clock time on 4 GPUs, start to finish, model load included. <b>Reproduction:</b> on this box the base pipeline reproduces the Phase 1 records token for token (HumanEval 164/164, MBPP 257/257, 12/12 on each sampled set), with the same adapter 35805974 and 30B revision c351bbc. Where the base pipeline was decoded on only the first 12 items, the speedup (marked <span class=flag>&dagger;</span>) pairs rd with the base on those 12 items and is <b>not fully measured</b>: on HumanEval and MBPP a 12-item speedup differed from the full-set answer by up to 13%, and the 12-item base alone has a bootstrap 90% range of &minus;6.5% to +8.0% (HumanEval) and &minus;3.8% to +3.9% (MBPP). Nothing in this table is extrapolated; Phase 1 box numbers are in section 6.</p>
+    <div class="tbl-wrap">
+      <table class="bt" style="min-width:1150px">{{UNI}}</table>
+    </div>
+  </section>
+
+  <section id="table" aria-labelledby="h-table">
+    <h2 id="h-table"><span class="secno">4</span>Results</h2>
+    <p class="caption"><b>Table 1.</b> The same measurements arranged against the Phase 2 page. <b>Tokens per second are measured on this box</b>: rd1, rd2 and the base pipeline were all decoded here, and speedup = rd tokens per second &divide; base tokens per second on identical items. HumanEval and MBPP have a full-set base run, so those speedups are fully measured; where the base was decoded on only 12 items the speedup is marked <span class=flag>&dagger;</span> and is not fully measured (see Table 0 for its uncertainty). Stock, SDAR-1.7B, CoDA-1.7B and Qwen3-0.6B columns are <b>Phase 2 records</b>: accuracy copied from the Phase 2 page, speed measured on the Phase 1 box and listed in section 6, not here. Accuracy deltas are against stock. Highlighted: best in the row.</p>
+    <div class="tbl-wrap">
+      <table class="bt">
+        <thead><tr>
+          <th class="l" scope="col">Benchmark</th><th class="l" scope="col">Measure</th>
+          <th scope="col"><i class="sw" style="background:var(--s-stock)"></i>Stock 30B<span class="sub">Phase 2 records</span></th>
+          <th scope="col"><i class="sw" style="background:var(--s-sdar)"></i>SDAR-1.7B + judge<span class="sub">Phase 2 records</span></th>
+          <th scope="col"><i class="sw" style="background:var(--s-coda)"></i>CoDA-1.7B + judge<span class="sub">Phase 2 records</span></th>
+          <th scope="col"><i class="sw" style="background:var(--s-qwen)"></i>Qwen3-0.6B + judge<span class="sub">Phase 2 records</span></th>
+          <th scope="col" class="new"><i class="sw" style="background:var(--s-sdar)"></i>Base pipeline<span class="sub">measured on this box</span></th>
+          <th scope="col" class="new"><i class="sw" style="background:var(--s-rd1)"></i>rd1<span class="sub">re-draft every pass</span></th>
+          <th scope="col" class="new"><i class="sw" style="background:var(--s-rd2)"></i>rd2<span class="sub">re-draft every 2 passes</span></th>
+        </tr></thead>
+        <tbody>{{ROWS}}</tbody>
+        {{ALLROW}}
+      </table>
+    </div>
+    <div class="notes">
+      <p><b>Tokens per second</b> = total generated tokens (to end of answer) &divide; total decode seconds over the items, timed with <code>perf_counter</code> and CUDA synchronized at both ends, so it includes prompt prefill, every 30B and drafter forward and the KV flush, and excludes scoring and file writing. The fully-measured row pools only benchmarks with a full-set base run and both rd runs finished ({{ALLNOTE}}).</p>
+    </div>
+  </section>
+
+  <section id="figures" aria-labelledby="h-figs">
+    <h2 id="h-figs"><span class="secno">5</span>Figures</h2>
+    <div class="figwrap" id="fig1">
+      <span class="fig-no">Figure 1</span><h3>Speedup over the base pipeline, measured on this box</h3>
+      <ul class="legend" id="lg1"></ul>
+      <div class="smgrid" id="sm1"></div>
+      <figcaption>Tokens per second &divide; the base pipeline's, both decoded on this box (4 GPUs busy), full pipeline (30B, judge, drafter and re-draft all counted). Higher is better. Dashed line: the base pipeline at 1&times;. HumanEval and MBPP: rd and base on every item. Values marked &dagger; use only the 12-item base run and are not fully measured. Stock and the other Phase 2 drafters were not measured on this box and are not shown. Nothing in the figures is extrapolated.</figcaption>
+    </div>
+    <div class="figwrap" id="fig2">
+      <span class="fig-no">Figure 2</span><h3>Accuracy by benchmark</h3>
+      <ul class="legend" id="lg2"></ul>
+      <div class="smgrid" id="sm2"></div>
+      <figcaption>Items correct, %, one panel per benchmark with its own y-range; Stock, CoDA and Qwen3 are Phase 2 records, the base pipeline is its Phase 1 records (reproduced token for token on this box), rd1 and rd2 are measured here. Whiskers on rd1 and rd2: 95% CI of the paired difference from the base pipeline, 2,000 bootstrap resamples, centred on the point.</figcaption>
+    </div>
+  </section>
+
+  <section id="extrap" aria-labelledby="h-ext">
+    <h2 id="h-ext"><span class="secno">6</span>Extrapolated to the Phase 1 box (8&times; RTX PRO 6000 Server)</h2>
+    <p class="caption"><b>EXTRAPOLATED &mdash; based on the extrapolation using the measured numbers on 4&times; GPUs for this dataset for this model, using reference from the runs from this model (the base pipeline measured on the Phase 1 8&times; box).</b></p>
+    <p class="caption"><b>Formula.</b> Phase 1 box tokens per second for rd = the base pipeline's tokens per second <b>measured on the Phase 1 box</b> (Phase 2 records) &times; the speedup <b>measured here</b> on this dataset (rd &divide; base tokens per second, identical items, Table 0); the Calculation column shows the two factors. &dagger; = the base pipeline was decoded here on only the first 12 items of this benchmark, so the speedup is estimated by the box-ratio method (rd's tokens per second over all its items here &times; the base pipeline's Phase 1 box tokens per second &divide; its tokens per second here, both on those 12 items): not fully measured, and a 12-item estimate can be off by up to about 13%. &Delta; = extrapolated rd &minus; the base pipeline measured on the Phase 1 box. &times; stock = extrapolated tokens per second &divide; the stock 30B's, measured on the Phase 1 box (Phase 2 page). The 8-GPU wall time replays this box's per-item times over 8 shards through the Phase 2 per-component box ratios and cost model, so it is modelled, not measured. The <b>base pipeline row is not extrapolated</b>: its Phase 1 box value was measured on that box.</p>
+    <div class="tbl-wrap">
+      <table class="sm">
+        <thead><tr><th class="l">Benchmark</th><th class="l">Setup</th><th>Calculation<br>base tok/s (Phase 1 box) &times; speedup (here)</th><th>Tokens / s<br>on the Phase 1 box</th><th>&Delta; vs base pipeline<br>(tokens / s)</th><th>&times; stock<br>(Phase 1 box)</th><th>Wall on 8 GPUs</th></tr></thead>
+        <tbody>{{XTABLE}}</tbody>
+      </table>
+    </div>
+    <h3 class="sub3">Reference: Phase 2 records, <b class=mt style="display:inline">measured on the Phase 1 box</b></h3>
+    <p class="caption"><b>Table 2b.</b> Tokens per second from the Phase 2 page (&times; = speedup over stock). These are measurements on the Phase 1 box, not extrapolations; SDAR-1.7B + judge is the base pipeline.</p>
+    <div class="tbl-wrap">
+      <table class="sm">
+        <thead><tr><th class="l">Benchmark</th><th>Stock 30B</th><th>SDAR-1.7B + judge<br>(base pipeline)</th><th>CoDA-1.7B + judge</th><th>Qwen3-0.6B + judge</th></tr></thead>
+        <tbody>{{REF2}}</tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="progress" aria-labelledby="h-progress">
+    <h2 id="h-progress"><span class="secno">7</span>Progress</h2>
+    <p class="caption">The {{NTOTAL}} runs in the order the script runs them (it alternates which setup goes first on each benchmark); <b>base</b> is the base pipeline decoded in full on this box, which makes that benchmark's speedup fully measured. Finish times are estimates for this box, which has 4 GPUs; &ldquo;running&rdquo; means the benchmark is still in progress.</p>
+    <div class="tbl-wrap">
+      <table class="sm">
+        <thead><tr><th class="l">Setup</th><th class="l">Benchmark</th><th>Items done / total</th><th>Finish (IST)</th><th class="l">State</th></tr></thead>
+        <tbody>{{PROGRESS}}</tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="diag" aria-labelledby="h-diag">
+    <h2 id="h-diag"><span class="secno">8</span>Where the speed comes from</h2>
+    <p class="caption">Everything here is measured on this box, per architecture: passes per block and 30B expert loads per token (unique expert loads summed over layers, per generated token) do not depend on the machine; drafter forwards per token counts every SDAR-1.7B forward (first draft and re-drafts); tokens per second is wall time on this box. In brackets: stock 30B from the Phase 2 records. Speedup is rd &divide; base pipeline on identical items; &dagger; = only the 12-item base run.</p>
+    <div class="tbl-wrap">
+      <table class="sm">
+        <thead><tr><th class="l">Benchmark</th><th class="l">Setup</th><th>Items</th><th>Passes / block<br>(stock)</th><th>30B expert loads / token<br>(stock)</th><th>Drafter forwards / token</th><th>Tok/s this box</th><th>Speedup vs base</th></tr></thead>
+        <tbody>{{DIAG}}</tbody>
+      </table>
+    </div>
+    <div class="notes">
+      <p><b>Baseline.</b> The base pipeline was decoded here under the same 4-GPU load as rd: every item of the benchmarks that have a full base run (HumanEval and MBPP so far, plus any marked base in Table 0), the first 12 items of the others. On this box it reproduces the Phase 1 records token for token (HumanEval 164/164, MBPP 257/257, 12/12 on each sampled set), with the same adapter 35805974 and 30B revision c351bbc, so the work is identical across boxes. The 12-item baselines are small: per-item speed varies a lot, and a 12-item pairing on HumanEval or MBPP would have been off by up to 13% against the full answer.</p>
+      <p><b>Cost model.</b> The Phase 2 cost model enters only the modelled 8-GPU wall times in section 6; no measured number on this page depends on it.</p>
+      <p>Timing: per-item seconds are measured from before prefill to after the last forward with CUDA synchronized at both ends; no polling or sleeps are involved.</p>
+    </div>
+  </section>
+
+  <footer>Data: Hugging Face dataset Arushhh/phase3-redraft and branch phase3-redraft on GitHub (results/phase3). This page is rebuilt after every backup.</footer>
+</main>
+<script type="application/json" id="fig-data">{{FIGDATA}}</script>
+<script>
+(function () {
+  var D = []; try { D = JSON.parse(document.getElementById("fig-data").textContent) || []; } catch (e) { D = []; }
+  var NS = "http://www.w3.org/2000/svg";
+  function svg(t, a, txt) { var e = document.createElementNS(NS, t); for (var k in a) e.setAttribute(k, a[k]); if (txt !== undefined) e.textContent = txt; return e; }
+  function el(t, a, txt) { var e = document.createElement(t); for (var k in (a || {})) e.setAttribute(k, a[k]); if (txt !== undefined) e.textContent = txt; return e; }
+  function cv(name) { return "var(" + name + ")"; }
+  function ok(v) { return v !== null && v !== undefined && isFinite(v); }
+  function marker(shape, cx, cy, color, r) {
+    var a = { fill: color, stroke: "var(--card)", "stroke-width": 1.5 }, q = r, d;
+    if (shape === "circle") { a.cx = cx; a.cy = cy; a.r = r; return svg("circle", a); }
+    if (shape === "square") d = "M" + (cx - q * 0.9) + "," + (cy - q * 0.9) + "h" + (q * 1.8) + "v" + (q * 1.8) + "h" + (-q * 1.8) + "Z";
+    else if (shape === "diamond") d = "M" + cx + "," + (cy - q * 1.3) + "L" + (cx + q * 1.3) + "," + cy + "L" + cx + "," + (cy + q * 1.3) + "L" + (cx - q * 1.3) + "," + cy + "Z";
+    else if (shape === "triangle") d = "M" + cx + "," + (cy - q * 1.3) + "L" + (cx + q * 1.2) + "," + (cy + q * 0.95) + "L" + (cx - q * 1.2) + "," + (cy + q * 0.95) + "Z";
+    else {
+      var n = shape === "star" ? 10 : 5, pts = [];
+      for (var i = 0; i < n; i++) { var ang = -Math.PI / 2 + i * 2 * Math.PI / n, rr = shape === "star" ? (i % 2 ? q * 0.6 : q * 1.45) : q * 1.25; pts.push((cx + rr * Math.cos(ang)).toFixed(1) + "," + (cy + rr * Math.sin(ang)).toFixed(1)); }
+      d = "M" + pts.join("L") + "Z";
+    }
+    a.d = d; return svg("path", a);
+  }
+  function niceStep(raw) { var mag = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / mag; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * mag; }
+  function domain(xs) {
+    xs = xs.filter(ok); if (!xs.length) return { lo: 0, hi: 1, t: [0, 1], st: 1 };
+    var lo = Math.min.apply(null, xs), hi = Math.max.apply(null, xs), pad = (hi - lo) * 0.14 || Math.abs(hi) * 0.1 || 0.1; lo -= pad; hi += pad;
+    var st = niceStep((hi - lo) / 3), dlo = Math.floor(lo / st + 1e-9) * st, dhi = Math.ceil(hi / st - 1e-9) * st, t = [];
+    for (var v = dlo; v <= dhi + st / 1000; v += st) t.push(+v.toFixed(6));
+    return { lo: dlo, hi: dhi, t: t, st: st };
+  }
+  var tip = null;
+  function showTip(lines, x, y) {
+    if (!tip) { tip = el("div", { class: "tip", role: "status" }); document.body.appendChild(tip); }
+    tip.textContent = ""; lines.forEach(function (l, i) { tip.appendChild(el(i ? "span" : "b", null, l)); });
+    tip.hidden = false; var w = tip.offsetWidth, h = tip.offsetHeight;
+    tip.style.left = Math.max(8, Math.min(window.innerWidth - w - 8, x + 12)) + "px"; tip.style.top = Math.max(8, Math.min(window.innerHeight - h - 8, y + 12)) + "px";
+  }
+  function hideTip() { if (tip) tip.hidden = true; }
+  window.addEventListener("scroll", hideTip, { passive: true });
+  var M = {
+    sp: { v: function (p) { return p.sp; }, fmt: function (v) { return v.toFixed(2) + "×"; }, tick: function (t, st) { return t.toFixed(st < 0.1 ? 2 : 1) + "×"; }, ref: 1,
+          lines: function (p) { return [p.label, ok(p.sp) ? p.sp.toFixed(2) + "× the base pipeline" : "pending", ok(p.tps) ? p.tps.toFixed(1) + " tokens/s on this box" : "", p.note]; } },
+    acc: { v: function (p) { return p.acc; }, fmt: function (v) { return v.toFixed(1) + "%"; }, tick: function (t) { return (+t.toFixed(1)) + "%"; }, ref: null,
+          lines: function (p) { return [p.label, ok(p.acc) ? p.acc.toFixed(1) + "% correct" : "pending", p.note]; } }
+  };
+  function legend(ul, pts, ref) {
+    ul.textContent = "";
+    pts.forEach(function (p) { var li = el("li"), s = svg("svg", { width: 14, height: 14, viewBox: "0 0 14 14", "aria-hidden": "true" }); s.appendChild(marker(p.shape, 7, 7, cv(p.color), 4.5)); li.appendChild(s); li.appendChild(document.createTextNode(p.label)); ul.appendChild(li); });
+    if (ref) { var li = el("li"), s = svg("svg", { width: 24, height: 12, viewBox: "0 0 24 12", "aria-hidden": "true" }); s.appendChild(svg("line", { x1: 0, x2: 24, y1: 6, y2: 6, stroke: "var(--ink-2)", "stroke-width": 1.25, "stroke-dasharray": "4 3" })); li.appendChild(s); li.appendChild(document.createTextNode(ref)); ul.appendChild(li); }
+  }
+  function panel(host, W, m, b) {
+    host.textContent = "";
+    var pts = b.pts.filter(function (p) { return m === M.acc || ("sp" in p); }), vals = pts.map(m.v), errs = pts.map(function (p) { return m === M.acc ? p.err : null; });
+    var all = vals.slice(); errs.forEach(function (e) { if (e) all = all.concat(e); }); if (m.ref !== null) all.push(m.ref);
+    var dm = domain(all), n = pts.length, padL = 50, padR = 8, padT = 24, axisH = 36, H = 190, plotH = H - padT - axisH, x0 = padL, x1 = W - padR, step = (x1 - x0) / n;
+    var X = function (i) { return x0 + step * (i + 0.5); }, Y = function (v) { return padT + (1 - (v - dm.lo) / (dm.hi - dm.lo)) * plotH; }, yB = padT + plotH;
+    var root = svg("svg", { width: W, height: H, viewBox: "0 0 " + W + " " + H, role: "group", "aria-label": b.name });
+    dm.t.forEach(function (t) { var y = Math.round(Y(t)) + 0.5; root.appendChild(svg("line", { x1: x0, x2: x1, y1: y, y2: y, stroke: "var(--hair)", "stroke-width": 1 })); root.appendChild(svg("text", { x: x0 - 6, y: y, "text-anchor": "end", "dominant-baseline": "central", "font-size": 10.5, fill: "var(--muted)" }, m.tick(t, dm.st))); });
+    root.appendChild(svg("line", { x1: x0, x2: x1, y1: yB + 0.5, y2: yB + 0.5, stroke: "var(--axis)", "stroke-width": 1 }));
+    if (m.ref !== null && m.ref >= dm.lo && m.ref <= dm.hi) { var ry = Math.round(Y(m.ref)) + 0.5; root.appendChild(svg("line", { x1: x0, x2: x1, y1: ry, y2: ry, stroke: "var(--ink-2)", "stroke-width": 1, "stroke-dasharray": "4 3" })); }
+    pts.forEach(function (p, i) { root.appendChild(svg("text", { x: X(i), y: yB + 15, "text-anchor": "middle", "font-size": 10.5, fill: /^rd/.test(p.tiny) ? "var(--ink)" : "var(--ink-2)", "font-weight": /^rd/.test(p.tiny) ? 600 : 400 }, p.tiny));
+      if (!ok(vals[i])) root.appendChild(svg("text", { x: X(i), y: yB + 28, "text-anchor": "middle", "font-size": 9.5, "font-style": "italic", fill: "var(--muted)" }, "pending")); });
+    var d = "", pen = false; vals.forEach(function (v, i) { if (!ok(v)) { pen = false; return; } d += (pen ? "L" : "M") + X(i).toFixed(1) + "," + Y(v).toFixed(1); pen = true; });
+    if (d.indexOf("L") >= 0) root.appendChild(svg("path", { d: d, fill: "none", stroke: "var(--ink-2)", "stroke-width": 1.5, "stroke-linejoin": "round" }));
+    errs.forEach(function (e, i) { if (!e || !ok(vals[i])) return; var c = cv(pts[i].color), y1 = Y(e[0]), y2 = Y(e[1]);
+      root.appendChild(svg("line", { x1: X(i), x2: X(i), y1: y1, y2: y2, stroke: c, "stroke-width": 1.5 }));
+      root.appendChild(svg("line", { x1: X(i) - 3.5, x2: X(i) + 3.5, y1: y1, y2: y1, stroke: c, "stroke-width": 1.5 })); root.appendChild(svg("line", { x1: X(i) - 3.5, x2: X(i) + 3.5, y1: y2, y2: y2, stroke: c, "stroke-width": 1.5 })); });
+    vals.forEach(function (v, i) { if (ok(v)) root.appendChild(marker(pts[i].shape, X(i), Y(v), cv(pts[i].color), 4.5)); });
+    vals.forEach(function (v, i) { if (!ok(v)) return; var top = errs[i] ? Math.min(Y(errs[i][1]), Y(v)) : Y(v);
+      root.appendChild(svg("text", { x: X(i), y: Math.max(9, top - 9), "text-anchor": "middle", "font-size": 10.5, "font-weight": 500, fill: "var(--ink)", style: "paint-order:stroke;stroke:var(--card);stroke-width:3px;stroke-linejoin:round" }, m.fmt(v) + (m === M.sp && pts[i].flag ? "\u2020" : ""))); });
+    pts.forEach(function (p, i) {
+      var hit = svg("rect", { x: X(i) - step / 2, y: padT - 12, width: step, height: plotH + axisH + 12, class: "hit", tabindex: "0", "aria-label": b.name + ", " + p.label + ": " + (ok(vals[i]) ? m.fmt(vals[i]) : "pending") });
+      var show = function (cx, cy) { showTip(m.lines(p).filter(Boolean), cx, cy); };
+      hit.addEventListener("pointerenter", function (e) { show(e.clientX, e.clientY); }); hit.addEventListener("pointermove", function (e) { show(e.clientX, e.clientY); });
+      hit.addEventListener("pointerleave", hideTip); hit.addEventListener("blur", hideTip);
+      hit.addEventListener("focus", function () { var r = hit.getBoundingClientRect(); show(r.left + r.width / 2, r.top + 24); });
+      root.appendChild(hit);
+    });
+    host.appendChild(root);
+  }
+  function figure(gridId, lgId, m, ref) {
+    var grid = document.getElementById(gridId); if (!grid || !D.length) return;
+    legend(document.getElementById(lgId), D[0].pts.filter(function (p) { return m === M.acc || ("sp" in p); }), ref);
+    var draw = function () {
+      grid.textContent = "";
+      D.forEach(function (b) {
+        var p = el("div", { class: "smp" + (b.live ? "" : " pend") }), h = el("h4", null, b.name); h.appendChild(el("span", null, "n = " + b.n)); p.appendChild(h);
+        var body = el("div", { class: "smb" }); p.appendChild(body); grid.appendChild(p);
+        if (!b.live) { body.textContent = b.msg || "rd1 and rd2 pending"; return; }
+        panel(body, Math.max(220, Math.floor(body.clientWidth)), m, b);
+      });
+    };
+    draw(); var t = null; window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(draw, 120); });
+  }
+  figure("sm1", "lg1", M.sp, "Base pipeline = 1×");
+  figure("sm2", "lg2", M.acc, null);
+})();
+</script>
+

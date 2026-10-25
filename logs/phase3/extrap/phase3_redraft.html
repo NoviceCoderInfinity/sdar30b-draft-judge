@@ -1,0 +1,369 @@
+<title>Phase 3 Re-draft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=STIX+Two+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Layout: the Phase 2 preprint look, continued. 66ch prose; Table 1, progress and diagnostics break out to 1200px. */
+:root {
+  --paper: #f6f6f9; --card: #ffffff; --ink: #16172a; --ink-2: #46485c; --muted: #6c6e82; --hair: #e0e1e9;
+  --axis: #b5b7c5; --rule: #16172a; --accent: #3b3f9a; --pick: #1e7f5c; --warn: #b4540a;
+  --s-stock: #868896; --s-sdar: #2a78d6; --s-coda: #eb6834; --s-qwen: #1baf7a; --s-rd1: #4a3aa7; --s-rd2: #e87ba4;
+  --font-serif: "STIX Two Text", "STIX Two", "Times New Roman", Times, serif;
+  --font-sans: "Instrument Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark; --paper: #14151f; --card: #1b1c29; --ink: #e8e9f1; --ink-2: #b6b8c9; --muted: #8c8ea3; --hair: #2a2c3c;
+    --axis: #4b4d61; --rule: #d8d9e5; --accent: #a9adf3; --pick: #4cba8e; --warn: #f0a050;
+    --s-stock: #6b6e80; --s-sdar: #3987e5; --s-coda: #d95926; --s-qwen: #199e70; --s-rd1: #9085e9; --s-rd2: #d55181;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark; --paper: #14151f; --card: #1b1c29; --ink: #e8e9f1; --ink-2: #b6b8c9; --muted: #8c8ea3; --hair: #2a2c3c;
+  --axis: #4b4d61; --rule: #d8d9e5; --accent: #a9adf3; --pick: #4cba8e; --warn: #f0a050;
+  --s-stock: #6b6e80; --s-sdar: #3987e5; --s-coda: #d95926; --s-qwen: #199e70; --s-rd1: #9085e9; --s-rd2: #d55181;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-serif); font-size: 1.0625rem; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1200px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 44px); padding-block: 48px 80px; display: grid; gap: 56px; }
+section { display: grid; gap: 18px; min-width: 0; }
+section > * { min-width: 0; }
+p { margin: 0; }
+h1, h2 { margin: 0; text-wrap: balance; font-weight: 600; }
+h1 { font-size: 2.5rem; line-height: 1.08; letter-spacing: -0.015em; }
+h2 { font-size: 1.5rem; line-height: 1.25; display: flex; align-items: baseline; gap: 14px; }
+h2 .secno { font-family: var(--font-sans); font-weight: 500; font-size: 0.875rem; color: var(--accent); }
+.kicker { font-family: var(--font-sans); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+.masthead { display: grid; gap: 14px; padding-bottom: 28px; border-bottom: 1px solid var(--hair); }
+.lede { font-size: 1.25rem; line-height: 1.45; color: var(--ink-2); max-width: 64ch; }
+.status { font-family: var(--font-sans); font-size: 0.875rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 18px; font-variant-numeric: tabular-nums; }
+.status b { color: var(--ink); font-weight: 600; }
+.caption { font-size: 0.95rem; line-height: 1.55; color: var(--ink-2); max-width: 112ch; }
+.caption b { color: var(--ink); font-weight: 600; }
+.baserow td { font-style: italic; }
+.xt, .mt { display: block; font-family: var(--font-sans); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1.25; white-space: nowrap; }
+.xt { color: var(--warn); } .mt { color: var(--pick); }
+table.sm td.xc { background: color-mix(in srgb, var(--warn) 7%, transparent); }
+table.sm td.xc.basecell { background: color-mix(in srgb, var(--pick) 9%, transparent); }
+table.sm td.calc { color: var(--muted); }
+table.sm td.bench { vertical-align: top; font-weight: 600; color: var(--ink); }
+table.sm tr.first.sep td { border-top: 1.5px solid var(--hair); }
+.gm { background: color-mix(in srgb, var(--s-sdar) 7%, transparent); }
+.gx { background: color-mix(in srgb, var(--warn) 8%, transparent); }
+table.bt th.gm-h, table.bt th.gx-h { text-align: center; font-family: var(--font-sans); font-size: 0.72rem; letter-spacing: 0.06em; font-weight: 600; border-bottom: 1px solid var(--hair); }
+table.bt th.gm-h { color: var(--s-sdar); } table.bt th.gx-h { color: var(--warn); }
+.sub3 { margin: 10px 0 0; font-family: var(--font-sans); font-size: 1rem; font-weight: 600; }
+.tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; }
+table.bt { border-collapse: collapse; width: 100%; min-width: 980px; font-variant-numeric: tabular-nums lining-nums; font-size: 0.95rem;
+  border-top: 1.5px solid var(--rule); border-bottom: 1.5px solid var(--rule); }
+table.bt thead { border-bottom: 0.8px solid var(--rule); }
+table.bt th, table.bt td { padding: 4px 10px; text-align: right; vertical-align: baseline; white-space: nowrap; }
+table.bt th { font-weight: 400; color: var(--ink-2); line-height: 1.3; vertical-align: bottom; padding-top: 9px; padding-bottom: 7px; }
+table.bt th .sub { display: block; font-family: var(--font-sans); font-size: 0.75rem; color: var(--muted); }
+table.bt th.new { color: var(--ink); font-weight: 600; }
+table.bt .l { text-align: left; }
+table.bt tr.first td { padding-top: 8px; }
+table.bt tr.first.sep td { border-top: 1px solid var(--hair); }
+table.bt tr.last td { padding-bottom: 8px; }
+table.bt td.bench { vertical-align: top; font-weight: 600; color: var(--ink); }
+table.bt td.bench .n { display: block; font-weight: 400; font-size: 0.82rem; color: var(--muted); }
+table.bt td.m { font-family: var(--font-sans); font-size: 0.8125rem; color: var(--muted); }
+table.bt td.ref { color: var(--ink-2); }
+table.bt td.win { font-weight: 700; background: color-mix(in srgb, var(--pick) 15%, transparent); }
+table.bt td.win .ci { color: var(--ink-2); font-weight: 500; }
+table.bt .ci { color: var(--muted); }
+table.bt td.pending { text-align: center; font-family: var(--font-sans); font-size: 0.78rem; font-style: italic; color: var(--muted); }
+table.bt td.na { color: var(--muted); }
+table.bt tbody.all tr:first-child td { border-top: 0.8px solid var(--rule); }
+table.sm { border-collapse: collapse; width: 100%; min-width: 760px; font-family: var(--font-sans); font-size: 0.875rem; font-variant-numeric: tabular-nums;
+  border-top: 1.5px solid var(--rule); border-bottom: 1.5px solid var(--rule); }
+table.sm thead { border-bottom: 0.8px solid var(--rule); }
+table.sm th { font-weight: 500; font-size: 0.6875rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); text-align: right; padding: 8px 10px; vertical-align: bottom; }
+table.sm td { padding: 6px 10px; text-align: right; border-top: 1px solid var(--hair); color: var(--ink-2); white-space: nowrap; }
+table.sm .l { text-align: left; }
+table.sm td.l { color: var(--ink); }
+table.sm .ci { color: var(--muted); }
+.flag { color: var(--warn); opacity: .85; }
+.est { font-family: var(--font-sans); font-size: 0.65rem; color: var(--warn); margin-left: 3px; }
+.pt { font-size: 0.72rem; color: var(--warn); }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 1px 10px 1px 8px; border-radius: 999px; font-size: 0.75rem; font-weight: 500; }
+.chip i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.chip.done { background: var(--ink); color: var(--paper); }
+.chip.running { color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.chip.queued { color: var(--muted); box-shadow: inset 0 0 0 1px var(--axis); }
+.chip.queued i { background: transparent; box-shadow: inset 0 0 0 1.5px currentColor; }
+.notes { font-family: var(--font-sans); font-size: 0.8125rem; color: var(--muted); display: grid; gap: 6px; max-width: 110ch; line-height: 1.5; }
+.notes b { color: var(--ink-2); font-weight: 600; }
+dl.cal { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: 0 24px; margin: 0; }
+dl.cal > div { padding: 10px 0 12px; border-top: 1px solid var(--hair); display: grid; gap: 2px; }
+dl.cal dt { font-family: var(--font-sans); font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+dl.cal dd { margin: 0; font-size: 1.5rem; font-weight: 600; font-variant-numeric: tabular-nums lining-nums; }
+dl.cal dd small { font-family: var(--font-sans); font-size: 0.78rem; font-weight: 400; color: var(--muted); margin-left: 4px; }
+footer { border-top: 1px solid var(--hair); padding-top: 16px; font-family: var(--font-sans); font-size: 0.8125rem; color: var(--muted); }
+
+/* figures: small multiples, as the Phase 2 page's Figure 1 / 2 */
+.figwrap { display: grid; gap: 10px; }
+.figwrap .fig-no { font-family: var(--font-sans); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.figwrap h3 { margin: 0; font-family: var(--font-sans); font-size: 0.95rem; font-weight: 600; }
+.figwrap figcaption { font-size: 0.92rem; color: var(--ink-2); line-height: 1.5; max-width: 110ch; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 16px; list-style: none; margin: 0; padding: 0; font-family: var(--font-sans); font-size: 0.8125rem; color: var(--ink-2); }
+.legend li { display: inline-flex; align-items: center; gap: 6px; }
+.smgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: 26px 22px; }
+.smp { display: grid; gap: 2px; align-content: start; min-width: 0; }
+.smp h4 { margin: 0; font-family: var(--font-sans); font-size: 0.85rem; font-weight: 600; color: var(--ink); }
+.smp h4 span { margin-left: 8px; font-weight: 400; font-size: 0.75rem; color: var(--muted); }
+.smb { min-width: 0; }
+.smb svg { display: block; overflow: visible; }
+.smb svg text { font-family: var(--font-sans); }
+.smp.pend .smb { height: 190px; display: grid; place-items: center; border: 1px dashed var(--axis); border-radius: 4px; font-family: var(--font-sans); font-size: 0.8125rem; font-style: italic; color: var(--muted); }
+.tip { position: fixed; z-index: 10; pointer-events: none; background: var(--card); color: var(--ink); border: 1px solid var(--hair); border-radius: 6px;
+  box-shadow: 0 6px 22px rgba(12, 12, 30, 0.16); padding: 8px 10px; font-family: var(--font-sans); font-size: 0.8rem; line-height: 1.45; max-width: 300px; display: grid; gap: 2px; }
+.tip b { font-size: 0.95rem; }
+.tip span { color: var(--muted); }
+.hit { fill: transparent; outline: none; }
+.hit:focus-visible { stroke: var(--accent); stroke-width: 1.5; }
+</style>
+
+<style>
+.prose { display: grid; gap: 10px; max-width: 112ch; font-size: 0.95rem; line-height: 1.55; color: var(--ink-2); }
+.prose p, .prose ul, .prose ol { margin: 0; } .prose ul, .prose ol { padding-left: 1.3em; display: grid; gap: 6px; } .prose b { color: var(--ink); font-weight: 600; }
+code { font-family: var(--font-mono); font-size: 0.86em; background: color-mix(in srgb, var(--ink) 6%, transparent); padding: 0 0.25em; border-radius: 3px; overflow-wrap: anywhere; }
+pre.code { margin: 0; font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.5; background: var(--card); border: 1px solid var(--hair); border-radius: 6px; padding: 12px 14px; overflow-x: auto; }
+pre.code code { background: none; padding: 0; }
+.banner { margin: 0; padding: 12px 16px; border-left: 4px solid var(--accent); background: var(--card); font-family: var(--font-sans); font-size: 0.95rem; line-height: 1.5; color: var(--ink-2); max-width: 112ch; }
+.banner b { color: var(--ink); }
+section.msec { border-left: 4px solid var(--pick); padding-left: 16px; }
+section.xsec { border-left: 4px solid var(--warn); padding-left: 16px; }
+.chip.stopped { color: var(--warn); box-shadow: inset 0 0 0 1px var(--warn); }
+b.adj { display: block; font-family: var(--font-sans); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1.25; color: var(--warn); white-space: nowrap; }
+b.adjtxt { color: var(--warn); }
+.xsent { font-size: 1.05rem; } .xsent b { color: var(--warn); }
+table.sm td.ax { background: color-mix(in srgb, var(--warn) 7%, transparent); }
+table.sm td.na { color: var(--muted); font-style: italic; }
+table.sm td.l code { white-space: normal; }
+</style>
+<main class="wrap">
+  <header class="masthead">
+    <p class="kicker">Phase 3 &middot; pure inference &middot; nothing trained &middot; final report</p>
+    <h1>Phase 3 Re-draft</h1>
+    <p class="lede">Hand the slots the judge rejects back to the drafter, after every judge pass (rd1) or every second pass (rd2). Same frozen 30B, same Phase 1 judge, SDAR-1.7B drafter, no expert pool. Every number on this page is computed from the raw per-item decode records.</p>
+    <p class="status"><span>Updated <b>06 Oct 23:37 IST</b></span><span><b>Final</b>: stopped by the project lead after GSM8K-500</span><span><b>3</b> of 7 benchmarks fully measured</span></p>
+  </header>
+
+  <section id="status" aria-labelledby="h-status">
+    <h2 id="h-status"><span class="secno">1</span>Status: what ran, what did not</h2>
+    <p class=banner><b>FINAL.</b> The project lead stopped the run after GSM8K-500. Finished on every item with all three setups (base pipeline, rd1, rd2): <b>HumanEval, MBPP, GSM8K-500</b>. Not run: rd1 and rd2 on <b>MATH-500, AIME, GPQA-Diamond, IFEval-541</b> (the base pipeline was decoded on their first items only, Table 2).</p>
+    <div class="prose"><ul><li><b>Box:</b> vast.ai, 4x NVIDIA RTX PRO 6000 Blackwell Server Edition, one decode process per GPU (4 shards, <code>items[k::4]</code>), batch size 1.</li><li><b>Models (unchanged from every earlier run):</b> JetLM/SDAR-30B-A3B-Chat-b32 @ c351bbc37d240aa6871f167e8f92d694281b0c22; drafter JetLM/SDAR-1.7B-Chat-b32 @ 2c83c05d84be90a01c72443b2123ebf0376f6fd4; trained judge = LoRA Arushhh/c1b-judge-lora-sdar30b-b32 <code>main_128m/tok_000128000000</code> (weights hash 35805974, copy in this dataset under <code>weights/c1b_128M/</code>). Block 32, threshold 0.95, s8 first draft, <code>--judge full</code>, no expert pool.</li><li><b>Setups:</b> base pipeline = <code>--drafter d32 --draft s8 --judge full --adapter &lt;128M&gt; --judge-diag</code> (run_p3.sh <code>judge</code> arm); rd1 = base + <code>--full-redraft-every 1</code>; rd2 = base + <code>--full-redraft-every 2</code>.</li><li><b>Finished, every item, all three setups on this box:</b> HumanEval (164), MBPP (257), GSM8K-500 (500).</li><li><b>Not run (stopped by the project lead after GSM8K):</b> rd1/rd2 on MATH-500, AIME, GPQA-Diamond, IFEval-541. The base pipeline ran only on their first 12 items (Table 2).</li><li><b>Base pipeline correctness on this box:</b> its outputs are token-identical to the Phase 1 records: HumanEval 164/164, MBPP 257/257, GSM8K-500 500/500; MATH-500 12/12, AIME 12/12, GPQA-Diamond 12/12, IFEval-541 12/12.</li></ul><p><b>Shared host.</b> The box is a shared, rented server: <code>gpu_frac</code> is 0.5 (we rent part of the machine's GPUs; another tenant uses the rest). Section 3 shows what that does to the measured speed.</p></div>
+    <h3 class="sub3">Method</h3>
+    <div class="prose"><ol><li>SDAR-1.7B drafts every slot (8 steps), exactly as today.</li><li>Judge pass (30B + the 128M LoRA): commit where p &gt; 0.95 (C); keep the draft where the judge agrees but is unsure (t); re-mask where it disagrees (M). If nothing clears 0.95, the most confident slot is committed (forced), as today.</li><li>After every K judge passes, the drafter re-fills <b>only the M slots</b>. It sees only verified tokens: the prompt plus the committed slots. The t slots are hidden as [MASK] in its input and keep their token in the block. Steps = ceil(#M / 4), at most 8 (the first draft's rate). Logged as drafter kind <code>redraft</code>.</li><li>Repeat 2–3 until every slot is committed. Only the judge commits, so every token's last step is a judge pass.</li></ol></div>
+    <h3 class="sub3">Runs</h3>
+    <p class="caption"><b>Table 0.</b> Every run, in the order it was decoded. Items done is the number of per-item records on disk. Wall is the run's wall-clock time on this 4-GPU box, start to finish, model load included. Finished is the time of the last record (IST).</p>
+    <div class="tbl-wrap">
+      <table class="sm">
+        <thead><tr><th class="l">Setup</th><th class="l">Benchmark</th><th>Items done / total</th><th>Wall (4 GPUs)</th><th>Finished (IST)</th><th class="l">State</th></tr></thead>
+        <tbody><tr><td class=l>rd1</td><td class=l>HumanEval</td><td>164/164</td><td>11.7 min</td><td>06 Oct 18:56</td><td class=l><span class='chip done'><i></i>done</span></td></tr><tr><td class=l>rd2</td><td class=l>HumanEval</td><td>164/164</td><td>9.9 min</td><td>06 Oct 19:06</td><td class=l><span class='chip done'><i></i>done</span></td></tr><tr><td class=l>base pipeline</td><td class=l>HumanEval</td><td>164/164</td><td>11.4 min</td><td>06 Oct 19:44</td><td class=l><span class='chip done'><i></i>done</span></td></tr><tr><td class=l>rd1</td><td class=l>MBPP</td><td>257/257</td><td>13.6 min</td><td>06 Oct 19:32</td><td class=l><span class='chip done'><i></i>done</span></td></tr><tr><td class=l>rd2</td><td class=l>MBPP</td><td>257/257</td><td>12.3 min</td><td>06 Oct 19:18</td><td class=l><span class='chip done'><i></i>done</span></td></tr><tr><td class=l>base pipeline</td><td class=l>MBPP</td><td>257/257</td><td>13.9 min</td><td>06 Oct 19:58</td><td class=l><span class='chip done'><i></i>done</span></td></tr><tr><td class=l>rd1</td><td class=l>GSM8K-500</td><td>500/500</td><td>64.4 min</td><td>06 Oct 21:29</td><td class=l><span class='chip done'><i></i>done</span></td></tr><tr><td class=l>rd2</td><td class=l>GSM8K-500</td><td>500/500</td><td>62.6 min</td><td>06 Oct 22:32</td><td class=l><span class='chip done'><i></i>done</span></td></tr><tr><td class=l>base pipeline</td><td class=l>GSM8K-500</td><td>500/500</td><td>61.9 min</td><td>06 Oct 23:34</td><td class=l><span class='chip done'><i></i>done</span></td></tr><tr><td class=l>rd1</td><td class=l>IFEval-541</td><td>0/541</td><td>&middot;</td><td>&middot;</td><td class=l><span class='chip stopped'><i></i>not run: stopped by the lead</span></td></tr><tr><td class=l>rd2</td><td class=l>IFEval-541</td><td>0/541</td><td>&middot;</td><td>&middot;</td><td class=l><span class='chip stopped'><i></i>not run: stopped by the lead</span></td></tr><tr><td class=l>base pipeline</td><td class=l>IFEval-541</td><td>12/541</td><td>&middot;</td><td>06 Oct 20:24</td><td class=l><span class='chip done'><i></i>done (first items only)</span></td></tr><tr><td class=l>rd1</td><td class=l>MATH-500</td><td>0/500</td><td>&middot;</td><td>&middot;</td><td class=l><span class='chip stopped'><i></i>not run: stopped by the lead</span></td></tr><tr><td class=l>rd2</td><td class=l>MATH-500</td><td>0/500</td><td>&middot;</td><td>&middot;</td><td class=l><span class='chip stopped'><i></i>not run: stopped by the lead</span></td></tr><tr><td class=l>base pipeline</td><td class=l>MATH-500</td><td>12/500</td><td>&middot;</td><td>06 Oct 20:17</td><td class=l><span class='chip done'><i></i>done (first items only)</span></td></tr><tr><td class=l>rd1</td><td class=l>GPQA-Diamond</td><td>0/198</td><td>&middot;</td><td>&middot;</td><td class=l><span class='chip stopped'><i></i>not run: stopped by the lead</span></td></tr><tr><td class=l>rd2</td><td class=l>GPQA-Diamond</td><td>0/198</td><td>&middot;</td><td>&middot;</td><td class=l><span class='chip stopped'><i></i>not run: stopped by the lead</span></td></tr><tr><td class=l>base pipeline</td><td class=l>GPQA-Diamond</td><td>12/198</td><td>&middot;</td><td>06 Oct 20:13</td><td class=l><span class='chip done'><i></i>done (first items only)</span></td></tr><tr><td class=l>rd1</td><td class=l>AIME</td><td>0/90</td><td>&middot;</td><td>&middot;</td><td class=l><span class='chip stopped'><i></i>not run: stopped by the lead</span></td></tr><tr><td class=l>rd2</td><td class=l>AIME</td><td>0/90</td><td>&middot;</td><td>&middot;</td><td class=l><span class='chip stopped'><i></i>not run: stopped by the lead</span></td></tr><tr><td class=l>base pipeline</td><td class=l>AIME</td><td>12/90</td><td>&middot;</td><td>06 Oct 20:04</td><td class=l><span class='chip done'><i></i>done (first items only)</span></td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="measured" class="msec" aria-labelledby="h-meas">
+    <h2 id="h-meas"><span class="secno">2</span>MEASURED on this 4-GPU box</h2>
+    <p class="caption"><b>MEASURED &mdash; nothing in this section is extrapolated.</b> Batch size 1, one decode process per GPU, the other GPUs of this box busy decoding. Speedup = rd tokens per second &divide; base tokens per second on the same items, both decoded here; it is the raw ratio of two measurements made hours apart on a shared host, so it contains the host-speed drift of section 3. Accuracy is items correct, %; &Delta; is the paired difference rd &minus; base on the same items with a 95% bootstrap interval. Passes per block and 30B expert loads per token (unique expert loads summed over layers &divide; generated tokens) do not depend on the machine; drafter forwards per token counts every SDAR-1.7B forward (first draft and re-drafts).</p>
+    <p class=caption><b>At a glance</b> (measured, raw, all from Table 1; the host-speed drift of section 3 is not removed from the speedups):</p><ul class=prose><li><b>HumanEval</b>: raw speedup over the base pipeline rd1 1.191&times; (passes per block 4.58, expert loads per token 578, accuracy change vs base +1.2 pts); rd2 1.187&times; (passes per block 4.65, expert loads per token 627, accuracy change vs base +5.5 pts); the base pipeline has passes per block 5.91 and expert loads per token 739.</li><li><b>MBPP</b>: raw speedup over the base pipeline rd1 1.069&times; (passes per block 7.17, expert loads per token 1062, accuracy change vs base +5.1 pts); rd2 1.089&times; (passes per block 7.30, expert loads per token 1122, accuracy change vs base +3.1 pts); the base pipeline has passes per block 8.75 and expert loads per token 1285.</li><li><b>GSM8K-500</b>: raw speedup over the base pipeline rd1 0.989&times; (passes per block 5.93, expert loads per token 755, accuracy change vs base +0.0 pts); rd2 0.991&times; (passes per block 6.03, expert loads per token 770, accuracy change vs base +0.4 pts); the base pipeline has passes per block 7.12 and expert loads per token 889.</li></ul>
+    <p class="caption"><b>Table 1.</b> Base pipeline, rd1 and rd2 on every finished benchmark.</p>
+    <div class="tbl-wrap">
+      <table class="sm" style="min-width:1250px">
+        <thead><tr><th class="l">Benchmark</th><th class="l">Setup</th><th>Items</th><th>Accuracy %</th><th>&Delta; accuracy vs base, pts<br>[95% CI]</th><th>Passes / block</th><th>30B expert loads / token</th><th>Drafter forwards / token</th><th>Tokens / s</th><th>ms / token</th><th>Wall (4 GPUs)</th><th>Speedup vs base<br>(raw, measured)</th></tr></thead>
+        <tbody><tr class='first sep'><td class='l bench' rowspan=3>HumanEval</td><td class=l>base pipeline</td><td>164</td><td>74.4</td><td class=na>reference</td><td>5.91</td><td>739</td><td>0.36</td><td>7.23</td><td>138.3</td><td>11.4 min</td><td>1.00 <span class=ci>(reference)</span></td></tr><tr class=''><td class=l>rd1</td><td>164</td><td>75.6</td><td>+1.2 <span class=ci>[&minus;4.9, +7.3]</span></td><td>4.58</td><td>578</td><td>0.70</td><td>8.61</td><td>116.2</td><td>11.7 min</td><td><b>1.191&times;</b> <span class=ci>(164 paired items)</span></td></tr><tr class=' last'><td class=l>rd2</td><td>164</td><td>79.9</td><td>+5.5 <span class=ci>[+0.0, +11.0]</span></td><td>4.65</td><td>627</td><td>0.51</td><td>8.58</td><td>116.5</td><td>9.9 min</td><td><b>1.187&times;</b> <span class=ci>(164 paired items)</span></td></tr><tr class='first sep'><td class='l bench' rowspan=3>MBPP</td><td class=l>base pipeline</td><td>257</td><td>66.1</td><td class=na>reference</td><td>8.75</td><td>1285</td><td>0.44</td><td>4.70</td><td>212.6</td><td>13.9 min</td><td>1.00 <span class=ci>(reference)</span></td></tr><tr class=''><td class=l>rd1</td><td>257</td><td>71.2</td><td>+5.1 <span class=ci>[+0.0, +10.1]</span></td><td>7.17</td><td>1062</td><td>1.32</td><td>5.03</td><td>199.0</td><td>13.6 min</td><td><b>1.069&times;</b> <span class=ci>(257 paired items)</span></td></tr><tr class=' last'><td class=l>rd2</td><td>257</td><td>69.3</td><td>+3.1 <span class=ci>[&minus;1.6, +7.8]</span></td><td>7.30</td><td>1122</td><td>0.82</td><td>5.12</td><td>195.3</td><td>12.3 min</td><td><b>1.089&times;</b> <span class=ci>(257 paired items)</span></td></tr><tr class='first sep'><td class='l bench' rowspan=3>GSM8K-500</td><td class=l>base pipeline</td><td>500</td><td>91.6</td><td class=na>reference</td><td>7.12</td><td>889</td><td>0.33</td><td>6.91</td><td>144.7</td><td>61.9 min</td><td>1.00 <span class=ci>(reference)</span></td></tr><tr class=''><td class=l>rd1</td><td>500</td><td>91.6</td><td>+0.0 <span class=ci>[&minus;1.4, +1.4]</span></td><td>5.93</td><td>755</td><td>0.77</td><td>6.83</td><td>146.3</td><td>64.4 min</td><td><b>0.989&times;</b> <span class=ci>(500 paired items)</span></td></tr><tr class=' last'><td class=l>rd2</td><td>500</td><td>92.0</td><td>+0.4 <span class=ci>[&minus;1.2, +1.8]</span></td><td>6.03</td><td>770</td><td>0.55</td><td>6.85</td><td>146.0</td><td>62.6 min</td><td><b>0.991&times;</b> <span class=ci>(500 paired items)</span></td></tr></tbody>
+      </table>
+    </div>
+    <p class="caption"><b>Table 2.</b> The base pipeline on this box against the Phase 1 records, for every benchmark it ran on. Identical = the generated token ids of an item equal the Phase 1 box's record for that item. The last column is this box's time &divide; the Phase 1 box's time for the same items (both measured), which is how much slower this 4-GPU shared box runs the same work.</p>
+    <div class="tbl-wrap">
+      <table class="sm">
+        <thead><tr><th class="l">Benchmark</th><th>Items run here</th><th>Token-identical to Phase 1</th><th>Base tokens / s here</th><th>This box &divide; Phase 1 box (time)</th></tr></thead>
+        <tbody><tr><td class=l>HumanEval</td><td>164</td><td>164/164</td><td>7.23</td><td>2.018</td></tr><tr><td class=l>MBPP</td><td>257</td><td>257/257</td><td>4.70</td><td>1.815</td></tr><tr><td class=l>GSM8K-500</td><td>500</td><td>500/500</td><td>6.91</td><td>1.820</td></tr><tr><td class=l>IFEval-541 <span class=pt>first items only</span></td><td>12</td><td>12/12</td><td>4.21</td><td>1.881</td></tr><tr><td class=l>MATH-500 <span class=pt>first items only</span></td><td>12</td><td>12/12</td><td>8.93</td><td>1.779</td></tr><tr><td class=l>GPQA-Diamond <span class=pt>first items only</span></td><td>12</td><td>12/12</td><td>6.18</td><td>1.802</td></tr><tr><td class=l>AIME <span class=pt>first items only</span></td><td>12</td><td>12/12</td><td>8.58</td><td>1.823</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="figwrap" id="fig1">
+      <span class="fig-no">Figure 1</span><h3>Speedup over the base pipeline, measured on this box</h3>
+      <ul class="legend" id="lg1"></ul>
+      <div class="smgrid" id="sm1"></div>
+      <figcaption>Raw tokens per second &divide; the base pipeline's, both decoded on this box, full pipeline (30B, judge, drafter and re-draft all counted). Higher is better. Dashed line: the base pipeline at 1&times;. The host-speed drift of section 3 is not removed. Nothing in this figure is extrapolated.</figcaption>
+    </div>
+    <div class="figwrap" id="fig2">
+      <span class="fig-no">Figure 2</span><h3>Accuracy by benchmark</h3>
+      <ul class="legend" id="lg2"></ul>
+      <div class="smgrid" id="sm2"></div>
+      <figcaption>Items correct, %, one panel per benchmark with its own y-range. Stock, CoDA-1.7B and Qwen3-0.6B are Phase 2 records; the base pipeline and rd1, rd2 are measured here (the base pipeline reproduces the Phase 1 records token for token). Whiskers on rd1 and rd2: 95% bootstrap interval of the paired difference from the base pipeline, centred on the point.</figcaption>
+    </div>
+  </section>
+
+  <section id="drift" class="msec" aria-labelledby="h-drift">
+    <h2 id="h-drift"><span class="secno">3</span>Host-speed drift on this box</h2>
+    <p class="caption"><b>Why the measured speedup is not a clean number.</b></p>
+    <div class="prose"><p><b>Evidence the host is shared:</b> <code>vastai show instance</code> reports <code>gpu_frac</code> 0.5 (we rented 4 of the machine's 8 GPUs; another tenant rents the other 4), <code>cpu_cores_effective</code> 128 of 256 (Xeon 6767P); the host load average was 11–13 while our 4 decode processes account for ~4; no CPU quota throttling and no GPU clock throttling were active. The other tenant's work shares the CPUs, memory bandwidth and the CPU turbo budget.</p><p>This is a shared, rented server and the decode loop is CPU-bound (batch 1: each GPU is busy ~30–40% of the time, the rest is the CPU launching small kernels), so the box's speed changes with other tenants' load. rd and the base pipeline ran hours apart, so the ratio of their speeds contains the change in host speed between the two runs.</p><p><b>How it is measured:</b> for one item, the first forward of each model over the prompt (<code>ms_by_kind['prefill']</code> for the 30B, <code>drafter_ms_by_kind['prefill']</code> for the drafter) is exactly the same computation in rd1, rd2 and the base pipeline (same prompt, same weights, same code; re-drafting starts later). Host index H = Σ prefill time in the rd run ÷ Σ prefill time in the base run, same items. H = 1: same host speed; H &lt; 1: the host was faster during rd (speedup overstated); H &gt; 1: slower during rd (speedup understated).</p></div>
+    <p class="caption"><b>Table 3.</b> Host index H per run, measured from identical prompt-prefill work (rd run &divide; base run, same items). H = 1: the host ran at the same speed during both runs; H &lt; 1: faster during rd; H &gt; 1: slower during rd.</p>
+    <div class="tbl-wrap">
+      <table class="sm">
+        <thead><tr><th class="l">Benchmark</th><th class="l">Setup</th><th>H, 30B prompt prefill</th><th>H, drafter prompt prefill</th><th>H, first half of items</th><th>H, second half of items</th></tr></thead>
+        <tbody><tr><td class=l>HumanEval</td><td class=l>rd1</td><td>0.979</td><td>0.965</td><td>0.982</td><td>0.975</td></tr><tr><td class=l>HumanEval</td><td class=l>rd2</td><td>0.947</td><td>0.926</td><td>0.929</td><td>0.965</td></tr><tr><td class=l>MBPP</td><td class=l>rd1</td><td>1.012</td><td>1.000</td><td>1.019</td><td>1.005</td></tr><tr><td class=l>MBPP</td><td class=l>rd2</td><td>0.995</td><td>0.991</td><td>1.000</td><td>0.991</td></tr><tr><td class=l>GSM8K-500</td><td class=l>rd1</td><td>1.094</td><td>1.086</td><td>1.102</td><td>1.085</td></tr><tr><td class=l>GSM8K-500</td><td class=l>rd2</td><td>1.114</td><td>1.111</td><td>1.105</td><td>1.123</td></tr></tbody>
+      </table>
+    </div>
+    <div class="prose"><p><b>Reading:</b> MBPP's runs saw the same host speed (H ≈ 1.00), so its raw speedup is clean. HumanEval's rd runs ran on a faster host (raw speedup overstated by ~2–5%); GSM8K's on a slower host (raw speedup understated by ~9–11%). H also moves within a run (first vs second half differ by up to ~5%), so the adjusted speedup carries roughly ±3–4% uncertainty. <b>The project lead does not accept the adjusted numbers as results; they are shown only to size the problem.</b> The clean fix is to decode rd and the base pipeline at the same time on the same box (e.g. 2 GPUs each, same items), so a host slowdown hits both equally.</p></div>
+    <p class="caption"><b>Table 4.</b> Raw measured speedup next to the drift-adjusted one. <b class="adjtxt">The adjusted column is an adjustment, NOT a measurement; the project lead does not accept it as a result.</b> It is shown only to size the problem: adjusted = raw &times; H (30B prompt prefill).</p>
+    <div class="tbl-wrap">
+      <table class="sm">
+        <thead><tr><th class="l">Benchmark</th><th class="l">Setup</th><th>Raw speedup<br>(measured)</th><th>H (30B prefill)</th><th>Speedup &times; H<br><b class="adj">adjusted, NOT a measurement</b></th></tr></thead>
+        <tbody><tr><td class=l>HumanEval</td><td class=l>rd1</td><td><b>1.191&times;</b></td><td>0.979</td><td class=ax>1.165&times;<b class=adj>adjusted, NOT a measurement</b></td></tr><tr><td class=l>HumanEval</td><td class=l>rd2</td><td><b>1.187&times;</b></td><td>0.947</td><td class=ax>1.124&times;<b class=adj>adjusted, NOT a measurement</b></td></tr><tr><td class=l>MBPP</td><td class=l>rd1</td><td><b>1.069&times;</b></td><td>1.012</td><td class=ax>1.081&times;<b class=adj>adjusted, NOT a measurement</b></td></tr><tr><td class=l>MBPP</td><td class=l>rd2</td><td><b>1.089&times;</b></td><td>0.995</td><td class=ax>1.084&times;<b class=adj>adjusted, NOT a measurement</b></td></tr><tr><td class=l>GSM8K-500</td><td class=l>rd1</td><td><b>0.989&times;</b></td><td>1.094</td><td class=ax>1.081&times;<b class=adj>adjusted, NOT a measurement</b></td></tr><tr><td class=l>GSM8K-500</td><td class=l>rd2</td><td><b>0.991&times;</b></td><td>1.114</td><td class=ax>1.104&times;<b class=adj>adjusted, NOT a measurement</b></td></tr></tbody>
+      </table>
+    </div>
+    <div class="prose"><p><b>How to avoid this next time:</b> rent the whole machine for timing runs (<code>gpu_frac</code> = 1); decode the baseline and the new method at the same time (split GPUs or alternate items) and compare on paired items; run a fixed canary workload every ~10 min per GPU to detect host changes; pin each process to the CPU cores near its GPU; always report speed-independent costs (passes/block, expert loads/token) next to wall-clock.</p></div>
+  </section>
+
+  <section id="extrap" class="xsec" aria-labelledby="h-ext">
+    <h2 id="h-ext"><span class="secno">4</span>EXTRAPOLATED to the Phase 1 box (8&times; RTX PRO 6000 Server)</h2>
+    <p class="caption xsent"><b>EXTRAPOLATED — based on the extrapolation using the measured numbers on 4× GPUs for this dataset for this model, using reference from the runs from this model (the base pipeline measured on the Phase 1 8× box).</b></p>
+    <div class="prose"><p>Formula: tok/s(rd, Phase 1 box) = tok/s(base, MEASURED on the Phase 1 box, all items) × speedup(rd vs base, MEASURED here on the same items). × stock = that ÷ stock tok/s of the Phase 2 page. 8-GPU wall = rd's per-item seconds here × (Σ base seconds on the Phase 1 box ÷ Σ base seconds here, same items), replayed over 8 shards <code>items[k::8]</code>, slowest shard. The drift in section 3 passes 1:1 into these numbers.</p></div>
+    <p class="caption"><b>Table 5.</b> Every extrapolated cell carries a bold tag. The base pipeline column is not extrapolated: it was measured on the Phase 1 box. The drift-adjusted variant is an adjustment of an extrapolation and is not accepted as a result.</p>
+    <div class="tbl-wrap">
+      <table class="sm" style="min-width:1050px">
+        <thead><tr><th class="l">Benchmark</th><th class="l">Setup</th><th>Base pipeline tokens / s, Phase 1 box<br>(MEASURED there; stock in brackets)</th><th>rd tokens / s, Phase 1 box<br>(raw)</th><th>&times; stock<br>(raw)</th><th>rd tokens / s, drift-adjusted<br>(&times; stock)</th><th>Wall on 8 GPUs</th></tr></thead>
+        <tbody><tr class='first sep'><td class='l bench' rowspan=2>HumanEval</td><td class=l>rd1</td><td class='xc basecell'>14.6 <span class=ci>(stock 11.6)</span><b class=mt>measured on the Phase 1 box</b></td><td class=xc><b>17.4</b><b class=xt>extrapolated</b></td><td class=xc>1.50&times;<b class=xt>extrapolated</b></td><td class=xc>17.0 <span class=ci>(1.47&times; stock)</span><b class=xt>extrapolated, drift-adjusted</b></td><td class=xc>3.0 min<b class=xt>extrapolated</b></td></tr><tr class='last'><td class=l>rd2</td><td class='xc basecell'>14.6 <span class=ci>(stock 11.6)</span><b class=mt>measured on the Phase 1 box</b></td><td class=xc><b>17.3</b><b class=xt>extrapolated</b></td><td class=xc>1.50&times;<b class=xt>extrapolated</b></td><td class=xc>16.4 <span class=ci>(1.42&times; stock)</span><b class=xt>extrapolated, drift-adjusted</b></td><td class=xc>2.7 min<b class=xt>extrapolated</b></td></tr><tr class='first sep'><td class='l bench' rowspan=2>MBPP</td><td class=l>rd1</td><td class='xc basecell'>8.5 <span class=ci>(stock 6.6)</span><b class=mt>measured on the Phase 1 box</b></td><td class=xc><b>9.1</b><b class=xt>extrapolated</b></td><td class=xc>1.37&times;<b class=xt>extrapolated</b></td><td class=xc>9.2 <span class=ci>(1.39&times; stock)</span><b class=xt>extrapolated, drift-adjusted</b></td><td class=xc>3.6 min<b class=xt>extrapolated</b></td></tr><tr class='last'><td class=l>rd2</td><td class='xc basecell'>8.5 <span class=ci>(stock 6.6)</span><b class=mt>measured on the Phase 1 box</b></td><td class=xc><b>9.3</b><b class=xt>extrapolated</b></td><td class=xc>1.40&times;<b class=xt>extrapolated</b></td><td class=xc>9.3 <span class=ci>(1.39&times; stock)</span><b class=xt>extrapolated, drift-adjusted</b></td><td class=xc>3.3 min<b class=xt>extrapolated</b></td></tr><tr class='first sep'><td class='l bench' rowspan=2>GSM8K-500</td><td class=l>rd1</td><td class='xc basecell'>12.6 <span class=ci>(stock 10.0)</span><b class=mt>measured on the Phase 1 box</b></td><td class=xc><b>12.4</b><b class=xt>extrapolated</b></td><td class=xc>1.25&times;<b class=xt>extrapolated</b></td><td class=xc>13.6 <span class=ci>(1.36&times; stock)</span><b class=xt>extrapolated, drift-adjusted</b></td><td class=xc>17.6 min<b class=xt>extrapolated</b></td></tr><tr class='last'><td class=l>rd2</td><td class='xc basecell'>12.6 <span class=ci>(stock 10.0)</span><b class=mt>measured on the Phase 1 box</b></td><td class=xc><b>12.5</b><b class=xt>extrapolated</b></td><td class=xc>1.25&times;<b class=xt>extrapolated</b></td><td class=xc>13.9 <span class=ci>(1.39&times; stock)</span><b class=xt>extrapolated, drift-adjusted</b></td><td class=xc>17.6 min<b class=xt>extrapolated</b></td></tr></tbody>
+      </table>
+    </div>
+    <p class=caption>Not run, so nothing to extrapolate: rd1 and rd2 on MATH-500, AIME, GPQA-Diamond, IFEval-541.</p>
+  </section>
+
+  <section id="formulas" aria-labelledby="h-form">
+    <h2 id="h-form"><span class="secno">5</span>Formulas and how it is measured</h2>
+    <div class="prose"><ul><li>tok/s = Σ n_gen_to_eos ÷ Σ seconds over items (never a mean of per-item rates); ms/token = 1000 · Σ seconds ÷ Σ tokens.</li><li><code>seconds</code> per item: <code>torch.cuda.synchronize()</code> + <code>time.perf_counter()</code> around the whole decode (prompt prefill, every judge / drafter / re-draft / KV-flush forward); excludes tokenisation, scoring and record writing (<code>code/draftalign/da_decode.py</code> decode_item). No busy polling.</li><li>Passes / block = Σ (n_forward − n_prefill − n_flush) ÷ Σ n_blocks. 30B expert loads / token = Σ unique_expert_layer_loads ÷ Σ n_gen_to_eos. Drafter forwards / token = Σ drafter forwards (all kinds) ÷ Σ tokens.</li><li>Speedup vs base = tok/s(rd) ÷ tok/s(base) on the items both decoded (all items for the three benchmarks).</li><li>Δ accuracy = paired difference rd − base on the same items, 95% CI from 2,000 bootstrap resamples (numpy default_rng(0)), as the Phase 2 page.</li><li>Host index H and the drift-adjusted speedup: section 3. Extrapolation: section 4.</li></ul></div>
+    <div class="prose"><p><b>Timing in detail.</b> Per-item <code>seconds</code> is set in <code>decode_item</code> (<code>code/draftalign/da_decode.py</code>): <code>torch.cuda.synchronize()</code>, then <code>time.perf_counter()</code>, then the whole decode, then <code>torch.cuda.synchronize()</code> and <code>time.perf_counter()</code> again. The timed span contains prompt prefill, every judge, drafter, re-draft and KV-flush forward, and sampling; it excludes tokenisation (<code>encode_prompt</code>), scoring, trace saving and writing the record (<code>code/draftalign/run_da_decode.py</code>). The per-forward component times (<code>ms_by_kind</code>, <code>drafter_ms_by_kind</code>, <code>SeqCache._timed</code> in <code>code/draftalign/seqcache.py</code>) also synchronize before and after each forward, identically in every setup. There are no busy-polling loops, CUDA-event polling or sleeps in the timed path. Wall in Tables 0 and 1 is the run's start-to-done time from <code>logs/phase3/run.log</code>, model load included.</p></div>
+  </section>
+
+  <section id="fetch" aria-labelledby="h-fetch">
+    <h2 id="h-fetch"><span class="secno">6</span>How to fetch and run it</h2>
+    <h3 class="sub3">Fetch</h3>
+    <div class="prose"><ul><li><b>Hugging Face (public dataset):</b> <code>hf download Arushhh/phase3-redraft --repo-type dataset --local-dir phase3-redraft</code> — <code>logs/phase3/decode/**</code> (every per-item record), <code>logs/phase3/jobs/**</code> (shard logs), <code>logs/phase3/run.log</code>, <code>logs/phase3/setup/**</code> (setup checks), <code>logs/phase3/extrap/**</code> (all extrapolation scripts and outputs), <code>results/phase3/**</code> (this report, final_numbers.json, tables), <code>weights/c1b_128M/</code> (the trained judge adapter), <code>ref/phase2/S0_128M_nopool_by_set/**</code> (Phase 1 box base records used as reference), <code>code/phase3/**</code>.</li><li><b>GitHub:</b> <code>git clone -b phase3-redraft https://github.com/NoviceCoderInfinity/diffusion-moe-general-expert.git</code> — code (<code>code/draftalign</code>, <code>code/phase3</code>, <code>code/phase3/extrap</code>), <code>results/phase3</code>, and all of <code>logs/phase3</code>.</li><li><b>Public base models:</b> not re-uploaded; fetch at the exact revisions in section 1.</li></ul></div>
+    <h3 class="sub3">Run the numbers yourself</h3>
+    <div class="prose"><pre class=code><code>git clone -b phase3-redraft https://github.com/NoviceCoderInfinity/diffusion-moe-general-expert.git dmge &amp;&amp; cd dmge
+# Phase 1 reference records (if not already in logs/phase2/ref): copy them from the HF dataset
+hf download Arushhh/phase3-redraft --repo-type dataset --include &#x27;ref/phase2/*&#x27; --local-dir /tmp/p3 &amp;&amp; \
+  mkdir -p logs/phase2/ref &amp;&amp; cp -r /tmp/p3/ref/phase2/S0_128M_nopool_by_set logs/phase2/ref/
+python logs/phase3/extrap/final_report.py        # writes results/phase3/REPORT.md + final_numbers.json
+python logs/phase3/extrap/extrap.py . logs/phase3/extrap/p2_metrics.json logs/phase3/extrap/latest   # per-run detail</code></pre><p>(<code>final_report.py</code> needs numpy and the repo's <code>research_protocol</code> for the benchmark item order; the run box used <code>/venv/p2</code>.)</p></div>
+    <div class="prose"><p>Rebuild this page from the report numbers:</p><pre class=code><code>python logs/phase3/extrap/final_report.py
+python logs/phase3/extrap/build_final.py results/phase3/final_numbers.json results/phase3/REPORT.md logs/phase3/extrap/phase3_redraft.html</code></pre></div>
+    <h3 class="sub3">File map</h3>
+    <p class="caption">Paths are relative to the repository root and are the same in the Hugging Face dataset and on the GitHub branch.</p>
+    <div class="tbl-wrap">
+      <table class="sm">
+        <thead><tr><th class="l">Path</th><th class="l">What it holds</th></tr></thead>
+        <tbody><tr><td class=l><code>logs/phase3/run.log</code></td><td class=l style='white-space:normal'>start / done / skip / pause lines of the whole run (UTC, time of day only).</td></tr><tr><td class=l><code>logs/phase3/decode/rd1/&lt;benchmark&gt;/, decode/rd2/&lt;benchmark&gt;/</code></td><td class=l style='white-space:normal'>rd1 and rd2: one JSON record per item (<code>*.jsonl</code>, one file per shard), <code>.jsonl.done</code> shard markers, <code>.complete</code> when every shard finished.</td></tr><tr><td class=l><code>logs/phase3/decode/judge/&lt;benchmark&gt;/</code></td><td class=l style='white-space:normal'>base pipeline (SDAR-1.7B drafter + trained 128M judge), full-set runs.</td></tr><tr><td class=l><code>logs/phase3/decode/judge_sample/&lt;benchmark&gt;/</code></td><td class=l style='white-space:normal'>base pipeline on the first items only (the benchmarks the run was stopped before).</td></tr><tr><td class=l><code>logs/phase3/jobs/&lt;setup&gt;/&lt;benchmark&gt;/</code></td><td class=l style='white-space:normal'>stdout of every shard process (<code>shardK.attemptN.log</code>).</td></tr><tr><td class=l><code>logs/phase3/setup/</code></td><td class=l style='white-space:normal'>setup checks: <code>checks.json</code>, <code>tests.log</code>, <code>check_stock/</code>, <code>check_judge/</code> (identity checks against the Phase 1 records).</td></tr><tr><td class=l><code>logs/phase3/analysis/, analysis.log, analysis_snapshot.log</code></td><td class=l style='white-space:normal'>output of <code>code/phase3/analyze_p3.py</code> (<code>TABLE.md</code>, <code>metrics.json</code>).</td></tr><tr><td class=l><code>logs/phase3/extrap/</code></td><td class=l style='white-space:normal'><code>final_report.py</code> (the report and <code>final_numbers.json</code>), <code>build_final.py</code> and <code>final_template.html</code> (this page), <code>extrap.py</code>, <code>status.py</code>, <code>unified.py</code>, <code>build_artifact.py</code> (the live page while the run was going), <code>p2_metrics.json</code> (Phase 2 page metrics), and the shell scripts that ordered the run.</td></tr><tr><td class=l><code>logs/phase3/backup.log, snapshot.log, switch.log</code></td><td class=l style='white-space:normal'>backup uploads, the periodic snapshot loop, and the run-order switches.</td></tr><tr><td class=l><code>logs/phase3/STOP</code></td><td class=l style='white-space:normal'>empty marker file: the stop signal, checked by <code>run_p3.sh</code> before it starts the next benchmark.</td></tr><tr><td class=l><code>logs/phase3/STOPPED_setup_tests.md</code></td><td class=l style='white-space:normal'>note from the first stop, at setup, before any decoding (two CPU tests failed on a missing <code>drafter</code> field in their fake arguments); the run was resumed afterwards.</td></tr><tr><td class=l><code>results/phase3/</code></td><td class=l style='white-space:normal'><code>REPORT.md</code> and <code>final_numbers.json</code> (this page's source), <code>TABLE.md</code>, <code>metrics.json</code>, <code>EXTRAPOLATION_PHASE1_BOX.md</code>, <code>RESUME.md</code>, <code>setup_checks.json</code>.</td></tr><tr><td class=l><code>code/phase3/</code></td><td class=l style='white-space:normal'><code>run_p3.sh</code> (the driver), <code>setup_p3.sh</code>, <code>analyze_p3.py</code>, <code>backup_p3.py</code>, <code>README.md</code> (method), <code>extrap/</code> (copies of the page and report scripts).</td></tr><tr><td class=l><code>code/draftalign/</code></td><td class=l style='white-space:normal'>the decoder: <code>run_da_decode.py</code> (runner), <code>da_decode.py</code> (decode loop, timing, records), <code>seqcache.py</code> (per-forward timers), <code>drafter.py</code>.</td></tr><tr><td class=l><code>weights/c1b_128M/ (Hugging Face dataset)</code></td><td class=l style='white-space:normal'>the trained 128M judge LoRA adapter used by every setup (weights hash 35805974).</td></tr><tr><td class=l><code>ref/phase2/S0_128M_nopool_by_set/ (Hugging Face dataset)</code></td><td class=l style='white-space:normal'>the Phase 1 box's base-pipeline per-item records, used as the reference for token identity and for the Phase 1 box tokens per second.</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>Data: Hugging Face dataset Arushhh/phase3-redraft and branch phase3-redraft on GitHub (results/phase3). This page is built from results/phase3/final_numbers.json by logs/phase3/extrap/build_final.py; numbers computed 2026-10-06 23:36 IST.</footer>
+</main>
+<script type="application/json" id="fig-data">[{"name": "HumanEval", "n": 164, "pts": [{"label": "Stock 30B (Phase 2 records)", "tiny": "Stock", "shape": "diamond", "color": "--s-stock", "acc": 78.04878, "err": null, "note": "Phase 2 records, not measured here"}, {"label": "Base pipeline (this box)", "tiny": "Base", "shape": "circle", "color": "--s-sdar", "sp": 1.0, "acc": 74.39024390243902, "err": null, "tps": 7.230284949492685, "note": "measured here, 164 items; reference = 1x"}, {"label": "CoDA-1.7B + judge (Phase 2 records)", "tiny": "CoDA", "shape": "square", "color": "--s-coda", "acc": 76.219512, "err": null, "note": "Phase 2 records, not measured here"}, {"label": "Qwen3-0.6B + judge (Phase 2 records)", "tiny": "Qwen3", "shape": "triangle", "color": "--s-qwen", "acc": 78.04878, "err": null, "note": "Phase 2 records, not measured here"}, {"label": "rd1 (re-draft every pass)", "tiny": "rd1", "shape": "pent", "color": "--s-rd1", "sp": 1.1907395095455229, "acc": 75.60975609756098, "err": [69.51219512195122, 81.70731707317073], "tps": 8.609385954633295, "note": "raw, measured here on 164 paired items vs the base pipeline (host drift not removed); accuracy delta vs base +1.2 pts [-4.9, +7.3]"}, {"label": "rd2 (re-draft every 2 passes)", "tiny": "rd2", "shape": "star", "color": "--s-rd2", "sp": 1.1866990615035227, "acc": 79.8780487804878, "err": [74.39024390243902, 85.36585365853658], "tps": 8.580172363966014, "note": "raw, measured here on 164 paired items vs the base pipeline (host drift not removed); accuracy delta vs base +5.5 pts [+0.0, +11.0]"}], "live": true}, {"name": "MBPP", "n": 257, "pts": [{"label": "Stock 30B (Phase 2 records)", "tiny": "Stock", "shape": "diamond", "color": "--s-stock", "acc": 65.36965, "err": null, "note": "Phase 2 records, not measured here"}, {"label": "Base pipeline (this box)", "tiny": "Base", "shape": "circle", "color": "--s-sdar", "sp": 1.0, "acc": 66.14785992217898, "err": null, "tps": 4.703322356987234, "note": "measured here, 257 items; reference = 1x"}, {"label": "CoDA-1.7B + judge (Phase 2 records)", "tiny": "CoDA", "shape": "square", "color": "--s-coda", "acc": 67.315175, "err": null, "note": "Phase 2 records, not measured here"}, {"label": "Qwen3-0.6B + judge (Phase 2 records)", "tiny": "Qwen3", "shape": "triangle", "color": "--s-qwen", "acc": 68.48249, "err": null, "note": "Phase 2 records, not measured here"}, {"label": "rd1 (re-draft every pass)", "tiny": "rd1", "shape": "pent", "color": "--s-rd1", "sp": 1.0685560086448043, "acc": 71.20622568093385, "err": [66.147859922179, 76.26459143968872], "tps": 5.0257633651521525, "note": "raw, measured here on 257 paired items vs the base pipeline (host drift not removed); accuracy delta vs base +5.1 pts [+0.0, +10.1]"}, {"label": "rd2 (re-draft every 2 passes)", "tiny": "rd2", "shape": "star", "color": "--s-rd2", "sp": 1.0888999208887002, "acc": 69.26070038910505, "err": [64.59143968871595, 73.92996108949416], "tps": 5.121447342437454, "note": "raw, measured here on 257 paired items vs the base pipeline (host drift not removed); accuracy delta vs base +3.1 pts [-1.6, +7.8]"}], "live": true}, {"name": "GSM8K-500", "n": 500, "pts": [{"label": "Stock 30B (Phase 2 records)", "tiny": "Stock", "shape": "diamond", "color": "--s-stock", "acc": 90.2, "err": null, "note": "Phase 2 records, not measured here"}, {"label": "Base pipeline (this box)", "tiny": "Base", "shape": "circle", "color": "--s-sdar", "sp": 1.0, "acc": 91.60000000000001, "err": null, "tps": 6.911260400840595, "note": "measured here, 500 items; reference = 1x"}, {"label": "CoDA-1.7B + judge (Phase 2 records)", "tiny": "CoDA", "shape": "square", "color": "--s-coda", "acc": 91.0, "err": null, "note": "Phase 2 records, not measured here"}, {"label": "Qwen3-0.6B + judge (Phase 2 records)", "tiny": "Qwen3", "shape": "triangle", "color": "--s-qwen", "acc": 91.6, "err": null, "note": "Phase 2 records, not measured here"}, {"label": "rd1 (re-draft every pass)", "tiny": "rd1", "shape": "pent", "color": "--s-rd1", "sp": 0.988674197523314, "acc": 91.60000000000001, "err": [90.2, 93.00000000000001], "tps": 6.832984830675732, "note": "raw, measured here on 500 paired items vs the base pipeline (host drift not removed); accuracy delta vs base +0.0 pts [-1.4, +1.4]"}, {"label": "rd2 (re-draft every 2 passes)", "tiny": "rd2", "shape": "star", "color": "--s-rd2", "sp": 0.991027359858758, "acc": 92.0, "err": [90.4, 93.4], "tps": 6.849248148341436, "note": "raw, measured here on 500 paired items vs the base pipeline (host drift not removed); accuracy delta vs base +0.4 pts [-1.2, +1.8]"}], "live": true}, {"name": "IFEval-541", "n": 541, "pts": [], "live": false, "msg": "rd1 and rd2 not run (stopped after GSM8K-500)"}, {"name": "MATH-500", "n": 500, "pts": [], "live": false, "msg": "rd1 and rd2 not run (stopped after GSM8K-500)"}, {"name": "GPQA-Diamond", "n": 198, "pts": [], "live": false, "msg": "rd1 and rd2 not run (stopped after GSM8K-500)"}, {"name": "AIME", "n": 90, "pts": [], "live": false, "msg": "rd1 and rd2 not run (stopped after GSM8K-500)"}]</script>
+<script>
+(function () {
+  var D = []; try { D = JSON.parse(document.getElementById("fig-data").textContent) || []; } catch (e) { D = []; }
+  var NS = "http://www.w3.org/2000/svg";
+  function svg(t, a, txt) { var e = document.createElementNS(NS, t); for (var k in a) e.setAttribute(k, a[k]); if (txt !== undefined) e.textContent = txt; return e; }
+  function el(t, a, txt) { var e = document.createElement(t); for (var k in (a || {})) e.setAttribute(k, a[k]); if (txt !== undefined) e.textContent = txt; return e; }
+  function cv(name) { return "var(" + name + ")"; }
+  function ok(v) { return v !== null && v !== undefined && isFinite(v); }
+  function marker(shape, cx, cy, color, r) {
+    var a = { fill: color, stroke: "var(--card)", "stroke-width": 1.5 }, q = r, d;
+    if (shape === "circle") { a.cx = cx; a.cy = cy; a.r = r; return svg("circle", a); }
+    if (shape === "square") d = "M" + (cx - q * 0.9) + "," + (cy - q * 0.9) + "h" + (q * 1.8) + "v" + (q * 1.8) + "h" + (-q * 1.8) + "Z";
+    else if (shape === "diamond") d = "M" + cx + "," + (cy - q * 1.3) + "L" + (cx + q * 1.3) + "," + cy + "L" + cx + "," + (cy + q * 1.3) + "L" + (cx - q * 1.3) + "," + cy + "Z";
+    else if (shape === "triangle") d = "M" + cx + "," + (cy - q * 1.3) + "L" + (cx + q * 1.2) + "," + (cy + q * 0.95) + "L" + (cx - q * 1.2) + "," + (cy + q * 0.95) + "Z";
+    else {
+      var n = shape === "star" ? 10 : 5, pts = [];
+      for (var i = 0; i < n; i++) { var ang = -Math.PI / 2 + i * 2 * Math.PI / n, rr = shape === "star" ? (i % 2 ? q * 0.6 : q * 1.45) : q * 1.25; pts.push((cx + rr * Math.cos(ang)).toFixed(1) + "," + (cy + rr * Math.sin(ang)).toFixed(1)); }
+      d = "M" + pts.join("L") + "Z";
+    }
+    a.d = d; return svg("path", a);
+  }
+  function niceStep(raw) { var mag = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / mag; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * mag; }
+  function domain(xs) {
+    xs = xs.filter(ok); if (!xs.length) return { lo: 0, hi: 1, t: [0, 1], st: 1 };
+    var lo = Math.min.apply(null, xs), hi = Math.max.apply(null, xs), pad = (hi - lo) * 0.14 || Math.abs(hi) * 0.1 || 0.1; lo -= pad; hi += pad;
+    var st = niceStep((hi - lo) / 3), dlo = Math.floor(lo / st + 1e-9) * st, dhi = Math.ceil(hi / st - 1e-9) * st, t = [];
+    for (var v = dlo; v <= dhi + st / 1000; v += st) t.push(+v.toFixed(6));
+    return { lo: dlo, hi: dhi, t: t, st: st };
+  }
+  var tip = null;
+  function showTip(lines, x, y) {
+    if (!tip) { tip = el("div", { class: "tip", role: "status" }); document.body.appendChild(tip); }
+    tip.textContent = ""; lines.forEach(function (l, i) { tip.appendChild(el(i ? "span" : "b", null, l)); });
+    tip.hidden = false; var w = tip.offsetWidth, h = tip.offsetHeight;
+    tip.style.left = Math.max(8, Math.min(window.innerWidth - w - 8, x + 12)) + "px"; tip.style.top = Math.max(8, Math.min(window.innerHeight - h - 8, y + 12)) + "px";
+  }
+  function hideTip() { if (tip) tip.hidden = true; }
+  window.addEventListener("scroll", hideTip, { passive: true });
+  var M = {
+    sp: { v: function (p) { return p.sp; }, fmt: function (v) { return v.toFixed(2) + "×"; }, tick: function (t, st) { return t.toFixed(st < 0.1 ? 2 : 1) + "×"; }, ref: 1,
+          lines: function (p) { return [p.label, ok(p.sp) ? p.sp.toFixed(2) + "× the base pipeline" : "pending", ok(p.tps) ? p.tps.toFixed(1) + " tokens/s on this box" : "", p.note]; } },
+    acc: { v: function (p) { return p.acc; }, fmt: function (v) { return v.toFixed(1) + "%"; }, tick: function (t) { return (+t.toFixed(1)) + "%"; }, ref: null,
+          lines: function (p) { return [p.label, ok(p.acc) ? p.acc.toFixed(1) + "% correct" : "pending", p.note]; } }
+  };
+  function legend(ul, pts, ref) {
+    ul.textContent = "";
+    pts.forEach(function (p) { var li = el("li"), s = svg("svg", { width: 14, height: 14, viewBox: "0 0 14 14", "aria-hidden": "true" }); s.appendChild(marker(p.shape, 7, 7, cv(p.color), 4.5)); li.appendChild(s); li.appendChild(document.createTextNode(p.label)); ul.appendChild(li); });
+    if (ref) { var li = el("li"), s = svg("svg", { width: 24, height: 12, viewBox: "0 0 24 12", "aria-hidden": "true" }); s.appendChild(svg("line", { x1: 0, x2: 24, y1: 6, y2: 6, stroke: "var(--ink-2)", "stroke-width": 1.25, "stroke-dasharray": "4 3" })); li.appendChild(s); li.appendChild(document.createTextNode(ref)); ul.appendChild(li); }
+  }
+  function panel(host, W, m, b) {
+    host.textContent = "";
+    var pts = b.pts.filter(function (p) { return m === M.acc || ("sp" in p); }), vals = pts.map(m.v), errs = pts.map(function (p) { return m === M.acc ? p.err : null; });
+    var all = vals.slice(); errs.forEach(function (e) { if (e) all = all.concat(e); }); if (m.ref !== null) all.push(m.ref);
+    var dm = domain(all), n = pts.length, padL = 50, padR = 8, padT = 24, axisH = 36, H = 190, plotH = H - padT - axisH, x0 = padL, x1 = W - padR, step = (x1 - x0) / n;
+    var X = function (i) { return x0 + step * (i + 0.5); }, Y = function (v) { return padT + (1 - (v - dm.lo) / (dm.hi - dm.lo)) * plotH; }, yB = padT + plotH;
+    var root = svg("svg", { width: W, height: H, viewBox: "0 0 " + W + " " + H, role: "group", "aria-label": b.name });
+    dm.t.forEach(function (t) { var y = Math.round(Y(t)) + 0.5; root.appendChild(svg("line", { x1: x0, x2: x1, y1: y, y2: y, stroke: "var(--hair)", "stroke-width": 1 })); root.appendChild(svg("text", { x: x0 - 6, y: y, "text-anchor": "end", "dominant-baseline": "central", "font-size": 10.5, fill: "var(--muted)" }, m.tick(t, dm.st))); });
+    root.appendChild(svg("line", { x1: x0, x2: x1, y1: yB + 0.5, y2: yB + 0.5, stroke: "var(--axis)", "stroke-width": 1 }));
+    if (m.ref !== null && m.ref >= dm.lo && m.ref <= dm.hi) { var ry = Math.round(Y(m.ref)) + 0.5; root.appendChild(svg("line", { x1: x0, x2: x1, y1: ry, y2: ry, stroke: "var(--ink-2)", "stroke-width": 1, "stroke-dasharray": "4 3" })); }
+    pts.forEach(function (p, i) { root.appendChild(svg("text", { x: X(i), y: yB + 15, "text-anchor": "middle", "font-size": 10.5, fill: /^rd/.test(p.tiny) ? "var(--ink)" : "var(--ink-2)", "font-weight": /^rd/.test(p.tiny) ? 600 : 400 }, p.tiny));
+      if (!ok(vals[i])) root.appendChild(svg("text", { x: X(i), y: yB + 28, "text-anchor": "middle", "font-size": 9.5, "font-style": "italic", fill: "var(--muted)" }, "pending")); });
+    var d = "", pen = false; vals.forEach(function (v, i) { if (!ok(v)) { pen = false; return; } d += (pen ? "L" : "M") + X(i).toFixed(1) + "," + Y(v).toFixed(1); pen = true; });
+    if (d.indexOf("L") >= 0) root.appendChild(svg("path", { d: d, fill: "none", stroke: "var(--ink-2)", "stroke-width": 1.5, "stroke-linejoin": "round" }));
+    errs.forEach(function (e, i) { if (!e || !ok(vals[i])) return; var c = cv(pts[i].color), y1 = Y(e[0]), y2 = Y(e[1]);
+      root.appendChild(svg("line", { x1: X(i), x2: X(i), y1: y1, y2: y2, stroke: c, "stroke-width": 1.5 }));
+      root.appendChild(svg("line", { x1: X(i) - 3.5, x2: X(i) + 3.5, y1: y1, y2: y1, stroke: c, "stroke-width": 1.5 })); root.appendChild(svg("line", { x1: X(i) - 3.5, x2: X(i) + 3.5, y1: y2, y2: y2, stroke: c, "stroke-width": 1.5 })); });
+    vals.forEach(function (v, i) { if (ok(v)) root.appendChild(marker(pts[i].shape, X(i), Y(v), cv(pts[i].color), 4.5)); });
+    vals.forEach(function (v, i) { if (!ok(v)) return; var top = errs[i] ? Math.min(Y(errs[i][1]), Y(v)) : Y(v);
+      root.appendChild(svg("text", { x: X(i), y: Math.max(9, top - 9), "text-anchor": "middle", "font-size": 10.5, "font-weight": 500, fill: "var(--ink)", style: "paint-order:stroke;stroke:var(--card);stroke-width:3px;stroke-linejoin:round" }, m.fmt(v) + (m === M.sp && pts[i].flag ? "\u2020" : ""))); });
+    pts.forEach(function (p, i) {
+      var hit = svg("rect", { x: X(i) - step / 2, y: padT - 12, width: step, height: plotH + axisH + 12, class: "hit", tabindex: "0", "aria-label": b.name + ", " + p.label + ": " + (ok(vals[i]) ? m.fmt(vals[i]) : "pending") });
+      var show = function (cx, cy) { showTip(m.lines(p).filter(Boolean), cx, cy); };
+      hit.addEventListener("pointerenter", function (e) { show(e.clientX, e.clientY); }); hit.addEventListener("pointermove", function (e) { show(e.clientX, e.clientY); });
+      hit.addEventListener("pointerleave", hideTip); hit.addEventListener("blur", hideTip);
+      hit.addEventListener("focus", function () { var r = hit.getBoundingClientRect(); show(r.left + r.width / 2, r.top + 24); });
+      root.appendChild(hit);
+    });
+    host.appendChild(root);
+  }
+  function figure(gridId, lgId, m, ref) {
+    var grid = document.getElementById(gridId); if (!grid || !D.length) return;
+    legend(document.getElementById(lgId), D[0].pts.filter(function (p) { return m === M.acc || ("sp" in p); }), ref);
+    var draw = function () {
+      grid.textContent = "";
+      D.forEach(function (b) {
+        var p = el("div", { class: "smp" + (b.live ? "" : " pend") }), h = el("h4", null, b.name); h.appendChild(el("span", null, "n = " + b.n)); p.appendChild(h);
+        var body = el("div", { class: "smb" }); p.appendChild(body); grid.appendChild(p);
+        if (!b.live) { body.textContent = b.msg || "rd1 and rd2 pending"; return; }
+        panel(body, Math.max(220, Math.floor(body.clientWidth)), m, b);
+      });
+    };
+    draw(); var t = null; window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(draw, 120); });
+  }
+  figure("sm1", "lg1", M.sp, "Base pipeline = 1×");
+  figure("sm2", "lg2", M.acc, null);
+})();
+</script>
+

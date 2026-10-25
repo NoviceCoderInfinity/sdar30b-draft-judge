@@ -1,0 +1,84 @@
+[p3 07:24:11 UTC] setup skipped (P3G_SKIP_SETUP=1, the project lead's instruction): see logs/phase3_8gpu/setup/ for what ran
+[p3 07:24:11 UTC] 8-GPU Phase 3 re-run: arms rd1 rd2; benchmarks ifeval541 math500 gpqa aime humaneval mbpp gsm8k500; NSH=8
+[p3 07:24:11 UTC] first canary skipped (P3G_SKIP_FIRST_CANARY=1)
+[p3 07:24:12 UTC] start rd1 ifeval541 (attempt 1)
+[p3 07:47:11 UTC] rd1 ifeval541 stopped at 117/541 (no GPU time per item); restarting with GPU-active time per item and the base arm
+[p3 07:47:11 UTC] setup skipped (P3G_SKIP_SETUP=1, the project lead's instruction): see logs/phase3_8gpu/setup/ for what ran
+[p3 07:47:11 UTC] 8-GPU Phase 3 re-run: arms rd1 rd2 base; benchmarks ifeval541 math500 gpqa aime humaneval mbpp gsm8k500; NSH=8
+[p3 07:47:11 UTC] first canary skipped (P3G_SKIP_FIRST_CANARY=1)
+[p3 07:47:11 UTC] start rd1 ifeval541 (attempt 1)
+[p3 09:32:31 UTC] done rd1 ifeval541
+[p3 09:32:31 UTC] canary after_rd1_ifeval541
+[p3 09:32:31 UTC] done rd1 ifeval541; previous launcher stopped (its queued base arm removed); continuing with rd1 and rd2 only
+[p3 09:32:32 UTC] setup skipped (P3G_SKIP_SETUP=1, the project lead's instruction): see logs/phase3_8gpu/setup/ for what ran
+[p3 09:32:32 UTC] 8-GPU Phase 3 re-run: arms rd1 rd2; benchmarks ifeval541 math500 gpqa aime humaneval mbpp gsm8k500; NSH=8
+[p3 09:33:39 UTC] backup ok
+[p3 09:33:39 UTC] skip rd1 ifeval541 (complete)
+[p3 09:33:39 UTC] start rd2 ifeval541 (attempt 1)
+[p3 11:15:12 UTC] done rd2 ifeval541
+[p3 11:15:38 UTC] backup ok
+[p3 11:15:38 UTC] start rd1 math500 (attempt 1)
+[p3 12:35:31 UTC] done rd1 math500
+[p3 12:36:02 UTC] backup ok
+[p3 12:36:03 UTC] start rd2 math500 (attempt 1)
+[p3 14:00:24 UTC] done rd2 math500
+[p3 14:01:01 UTC] backup ok
+[p3 14:01:01 UTC] start rd1 gpqa (attempt 1)
+[p3 14:50:17 UTC] done rd1 gpqa
+[p3 14:50:56 UTC] backup ok
+[p3 14:50:57 UTC] start rd2 gpqa (attempt 1)
+[p3 15:39:15 UTC] done rd2 gpqa
+[p3 15:44:00 UTC] backup FAILED (logs/phase3_8gpu/backup.log)
+[p3 15:44:00 UTC] start rd1 aime (attempt 1)
+[p3 16:08:33 UTC] done rd1 aime
+[p3 16:09:12 UTC] backup ok
+[p3 16:09:12 UTC] start rd2 aime (attempt 1)
+[chain 16:12:24 UTC] chain armed: rd1/rd2 (tmux p3g) -> base on all 7 benchmarks (tmux p3g_base) -> ALL_DONE
+[p3 16:33:01 UTC] done rd2 aime
+[p3 16:33:41 UTC] backup ok
+[p3 16:33:42 UTC] start rd1 humaneval (attempt 1)
+[p3 16:41:55 UTC] done rd1 humaneval
+[p3 16:42:37 UTC] backup ok
+[p3 16:42:37 UTC] start rd2 humaneval (attempt 1)
+[p3 16:49:36 UTC] done rd2 humaneval
+[p3 16:50:15 UTC] backup ok
+[p3 16:50:16 UTC] start rd1 mbpp (attempt 1)
+[p3 16:59:08 UTC] done rd1 mbpp
+[p3 17:02:17 UTC] backup ok
+[p3 17:02:17 UTC] start rd2 mbpp (attempt 1)
+[p3 17:10:23 UTC] done rd2 mbpp
+[p3 17:11:14 UTC] backup ok
+[p3 17:11:15 UTC] start rd1 gsm8k500 (attempt 1)
+[p3 17:42:38 UTC] done rd1 gsm8k500
+[p3 17:44:37 UTC] backup ok
+[p3 17:44:38 UTC] start rd2 gsm8k500 (attempt 1)
+[p3 18:15:58 UTC] done rd2 gsm8k500
+[p3 18:20:21 UTC] backup ok
+[p3 18:20:21 UTC] DONE: results/phase3_8gpu/REPORT.md
+[chain 18:20:28 UTC] rd1/rd2 finished; starting the base pipeline
+[p3 18:20:28 UTC] setup skipped (P3G_SKIP_SETUP=1, the project lead's instruction): see logs/phase3_8gpu/setup/ for what ran
+[p3 18:20:28 UTC] 8-GPU Phase 3 re-run: arms base; benchmarks ifeval541 math500 gpqa aime humaneval mbpp gsm8k500; NSH=8
+[p3 18:20:35 UTC] start base ifeval541 (attempt 1)
+[p3 18:23:14 UTC] backup ok (resume)
+[p3 20:07:15 UTC] done base ifeval541
+[p3 20:07:24 UTC] start base math500 (attempt 1)
+[p3 20:08:23 UTC] backup ok (base ifeval541)
+[p3 21:32:03 UTC] done base math500
+[p3 21:32:12 UTC] start base gpqa (attempt 1)
+[p3 21:32:56 UTC] backup ok (base math500)
+[p3 22:27:16 UTC] done base gpqa
+[p3 22:27:25 UTC] start base aime (attempt 1)
+[p3 22:28:11 UTC] backup ok (base gpqa)
+[p3 22:52:43 UTC] done base aime
+[p3 22:52:52 UTC] start base humaneval (attempt 1)
+[p3 22:53:38 UTC] backup ok (base aime)
+[p3 23:00:01 UTC] done base humaneval
+[p3 23:00:10 UTC] start base mbpp (attempt 1)
+[p3 23:01:38 UTC] backup ok (base humaneval)
+[p3 23:09:49 UTC] done base mbpp
+[p3 23:09:58 UTC] start base gsm8k500 (attempt 1)
+[p3 23:10:47 UTC] backup ok (base mbpp)
+[p3 23:46:51 UTC] done base gsm8k500
+[p3 23:47:51 UTC] backup ok (base gsm8k500)
+[p3 23:47:51 UTC] DONE (arms base): results/phase3_8gpu/REPORT.md
+[chain 23:49:08 UTC] ALL_DONE: rd1, rd2 and base on all 7 benchmarks; final report, page and backup written

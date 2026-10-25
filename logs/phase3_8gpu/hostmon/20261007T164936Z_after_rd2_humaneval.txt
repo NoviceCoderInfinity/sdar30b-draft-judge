@@ -1,0 +1,15 @@
+utc 2026-10-07T16:49:36Z
+loadavg 2.21 5.06 5.89 1/2542 81811
+nr_periods 381446
+nr_throttled 20
+throttled_usec 3982244
+index, clocks_event_reasons.active, clocks_event_reasons_counters.sw_power_cap [us], clocks_event_reasons_counters.sw_thermal_slowdown [us], clocks_event_reasons_counters.hw_thermal_slowdown [us], clocks_event_reasons_counters.hw_power_brake_slowdown [us], temperature.gpu, power.draw [W], clocks.current.sm [MHz], clocks.current.memory [MHz], pstate, memory.used [MiB]
+0, 0x0000000000000000, 8089200276 us, 1754969872 us, 0 us, 0 us, 32, 35.99 W, 180 MHz, 405 MHz, P8, 0 MiB
+1, 0x0000000000000000, 9334819113 us, 1338375083 us, 0 us, 0 us, 39, 101.24 W, 2295 MHz, 12481 MHz, P0, 0 MiB
+2, 0x0000000000000000, 5935284491 us, 13031007495 us, 0 us, 0 us, 32, 34.98 W, 180 MHz, 405 MHz, P8, 0 MiB
+3, 0x0000000000000000, 5650736192 us, 14496286965 us, 0 us, 0 us, 31, 36.04 W, 180 MHz, 405 MHz, P8, 0 MiB
+4, 0x0000000000000000, 6255761504 us, 129288101 us, 0 us, 0 us, 28, 34.21 W, 180 MHz, 405 MHz, P8, 0 MiB
+5, 0x0000000000000000, 5994038042 us, 362626636 us, 0 us, 0 us, 28, 35.28 W, 180 MHz, 405 MHz, P8, 0 MiB
+6, 0x0000000000000000, 7381501700 us, 593822785 us, 0 us, 0 us, 29, 34.53 W, 180 MHz, 405 MHz, P8, 0 MiB
+7, 0x0000000000000000, 17782728281 us, 2332952069 us, 0 us, 0 us, 29, 34.43 W, 180 MHz, 405 MHz, P8, 0 MiB
+pid, process_name, used_gpu_memory [MiB]

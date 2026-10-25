@@ -1,0 +1,16 @@
+[p3 14:02:37 UTC] paused rd run before GSM8K (no GSM8K records written); baseline: today's judge on this box, same load
+[p3 14:28:17 UTC] start judge_sample aime (first 12 items, 4 GPUs)
+[p3 14:35:02 UTC] rd paused (user: finish the baseline samples first); no rd AIME records had been written
+[p3 14:35:02 UTC] start judge_sample gsm8k500 (first 12 items, 4 GPUs)
+[p3 14:37:32 UTC] done judge_sample gsm8k500: 4/4 shards
+[p3 14:37:32 UTC] start judge_sample gpqa (first 12 items, 4 GPUs)
+[p3 14:43:55 UTC] done judge_sample gpqa: 4/4 shards
+[p3 14:43:55 UTC] start judge_sample math500 (first 12 items, 4 GPUs)
+[p3 14:47:33 UTC] done judge_sample math500: 4/4 shards
+[p3 14:47:33 UTC] start judge_sample ifeval541 (first 12 items, 4 GPUs)
+[p3 14:54:57 UTC] done judge_sample ifeval541: 4/4 shards
+[p3 14:54:57 UTC] restart with benchmark order: humaneval mbpp aime gsm8k500 gpqa math500 ifeval541 (shortest first, IFEval last; same settings)
+[p3 14:55:02 UTC] restart with benchmark order: humaneval mbpp gsm8k500 math500 aime gpqa ifeval541 (user: GSM8K and MATH-500 first; same settings)
+[p3 17:02:34 UTC] rd paused before MATH-500 (no MATH records written); base pipeline (today's judge) on all of GSM8K-500, same box and load
+[p3 18:04:42 UTC] restart with benchmark order: humaneval mbpp gsm8k500 math500 aime gpqa ifeval541 (after the GSM8K base-pipeline run; same settings)
+Tue Oct  6 18:04:42 UTC 2026 rd restarted

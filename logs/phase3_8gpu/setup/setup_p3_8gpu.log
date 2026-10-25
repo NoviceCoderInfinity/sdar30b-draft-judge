@@ -1,0 +1,9 @@
+[p3g 07:12:40 UTC] start code/phase3_8gpu/setup_p3_8gpu.sh
+[p3-setup 07:12:40] Phase 2 CPU setup: /venv/p2, models, references, benchmark datasets (about 30-60 min on a fresh box)
+[p2-setup 07:12:40] SKIP_CHECKS=1: done without GPU checks
+[p3-setup 07:12:40] 128M judge + Phase 1 no-pool SDAR-1.7B + judge records
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files:  50%|█████     | 1/2 [00:01<00:01,  1.61s/it]Fetching 2 files: 100%|██████████| 2/2 [01:30<00:00, 45.32s/it]Fetching 2 files: 100%|██████████| 2/2 [01:30<00:00, 45.32s/it]
+Fetching 44 files:   0%|          | 0/44 [00:00<?, ?it/s]Fetching 44 files:  18%|█▊        | 8/44 [00:02<00:12,  2.85it/s]Fetching 44 files:  36%|███▋      | 16/44 [00:04<00:07,  3.95it/s]Fetching 44 files:  55%|█████▍    | 24/44 [00:05<00:04,  4.24it/s]Fetching 44 files:  73%|███████▎  | 32/44 [00:06<00:02,  4.79it/s]Fetching 44 files:  91%|█████████ | 40/44 [00:07<00:00,  5.21it/s]Fetching 44 files: 100%|██████████| 44/44 [00:12<00:00,  3.45it/s]
+[p3-setup 07:14:29] CPU tests (decode loop, full judge, re-draft)
+56 passed, 2 deselected, 5 warnings in 6.80s
+[p3-setup 07:14:36] checks: stock (16 GSM8K-500 items) and judge (16 HumanEval items), in parallel

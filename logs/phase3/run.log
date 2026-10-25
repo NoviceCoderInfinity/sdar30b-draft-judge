@@ -1,0 +1,172 @@
+[p3-setup 13:01:07] Phase 2 CPU setup: /venv/p2, models, references, benchmark datasets (about 30-60 min on a fresh box)
+[p2-setup 13:01:11] no /venv/train (fresh box): venv /venv/p2 = torch 2.11.0 cu128 + the round-3 freeze + transformers 4.54.1
+<frozen runpy>:128: RuntimeWarning: 'nltk.downloader' found in sys.modules after import of package 'nltk', but prior to execution of 'nltk.downloader'; this may result in unpredictable behaviour
+torch 2.11.0+cu128 transformers 4.54.1
+Fetching 64 files:   0%|          | 0/64 [00:00<?, ?it/s]Fetching 64 files: 100%|██████████| 64/64 [00:00<00:00, 2310.25it/s]
+b32 /workspace/dmge/hf_cache/hub/models--JetLM--SDAR-30B-A3B-Chat-b32/snapshots/c351bbc37d240aa6871f167e8f92d694281b0c22
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 1253.13it/s]
+d32 /workspace/dmge/hf_cache/hub/models--JetLM--SDAR-1.7B-Chat-b32/snapshots/2c83c05d84be90a01c72443b2123ebf0376f6fd4
+[p2-setup 13:03:02] drafter S1
+Fetching 13 files:   0%|          | 0/13 [00:00<?, ?it/s]Fetching 13 files: 100%|██████████| 13/13 [00:00<00:00, 1357.79it/s]
+S1 /workspace/dmge/hf_cache/hub/models--dllm-hub--Qwen3-0.6B-diffusion-bd3lm-v0.1/snapshots/60f77bba67ba94231c16f5fb29bc66c500b038f1
+[p2-setup 13:03:02] S0 judge r3_B step 710, S0 judge+DES48 records, stock records, round-3 training index -> logs/phase2/ref/_hf
+Fetching 136 files:   0%|          | 0/136 [00:00<?, ?it/s]Fetching 136 files:  16%|█▌        | 22/136 [00:00<00:00, 202.35it/s]Fetching 136 files:  39%|███▉      | 53/136 [00:00<00:00, 251.23it/s]Fetching 136 files:  63%|██████▎   | 86/136 [00:00<00:00, 269.46it/s]Fetching 136 files:  88%|████████▊ | 120/136 [00:00<00:00, 284.47it/s]Fetching 136 files: 100%|██████████| 136/136 [00:00<00:00, 294.58it/s]
+[p2-setup 13:03:03] reference files for humaneval: S0 1, stock 4
+[p2-setup 13:03:03] reference files for mbpp: S0 2, stock 1
+[p2-setup 13:03:03] reference files for gsm8k500: S0 5, stock 3
+[p2-setup 13:03:03] reference files for math500: S0 12, stock 4
+[p2-setup 13:03:03] reference files for gpqa: S0 9, stock 4
+[p2-setup 13:03:03] reference files for aime: S0 4, stock 6
+[p2-setup 13:03:04] refs: 33 S0 files, 46 stock files, 4444 training items
+[p2-setup 13:03:04] benchmark datasets -> /workspace/.hf_home
+Generating train split:   0%|          | 0/7473 [00:00<?, ? examples/s]Generating train split:  13%|█▎        | 1000/7473 [00:00<00:01, 6403.94 examples/s]Generating train split: 100%|██████████| 7473/7473 [00:00<00:00, 37084.18 examples/s]
+Generating test split:   0%|          | 0/1319 [00:00<?, ? examples/s]Generating test split: 100%|██████████| 1319/1319 [00:00<00:00, 149021.85 examples/s]
+openai/gsm8k 1319
+Generating train split:   0%|          | 0/120 [00:00<?, ? examples/s]Generating train split: 100%|██████████| 120/120 [00:00<00:00, 15122.78 examples/s]
+Generating test split:   0%|          | 0/257 [00:00<?, ? examples/s]Generating test split: 100%|██████████| 257/257 [00:00<00:00, 51941.22 examples/s]
+Generating validation split:   0%|          | 0/43 [00:00<?, ? examples/s]Generating validation split: 100%|██████████| 43/43 [00:00<00:00, 12984.53 examples/s]
+Generating prompt split:   0%|          | 0/7 [00:00<?, ? examples/s]Generating prompt split: 100%|██████████| 7/7 [00:00<00:00, 2686.93 examples/s]
+google-research-datasets/mbpp 257
+Generating test split:   0%|          | 0/198 [00:00<?, ? examples/s]Generating test split: 100%|██████████| 198/198 [00:00<00:00, 12030.77 examples/s]
+fingertap/GPQA-Diamond 198
+Generating test split:   0%|          | 0/164 [00:00<?, ? examples/s]Generating test split: 100%|██████████| 164/164 [00:00<00:00, 8233.67 examples/s]
+openai_humaneval 164
+Generating train split:   0%|          | 0/90 [00:00<?, ? examples/s]Generating train split: 100%|██████████| 90/90 [00:00<00:00, 4703.01 examples/s]
+AI-MO/aimo-validation-aime 90
+Generating test split:   0%|          | 0/500 [00:00<?, ? examples/s]Generating test split: 100%|██████████| 500/500 [00:00<00:00, 23262.14 examples/s]
+HuggingFaceH4/MATH-500 500
+Generating train split:   0%|          | 0/541 [00:00<?, ? examples/s]Generating train split: 100%|██████████| 541/541 [00:00<00:00, 26386.02 examples/s]
+google/IFEval 541
+Using the latest cached version of the dataset since openai_humaneval couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'openai_humaneval' at /workspace/.hf_home/datasets/openai_humaneval/openai_humaneval/0.0.0/7dce6050a7d6d172f3cc5c32aa97f52fa1a2e544 (last modified on Tue Oct  6 13:03:11 2026).
+Using the latest cached version of the dataset since google-research-datasets/mbpp couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'sanitized' at /workspace/.hf_home/datasets/google-research-datasets___mbpp/sanitized/0.0.0/4bb6404fdc6cacfda99d4ac4205087b89d32030c (last modified on Tue Oct  6 13:03:08 2026).
+Using the latest cached version of the dataset since openai/gsm8k couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'main' at /workspace/.hf_home/datasets/openai___gsm8k/main/0.0.0/740312add88f781978c0658806c59bc2815b9866 (last modified on Tue Oct  6 13:03:06 2026).
+Using the latest cached version of the dataset since HuggingFaceH4/MATH-500 couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /workspace/.hf_home/datasets/HuggingFaceH4___math-500/default/0.0.0/6e4ed1a2a79af7d8630a6b768ec859cb5af4d3be (last modified on Tue Oct  6 13:03:13 2026).
+Using the latest cached version of the dataset since fingertap/GPQA-Diamond couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /workspace/.hf_home/datasets/fingertap___gpqa-diamond/default/0.0.0/68be7564497676e07a77a042fdb587deb88c51c3 (last modified on Tue Oct  6 13:03:09 2026).
+Using the latest cached version of the dataset since AI-MO/aimo-validation-aime couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /workspace/.hf_home/datasets/AI-MO___aimo-validation-aime/default/0.0.0/13f9e12f613e720c2a2b2f345dd04b998a29494d (last modified on Tue Oct  6 13:03:12 2026).
+[p2-setup 13:03:16] benchmarks offline: humaneval=164 mbpp=257 gsm8k500=500 math500=500 gpqa=198 aime=90 (expected humaneval=164 mbpp=257 gsm8k500=500 math500=500 gpqa=198 aime=90)
+[p2-setup 13:03:16] IFEval-541 downloaded from Arushhh/c1b-judge-corpus-waveA (Phase 1's frozen file)
+[p2-setup 13:03:17] IFEval-541: 541 items, sha256 verified, scorer imports
+[p2-setup 13:03:17] stock IFEval-541 records <- Arushhh/c1b-judge-corpus-waveA (logs/c1b/eval/checkpointB/ifeval541_released)
+Fetching 16 files:   0%|          | 0/16 [00:00<?, ?it/s]Fetching 16 files: 100%|██████████| 16/16 [00:00<00:00, 255.35it/s]
+stock IFEval-541: 541/541 items, revision ok, golds match; accuracy 52.7, exp/token 1576.5
+[p2-setup 13:03:18] SKIP_CHECKS=1: done without GPU checks
+[p3-setup 13:03:18] 128M judge + Phase 1 no-pool SDAR-1.7B + judge records
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files: 100%|██████████| 2/2 [00:00<00:00, 228.19it/s]
+Fetching 44 files:   0%|          | 0/44 [00:00<?, ?it/s]Fetching 44 files:  50%|█████     | 22/44 [00:00<00:00, 206.22it/s]Fetching 44 files: 100%|██████████| 44/44 [00:00<00:00, 273.71it/s]
+[p3-setup 13:03:21] CPU tests (decode loop, full judge, re-draft)
+[p3-setup 13:03:28] TESTS FAILED (logs/phase3/setup/tests.log)
+        if args.stock:
+            return {"key": None, "repo": None, "revision": None, "tag": "", "path": None}
+>       if args.drafter in MODELS:
+           ^^^^^^^^^^^^
+E       AttributeError: 'types.SimpleNamespace' object has no attribute 'drafter'. Did you mean: 'draft'?
+
+code/draftalign/run_da_decode.py:110: AttributeError
+=============================== warnings summary ===============================
+code/tests/test_da_decode.py::test_eos_trimming_and_record_fields[None]
+  /workspace/dmge/code/vendor/oc_datasets/math.py:62: SyntaxWarning: invalid escape sequence '\{'
+    match = re.match('^\{(.*)\}$', answer)  # noqa: W605
+
+code/tests/test_da_decode.py::test_eos_trimming_and_record_fields[None]
+  /workspace/dmge/code/vendor/oc_datasets/math.py:334: SyntaxWarning: invalid escape sequence '\%'
+    string = string.replace('\%', '')  # noqa: W605
+
+code/tests/test_da_decode.py::test_eos_trimming_and_record_fields[None]
+  /workspace/dmge/code/vendor/oc_datasets/math.py:413: SyntaxWarning: invalid escape sequence '\%'
+    string = string.replace('\%', '')  # noqa: W605
+
+code/tests/test_da_decode.py::test_eos_trimming_and_record_fields[None]
+code/tests/test_da_decode.py::test_eos_trimming_and_record_fields[s8]
+  /workspace/dmge/code/analyze_research_baselines.py:70: RuntimeWarning: invalid value encountered in scalar divide
+    "uniq_experts_per_layer_forward": uniq.sum() / lf.sum(),
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED code/tests/test_da_decode_full.py::test_runner_adapter_and_pool_helpers
+FAILED code/tests/test_da_decode.py::test_runner_helpers_and_analyzer - Attri...
+2 failed, 56 passed, 5 warnings in 6.13s
+[p3 13:03:28 UTC] SETUP FAILED -- see logs/phase3/setup/
+[p3 13:03:30 UTC] backup ok
+[p3-setup 13:06:06] CPU tests (decode loop, full judge, re-draft)
+56 passed, 2 deselected, 2 warnings in 5.40s
+[p3-setup 13:06:12] checks: stock (16 GSM8K-500 items) and judge (16 HumanEval items), in parallel
+[p3-setup] checks: {'stock_items': 16, 'stock_identical': 16, 'judge_items': 16, 'judge_with_reference': 16, 'judge_identical': 16, 'gpu': 'NVIDIA RTX PRO 6000 Blackwell Server Edition'}
+[p3-setup 13:14:50] PHASE 3 SETUP PASSED
+[p3 13:14:50 UTC] start rd1 humaneval (attempt 1)
+[p3 13:26:30 UTC] done rd1 humaneval
+[p3 13:26:30 UTC] start rd2 humaneval (attempt 1)
+[p3 13:36:25 UTC] done rd2 humaneval
+[p3 13:36:29 UTC] backup FAILED (logs/phase3/backup.log)
+[p3 13:36:29 UTC] start rd2 mbpp (attempt 1)
+[p3 13:48:50 UTC] done rd2 mbpp
+[p3 13:48:50 UTC] start rd1 mbpp (attempt 1)
+[p3 14:02:25 UTC] done rd1 mbpp
+[p3 14:02:33 UTC] backup ok
+[p3 14:02:33 UTC] start rd1 gsm8k500 (attempt 1)
+[p3 14:02:37 UTC] paused rd run before GSM8K (no GSM8K records written); baseline: today's judge on this box, same load
+[p3-setup 14:02:37] PHASE 3 SETUP PASSED
+[p3 14:02:37 UTC] start judge humaneval (attempt 1)
+[p3 14:14:02 UTC] done judge humaneval
+[p3 14:14:10 UTC] backup ok
+[p3 14:14:10 UTC] start judge mbpp (attempt 1)
+[p3 14:28:05 UTC] done judge mbpp
+[p3 14:28:11 UTC] backup ok
+[p3 14:28:17 UTC] backup ok
+[p3 14:28:17 UTC] baseline finished: logs/phase3/analysis/TABLE.md (also results/phase3/TABLE.md, the HF dataset and the GitHub branch)
+[p3 14:28:17 UTC] start judge_sample aime (first 12 items, 4 GPUs)
+[p3 14:34:17 UTC] judge_sample: aime done; gsm8k500/gpqa/math500/ifeval541 samples moved to the end of the run (user: rd first)
+[p3 14:34:17 UTC] restart with benchmark order: humaneval mbpp aime gsm8k500 gpqa math500 ifeval541 (shortest first, IFEval last; same settings)
+[p3-setup 14:34:17] PHASE 3 SETUP PASSED
+[p3 14:34:17 UTC] skip rd1 humaneval (complete)
+[p3 14:34:17 UTC] skip rd2 humaneval (complete)
+[p3 14:34:25 UTC] backup ok
+[p3 14:34:25 UTC] skip rd2 mbpp (complete)
+[p3 14:34:25 UTC] skip rd1 mbpp (complete)
+[p3 14:34:32 UTC] backup ok
+[p3 14:34:32 UTC] start rd1 aime (attempt 1)
+[p3 14:35:02 UTC] rd paused (user: finish the baseline samples first); no rd AIME records had been written
+[p3 14:35:02 UTC] start judge_sample gsm8k500 (first 12 items, 4 GPUs)
+[p3 14:37:32 UTC] done judge_sample gsm8k500: 4/4 shards
+[p3 14:37:32 UTC] start judge_sample gpqa (first 12 items, 4 GPUs)
+[p3 14:43:55 UTC] done judge_sample gpqa: 4/4 shards
+[p3 14:43:55 UTC] start judge_sample math500 (first 12 items, 4 GPUs)
+[p3 14:47:33 UTC] done judge_sample math500: 4/4 shards
+[p3 14:47:33 UTC] start judge_sample ifeval541 (first 12 items, 4 GPUs)
+[p3 14:54:57 UTC] done judge_sample ifeval541: 4/4 shards
+[p3 14:54:57 UTC] restart with benchmark order: humaneval mbpp aime gsm8k500 gpqa math500 ifeval541 (shortest first, IFEval last; same settings)
+[p3-setup 14:54:57] PHASE 3 SETUP PASSED
+[p3 14:54:57 UTC] skip rd1 humaneval (complete)
+[p3 14:54:57 UTC] skip rd2 humaneval (complete)
+[p3 14:55:02 UTC] restart with benchmark order: humaneval mbpp gsm8k500 math500 aime gpqa ifeval541 (user: GSM8K and MATH-500 first; same settings)
+[p3-setup 14:55:03] PHASE 3 SETUP PASSED
+[p3 14:55:03 UTC] skip rd1 humaneval (complete)
+[p3 14:55:03 UTC] skip rd2 humaneval (complete)
+[p3 14:55:10 UTC] backup ok
+[p3 14:55:10 UTC] skip rd2 mbpp (complete)
+[p3 14:55:10 UTC] skip rd1 mbpp (complete)
+[p3 14:55:16 UTC] backup ok
+[p3 14:55:16 UTC] start rd1 gsm8k500 (attempt 1)
+[p3 15:59:42 UTC] done rd1 gsm8k500
+[p3 15:59:42 UTC] start rd2 gsm8k500 (attempt 1)
+[p3 17:02:21 UTC] done rd2 gsm8k500
+[p3 17:02:28 UTC] backup ok
+[p3 17:02:28 UTC] start rd2 math500 (attempt 1)
+[p3 17:02:34 UTC] rd paused before MATH-500 (no MATH records written); base pipeline (today's judge) on all of GSM8K-500, same box and load
+[p3 17:47:19 UTC] lead decision: stop after the base GSM8K run (no MATH-500); logs/phase3/STOP set, so the next run_p3.sh start does only the final analysis + final backup
+[p3-setup 17:02:34] PHASE 3 SETUP PASSED
+[p3 17:02:34 UTC] start judge gsm8k500 (attempt 1)
+[p3 18:04:26 UTC] done judge gsm8k500
+[p3 18:04:34 UTC] backup ok
+[p3 18:04:42 UTC] backup ok
+[p3 18:04:42 UTC] baseline finished: logs/phase3/analysis/TABLE.md (also results/phase3/TABLE.md, the HF dataset and the GitHub branch)
+[p3 18:04:42 UTC] restart with benchmark order: humaneval mbpp gsm8k500 math500 aime gpqa ifeval541 (after the GSM8K base-pipeline run; same settings)
+[p3-setup 18:04:42] PHASE 3 SETUP PASSED
+[p3 18:04:42 UTC] STOP file: stopping before humaneval
+[p3 18:04:51 UTC] backup ok
+[p3 18:04:51 UTC] DONE: logs/phase3/analysis/TABLE.md (also results/phase3/TABLE.md, the HF dataset and the GitHub branch)

@@ -1,0 +1,118 @@
+<main class="wrap">
+  <header class="masthead">
+    <p class="kicker">Phase 3 &middot; pure inference &middot; nothing trained &middot; final report</p>
+    <h1>Phase 3 Re-draft</h1>
+    <p class="lede">Hand the slots the judge rejects back to the drafter, after every judge pass (rd1) or every second pass (rd2). Same frozen 30B, same Phase 1 judge, SDAR-1.7B drafter, no expert pool. Every number on this page is computed from the raw per-item decode records.</p>
+    <p class="status">{{STATUSLINE}}</p>
+  </header>
+
+  <section id="status" aria-labelledby="h-status">
+    <h2 id="h-status"><span class="secno">1</span>Status: what ran, what did not</h2>
+    {{BANNER}}
+    <div class="prose">{{SEC1}}</div>
+    <h3 class="sub3">Method</h3>
+    <div class="prose">{{METHOD}}</div>
+    <h3 class="sub3">Runs</h3>
+    <p class="caption"><b>Table 0.</b> Every run, in the order it was decoded. Items done is the number of per-item records on disk. Wall is the run's wall-clock time on this 4-GPU box, start to finish, model load included. Finished is the time of the last record (IST).</p>
+    <div class="tbl-wrap">
+      <table class="sm">
+        <thead><tr><th class="l">Setup</th><th class="l">Benchmark</th><th>Items done / total</th><th>Wall (4 GPUs)</th><th>Finished (IST)</th><th class="l">State</th></tr></thead>
+        <tbody>{{PROGRESS}}</tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="measured" class="msec" aria-labelledby="h-meas">
+    <h2 id="h-meas"><span class="secno">2</span>MEASURED on this 4-GPU box</h2>
+    <p class="caption"><b>MEASURED &mdash; nothing in this section is extrapolated.</b> Batch size 1, one decode process per GPU, the other GPUs of this box busy decoding. Speedup = rd tokens per second &divide; base tokens per second on the same items, both decoded here; it is the raw ratio of two measurements made hours apart on a shared host, so it contains the host-speed drift of section 3. Accuracy is items correct, %; &Delta; is the paired difference rd &minus; base on the same items with a 95% bootstrap interval. Passes per block and 30B expert loads per token (unique expert loads summed over layers &divide; generated tokens) do not depend on the machine; drafter forwards per token counts every SDAR-1.7B forward (first draft and re-drafts).</p>
+    {{SUMMARY}}
+    <p class="caption"><b>Table 1.</b> Base pipeline, rd1 and rd2 on every finished benchmark.</p>
+    <div class="tbl-wrap">
+      <table class="sm" style="min-width:1250px">
+        <thead><tr><th class="l">Benchmark</th><th class="l">Setup</th><th>Items</th><th>Accuracy %</th><th>&Delta; accuracy vs base, pts<br>[95% CI]</th><th>Passes / block</th><th>30B expert loads / token</th><th>Drafter forwards / token</th><th>Tokens / s</th><th>ms / token</th><th>Wall (4 GPUs)</th><th>Speedup vs base<br>(raw, measured)</th></tr></thead>
+        <tbody>{{MTABLE}}</tbody>
+      </table>
+    </div>
+    <p class="caption"><b>Table 2.</b> The base pipeline on this box against the Phase 1 records, for every benchmark it ran on. Identical = the generated token ids of an item equal the Phase 1 box's record for that item. The last column is this box's time &divide; the Phase 1 box's time for the same items (both measured), which is how much slower this 4-GPU shared box runs the same work.</p>
+    <div class="tbl-wrap">
+      <table class="sm">
+        <thead><tr><th class="l">Benchmark</th><th>Items run here</th><th>Token-identical to Phase 1</th><th>Base tokens / s here</th><th>This box &divide; Phase 1 box (time)</th></tr></thead>
+        <tbody>{{BASETABLE}}</tbody>
+      </table>
+    </div>
+
+    <div class="figwrap" id="fig1">
+      <span class="fig-no">Figure 1</span><h3>Speedup over the base pipeline, measured on this box</h3>
+      <ul class="legend" id="lg1"></ul>
+      <div class="smgrid" id="sm1"></div>
+      <figcaption>Raw tokens per second &divide; the base pipeline's, both decoded on this box, full pipeline (30B, judge, drafter and re-draft all counted). Higher is better. Dashed line: the base pipeline at 1&times;. The host-speed drift of section 3 is not removed. Nothing in this figure is extrapolated.</figcaption>
+    </div>
+    <div class="figwrap" id="fig2">
+      <span class="fig-no">Figure 2</span><h3>Accuracy by benchmark</h3>
+      <ul class="legend" id="lg2"></ul>
+      <div class="smgrid" id="sm2"></div>
+      <figcaption>Items correct, %, one panel per benchmark with its own y-range. Stock, CoDA-1.7B and Qwen3-0.6B are Phase 2 records; the base pipeline and rd1, rd2 are measured here (the base pipeline reproduces the Phase 1 records token for token). Whiskers on rd1 and rd2: 95% bootstrap interval of the paired difference from the base pipeline, centred on the point.</figcaption>
+    </div>
+  </section>
+
+  <section id="drift" class="msec" aria-labelledby="h-drift">
+    <h2 id="h-drift"><span class="secno">3</span>Host-speed drift on this box</h2>
+    <p class="caption"><b>Why the measured speedup is not a clean number.</b></p>
+    <div class="prose">{{DRIFT1}}</div>
+    <p class="caption"><b>Table 3.</b> Host index H per run, measured from identical prompt-prefill work (rd run &divide; base run, same items). H = 1: the host ran at the same speed during both runs; H &lt; 1: faster during rd; H &gt; 1: slower during rd.</p>
+    <div class="tbl-wrap">
+      <table class="sm">
+        <thead><tr><th class="l">Benchmark</th><th class="l">Setup</th><th>H, 30B prompt prefill</th><th>H, drafter prompt prefill</th><th>H, first half of items</th><th>H, second half of items</th></tr></thead>
+        <tbody>{{HTABLE}}</tbody>
+      </table>
+    </div>
+    <div class="prose">{{DRIFT2}}</div>
+    <p class="caption"><b>Table 4.</b> Raw measured speedup next to the drift-adjusted one. <b class="adjtxt">The adjusted column is an adjustment, NOT a measurement; the project lead does not accept it as a result.</b> It is shown only to size the problem: adjusted = raw &times; H (30B prompt prefill).</p>
+    <div class="tbl-wrap">
+      <table class="sm">
+        <thead><tr><th class="l">Benchmark</th><th class="l">Setup</th><th>Raw speedup<br>(measured)</th><th>H (30B prefill)</th><th>Speedup &times; H<br><b class="adj">adjusted, NOT a measurement</b></th></tr></thead>
+        <tbody>{{ADJTABLE}}</tbody>
+      </table>
+    </div>
+    <div class="prose">{{DRIFT3}}</div>
+  </section>
+
+  <section id="extrap" class="xsec" aria-labelledby="h-ext">
+    <h2 id="h-ext"><span class="secno">4</span>EXTRAPOLATED to the Phase 1 box (8&times; RTX PRO 6000 Server)</h2>
+    <p class="caption xsent"><b>{{XSENT}}</b></p>
+    <div class="prose">{{XFORMULA}}</div>
+    <p class="caption"><b>Table 5.</b> Every extrapolated cell carries a bold tag. The base pipeline column is not extrapolated: it was measured on the Phase 1 box. The drift-adjusted variant is an adjustment of an extrapolation and is not accepted as a result.</p>
+    <div class="tbl-wrap">
+      <table class="sm" style="min-width:1050px">
+        <thead><tr><th class="l">Benchmark</th><th class="l">Setup</th><th>Base pipeline tokens / s, Phase 1 box<br>(MEASURED there; stock in brackets)</th><th>rd tokens / s, Phase 1 box<br>(raw)</th><th>&times; stock<br>(raw)</th><th>rd tokens / s, drift-adjusted<br>(&times; stock)</th><th>Wall on 8 GPUs</th></tr></thead>
+        <tbody>{{XTABLE}}</tbody>
+      </table>
+    </div>
+    {{XNOTRUN}}
+  </section>
+
+  <section id="formulas" aria-labelledby="h-form">
+    <h2 id="h-form"><span class="secno">5</span>Formulas and how it is measured</h2>
+    <div class="prose">{{SEC5}}</div>
+    <div class="prose">{{TIMING}}</div>
+  </section>
+
+  <section id="fetch" aria-labelledby="h-fetch">
+    <h2 id="h-fetch"><span class="secno">6</span>How to fetch and run it</h2>
+    <h3 class="sub3">Fetch</h3>
+    <div class="prose">{{SEC7}}</div>
+    <h3 class="sub3">Run the numbers yourself</h3>
+    <div class="prose">{{SEC8}}</div>
+    <div class="prose">{{REBUILD}}</div>
+    <h3 class="sub3">File map</h3>
+    <p class="caption">Paths are relative to the repository root and are the same in the Hugging Face dataset and on the GitHub branch.</p>
+    <div class="tbl-wrap">
+      <table class="sm">
+        <thead><tr><th class="l">Path</th><th class="l">What it holds</th></tr></thead>
+        <tbody>{{FILEMAP}}</tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>Data: Hugging Face dataset Arushhh/phase3-redraft and branch phase3-redraft on GitHub (results/phase3). This page is built from results/phase3/final_numbers.json by logs/phase3/extrap/build_final.py; {{GENERATED}}</footer>
+</main>

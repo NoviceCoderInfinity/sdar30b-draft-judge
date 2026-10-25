@@ -58,6 +58,7 @@ import torch                                                    # noqa: E402
 
 from draftalign.seqcache import SeqCache                        # noqa: E402
 from draftalign import wandb_log                                # noqa: E402
+from draftalign.gpu_meter import GpuMeter                       # noqa: E402
 from draftalign.drafter import SETTINGS                         # noqa: E402
 from draftalign.da_decode import (MoEMeter, decode_item, save_trace, POOL, POOL_RULES,   # noqa: E402
                                   FULL_MAX_PASSES, enable_pool_moe)
@@ -152,6 +153,10 @@ def cell_name(ds: str, args, adapter_hash=None) -> str:
             s += f"_mp{int(args.full_max_passes)}"
         if int(getattr(args, "judge_passes", 0) or 0):
             s += f"_jp{int(args.judge_passes)}"              # one-pass hybrid: K judge passes, then STOCK
+        if int(getattr(args, "full_redraft_every", 0) or 0):
+            s += f"_rd{int(args.full_redraft_every)}"        # phase 3: re-draft the [MASK] slots every K passes
+            if int(getattr(args, "full_redraft_rate", 4) or 4) != 4:
+                s += f"r{int(args.full_redraft_rate)}"
         return s + drafter_info(args)["tag"] + tail
     s = f"{ds}_B{BLOCK}_t{t}_dv-{args.draft}_c{pct(args.tau_commit)}_a{pct(args.tau_acc)}_q{pct(args.tau_acc_q)}"
     if args.rejudge:
@@ -286,6 +291,13 @@ def build_parser():
     ap.add_argument("--judge-passes", type=int, default=0,
                     help="judge full: ONE-PASS HYBRID -- K judge passes, then every uncommitted slot is re-masked and "
                          "the STOCK loop finishes the block (0 = today's unbounded judge loop)")
+    ap.add_argument("--full-redraft-every", type=int, default=0,
+                    help="full judge (phase 3): after every K judge passes the drafter re-fills the [MASK] slots from "
+                         "the committed tokens only (tentative drafts hidden, kept); 0 = off")
+    ap.add_argument("--full-redraft-rate", type=int, default=4,
+                    help="re-draft: slots per drafter step (steps = ceil(#[MASK] / rate), at most 8)")
+    ap.add_argument("--judge-diag", action="store_true",
+                    help="full judge: record next-slot copy counts at the open slots (changes no decision)")
     ap.add_argument("--adapter", default=None, help="adapter dir (load_adapter + merge_lora before instrumenting)")
     ap.add_argument("--pool", type=int, default=0,
                     help="per-forward expert pool size M (0 = off); restricts every BLOCK forward (judge/denoise), never the prefill")
@@ -342,6 +354,15 @@ def resolve_args(args):
         raise NotImplementedError("--draft-after-pass (anchored drafting) is the blind rule's variant: use --judge blind")
     if jp and args.judge != "full":
         raise NotImplementedError("--judge-passes (the one-pass hybrid) is the full judge's variant: use --judge full")
+    rde = int(getattr(args, "full_redraft_every", 0) or 0)
+    assert rde >= 0, "--full-redraft-every must be >= 0"
+    assert int(getattr(args, "full_redraft_rate", 4) or 4) >= 1, "--full-redraft-rate must be >= 1"
+    if rde and (args.stock or args.judge != "full"):
+        raise NotImplementedError("--full-redraft-every is the full judge's variant: use --judge full with a drafter")
+    if rde and jp:
+        raise NotImplementedError("--full-redraft-every is not combined with --judge-passes")
+    if getattr(args, "judge_diag", False) and (args.stock or args.judge != "full"):
+        raise NotImplementedError("--judge-diag is for --judge full")
     M = int(getattr(args, "pool", 0) or 0)
     assert M == 0 or M >= 8, f"--pool {M} is below the model's top-8"
     return args
@@ -401,6 +422,8 @@ def main(argv=None):
            **({"tau_override": args.tau_override} if (not args.stock and args.judge == "full" and args.tau_override is not None) else {}),
            **({"draft_after_pass": int(args.draft_after_pass)} if (not args.stock and args.judge == "blind" and args.draft_after_pass) else {}),
            **({"judge_passes": int(args.judge_passes)} if (not args.stock and args.judge == "full" and args.judge_passes) else {}),
+           **({"full_redraft_every": int(args.full_redraft_every), "full_redraft_rate": int(args.full_redraft_rate)}
+              if (not args.stock and args.judge == "full" and args.full_redraft_every) else {}),
            "pool_M": int(args.pool) or None, "pool_rule": args.pool_rule if args.pool else None,
            **({"tau_pool_cov": float(args.tau_pool_cov)} if args.pool and args.tau_pool_cov else {}),
            "pool_flush": bool(args.pool_flush and args.pool),
@@ -479,7 +502,10 @@ def main(argv=None):
                   full_max_passes=args.full_max_passes, full_remask_only=bool(args.full_remask_only),
                   tau_override=args.tau_override, tau_pool_cov=float(args.tau_pool_cov),
                   draft_after_pass=0 if args.stock else int(args.draft_after_pass),
-                  judge_passes=0 if args.stock else int(args.judge_passes))
+                  judge_passes=0 if args.stock else int(args.judge_passes),
+                  full_redraft_every=0 if args.stock else int(args.full_redraft_every),
+                  full_redraft_rate=int(args.full_redraft_rate),
+                  judge_diag=bool(args.judge_diag and not args.stock))
     t_cell = time.time()
     n_new, n_ref, n_ref_ok = 0, 0, 0
     with open(dest, "a") as fh:
@@ -487,9 +513,12 @@ def main(argv=None):
             prompt_ids = encode_prompt(tok, it["prompt"])
             if tok_d is not None:
                 assert torch.equal(prompt_ids, encode_prompt(tok_d, it["prompt"])), "drafter tokenizer differs"
+            GPU_METER = globals().setdefault("GPU_METER", GpuMeter())
+            g0 = GPU_METER.start()          # phase 3 8-GPU: GPU-active time, sampled OUTSIDE decode_item's timed span
             rec, res = decode_item(moe, dr_seq, tok, it, prompt_ids, mask_id=MASK_ID, eos_ids=EOS_IDS,
                                    gen_length=gen_length, adapter=(ad["path"] if ad else None),
                                    adapter_hash=ad_hash, **gen_kw)
+            rec.update(GPU_METER.stop(g0, rec["seconds"]))
             rec.update({"cell": cell, "config_hash": chash, "model_revision": MODEL_REV, "model_key": args.model,
                         "numerics": "stock", "gpu": gpu_name, "pid": os.getpid(),
                         "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())})

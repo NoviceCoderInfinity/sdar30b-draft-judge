@@ -1,0 +1,611 @@
+{
+ "generated_utc": "2026-10-08T00:01:44Z",
+ "model_phase1": {
+  "kinds": {
+   "kvflush": {
+    "a_ms": 21.58118565236108,
+    "b_us_per_load": 77.56579810250707,
+    "r2": 0.921054857030863,
+    "n": 24995,
+    "mean_ms": 233.92878707741548
+   },
+   "judge": {
+    "a_ms": 29.834464525331864,
+    "b_us_per_load": 75.65823409911546,
+    "r2": 0.9161273390488874,
+    "n": 243069,
+    "mean_ms": 218.58680120048217
+   }
+  },
+  "drafter_ms": {
+   "prefill": 11.930235720761559,
+   "draft": 9.323681192950197,
+   "redraft": 9.323681192950197,
+   "flush": 10.03125825165033
+  },
+  "other_s_per_fwd": 0.0015520442520442518
+ },
+ "model_here_rd_only": {
+  "kinds": {
+   "kvflush": {
+    "a_ms": 58.81055899625111,
+    "b_us_per_load": 168.80431518939113,
+    "r2": 0.9675792187887233,
+    "n": 52947,
+    "mean_ms": 514.49630462538
+   },
+   "judge": {
+    "a_ms": 79.32531183627027,
+    "b_us_per_load": 167.81522606118736,
+    "r2": 0.9677684619270622,
+    "n": 413535,
+    "mean_ms": 494.12395985587676
+   }
+  },
+  "drafter_ms": {
+   "prefill": 25.75228921124207,
+   "draft": 21.14232855556244,
+   "redraft": 21.15058215961146,
+   "flush": 21.74457476344269
+  },
+  "other_s_per_fwd": 0.0042815792938538195,
+  "gpu": {
+   "s_per_fwd": 0.01802161669504235,
+   "s_per_load": 4.507573751542604e-05,
+   "s_per_drafter_fwd": 0.007504750929983054,
+   "r2": 0.9997862589851628,
+   "n": 4500
+  }
+ },
+ "model_here_with_base": {
+  "kinds": {
+   "kvflush": {
+    "a_ms": 62.2077813473658,
+    "b_us_per_load": 166.95201700319853,
+    "r2": 0.964183107131728,
+    "n": 77942,
+    "mean_ms": 514.9359882348413
+   },
+   "judge": {
+    "a_ms": 84.43521271749925,
+    "b_us_per_load": 164.02526152303423,
+    "r2": 0.9572170584171218,
+    "n": 656604,
+    "mean_ms": 491.2652439720136
+   }
+  },
+  "drafter_ms": {
+   "prefill": 25.73559987911756,
+   "draft": 21.087104907334687,
+   "redraft": 21.15058215961146,
+   "flush": 21.718053167740113
+  },
+  "other_s_per_fwd": 0.003841336060574987,
+  "gpu": {
+   "s_per_fwd": 0.01686304665649156,
+   "s_per_load": 4.493901066092527e-05,
+   "s_per_drafter_fwd": 0.008050479910982483,
+   "r2": 0.9997795278704392,
+   "n": 6750
+  }
+ },
+ "sets": {
+  "ifeval541": {
+   "name": "IFEval-541",
+   "arms": {
+    "rd1": {
+     "items": 541,
+     "rd_here_s": 47427.098,
+     "rd_here_gpu_s": 12791.160945,
+     "rd_here_tok_s": 4.727381801855134,
+     "rd_here_model_s": 47148.17291064477,
+     "proj_rd_p1_s": 20656.316289346636,
+     "p1_base_s": 20762.636,
+     "proj_speedup_p1_time": 1.0051470799131883,
+     "proj_speedup_p1_tok_s": 1.2154029025941988,
+     "pred_speedup_here_time": 1.0115168841671995,
+     "pred_speedup_here_tok_s": 1.2231051371566777,
+     "pred_speedup_here_gpu_time": 0.9818406625975233,
+     "pred_speedup_here_gpu_tok_s": 1.187221268462627,
+     "meas_paired": 541,
+     "meas_speedup_here_time": 0.9857195985299375,
+     "meas_speedup_here_tok_s": 1.1919115969582739,
+     "meas_speedup_here_gpu_time": 0.9699958825746758,
+     "meas_speedup_here_gpu_tok_s": 1.1728988072944546
+    },
+    "rd2": {
+     "items": 541,
+     "rd_here_s": 43984.116,
+     "rd_here_gpu_s": 11874.012811,
+     "rd_here_tok_s": 4.654271100958355,
+     "rd_here_model_s": 44477.621608908594,
+     "proj_rd_p1_s": 19484.971724316132,
+     "p1_base_s": 20762.636,
+     "proj_speedup_p1_time": 1.0655717798188753,
+     "proj_speedup_p1_tok_s": 1.1764505519029296,
+     "pred_speedup_here_time": 1.0906962503020958,
+     "pred_speedup_here_tok_s": 1.2041893656797718,
+     "pred_speedup_here_gpu_time": 1.0576779844801838,
+     "pred_speedup_here_gpu_tok_s": 1.1677353625006812,
+     "meas_paired": 541,
+     "meas_speedup_here_time": 1.0628796086296244,
+     "meas_speedup_here_tok_s": 1.1734782450706769,
+     "meas_speedup_here_gpu_time": 1.044918314262378,
+     "meas_speedup_here_gpu_tok_s": 1.1536479764098178
+    }
+   },
+   "p1_measured_s": 20762.636,
+   "p1_model_s": 21000.179424170994,
+   "pred_base_here_items": 541,
+   "pred_base_here_s": 47973.31039405242,
+   "pred_base_here_gpu_s": 12558.881937630362,
+   "pred_base_here_tok_s": 3.8650657725506425,
+   "frozen": {
+    "items": 541,
+    "pred_base_here_s": 47973.78652133366,
+    "pred_base_here_gpu_s": 12559.188524879779,
+    "pred_base_here_tok_s": 3.8650274127839546
+   },
+   "base_here": {
+    "items": 541,
+    "complete": true,
+    "measured_s": 46749.82,
+    "measured_gpu_s": 12407.37345,
+    "tok_s": 3.9662184795577824,
+    "pred_s_same_items": 47973.31039405242,
+    "identical_tokens": 541,
+    "pred_gpu_s_same_items": 12558.881937630362
+   }
+  },
+  "math500": {
+   "name": "MATH-500",
+   "arms": {
+    "rd1": {
+     "items": 500,
+     "rd_here_s": 34974.754,
+     "rd_here_gpu_s": 9487.624429,
+     "rd_here_tok_s": 7.909591015279192,
+     "rd_here_model_s": 34939.603197189506,
+     "proj_rd_p1_s": 15415.197861182349,
+     "p1_base_s": 16513.488,
+     "proj_speedup_p1_time": 1.0712472294360427,
+     "proj_speedup_p1_tok_s": 1.1409402881452428,
+     "pred_speedup_here_time": 1.051747347360328,
+     "pred_speedup_here_tok_s": 1.1201717853543636,
+     "pred_speedup_here_gpu_time": 1.0305027102078288,
+     "pred_speedup_here_gpu_tok_s": 1.0975450174447055,
+     "meas_paired": 500,
+     "meas_speedup_here_time": 1.0146748423162604,
+     "meas_speedup_here_tok_s": 1.0806874222447274,
+     "meas_speedup_here_gpu_time": 1.023436783956196,
+     "meas_speedup_here_gpu_tok_s": 1.0900193971098038
+    },
+    "rd2": {
+     "items": 500,
+     "rd_here_s": 34354.96,
+     "rd_here_gpu_s": 9000.373504,
+     "rd_here_tok_s": 7.62667166545966,
+     "rd_here_model_s": 33513.309490734064,
+     "proj_rd_p1_s": 14782.360670142105,
+     "p1_base_s": 16513.488,
+     "proj_speedup_p1_time": 1.1171076371688375,
+     "proj_speedup_p1_tok_s": 1.1268964897133105,
+     "pred_speedup_here_time": 1.0707218038990594,
+     "pred_speedup_here_tok_s": 1.080104192404685,
+     "pred_speedup_here_gpu_time": 1.086290772618863,
+     "pred_speedup_here_gpu_tok_s": 1.0958095869566977,
+     "meas_paired": 500,
+     "meas_speedup_here_time": 1.0329804779280778,
+     "meas_speedup_here_tok_s": 1.0420321514135296,
+     "meas_speedup_here_gpu_time": 1.0788423201197852,
+     "meas_speedup_here_gpu_tok_s": 1.0882958660799167
+    }
+   },
+   "p1_measured_s": 16513.488,
+   "p1_model_s": 16224.539526484203,
+   "pred_base_here_items": 500,
+   "pred_base_here_s": 36784.604744080025,
+   "pred_base_here_gpu_s": 9777.022687518504,
+   "pred_base_here_tok_s": 7.061051812492324,
+   "frozen": {
+    "items": 500,
+    "pred_base_here_s": 36786.83627729557,
+    "pred_base_here_gpu_s": 9777.420546536261,
+    "pred_base_here_tok_s": 7.0606234806962025
+   },
+   "base_here": {
+    "items": 500,
+    "complete": true,
+    "measured_s": 35488.003,
+    "measured_gpu_s": 9709.983833,
+    "tok_s": 7.319036802380794,
+    "pred_s_same_items": 36784.604744080025,
+    "identical_tokens": 500,
+    "pred_gpu_s_same_items": 9777.022687518504
+   }
+  },
+  "gpqa": {
+   "name": "GPQA-Diamond",
+   "arms": {
+    "rd1": {
+     "items": 198,
+     "rd_here_s": 21112.903,
+     "rd_here_gpu_s": 5794.438449,
+     "rd_here_tok_s": 5.20809478450216,
+     "rd_here_model_s": 21294.92630895427,
+     "proj_rd_p1_s": 9367.751470472429,
+     "p1_base_s": 10647.407,
+     "proj_speedup_p1_time": 1.1366022074305773,
+     "proj_speedup_p1_tok_s": 1.1742127243099274,
+     "pred_speedup_here_time": 1.1323162723593259,
+     "pred_speedup_here_tok_s": 1.1697849663279973,
+     "pred_speedup_here_gpu_time": 1.0856739289899755,
+     "pred_speedup_here_gpu_tok_s": 1.1215992134604809,
+     "meas_paired": 198,
+     "meas_speedup_here_time": 1.1188614848464942,
+     "meas_speedup_here_tok_s": 1.1558849557551094,
+     "meas_speedup_here_gpu_time": 1.0754966944338664,
+     "meas_speedup_here_gpu_tok_s": 1.111085211080453
+    },
+    "rd2": {
+     "items": 198,
+     "rd_here_s": 20399.593,
+     "rd_here_gpu_s": 5475.014376,
+     "rd_here_tok_s": 5.218633528619909,
+     "rd_here_model_s": 20414.121680718108,
+     "proj_rd_p1_s": 8978.168108484972,
+     "p1_base_s": 10647.407,
+     "proj_speedup_p1_time": 1.1859219911395382,
+     "proj_speedup_p1_tok_s": 1.18616711763626,
+     "pred_speedup_here_time": 1.1719098328895103,
+     "pred_speedup_here_tok_s": 1.1721520631154072,
+     "pred_speedup_here_gpu_time": 1.1490144728738536,
+     "pred_speedup_here_gpu_tok_s": 1.1492519706979283,
+     "meas_paired": 198,
+     "meas_speedup_here_time": 1.157984573515756,
+     "meas_speedup_here_tok_s": 1.1582239254325637,
+     "meas_speedup_here_gpu_time": 1.1382434766414211,
+     "meas_speedup_here_gpu_tok_s": 1.1384787481330791
+    }
+   },
+   "p1_measured_s": 10647.407,
+   "p1_model_s": 10508.686165801724,
+   "pred_base_here_items": 198,
+   "pred_base_here_s": 23906.483623644024,
+   "pred_base_here_gpu_s": 6290.87075721641,
+   "pred_base_here_tok_s": 4.452181327693569,
+   "frozen": {
+    "items": 198,
+    "pred_base_here_s": 23907.434446192012,
+    "pred_base_here_gpu_s": 6291.105418364149,
+    "pred_base_here_tok_s": 4.452004259995082
+   },
+   "base_here": {
+    "items": 198,
+    "complete": true,
+    "measured_s": 23622.414,
+    "measured_gpu_s": 6231.8993980000005,
+    "tok_s": 4.5057207108469095,
+    "pred_s_same_items": 23906.483623644024,
+    "identical_tokens": 198,
+    "pred_gpu_s_same_items": 6290.87075721641
+   }
+  },
+  "aime": {
+   "name": "AIME",
+   "arms": {
+    "rd1": {
+     "items": 90,
+     "rd_here_s": 10392.028,
+     "rd_here_gpu_s": 2835.623012,
+     "rd_here_tok_s": 6.9846809496664175,
+     "rd_here_model_s": 10426.287793265154,
+     "proj_rd_p1_s": 4592.713804192989,
+     "p1_base_s": 4770.777,
+     "proj_speedup_p1_time": 1.0387708016215695,
+     "proj_speedup_p1_tok_s": 1.0963166650047493,
+     "pred_speedup_here_time": 1.0737515312338595,
+     "pred_speedup_here_tok_s": 1.1332352583730962,
+     "pred_speedup_here_gpu_time": 1.0419830446551288,
+     "pred_speedup_here_gpu_tok_s": 1.0997068599969833,
+     "meas_paired": 90,
+     "meas_speedup_here_time": 1.0508056752733923,
+     "meas_speedup_here_tok_s": 1.1090182470333578,
+     "meas_speedup_here_gpu_time": 1.0347641733696016,
+     "meas_speedup_here_gpu_tok_s": 1.0920880774123234
+    },
+    "rd2": {
+     "items": 90,
+     "rd_here_s": 9817.504,
+     "rd_here_gpu_s": 2707.357688,
+     "rd_here_tok_s": 7.212321991414518,
+     "rd_here_model_s": 10067.71749013536,
+     "proj_rd_p1_s": 4435.3573028202045,
+     "p1_base_s": 4770.777,
+     "proj_speedup_p1_time": 1.075624053324074,
+     "proj_speedup_p1_tok_s": 1.1074040326240304,
+     "pred_speedup_here_time": 1.136587871787487,
+     "pred_speedup_here_tok_s": 1.1701690648877732,
+     "pred_speedup_here_gpu_time": 1.0913486284557414,
+     "pred_speedup_here_gpu_tok_s": 1.123593200073656,
+     "meas_paired": 90,
+     "meas_speedup_here_time": 1.112299215768081,
+     "meas_speedup_here_tok_s": 1.1451627854727813,
+     "meas_speedup_here_gpu_time": 1.08378775180149,
+     "meas_speedup_here_gpu_tok_s": 1.115808932632615
+    }
+   },
+   "p1_measured_s": 4770.777,
+   "p1_model_s": 4913.7133918264135,
+   "pred_base_here_items": 90,
+   "pred_base_here_s": 11158.455977625143,
+   "pred_base_here_gpu_s": 2954.671099537907,
+   "pred_base_here_tok_s": 6.163487147138201,
+   "frozen": {
+    "items": 90,
+    "pred_base_here_s": 11159.077366778707,
+    "pred_base_here_gpu_s": 2954.791522592974,
+    "pred_base_here_tok_s": 6.163143935604175
+   },
+   "base_here": {
+    "items": 90,
+    "complete": true,
+    "measured_s": 10920.002,
+    "measured_gpu_s": 2934.201102,
+    "tok_s": 6.298075769583192,
+    "pred_s_same_items": 11158.455977625143,
+    "identical_tokens": 90,
+    "pred_gpu_s_same_items": 2954.671099537907
+   }
+  },
+  "humaneval": {
+   "name": "HumanEval",
+   "arms": {
+    "rd1": {
+     "items": 164,
+     "rd_here_s": 2790.069,
+     "rd_here_gpu_s": 763.715235,
+     "rd_here_tok_s": 7.76826666293916,
+     "rd_here_model_s": 2816.630418895518,
+     "proj_rd_p1_s": 1245.9272948359142,
+     "p1_base_s": 1192.704,
+     "proj_speedup_p1_time": 0.9572821824704277,
+     "proj_speedup_p1_tok_s": 1.1920104574781138,
+     "pred_speedup_here_time": 0.9683603134803115,
+     "pred_speedup_here_tok_s": 1.2058049772706119,
+     "pred_speedup_here_gpu_time": 0.9376543359853114,
+     "pred_speedup_here_gpu_tok_s": 1.1675698080056096,
+     "meas_paired": 164,
+     "meas_speedup_here_time": 0.9552684897757009,
+     "meas_speedup_here_tok_s": 1.1895030016889887,
+     "meas_speedup_here_gpu_time": 0.9297861172037506,
+     "meas_speedup_here_gpu_tok_s": 1.1577722799192287
+    },
+    "rd2": {
+     "items": 164,
+     "rd_here_s": 2261.911,
+     "rd_here_gpu_s": 615.656299,
+     "rd_here_tok_s": 7.481726734606268,
+     "rd_here_model_s": 2298.343579089029,
+     "proj_rd_p1_s": 1017.7043630071478,
+     "p1_base_s": 1192.704,
+     "proj_speedup_p1_time": 1.1719552783244018,
+     "proj_speedup_p1_tok_s": 1.139434630304714,
+     "pred_speedup_here_time": 1.194473209366637,
+     "pred_speedup_here_tok_s": 1.1613277101063768,
+     "pred_speedup_here_gpu_time": 1.16315045053375,
+     "pred_speedup_here_gpu_tok_s": 1.1308741281387251,
+     "meas_paired": 164,
+     "meas_speedup_here_time": 1.17832443451577,
+     "meas_speedup_here_tok_s": 1.1456270484494069,
+     "meas_speedup_here_gpu_time": 1.1533900069785528,
+     "meas_speedup_here_gpu_tok_s": 1.1213845276397822
+    }
+   },
+   "p1_measured_s": 1192.704,
+   "p1_model_s": 1194.2751547788441,
+   "pred_base_here_items": 164,
+   "pred_base_here_s": 2701.792091471699,
+   "pred_base_here_gpu_s": 716.1009015557911,
+   "pred_base_here_tok_s": 6.442390609900238,
+   "frozen": {
+    "items": 164,
+    "pred_base_here_s": 2701.8991578008554,
+    "pred_base_here_gpu_s": 716.1240760449808,
+    "pred_base_here_tok_s": 6.442135321648046
+   },
+   "base_here": {
+    "items": 164,
+    "complete": true,
+    "measured_s": 2665.265,
+    "measured_gpu_s": 710.091823,
+    "tok_s": 6.5306826900889785,
+    "pred_s_same_items": 2701.792091471699,
+    "identical_tokens": 164,
+    "pred_gpu_s_same_items": 716.1009015557911
+   }
+  },
+  "mbpp": {
+   "name": "MBPP",
+   "arms": {
+    "rd1": {
+     "items": 257,
+     "rd_here_s": 3418.191,
+     "rd_here_gpu_s": 931.800088,
+     "rd_here_tok_s": 4.182329191083822,
+     "rd_here_model_s": 3447.7048066975954,
+     "proj_rd_p1_s": 1522.2520487049949,
+     "p1_base_s": 1620.207,
+     "proj_speedup_p1_time": 1.0643487071528905,
+     "proj_speedup_p1_tok_s": 1.1002913527701008,
+     "pred_speedup_here_time": 1.0794961040289375,
+     "pred_speedup_here_tok_s": 1.1159502714005125,
+     "pred_speedup_here_gpu_time": 1.0431651435909453,
+     "pred_speedup_here_gpu_tok_s": 1.0783924284312787,
+     "meas_paired": 257,
+     "meas_speedup_here_time": 1.0589949479125071,
+     "meas_speedup_here_tok_s": 1.0947567991436258,
+     "meas_speedup_here_gpu_time": 1.0320279589842667,
+     "meas_speedup_here_gpu_tok_s": 1.0668791453929478
+    },
+    "rd2": {
+     "items": 257,
+     "rd_here_s": 3228.357,
+     "rd_here_gpu_s": 868.39739,
+     "rd_here_tok_s": 4.177357089070385,
+     "rd_here_model_s": 3262.5152503401214,
+     "proj_rd_p1_s": 1440.8903933535366,
+     "p1_base_s": 1620.207,
+     "proj_speedup_p1_time": 1.1244484712186338,
+     "proj_speedup_p1_tok_s": 1.096558831647588,
+     "pred_speedup_here_time": 1.1429726846587218,
+     "pred_speedup_here_tok_s": 1.1146235899419714,
+     "pred_speedup_here_gpu_time": 1.1193278374507498,
+     "pred_speedup_here_gpu_tok_s": 1.091565204704665,
+     "meas_paired": 257,
+     "meas_speedup_here_time": 1.121266018597076,
+     "meas_speedup_here_tok_s": 1.0934553132403042,
+     "meas_speedup_here_gpu_time": 1.1073775141125193,
+     "meas_speedup_here_gpu_tok_s": 1.079911284642522
+    }
+   },
+   "p1_measured_s": 1620.207,
+   "p1_model_s": 1628.2197581572675,
+   "pred_base_here_items": 257,
+   "pred_base_here_s": 3689.9238673267773,
+   "pred_base_here_gpu_s": 972.0213725965754,
+   "pred_base_here_tok_s": 3.7477738016363555,
+   "frozen": {
+    "items": 257,
+    "pred_base_here_s": 3690.0547767081225,
+    "pred_base_here_gpu_s": 972.0561832818092,
+    "pred_base_here_tok_s": 3.74764084459927
+   },
+   "base_here": {
+    "items": 257,
+    "complete": true,
+    "measured_s": 3619.847,
+    "measured_gpu_s": 961.643743,
+    "tok_s": 3.8203272127247363,
+    "pred_s_same_items": 3689.9238673267773,
+    "identical_tokens": 257,
+    "pred_gpu_s_same_items": 972.0213725965754
+   }
+  },
+  "gsm8k500": {
+   "name": "GSM8K-500",
+   "arms": {
+    "rd1": {
+     "items": 500,
+     "rd_here_s": 14182.109,
+     "rd_here_gpu_s": 3835.166031,
+     "rd_here_tok_s": 6.099797991962972,
+     "rd_here_model_s": 14192.433457064695,
+     "proj_rd_p1_s": 6266.298937172476,
+     "p1_base_s": 6763.455,
+     "proj_speedup_p1_time": 1.079338069857844,
+     "proj_speedup_p1_tok_s": 1.0972862367910683,
+     "pred_speedup_here_time": 1.0865347083744195,
+     "pred_speedup_here_tok_s": 1.1046025472371908,
+     "pred_speedup_here_gpu_time": 1.06601090646488,
+     "pred_speedup_here_gpu_tok_s": 1.083737457798689,
+     "meas_paired": 500,
+     "meas_speedup_here_time": 1.075263347644557,
+     "meas_speedup_here_tok_s": 1.093143756572636,
+     "meas_speedup_here_gpu_time": 1.0560262641208191,
+     "meas_speedup_here_gpu_tok_s": 1.0735867821861238
+    },
+    "rd2": {
+     "items": 500,
+     "rd_here_s": 13954.668,
+     "rd_here_gpu_s": 3747.63121,
+     "rd_here_tok_s": 6.179007626695239,
+     "rd_here_model_s": 13998.90108736331,
+     "proj_rd_p1_s": 6181.008274096115,
+     "p1_base_s": 6763.455,
+     "proj_speedup_p1_time": 1.0942316690215173,
+     "proj_speedup_p1_tok_s": 1.1088011927308867,
+     "pred_speedup_here_time": 1.1042436600031782,
+     "pred_speedup_here_tok_s": 1.1189464918081868,
+     "pred_speedup_here_gpu_time": 1.0909101211027714,
+     "pred_speedup_here_gpu_tok_s": 1.1054354189205642,
+     "meas_paired": 500,
+     "meas_speedup_here_time": 1.092788592319072,
+     "meas_speedup_here_tok_s": 1.107338901687616,
+     "meas_speedup_here_gpu_time": 1.0806922637406469,
+     "meas_speedup_here_gpu_tok_s": 1.0950815123841093
+    }
+   },
+   "p1_measured_s": 6763.455,
+   "p1_model_s": 6801.079092780592,
+   "pred_base_here_items": 500,
+   "pred_base_here_s": 15409.353666449231,
+   "pred_base_here_gpu_s": 4088.328817149626,
+   "pred_base_here_tok_s": 5.522165422503924,
+   "frozen": {
+    "items": 500,
+    "pred_base_here_s": 15410.375493795957,
+    "pred_base_here_gpu_s": 4088.5158170350087,
+    "pred_base_here_tok_s": 5.5217992601320764
+   },
+   "base_here": {
+    "items": 500,
+    "complete": true,
+    "measured_s": 15249.502,
+    "measured_gpu_s": 4050.036056,
+    "tok_s": 5.580051073143241,
+    "pred_s_same_items": 15409.353666449231,
+    "identical_tokens": 500,
+    "pred_gpu_s_same_items": 4088.328817149626
+   }
+  }
+ },
+ "frozen": {
+  "frozen_utc": "2026-10-07T18:08:38Z",
+  "note": "this machine's model fit on rd1 + rd2 records only, applied to the Phase 1 base forward lists; written once, before the base pipeline ran here",
+  "sets": {
+   "ifeval541": {
+    "items": 541,
+    "pred_base_here_s": 47973.78652133366,
+    "pred_base_here_gpu_s": 12559.188524879779,
+    "pred_base_here_tok_s": 3.8650274127839546
+   },
+   "math500": {
+    "items": 500,
+    "pred_base_here_s": 36786.83627729557,
+    "pred_base_here_gpu_s": 9777.420546536261,
+    "pred_base_here_tok_s": 7.0606234806962025
+   },
+   "gpqa": {
+    "items": 198,
+    "pred_base_here_s": 23907.434446192012,
+    "pred_base_here_gpu_s": 6291.105418364149,
+    "pred_base_here_tok_s": 4.452004259995082
+   },
+   "aime": {
+    "items": 90,
+    "pred_base_here_s": 11159.077366778707,
+    "pred_base_here_gpu_s": 2954.791522592974,
+    "pred_base_here_tok_s": 6.163143935604175
+   },
+   "humaneval": {
+    "items": 164,
+    "pred_base_here_s": 2701.8991578008554,
+    "pred_base_here_gpu_s": 716.1240760449808,
+    "pred_base_here_tok_s": 6.442135321648046
+   },
+   "mbpp": {
+    "items": 257,
+    "pred_base_here_s": 3690.0547767081225,
+    "pred_base_here_gpu_s": 972.0561832818092,
+    "pred_base_here_tok_s": 3.74764084459927
+   },
+   "gsm8k500": {
+    "items": 500,
+    "pred_base_here_s": 15410.375493795957,
+    "pred_base_here_gpu_s": 4088.5158170350087,
+    "pred_base_here_tok_s": 5.5217992601320764
+   }
+  }
+ }
+}

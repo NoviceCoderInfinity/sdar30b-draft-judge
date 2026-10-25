@@ -1,0 +1,9 @@
+........................................................                 [100%]
+=============================== warnings summary ===============================
+code/tests/test_da_decode.py::test_eos_trimming_and_record_fields[None]
+code/tests/test_da_decode.py::test_eos_trimming_and_record_fields[s8]
+  /workspace/dmge/code/analyze_research_baselines.py:70: RuntimeWarning: invalid value encountered in scalar divide
+    "uniq_experts_per_layer_forward": uniq.sum() / lf.sum(),
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+56 passed, 2 deselected, 2 warnings in 5.40s

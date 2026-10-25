@@ -1,0 +1,142 @@
+Using the latest cached version of the dataset since google-research-datasets/mbpp couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'sanitized' at /workspace/.hf_home/datasets/google-research-datasets___mbpp/sanitized/0.0.0/4bb6404fdc6cacfda99d4ac4205087b89d32030c (last modified on Tue Oct  6 13:03:08 2026).
+[wandb] disabled by ENABLE_WANDB
+[plan] cell mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974 split mbpp shard 1/4: 64 items, 0 done, 64 to do; 0 reference records (mbpp_B32_t95_stock)
+🚨 `store_kv` is part of SDARMoeModel.forward's signature, but not documented. Make sure to add it to the docstring of the function in /workspace/dmge/hf_cache/modules/transformers_modules/JetLM/SDAR-30B-A3B-Chat-b32/c351bbc37d240aa6871f167e8f92d694281b0c22/modeling_sdar_moe.py.
+Loading checkpoint shards:   0%|          | 0/49 [00:00<?, ?it/s]Loading checkpoint shards:   2%|▏         | 1/49 [00:00<00:14,  3.27it/s]Loading checkpoint shards:   4%|▍         | 2/49 [00:00<00:13,  3.48it/s]Loading checkpoint shards:   6%|▌         | 3/49 [00:00<00:12,  3.69it/s]Loading checkpoint shards:   8%|▊         | 4/49 [00:01<00:12,  3.61it/s]Loading checkpoint shards:  10%|█         | 5/49 [00:01<00:12,  3.48it/s]Loading checkpoint shards:  12%|█▏        | 6/49 [00:01<00:13,  3.27it/s]Loading checkpoint shards:  14%|█▍        | 7/49 [00:02<00:13,  3.13it/s]Loading checkpoint shards:  16%|█▋        | 8/49 [00:02<00:13,  3.12it/s]Loading checkpoint shards:  18%|█▊        | 9/49 [00:02<00:12,  3.11it/s]Loading checkpoint shards:  20%|██        | 10/49 [00:03<00:12,  3.09it/s]Loading checkpoint shards:  22%|██▏       | 11/49 [00:03<00:12,  3.05it/s]Loading checkpoint shards:  24%|██▍       | 12/49 [00:03<00:11,  3.12it/s]Loading checkpoint shards:  27%|██▋       | 13/49 [00:04<00:11,  3.09it/s]Loading checkpoint shards:  29%|██▊       | 14/49 [00:04<00:11,  3.16it/s]Loading checkpoint shards:  31%|███       | 15/49 [00:04<00:10,  3.09it/s]Loading checkpoint shards:  33%|███▎      | 16/49 [00:05<00:10,  3.04it/s]Loading checkpoint shards:  35%|███▍      | 17/49 [00:05<00:10,  3.01it/s]Loading checkpoint shards:  37%|███▋      | 18/49 [00:05<00:10,  2.98it/s]Loading checkpoint shards:  39%|███▉      | 19/49 [00:06<00:10,  2.96it/s]Loading checkpoint shards:  41%|████      | 20/49 [00:06<00:09,  2.93it/s]Loading checkpoint shards:  43%|████▎     | 21/49 [00:06<00:09,  2.92it/s]Loading checkpoint shards:  45%|████▍     | 22/49 [00:07<00:09,  2.97it/s]Loading checkpoint shards:  47%|████▋     | 23/49 [00:07<00:08,  2.93it/s]Loading checkpoint shards:  49%|████▉     | 24/49 [00:07<00:08,  2.97it/s]Loading checkpoint shards:  51%|█████     | 25/49 [00:08<00:08,  2.91it/s]Loading checkpoint shards:  53%|█████▎    | 26/49 [00:08<00:07,  3.00it/s]Loading checkpoint shards:  55%|█████▌    | 27/49 [00:08<00:07,  3.10it/s]Loading checkpoint shards:  57%|█████▋    | 28/49 [00:09<00:06,  3.14it/s]Loading checkpoint shards:  59%|█████▉    | 29/49 [00:09<00:06,  3.19it/s]Loading checkpoint shards:  61%|██████    | 30/49 [00:09<00:05,  3.20it/s]Loading checkpoint shards:  63%|██████▎   | 31/49 [00:09<00:05,  3.21it/s]Loading checkpoint shards:  65%|██████▌   | 32/49 [00:10<00:05,  3.20it/s]Loading checkpoint shards:  67%|██████▋   | 33/49 [00:10<00:05,  3.20it/s]Loading checkpoint shards:  69%|██████▉   | 34/49 [00:10<00:04,  3.21it/s]Loading checkpoint shards:  71%|███████▏  | 35/49 [00:11<00:04,  3.34it/s]Loading checkpoint shards:  73%|███████▎  | 36/49 [00:11<00:03,  3.28it/s]Loading checkpoint shards:  76%|███████▌  | 37/49 [00:11<00:03,  3.19it/s]Loading checkpoint shards:  78%|███████▊  | 38/49 [00:12<00:03,  3.17it/s]Loading checkpoint shards:  80%|███████▉  | 39/49 [00:12<00:03,  3.16it/s]Loading checkpoint shards:  82%|████████▏ | 40/49 [00:12<00:02,  3.17it/s]Loading checkpoint shards:  84%|████████▎ | 41/49 [00:13<00:02,  3.15it/s]Loading checkpoint shards:  86%|████████▌ | 42/49 [00:13<00:02,  3.13it/s]Loading checkpoint shards:  88%|████████▊ | 43/49 [00:13<00:01,  3.14it/s]Loading checkpoint shards:  90%|████████▉ | 44/49 [00:14<00:01,  3.28it/s]Loading checkpoint shards:  92%|█████████▏| 45/49 [00:14<00:01,  3.22it/s]Loading checkpoint shards:  94%|█████████▍| 46/49 [00:14<00:00,  3.18it/s]Loading checkpoint shards:  96%|█████████▌| 47/49 [00:14<00:00,  3.11it/s]Loading checkpoint shards:  98%|█████████▊| 48/49 [00:15<00:00,  3.07it/s]Loading checkpoint shards: 100%|██████████| 49/49 [00:15<00:00,  3.35it/s]Loading checkpoint shards: 100%|██████████| 49/49 [00:15<00:00,  3.15it/s]
+[adapter] /workspace/dmge/logs/phase2/ref/c1b_128M/tok_000128000000 hash 35805974cd9db999 (385 tensors, FLAG-GATED: kept un-merged, the draft flag is applied per forward
+🚨 `store_kv` is part of SDARModel.forward's signature, but not documented. Make sure to add it to the docstring of the function in /workspace/dmge/hf_cache/modules/transformers_modules/JetLM/SDAR-1.7B-Chat-b32/2c83c05d84be90a01c72443b2123ebf0376f6fd4/modeling_sdar.py.
+[model] JetLM/SDAR-30B-A3B-Chat-b32 rev c351bbc37d240aa6871f167e8f92d694281b0c22 + drafter JetLM/SDAR-1.7B-Chat-b32 rev 2c83c05d84be90a01c72443b2123ebf0376f6fd4 (s8, judge full) + adapter /workspace/dmge/logs/phase2/ref/c1b_128M/tok_000128000000 (35805974cd9db999) on NVIDIA RTX PRO 6000 Blackwell Server Edition
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  2.55it/s]100%|██████████| 1/1 [00:00<00:00,  2.54it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 1 (1/64) 7.9s moe 12 (judge 10 den 0) drafter 21 blocks 1 pass/blk 10.00 gen 24 acc 0/27 cj 27 agree 0.333 uniq/lf 61.1 tent 24 remask 80 eos True correct 1 | 8s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  2.97it/s]100%|██████████| 1/1 [00:00<00:00,  2.97it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 5 (2/64) 12.4s moe 25 (judge 21 den 0) drafter 51 blocks 3 pass/blk 7.00 gen 47 acc 0/75 cj 75 agree 0.667 uniq/lf 49.1 tent 70 remask 182 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]find_Max_Num() missing 1 required positional argument: 'n'
+100%|██████████| 1/1 [00:00<00:00,  2.58it/s]100%|██████████| 1/1 [00:00<00:00,  2.57it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 9 (3/64) 11.1s moe 20 (judge 16 den 0) drafter 51 blocks 3 pass/blk 5.33 gen 57 acc 0/72 cj 72 agree 0.521 uniq/lf 49.8 tent 37 remask 198 eos True correct 0 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.87it/s]100%|██████████| 1/1 [00:00<00:00,  3.87it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 13 (4/64) 8.7s moe 17 (judge 13 den 0) drafter 36 blocks 3 pass/blk 4.33 gen 42 acc 0/71 cj 71 agree 0.688 uniq/lf 49.6 tent 56 remask 110 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.65it/s]100%|██████████| 1/1 [00:00<00:00,  3.64it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 17 (5/64) 7.6s moe 14 (judge 11 den 0) drafter 22 blocks 2 pass/blk 5.50 gen 39 acc 0/54 cj 54 agree 0.932 uniq/lf 62.6 tent 39 remask 25 eos True correct 1 | 10s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.93it/s]100%|██████████| 1/1 [00:00<00:00,  3.92it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 21 (6/64) 10.0s moe 20 (judge 17 den 0) drafter 36 blocks 2 pass/blk 8.50 gen 35 acc 0/58 cj 58 agree 0.583 uniq/lf 54.8 tent 60 remask 152 eos True correct 1 | 10s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.82it/s]100%|██████████| 1/1 [00:00<00:00,  3.81it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 25 (7/64) 6.2s moe 11 (judge 8 den 0) drafter 23 blocks 2 pass/blk 4.00 gen 42 acc 0/47 cj 47 agree 0.810 uniq/lf 62.0 tent 20 remask 33 eos True correct 1 | 10s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.54it/s]100%|██████████| 1/1 [00:00<00:00,  3.54it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 29 (8/64) 10.5s moe 20 (judge 17 den 0) drafter 30 blocks 2 pass/blk 8.50 gen 33 acc 0/56 cj 56 agree 0.667 uniq/lf 59.9 tent 72 remask 92 eos True correct 1 | 10s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  4.49it/s]100%|██████████| 1/1 [00:00<00:00,  4.49it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 33 (9/64) 9.2s moe 17 (judge 14 den 0) drafter 30 blocks 2 pass/blk 7.00 gen 31 acc 0/33 cj 33 agree 0.641 uniq/lf 60.9 tent 19 remask 155 eos True correct 0 | 10s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  4.00it/s]100%|██████████| 1/1 [00:00<00:00,  3.99it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 37 (10/64) 10.2s moe 19 (judge 16 den 0) drafter 35 blocks 2 pass/blk 8.00 gen 44 acc 0/60 cj 60 agree 0.679 uniq/lf 55.7 tent 62 remask 115 eos True correct 1 | 10s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.95it/s]100%|██████████| 1/1 [00:00<00:00,  3.95it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 41 (11/64) 8.4s moe 16 (judge 13 den 0) drafter 28 blocks 2 pass/blk 6.50 gen 35 acc 0/49 cj 49 agree 0.664 uniq/lf 59.4 tent 32 remask 84 eos True correct 1 | 10s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  4.39it/s]100%|██████████| 1/1 [00:00<00:00,  4.38it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 45 (12/64) 7.6s moe 15 (judge 12 den 0) drafter 22 blocks 2 pass/blk 6.00 gen 37 acc 0/56 cj 56 agree 0.917 uniq/lf 59.0 tent 48 remask 58 eos True correct 1 | 10s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.63it/s]100%|██████████| 1/1 [00:00<00:00,  3.63it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 49 (13/64) 11.5s moe 24 (judge 21 den 0) drafter 42 blocks 2 pass/blk 10.50 gen 41 acc 0/64 cj 64 agree 0.672 uniq/lf 50.6 tent 73 remask 175 eos True correct 1 | 10s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  4.45it/s]100%|██████████| 1/1 [00:00<00:00,  4.44it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 53 (14/64) 11.6s moe 23 (judge 20 den 0) drafter 38 blocks 2 pass/blk 10.00 gen 31 acc 0/56 cj 56 agree 0.578 uniq/lf 55.7 tent 54 remask 149 eos True correct 0 | 10s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  2.91it/s]100%|██████████| 1/1 [00:00<00:00,  2.90it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 57 (15/64) 6.0s moe 11 (judge 8 den 0) drafter 21 blocks 2 pass/blk 4.00 gen 31 acc 0/43 cj 43 agree 0.642 uniq/lf 60.3 tent 25 remask 36 eos True correct 1 | 10s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  2.93it/s]100%|██████████| 1/1 [00:00<00:00,  2.92it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 61 (16/64) 8.7s moe 15 (judge 12 den 0) drafter 28 blocks 2 pass/blk 6.00 gen 22 acc 0/53 cj 53 agree 0.714 uniq/lf 56.8 tent 17 remask 73 eos True correct 1 | 10s/item
+  0%|          | 0/1 [00:00<?, ?it/s]must be real number, not complex
+100%|██████████| 1/1 [00:00<00:00,  4.35it/s]100%|██████████| 1/1 [00:00<00:00,  4.34it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 65 (17/64) 7.8s moe 13 (judge 10 den 0) drafter 26 blocks 2 pass/blk 5.00 gen 30 acc 0/46 cj 46 agree 0.592 uniq/lf 60.9 tent 27 remask 74 eos True correct 0 | 10s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.53it/s]100%|██████████| 1/1 [00:00<00:00,  3.53it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 69 (18/64) 9.6s moe 17 (judge 14 den 0) drafter 31 blocks 2 pass/blk 7.00 gen 49 acc 0/52 cj 52 agree 0.256 uniq/lf 59.1 tent 30 remask 82 eos True correct 1 | 10s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  4.38it/s]100%|██████████| 1/1 [00:00<00:00,  4.37it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 73 (19/64) 8.3s moe 15 (judge 13 den 0) drafter 25 blocks 1 pass/blk 13.00 gen 25 acc 0/29 cj 29 agree 0.379 uniq/lf 58.4 tent 24 remask 112 eos True correct 1 | 10s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  5.02it/s]100%|██████████| 1/1 [00:00<00:00,  5.01it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 77 (20/64) 13.9s moe 28 (judge 24 den 0) drafter 55 blocks 3 pass/blk 8.00 gen 67 acc 0/77 cj 77 agree 0.667 uniq/lf 50.7 tent 97 remask 227 eos True correct 0 | 10s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.60it/s]100%|██████████| 1/1 [00:00<00:00,  3.59it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 81 (21/64) 9.3s moe 18 (judge 15 den 0) drafter 30 blocks 2 pass/blk 7.50 gen 52 acc 0/61 cj 61 agree 0.810 uniq/lf 59.4 tent 47 remask 78 eos True correct 1 | 10s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.56it/s]100%|██████████| 1/1 [00:00<00:00,  3.55it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 85 (22/64) 6.7s moe 14 (judge 11 den 0) drafter 26 blocks 2 pass/blk 5.50 gen 35 acc 0/63 cj 63 agree 0.839 uniq/lf 53.0 tent 33 remask 78 eos True correct 1 | 10s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  4.23it/s]100%|██████████| 1/1 [00:00<00:00,  4.23it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 89 (23/64) 11.4s moe 24 (judge 20 den 0) drafter 49 blocks 3 pass/blk 6.67 gen 52 acc 0/79 cj 79 agree 0.686 uniq/lf 53.4 tent 36 remask 165 eos True correct 1 | 10s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.63it/s]100%|██████████| 1/1 [00:00<00:00,  3.63it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 93 (24/64) 7.6s moe 15 (judge 13 den 0) drafter 29 blocks 1 pass/blk 13.00 gen 30 acc 0/30 cj 30 agree 0.267 uniq/lf 56.2 tent 42 remask 136 eos True correct 1 | 10s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  4.03it/s]100%|██████████| 1/1 [00:00<00:00,  4.02it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 97 (25/64) 34.4s moe 77 (judge 68 den 0) drafter 178 blocks 8 pass/blk 8.50 gen 205 acc 0/231 cj 231 agree 0.445 uniq/lf 45.4 tent 227 remask 803 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  5.21it/s]100%|██████████| 1/1 [00:00<00:00,  5.19it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 101 (26/64) 17.9s moe 38 (judge 34 den 0) drafter 72 blocks 3 pass/blk 11.33 gen 81 acc 0/94 cj 94 agree 0.356 uniq/lf 52.1 tent 94 remask 331 eos True correct 0 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.71it/s]100%|██████████| 1/1 [00:00<00:00,  3.70it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 105 (27/64) 8.3s moe 17 (judge 14 den 0) drafter 32 blocks 2 pass/blk 7.00 gen 35 acc 0/63 cj 63 agree 0.823 uniq/lf 55.3 tent 48 remask 120 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.69it/s]100%|██████████| 1/1 [00:00<00:00,  3.69it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 109 (28/64) 8.1s moe 16 (judge 13 den 0) drafter 30 blocks 2 pass/blk 6.50 gen 36 acc 0/60 cj 60 agree 0.734 uniq/lf 57.8 tent 23 remask 101 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.58it/s]100%|██████████| 1/1 [00:00<00:00,  3.57it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 113 (29/64) 11.3s moe 22 (judge 19 den 0) drafter 39 blocks 2 pass/blk 9.50 gen 39 acc 0/59 cj 59 agree 0.576 uniq/lf 59.2 tent 27 remask 155 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  2.74it/s]100%|██████████| 1/1 [00:00<00:00,  2.73it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 117 (30/64) 6.6s moe 13 (judge 10 den 0) drafter 30 blocks 2 pass/blk 5.00 gen 42 acc 0/43 cj 43 agree 0.409 uniq/lf 56.5 tent 23 remask 95 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]invalid syntax (<string>, line 1)
+100%|██████████| 1/1 [00:00<00:00,  3.40it/s]100%|██████████| 1/1 [00:00<00:00,  3.40it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 121 (31/64) 7.3s moe 13 (judge 11 den 0) drafter 21 blocks 1 pass/blk 11.00 gen 25 acc 0/27 cj 27 agree 0.519 uniq/lf 58.3 tent 30 remask 76 eos True correct 0 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  4.06it/s]100%|██████████| 1/1 [00:00<00:00,  4.05it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 125 (32/64) 8.7s moe 15 (judge 12 den 0) drafter 24 blocks 2 pass/blk 6.00 gen 22 acc 0/40 cj 40 agree 0.750 uniq/lf 64.3 tent 34 remask 47 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  2.76it/s]100%|██████████| 1/1 [00:00<00:00,  2.76it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 129 (33/64) 8.9s moe 16 (judge 13 den 0) drafter 27 blocks 2 pass/blk 6.50 gen 25 acc 0/52 cj 52 agree 0.678 uniq/lf 59.7 tent 19 remask 70 eos True correct 0 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.13it/s]100%|██████████| 1/1 [00:00<00:00,  3.12it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 133 (34/64) 11.9s moe 22 (judge 19 den 0) drafter 37 blocks 2 pass/blk 9.50 gen 50 acc 0/56 cj 56 agree 0.307 uniq/lf 57.5 tent 69 remask 155 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  5.71it/s]100%|██████████| 1/1 [00:00<00:00,  5.69it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 137 (35/64) 14.3s moe 30 (judge 26 den 0) drafter 56 blocks 3 pass/blk 8.67 gen 56 acc 0/74 cj 74 agree 0.521 uniq/lf 51.7 tent 80 remask 214 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.17it/s]100%|██████████| 1/1 [00:00<00:00,  3.17it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 141 (36/64) 9.5s moe 18 (judge 15 den 0) drafter 30 blocks 2 pass/blk 7.50 gen 32 acc 0/37 cj 37 agree 0.672 uniq/lf 61.2 tent 80 remask 117 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.72it/s]100%|██████████| 1/1 [00:00<00:00,  3.72it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 145 (37/64) 13.6s moe 30 (judge 25 den 0) drafter 64 blocks 4 pass/blk 6.25 gen 78 acc 0/100 cj 100 agree 0.617 uniq/lf 49.8 tent 89 remask 236 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.60it/s]100%|██████████| 1/1 [00:00<00:00,  3.60it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 149 (38/64) 7.4s moe 15 (judge 12 den 0) drafter 31 blocks 2 pass/blk 6.00 gen 25 acc 0/36 cj 36 agree 0.703 uniq/lf 55.1 tent 45 remask 143 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.94it/s]100%|██████████| 1/1 [00:00<00:00,  3.93it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 153 (39/64) 13.7s moe 30 (judge 26 den 0) drafter 64 blocks 3 pass/blk 8.67 gen 52 acc 0/71 cj 71 agree 0.729 uniq/lf 48.7 tent 104 remask 283 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.62it/s]100%|██████████| 1/1 [00:00<00:00,  3.61it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 157 (40/64) 13.9s moe 28 (judge 25 den 0) drafter 43 blocks 2 pass/blk 12.50 gen 49 acc 0/61 cj 61 agree 0.685 uniq/lf 53.5 tent 120 remask 187 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.80it/s]100%|██████████| 1/1 [00:00<00:00,  3.79it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 161 (41/64) 13.3s moe 30 (judge 27 den 0) drafter 58 blocks 2 pass/blk 13.50 gen 43 acc 0/64 cj 64 agree 0.422 uniq/lf 48.1 tent 83 remask 296 eos True correct 0 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  6.29it/s]100%|██████████| 1/1 [00:00<00:00,  6.27it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 165 (42/64) 14.2s moe 31 (judge 27 den 0) drafter 65 blocks 3 pass/blk 9.00 gen 57 acc 0/69 cj 69 agree 0.594 uniq/lf 50.2 tent 81 remask 296 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.72it/s]100%|██████████| 1/1 [00:00<00:00,  3.71it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 169 (43/64) 10.6s moe 23 (judge 19 den 0) drafter 45 blocks 3 pass/blk 6.33 gen 45 acc 0/70 cj 70 agree 0.538 uniq/lf 50.9 tent 54 remask 185 eos True correct 0 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.62it/s]100%|██████████| 1/1 [00:00<00:00,  3.61it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 173 (44/64) 12.6s moe 27 (judge 22 den 0) drafter 57 blocks 4 pass/blk 5.50 gen 84 acc 0/113 cj 113 agree 0.599 uniq/lf 51.4 tent 25 remask 168 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.37it/s]100%|██████████| 1/1 [00:00<00:00,  3.37it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 177 (45/64) 15.6s moe 32 (judge 26 den 0) drafter 64 blocks 5 pass/blk 5.20 gen 100 acc 0/129 cj 129 agree 0.656 uniq/lf 49.9 tent 58 remask 205 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  5.45it/s]100%|██████████| 1/1 [00:00<00:00,  5.43it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 181 (46/64) 11.5s moe 24 (judge 20 den 0) drafter 47 blocks 3 pass/blk 6.67 gen 39 acc 0/67 cj 67 agree 0.698 uniq/lf 50.0 tent 70 remask 214 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  4.30it/s]100%|██████████| 1/1 [00:00<00:00,  4.29it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 185 (47/64) 9.4s moe 20 (judge 16 den 0) drafter 43 blocks 3 pass/blk 5.33 gen 37 acc 0/68 cj 68 agree 0.750 uniq/lf 46.9 tent 26 remask 164 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]unmatched ')' (<string>, line 3)
+100%|██████████| 1/1 [00:00<00:00,  3.45it/s]100%|██████████| 1/1 [00:00<00:00,  3.45it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 189 (48/64) 12.6s moe 25 (judge 21 den 0) drafter 53 blocks 3 pass/blk 7.00 gen 64 acc 0/69 cj 69 agree 0.479 uniq/lf 51.5 tent 69 remask 214 eos True correct 0 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  2.30it/s]100%|██████████| 1/1 [00:00<00:00,  2.29it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 193 (49/64) 10.8s moe 23 (judge 20 den 0) drafter 39 blocks 2 pass/blk 10.00 gen 38 acc 0/61 cj 61 agree 0.672 uniq/lf 53.4 tent 65 remask 177 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.93it/s]100%|██████████| 1/1 [00:00<00:00,  3.92it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 197 (50/64) 7.6s moe 16 (judge 12 den 0) drafter 38 blocks 3 pass/blk 4.00 gen 41 acc 0/70 cj 70 agree 0.663 uniq/lf 51.3 tent 44 remask 112 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  6.95it/s]100%|██████████| 1/1 [00:00<00:00,  6.94it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 201 (51/64) 11.7s moe 23 (judge 20 den 0) drafter 35 blocks 2 pass/blk 10.00 gen 41 acc 0/42 cj 42 agree 0.637 uniq/lf 59.6 tent 63 remask 103 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  4.23it/s]100%|██████████| 1/1 [00:00<00:00,  4.22it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 205 (52/64) 6.7s moe 13 (judge 10 den 0) drafter 24 blocks 2 pass/blk 5.00 gen 32 acc 0/56 cj 56 agree 0.693 uniq/lf 55.9 tent 15 remask 62 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.09it/s]100%|██████████| 1/1 [00:00<00:00,  3.08it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 209 (53/64) 12.5s moe 28 (judge 23 den 0) drafter 59 blocks 4 pass/blk 5.75 gen 95 acc 0/100 cj 100 agree 0.781 uniq/lf 48.1 tent 82 remask 174 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.51it/s]100%|██████████| 1/1 [00:00<00:00,  3.50it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 213 (54/64) 6.2s moe 11 (judge 8 den 0) drafter 22 blocks 2 pass/blk 4.00 gen 26 acc 0/47 cj 47 agree 0.777 uniq/lf 66.6 tent 5 remask 40 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.90it/s]100%|██████████| 1/1 [00:00<00:00,  3.90it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 217 (55/64) 8.9s moe 16 (judge 13 den 0) drafter 25 blocks 2 pass/blk 6.50 gen 26 acc 0/47 cj 47 agree 0.733 uniq/lf 65.7 tent 22 remask 47 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  5.43it/s]100%|██████████| 1/1 [00:00<00:00,  5.42it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 221 (56/64) 10.9s moe 22 (judge 19 den 0) drafter 33 blocks 2 pass/blk 9.50 gen 44 acc 0/56 cj 56 agree 0.250 uniq/lf 57.7 tent 71 remask 128 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  2.98it/s]100%|██████████| 1/1 [00:00<00:00,  2.97it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 225 (57/64) 9.3s moe 19 (judge 16 den 0) drafter 30 blocks 2 pass/blk 8.00 gen 37 acc 0/57 cj 57 agree 0.722 uniq/lf 55.8 tent 39 remask 104 eos True correct 0 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  5.74it/s]100%|██████████| 1/1 [00:00<00:00,  5.72it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 229 (58/64) 14.8s moe 30 (judge 26 den 0) drafter 62 blocks 3 pass/blk 8.67 gen 58 acc 0/69 cj 69 agree 0.385 uniq/lf 50.2 tent 91 remask 294 eos True correct 0 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.69it/s]100%|██████████| 1/1 [00:00<00:00,  3.69it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 233 (59/64) 20.6s moe 48 (judge 41 den 0) drafter 94 blocks 6 pass/blk 6.83 gen 132 acc 0/161 cj 161 agree 0.714 uniq/lf 46.4 tent 132 remask 353 eos True correct 0 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  2.96it/s]100%|██████████| 1/1 [00:00<00:00,  2.96it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 237 (60/64) 8.1s moe 15 (judge 12 den 0) drafter 34 blocks 2 pass/blk 6.00 gen 21 acc 0/35 cj 35 agree 0.562 uniq/lf 52.4 tent 31 remask 159 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  5.27it/s]100%|██████████| 1/1 [00:00<00:00,  5.26it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 241 (61/64) 7.0s moe 13 (judge 10 den 0) drafter 24 blocks 2 pass/blk 5.00 gen 38 acc 0/38 cj 38 agree 0.922 uniq/lf 56.1 tent 52 remask 39 eos True correct 0 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.03it/s]100%|██████████| 1/1 [00:00<00:00,  3.02it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 245 (62/64) 8.6s moe 18 (judge 14 den 0) drafter 47 blocks 3 pass/blk 4.67 gen 39 acc 0/70 cj 70 agree 0.667 uniq/lf 46.6 tent 46 remask 175 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  5.47it/s]100%|██████████| 1/1 [00:00<00:00,  5.46it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 249 (63/64) 13.5s moe 26 (judge 23 den 0) drafter 42 blocks 2 pass/blk 11.50 gen 49 acc 0/51 cj 51 agree 0.373 uniq/lf 57.5 tent 60 remask 182 eos True correct 1 | 11s/item
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  3.39it/s]100%|██████████| 1/1 [00:00<00:00,  3.39it/s]
+[mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974/sh1] item 253 (64/64) 9.2s moe 18 (judge 15 den 0) drafter 29 blocks 2 pass/blk 7.50 gen 24 acc 0/54 cj 54 agree 0.682 uniq/lf 57.9 tent 41 remask 98 eos True correct 1 | 11s/item
+SHARD DONE mbpp_B32_t95_dv-s8_full_c95_rd2_ad35805974 shard 1: 64 new items in 11.8 min

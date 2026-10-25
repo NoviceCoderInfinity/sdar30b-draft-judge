@@ -59,6 +59,25 @@ Two OFF-by-default decode-rule variants (every default path is byte-identical wi
   forwards count as judge forwards (n_judge, `full_passes_per_block`), the stock passes after them as
   denoise passes.
 
+  RE-DRAFT BETWEEN JUDGE PASSES (`full_redraft_every=K`, full only; K = 0 is today's rule; phase 3).
+  After every K-th judge pass the [MASK] slots of the block (the ones the judge re-masked) are filled
+  again by the drafter.  The drafter sees ONLY verified tokens: the prompt tail and the judge-committed
+  slots of this block, on top of its prefix cache; every tentative draft slot is hidden as [MASK] in its
+  input, so no draft is ever conditioned on a token the judge has not committed.  Only the drafter's
+  tokens at the [MASK] slots are used; tentative slots keep their draft token.  Drafter steps =
+  ceil(#[MASK] slots / `full_redraft_rate`), at most 8 (the s8 draft's 4 slots per step by default),
+  logged as drafter kind "redraft".  The new tokens become the slots' current draft (the tentative
+  check and q_i compare against it) and are flagged on the next judge pass like every draft token.
+  Only the judge commits, so every token's last step is a judge pass.  Per block the record keeps the
+  re-draft rounds, re-drafted slots, and how many re-drafted tokens equal the judge's argmax at the
+  pass before (the drafter switched to the judge's choice) or the draft the judge had rejected.
+
+  JUDGE DIAGNOSTIC (`judge_diag=True`, full only; changes no decision).  At every judge pass, over the
+  open slots whose next slot holds a real token different from their own: how often the judge's argmax
+  equals that next token (the untrained model's next-token copy), split into flagged (draft) slots and
+  [MASK] slots.  Compare arms against each other, not against zero: an off-by-one draft makes some
+  next-token answers correct.
+
 Draft FLAG (round 2; only with a flag-gated adapter, `MoEMeter(draft_flag=True)` -- see
 `adapter.py`'s module docstring and `run_da_decode.load_adapter_into`): every judge pass is run with
 `adapter`'s per-position context armed at its TENTATIVE DRAFT slots (open and not [MASK]), which
@@ -460,6 +479,16 @@ class DABlock(BlockTrace):
     full_commit_eq_draft: int = 0                 # full: committed slots whose a_i was the draft token
     full_fallback: int = 0                        # full: open slots handed to the stock rule at the pass cap
     full_passes: List[dict] = field(default_factory=list)   # per judge pass {commit, tentative, remask, forced}
+    # -- re-draft between judge passes (full, full_redraft_every K > 0; 0 on every other path) --
+    n_redraft_rounds: int = 0                     # drafter re-draft calls in this block
+    n_redraft_slots: int = 0                      # [MASK] slots re-drafted, summed over rounds
+    n_redraft_eq_judge: int = 0                   # re-drafted tokens equal to the judge's argmax at the pass before
+    n_redraft_eq_old: int = 0                     # re-drafted tokens equal to the draft the judge had rejected
+    # -- judge diagnostic (judge_diag): next-slot copy at open slots ---------
+    copy_flag_hit: int = 0                        # flagged (draft) open slots whose argmax == the next slot's token
+    copy_flag_n: int = 0                          # flagged open slots where that comparison is defined
+    copy_mask_hit: int = 0                        # the same for [MASK] open slots
+    copy_mask_n: int = 0
 
     # -- derived ---------------------------------------------------------
     @property
@@ -506,6 +535,8 @@ class DAResult:
     judge: Optional[str] = None       # halves | blind | None (stock)
     draft_after_pass: int = 0         # blind: stock passes run BEFORE the draft (0 = draft first, the default)
     judge_passes: int = 0             # full: judge passes before the stock hand-off (0 = the unbounded loop)
+    full_redraft_every: int = 0       # full: re-draft the [MASK] slots after every K judge passes (0 = off)
+    judge_diag: bool = False          # full: next-slot copy counters recorded
 
     def generated_ids(self) -> torch.Tensor:
         return self.x[:, self.prompt_length:]
@@ -659,11 +690,30 @@ def full_commit_rule(cur: torch.Tensor, argmax: torch.Tensor, p: torch.Tensor, D
     return new, commit, tentative, remask, forced
 
 
+def copy_diag(bt: DABlock, inp: torch.Tensor, argmax: torch.Tensor, open_: torch.Tensor,
+              flag: torch.Tensor, mask_id: int) -> None:
+    """Next-slot copy at the open slots of one judge pass (adds to `bt`'s copy_* counters).
+
+    A slot counts when the NEXT slot of the block held a real token different from this slot's input;
+    it is a hit when the judge's argmax equals that next token.  Flagged (draft) and [MASK] slots are
+    counted apart.  Changes no decision."""
+    nxt = torch.full_like(inp, -1)
+    nxt[:-1] = inp[1:]
+    cand = open_ & (nxt >= 0) & (nxt != mask_id) & (nxt != inp)
+    hit = cand & (argmax == nxt)
+    f = cand & flag
+    m = cand & (inp == mask_id)
+    bt.copy_flag_n += int(f.sum()); bt.copy_flag_hit += int((hit & f).sum())
+    bt.copy_mask_n += int(m.sum()); bt.copy_mask_hit += int((hit & m).sum())
+
+
 @torch.no_grad()
 def judge_full_block(moe: MoEMeter, cur: torch.Tensor, valid: torch.Tensor, D: torch.Tensor, lo: int,
                      mask_id: int, tau_commit: float, bt: DABlock, max_passes: int = FULL_MAX_PASSES,
                      remask_only: bool = False, kind: str = "judge", tau_override: Optional[float] = None,
-                     tau_pool_cov: float = 0.0, p_draft: Optional[torch.Tensor] = None) -> torch.Tensor:
+                     tau_pool_cov: float = 0.0, p_draft: Optional[torch.Tensor] = None,
+                     redraft_every: int = 0, dr_seq: Optional[SeqCache] = None, redraft_rate: int = 4,
+                     redraft_setting: str = "s8", diag: bool = False) -> torch.Tensor:
     """Run the full judge on block `cur` [bl] until every valid slot is committed (or the cap fires).
 
     The block enters with EVERY valid slot holding the drafter's token -- no masks.  Returns the new
@@ -673,13 +723,23 @@ def judge_full_block(moe: MoEMeter, cur: torch.Tensor, valid: torch.Tensor, D: t
     Each pass is flagged (`MoEMeter.block(..., flag=...)`) with its TENTATIVE DRAFT slots -- open and
     not [MASK], i.e. exactly what a trained state's flag marks: the committed slots, the re-masked
     slots and the prompt tail are unflagged.  With no flag-gated adapter loaded the flag is ignored.
+
+    `redraft_every` = K > 0 (phase 3): after every K-th pass the drafter `dr_seq` re-fills the [MASK]
+    slots from the committed tokens only (tentative slots hidden as [MASK] in its input; their tokens are
+    kept), in ceil(#[MASK] / redraft_rate) steps (max 8); see the module docstring.  `diag` adds the
+    next-slot copy counters.  K = 0 and diag False run exactly the original loop.
     """
     cur = torch.where(valid, D, cur)                       # every open valid slot = the draft, no masks
     committed = torch.zeros_like(valid)
+    Dc = D                                                 # the CURRENT draft per slot (re-drafts replace it)
     # drafter confidence per slot as the 1B corpus stores it (uint8, round(255 p)); read only by an adapter
     # that has a confidence embedding (32M test), ignored by every other adapter
     conf_u8 = None if p_draft is None else torch.nan_to_num(p_draft.float(), nan=0.0).mul(255.0).round() \
         .clamp(0, 255).to(torch.uint8)
+    rde = int(redraft_every)
+    if rde:
+        assert dr_seq is not None, "re-draft needs the drafter's cache"
+        assert int(redraft_rate) >= 1, redraft_rate
     for it in range(int(max_passes)):
         open_ = valid & ~committed
         if not bool(open_.any()):
@@ -688,11 +748,13 @@ def judge_full_block(moe: MoEMeter, cur: torch.Tensor, valid: torch.Tensor, D: t
         conf = None if conf_u8 is None else torch.where(flag, conf_u8, torch.zeros_like(conf_u8))
         logits = moe.block(cur.unsqueeze(0), lo, store_kv=False, kind=kind, flag=flag, conf=conf)
         cov = POOL.coverage() if tau_pool_cov > 0.0 else None   # [bl], aligned with this block's rows
-        r = blind_read(logits, D, open_, mask_id)          # fp32, [MASK] logit suppressed, read at open slots
+        r = blind_read(logits, Dc, open_, mask_id)         # fp32, [MASK] logit suppressed, read at open slots
         del logits
+        if diag:
+            copy_diag(bt, cur, r["argmax"], open_, flag, mask_id)
         bt.n_judge += 1; bt.n_forward += 1
         new, commit, tentative, remask, forced = full_commit_rule(
-            cur, r["argmax"], r["p"], D, open_, tau_commit, mask_id, remask_only, tau_override=tau_override,
+            cur, r["argmax"], r["p"], Dc, open_, tau_commit, mask_id, remask_only, tau_override=tau_override,
             cov=cov, tau_cov=tau_pool_cov)
         cur = new
         committed = committed | commit
@@ -700,9 +762,33 @@ def judge_full_block(moe: MoEMeter, cur: torch.Tensor, valid: torch.Tensor, D: t
         if bt.judge_code is not None:
             bt.judge_code[commit.cpu()] = CODE_FORCED if forced else CODE_COMMIT
         bt.n_tentative += int(tentative.sum()); bt.n_remask += int(remask.sum())
-        bt.full_commit_eq_draft += int((commit & (r["argmax"] == D)).sum())
-        bt.full_passes.append({"commit": int(commit.sum()), "tentative": int(tentative.sum()),
-                               "remask": int(remask.sum()), "forced": bool(forced)})
+        bt.full_commit_eq_draft += int((commit & (r["argmax"] == Dc)).sum())
+        pass_rec = {"commit": int(commit.sum()), "tentative": int(tentative.sum()),
+                    "remask": int(remask.sum()), "forced": bool(forced)}
+        if rde:
+            # RE-DRAFT: fill the [MASK] slots again with the drafter, from verified tokens only
+            n_h = 0
+            if (it + 1) % rde == 0:
+                holes = valid & ~committed & (cur == mask_id)
+                n_h = int(holes.sum())
+                if n_h:
+                    tent = valid & ~committed & (cur != mask_id)
+                    inp = torch.where(tent, torch.full_like(cur, mask_id), cur)   # the drafter never sees a tentative token
+                    steps_h = min(8, -(-n_h // int(redraft_rate)))
+                    d = draft_block(dr_seq, inp, holes, lo, redraft_setting, mask_id,
+                                    static_steps=steps_h, kind="redraft")
+                    newtok = d["tokens"]
+                    bt.n_redraft_rounds += 1; bt.n_redraft_slots += n_h
+                    bt.n_redraft_eq_judge += int((holes & (newtok == r["argmax"])).sum())
+                    bt.n_redraft_eq_old += int((holes & (newtok == Dc)).sum())
+                    bt.n_redraft_fwd += int(d["n_fwd"])
+                    cur = torch.where(holes, newtok, cur)
+                    Dc = torch.where(holes, newtok, Dc)
+                    if conf_u8 is not None:
+                        c_new = torch.nan_to_num(d["p_commit"].float(), nan=0.0).mul(255.0).round().clamp(0, 255).to(torch.uint8)
+                        conf_u8 = torch.where(holes, c_new, conf_u8)
+            pass_rec["redraft"] = n_h
+        bt.full_passes.append(pass_rec)
         if it == 0:
             bt.judge_argmax = r["argmax"].cpu().clone(); bt.judge_p = r["p"].cpu().clone()
             bt.judge_q = r["q"].cpu().clone(); bt.judge_raw_mask_argmax = r["raw_mask_argmax"]
@@ -724,7 +810,8 @@ def da_generate(moe: MoEMeter, dr_seq: Optional[SeqCache], input_ids: torch.Tens
                 judge: str = "halves", tau_draft: float = 0.0, rejudge_redraft: bool = False,
                 full_max_passes: int = FULL_MAX_PASSES, full_remask_only: bool = False,
                 tau_override: Optional[float] = None, draft_after_pass: int = 0, judge_passes: int = 0,
-                tau_pool_cov: float = 0.0,
+                tau_pool_cov: float = 0.0, full_redraft_every: int = 0, full_redraft_rate: int = 4,
+                judge_diag: bool = False,
                 stopping_criteria_idx: Optional[Sequence[int]] = None, temperature: float = 1.0,
                 top_k: int = 1, top_p: float = 1.0, greedy_exact: bool = True,
                 max_new_blocks: Optional[int] = None) -> DAResult:
@@ -754,6 +841,19 @@ def da_generate(moe: MoEMeter, dr_seq: Optional[SeqCache], input_ids: torch.Tens
     # the hybrid is the full judge capped at K passes: after them every uncommitted slot is re-masked
     # and the STOCK loop finishes the block (exactly what `full_max_passes` already does).
     eff_full_passes = min(int(full_max_passes), jp) if jp else int(full_max_passes)
+    # phase 3: re-draft the [MASK] slots between judge passes (0 = off, the original loop)
+    rde = int(full_redraft_every)
+    assert rde >= 0, full_redraft_every
+    if rde and not (full and draft is not None):
+        raise NotImplementedError("full_redraft_every (re-draft between judge passes) is the full judge's variant: "
+                                  "it needs judge='full' and a drafter")
+    if rde and jp:
+        raise NotImplementedError("full_redraft_every is not combined with judge_passes")
+    if rde and SETTINGS[draft]["mode"] != "static":
+        raise NotImplementedError("full_redraft_every needs a static drafter setting (s4 / s8)")
+    assert int(full_redraft_rate) >= 1, full_redraft_rate
+    if judge_diag and not (full and draft is not None):
+        raise NotImplementedError("judge_diag is for the full judge")
     bl = int(block_length)
     assert moe.bl == bl
     steps = bl if denoising_steps is None else int(denoising_steps)
@@ -808,7 +908,9 @@ def da_generate(moe: MoEMeter, dr_seq: Optional[SeqCache], input_ids: torch.Tens
             # 2'. the FULL judge: draft-filled forwards, read at every open slot, until all committed
             cur[0] = judge_full_block(moe, cur[0], valid, D, lo, mask_id, tau_commit, bt,
                                       max_passes=eff_full_passes, remask_only=full_remask_only,
-                                      tau_override=tau_override, tau_pool_cov=tau_pool_cov, p_draft=pD)
+                                      tau_override=tau_override, tau_pool_cov=tau_pool_cov, p_draft=pD,
+                                      redraft_every=rde, dr_seq=dr_seq, redraft_rate=int(full_redraft_rate),
+                                      redraft_setting=draft, diag=bool(judge_diag))
         elif draft is not None and not blind:
             # 2. judge with complementary halves; 3. accept rule (+ progress guarantee)
             j = judge_halves(moe, cur[0], valid, D, lo, mask_id, "judge")
@@ -906,7 +1008,9 @@ def da_generate(moe: MoEMeter, dr_seq: Optional[SeqCache], input_ids: torch.Tens
                     stopped_early=stopped_early, n_forward=len(moe.records), draft=draft,
                     judge=None if draft is None else judge,
                     draft_after_pass=(da_pass if draft is not None else 0),
-                    judge_passes=(jp if draft is not None else 0))
+                    judge_passes=(jp if draft is not None else 0),
+                    full_redraft_every=(rde if draft is not None else 0),
+                    judge_diag=bool(judge_diag and draft is not None))
 
 
 # ---------------------------------------------------------------------------
@@ -998,6 +1102,20 @@ def make_record(res: DAResult, tok, item: dict, prompt_ids: torch.Tensor, moe: M
         "drafter_ms_by_kind": {k: round(v["ms"], 1) for k, v in dr_by_kind.items()},
         "drafter_forwards": dr_recs,
     }
+    # phase 3 fields: written ONLY by a re-draft or judge-diag run, so every other cell's records keep
+    # exactly the fields (and the bytes) they have always had
+    if int(getattr(res, "full_redraft_every", 0) or 0) or bool(getattr(res, "judge_diag", False)):
+        rec.update({
+            "full_redraft_every": int(getattr(res, "full_redraft_every", 0) or 0),
+            "redraft_rounds_per_block": [b.n_redraft_rounds for b in blocks],
+            "redraft_slots_per_block": [b.n_redraft_slots for b in blocks],
+            "redraft_eq_judge_per_block": [b.n_redraft_eq_judge for b in blocks],
+            "redraft_eq_old_per_block": [b.n_redraft_eq_old for b in blocks],
+        })
+    if bool(getattr(res, "judge_diag", False)):
+        rec["judge_diag"] = {
+            "copy_flag": [sum(b.copy_flag_hit for b in blocks), sum(b.copy_flag_n for b in blocks)],
+            "copy_mask": [sum(b.copy_mask_hit for b in blocks), sum(b.copy_mask_n for b in blocks)]}
     if "task_id" in item:
         rec["task_id"] = item["task_id"]
     return rec

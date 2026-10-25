@@ -1,0 +1,19 @@
+2026-10-07T18:09:49Z (23:39 IST) claude3: rd2 gsm8k500 running, chain armed, backups 14/14 ok; cleared stray 'bd' in claude2 input (its 18:03Z page tick did not fire); wrote projection_8gpu.py + frozen base prediction
+2026-10-07T18:21:55Z (23:51 IST) claude3: OK - base ifeval541 started 18:20Z, 8 procs, records flowing; backups 16/16; claude2 idle, on procedure (its page tick fired 18:13Z)
+2026-10-07T18:41:46Z (00:11 IST) claude3: OK - base ifeval541 108/541 (ETA ~01:35 IST), 8 procs, backups 19/19, claude2 idle on procedure; projection refreshed
+2026-10-07T19:01:46Z (00:31 IST) claude3: OK - base ifeval541 211/541 (ETA ~01:35 IST), 8 procs, backups 20/20, claude2 idle
+2026-10-07T19:21:46Z (00:51 IST) claude3: OK - base ifeval541 334/541 (ETA ~01:35 IST), 8 procs, backups 21/21, claude2 idle
+2026-10-07T19:41:44Z (01:11 IST) claude3: OK - base ifeval541 432/541 (ETA ~01:35-01:45 IST, tail shards), 8 procs, backups 23/23, claude2 idle
+2026-10-07T20:01:49Z (01:31 IST) claude3: OK - base ifeval541 522/541, 4/8 shards done (clean), tail shards running; backups 24/24; claude2 idle
+2026-10-07T20:22:03Z (01:52 IST) claude3: OK - base ifeval541 DONE 20:07Z (541/541 token-identical to Phase 1; frozen pred/measured 1.026 time, 1.012 GPU); base math500 96/500 running, 8 procs; backups 26/26; claude2 idle
+2026-10-07T20:41:40Z (02:11 IST) claude3: OK - base math500 229/500 (ETA ~02:55 IST), 8 procs, backups 28/28, claude2 idle
+2026-10-07T21:01:42Z (02:31 IST) claude3: OK - base math500 361/500 (ETA ~02:55 IST), 8 procs, backups 29/29, claude2 idle
+2026-10-07T21:21:40Z (02:51 IST) claude3: OK - base math500 482/500, tail shards (4 procs), backups 30/30, claude2 idle
+2026-10-07T21:41:46Z (03:11 IST) claude3: OK - base math500 DONE 21:32Z; base gpqa 33/198 running, 8 procs; backups 33/33; claude2 idle; projection refreshed
+2026-10-07T22:01:41Z (03:31 IST) claude3: OK - base gpqa 116/198 (ETA ~03:55 IST), 8 procs, backups 34/34, claude2 idle
+2026-10-07T22:21:39Z (03:51 IST) claude3: OK - base gpqa 192/198, tail shards (4 procs), backups 35/35, claude2 idle
+2026-10-07T22:41:45Z (04:11 IST) claude3: OK - base gpqa DONE 22:27Z; base aime 51/90, 8 procs; backups 38/38; claude2 idle; projection refreshed
+2026-10-07T23:01:50Z (04:31 IST) claude3: OK - base aime+humaneval DONE; mbpp 29/257, 8 procs; backups 40/40; claude2 idle; projection refreshed
+2026-10-07T23:21:46Z (04:51 IST) claude3: OK - base mbpp DONE 23:09Z; base gsm8k500 166/500 (ETA ~05:20 IST), 8 procs; backups 43/43; claude2 idle
+2026-10-07T23:42:11Z (05:12 IST) claude3: OK - base gsm8k500 480/500, 4/8 shards done, tail running; backups 45/45; claude2 busy on user-requested page edits (background section, Phase 1/2 links) - on procedure
+2026-10-08T00:01:56Z (05:31 IST) claude3: ALL_DONE 23:49Z - base all 7 complete, 2250/2250 token-identical to Phase 1; final projection written; pushing final backup

@@ -1,0 +1,8 @@
+{
+ "stock_items": 16,
+ "stock_identical": 16,
+ "judge_items": 16,
+ "judge_with_reference": 16,
+ "judge_identical": 16,
+ "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+}

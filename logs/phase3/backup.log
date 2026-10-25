@@ -1,0 +1,115 @@
+[backup] 13:03:28 UTC
+/venv/p2/lib/python3.12/site-packages/huggingface_hub/hf_api.py:9662: UserWarning: Warnings while validating metadata in README.md:
+- empty or missing yaml metadata in repo card
+  warnings.warn(f"Warnings while validating metadata in README.md:\n{message}")
+[backup] Hugging Face: uploaded to datasets/Arushhh/phase3-redraft
+[backup] no results/phase3 yet: GitHub push skipped
+[backup] 13:36:26 UTC
+/venv/p2/lib/python3.12/site-packages/huggingface_hub/hf_api.py:9662: UserWarning: Warnings while validating metadata in README.md:
+- empty or missing yaml metadata in repo card
+  warnings.warn(f"Warnings while validating metadata in README.md:\n{message}")
+[backup] Hugging Face: uploaded to datasets/Arushhh/phase3-redraft
+[backup] GitHub push: To https://github.com/NoviceCoderInfinity/diffusion-moe-general-expert.git
+ ! [rejected]        HEAD -> phase3-redraft (fetch first)
+error: failed to push some refs to 'https://github.com/NoviceCoderInfinity/diffusion-moe-general-expert.git'
+hint: Updates were rejected because the remote contains work that you do not
+hint: have locally. This is usually caused by another repository pushing to
+hint: the same ref. If you want to integrate the remote changes, use
+hint: 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+[backup] gh_backup failed: git push failed (1)
+[backup] 14:02:28 UTC
+/venv/p2/lib/python3.12/site-packages/huggingface_hub/hf_api.py:9662: UserWarning: Warnings while validating metadata in README.md:
+- empty or missing yaml metadata in repo card
+  warnings.warn(f"Warnings while validating metadata in README.md:\n{message}")
+[backup] Hugging Face: uploaded to datasets/Arushhh/phase3-redraft
+[backup] GitHub push: To https://github.com/NoviceCoderInfinity/diffusion-moe-general-expert.git
+   f632a6f..624be9c  HEAD -> phase3-redraft
+[backup] 14:14:04 UTC
+/venv/p2/lib/python3.12/site-packages/huggingface_hub/hf_api.py:9662: UserWarning: Warnings while validating metadata in README.md:
+- empty or missing yaml metadata in repo card
+  warnings.warn(f"Warnings while validating metadata in README.md:\n{message}")
+[backup] Hugging Face: uploaded to datasets/Arushhh/phase3-redraft
+[backup] GitHub push: To https://github.com/NoviceCoderInfinity/diffusion-moe-general-expert.git
+   86be04e..8c61c49  HEAD -> phase3-redraft
+[backup] 14:28:07 UTC
+/venv/p2/lib/python3.12/site-packages/huggingface_hub/hf_api.py:9662: UserWarning: Warnings while validating metadata in README.md:
+- empty or missing yaml metadata in repo card
+  warnings.warn(f"Warnings while validating metadata in README.md:\n{message}")
+[backup] Hugging Face: uploaded to datasets/Arushhh/phase3-redraft
+[backup] GitHub push: To https://github.com/NoviceCoderInfinity/diffusion-moe-general-expert.git
+   71557ef..895f403  HEAD -> phase3-redraft
+[backup] 14:28:13 UTC final
+/venv/p2/lib/python3.12/site-packages/huggingface_hub/hf_api.py:9662: UserWarning: Warnings while validating metadata in README.md:
+- empty or missing yaml metadata in repo card
+  warnings.warn(f"Warnings while validating metadata in README.md:\n{message}")
+[backup] Hugging Face: uploaded to datasets/Arushhh/phase3-redraft
+[backup] GitHub: nothing new to commit
+[backup] GitHub push: Everything up-to-date
+[backup] 14:34:20 UTC
+/venv/p2/lib/python3.12/site-packages/huggingface_hub/hf_api.py:9662: UserWarning: Warnings while validating metadata in README.md:
+- empty or missing yaml metadata in repo card
+  warnings.warn(f"Warnings while validating metadata in README.md:\n{message}")
+[backup] Hugging Face: uploaded to datasets/Arushhh/phase3-redraft
+[backup] GitHub push: To https://github.com/NoviceCoderInfinity/diffusion-moe-general-expert.git
+   f64e59c..29b2bc9  HEAD -> phase3-redraft
+[backup] 14:34:27 UTC
+/venv/p2/lib/python3.12/site-packages/huggingface_hub/hf_api.py:9662: UserWarning: Warnings while validating metadata in README.md:
+- empty or missing yaml metadata in repo card
+  warnings.warn(f"Warnings while validating metadata in README.md:\n{message}")
+[backup] Hugging Face: uploaded to datasets/Arushhh/phase3-redraft
+[backup] GitHub: nothing new to commit
+[backup] GitHub push: Everything up-to-date
+[backup] 14:54:59 UTC
+/venv/p2/lib/python3.12/site-packages/huggingface_hub/hf_api.py:9662: UserWarning: Warnings while validating metadata in README.md:
+- empty or missing yaml metadata in repo card
+  warnings.warn(f"Warnings while validating metadata in README.md:\n{message}")
+It seems you are trying to upload a large folder at once. This might take some time and then fail if the folder is too large. For such cases, it is recommended to upload in smaller batches or to use `HfApi().upload_large_folder(...)`/`hf upload-large-folder` instead. For more details, check out https://huggingface.co/docs/huggingface_hub/main/en/guides/upload#upload-a-large-folder.
+[backup] 14:55:04 UTC
+/venv/p2/lib/python3.12/site-packages/huggingface_hub/hf_api.py:9662: UserWarning: Warnings while validating metadata in README.md:
+- empty or missing yaml metadata in repo card
+  warnings.warn(f"Warnings while validating metadata in README.md:\n{message}")
+It seems you are trying to upload a large folder at once. This might take some time and then fail if the folder is too large. For such cases, it is recommended to upload in smaller batches or to use `HfApi().upload_large_folder(...)`/`hf upload-large-folder` instead. For more details, check out https://huggingface.co/docs/huggingface_hub/main/en/guides/upload#upload-a-large-folder.
+[backup] Hugging Face: uploaded to datasets/Arushhh/phase3-redraft
+[backup] GitHub push: To https://github.com/NoviceCoderInfinity/diffusion-moe-general-expert.git
+   2ccbd29..278d6d6  HEAD -> phase3-redraft
+[backup] 14:55:12 UTC
+/venv/p2/lib/python3.12/site-packages/huggingface_hub/hf_api.py:9662: UserWarning: Warnings while validating metadata in README.md:
+- empty or missing yaml metadata in repo card
+  warnings.warn(f"Warnings while validating metadata in README.md:\n{message}")
+It seems you are trying to upload a large folder at once. This might take some time and then fail if the folder is too large. For such cases, it is recommended to upload in smaller batches or to use `HfApi().upload_large_folder(...)`/`hf upload-large-folder` instead. For more details, check out https://huggingface.co/docs/huggingface_hub/main/en/guides/upload#upload-a-large-folder.
+[backup] Hugging Face: uploaded to datasets/Arushhh/phase3-redraft
+[backup] GitHub: nothing new to commit
+[backup] GitHub push: Everything up-to-date
+[backup] 17:02:23 UTC
+/venv/p2/lib/python3.12/site-packages/huggingface_hub/hf_api.py:9662: UserWarning: Warnings while validating metadata in README.md:
+- empty or missing yaml metadata in repo card
+  warnings.warn(f"Warnings while validating metadata in README.md:\n{message}")
+It seems you are trying to upload a large folder at once. This might take some time and then fail if the folder is too large. For such cases, it is recommended to upload in smaller batches or to use `HfApi().upload_large_folder(...)`/`hf upload-large-folder` instead. For more details, check out https://huggingface.co/docs/huggingface_hub/main/en/guides/upload#upload-a-large-folder.
+[backup] Hugging Face: uploaded to datasets/Arushhh/phase3-redraft
+[backup] GitHub push: To https://github.com/NoviceCoderInfinity/diffusion-moe-general-expert.git
+   5d11279..29c3370  HEAD -> phase3-redraft
+[backup] 18:04:28 UTC
+/venv/p2/lib/python3.12/site-packages/huggingface_hub/hf_api.py:9662: UserWarning: Warnings while validating metadata in README.md:
+- empty or missing yaml metadata in repo card
+  warnings.warn(f"Warnings while validating metadata in README.md:\n{message}")
+It seems you are trying to upload a large folder at once. This might take some time and then fail if the folder is too large. For such cases, it is recommended to upload in smaller batches or to use `HfApi().upload_large_folder(...)`/`hf upload-large-folder` instead. For more details, check out https://huggingface.co/docs/huggingface_hub/main/en/guides/upload#upload-a-large-folder.
+[backup] Hugging Face: uploaded to datasets/Arushhh/phase3-redraft
+[backup] GitHub push: To https://github.com/NoviceCoderInfinity/diffusion-moe-general-expert.git
+   fc0a367..2ebaba7  HEAD -> phase3-redraft
+[backup] 18:04:37 UTC final
+/venv/p2/lib/python3.12/site-packages/huggingface_hub/hf_api.py:9662: UserWarning: Warnings while validating metadata in README.md:
+- empty or missing yaml metadata in repo card
+  warnings.warn(f"Warnings while validating metadata in README.md:\n{message}")
+It seems you are trying to upload a large folder at once. This might take some time and then fail if the folder is too large. For such cases, it is recommended to upload in smaller batches or to use `HfApi().upload_large_folder(...)`/`hf upload-large-folder` instead. For more details, check out https://huggingface.co/docs/huggingface_hub/main/en/guides/upload#upload-a-large-folder.
+[backup] Hugging Face: uploaded to datasets/Arushhh/phase3-redraft
+[backup] GitHub: nothing new to commit
+[backup] GitHub push: Everything up-to-date
+[backup] 18:04:45 UTC final
+/venv/p2/lib/python3.12/site-packages/huggingface_hub/hf_api.py:9662: UserWarning: Warnings while validating metadata in README.md:
+- empty or missing yaml metadata in repo card
+  warnings.warn(f"Warnings while validating metadata in README.md:\n{message}")
+It seems you are trying to upload a large folder at once. This might take some time and then fail if the folder is too large. For such cases, it is recommended to upload in smaller batches or to use `HfApi().upload_large_folder(...)`/`hf upload-large-folder` instead. For more details, check out https://huggingface.co/docs/huggingface_hub/main/en/guides/upload#upload-a-large-folder.
+[backup] Hugging Face: uploaded to datasets/Arushhh/phase3-redraft
+[backup] GitHub: nothing new to commit
+[backup] GitHub push: Everything up-to-date

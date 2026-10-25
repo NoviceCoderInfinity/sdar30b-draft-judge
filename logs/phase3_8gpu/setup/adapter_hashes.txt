@@ -1,0 +1,2 @@
+logs/phase2/ref/c1b_128M/tok_000128000000 35805974cd9db999
+hfdata/weights/c1b_128M/tok_000128000000 35805974cd9db999

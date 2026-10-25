@@ -1,0 +1,20 @@
+{
+ "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+ "cuda_visible_devices": "3",
+ "torch": "2.11.0+cu128",
+ "calls_per_repeat": 20000,
+ "repeats_us": [
+  201.11927170073614,
+  201.10802340786904,
+  200.89643124956638,
+  200.83739935653284,
+  200.76140549499542,
+  200.6432494497858,
+  207.9643651493825
+ ],
+ "median_us": 200.89643124956638,
+ "max_us": 207.9643651493825,
+ "empty_call_us": 0.06272494792938232,
+ "utc": "2026-10-07T07:12:14Z",
+ "function_source": "def copy_diag(bt: DABlock, inp: torch.Tensor, argmax: torch.Tensor, open_: torch.Tensor,\n              flag: torch.Tensor, mask_id: int) -> None:\n    \"\"\"Next-slot copy at the open slots of one judge pass (adds to `bt`'s copy_* counters).\n\n    A slot counts when the NEXT slot of the block held a real token different from this slot's input;\n    it is a hit when the judge's argmax equals that next token.  Flagged (draft) and [MASK] slots are\n    counted apart.  Changes no decision.\"\"\"\n    nxt = torch.full_like(inp, -1)\n    nxt[:-1] = inp[1:]\n    cand = open_ & (nxt >= 0) & (nxt != mask_id) & (nxt != inp)\n    hit = cand & (argmax == nxt)\n    f = cand & flag\n    m = cand & (inp == mask_id)\n    bt.copy_flag_n += int(f.sum()); bt.copy_flag_hit += int((hit & f).sum())\n    bt.copy_mask_n += int(m.sum()); bt.copy_mask_hit += int((hit & m).sum())"
+}

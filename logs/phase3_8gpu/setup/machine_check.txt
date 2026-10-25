@@ -1,0 +1,1496 @@
+Phase 3 re-draft, 8-GPU machine check. Started 2026-10-07T06:32:44Z (UTC)
+Note: model downloads (network/disk only, no GPU) were in progress during this check.
+
+==================================================================
+== (a) nvidia-smi -L
+== 2026-10-07T06:32:44Z
+==================================================================
+GPU 0: NVIDIA RTX PRO 6000 Blackwell Server Edition (UUID: GPU-b0f07a67-6b85-1c60-b2e7-8d5076707c84)
+GPU 1: NVIDIA RTX PRO 6000 Blackwell Server Edition (UUID: GPU-e778b862-8117-e0ee-b6b4-157b01e40993)
+GPU 2: NVIDIA RTX PRO 6000 Blackwell Server Edition (UUID: GPU-87798c8f-0d1b-321f-3791-55e3f965dc96)
+GPU 3: NVIDIA RTX PRO 6000 Blackwell Server Edition (UUID: GPU-2b0fe2fb-a7bb-e9bf-4fd1-10d62a267692)
+GPU 4: NVIDIA RTX PRO 6000 Blackwell Server Edition (UUID: GPU-1deaa295-e84f-9c6e-6d10-b93345e229b9)
+GPU 5: NVIDIA RTX PRO 6000 Blackwell Server Edition (UUID: GPU-70b0fab6-c87f-c3a2-3f5f-f0ce04d7d10a)
+GPU 6: NVIDIA RTX PRO 6000 Blackwell Server Edition (UUID: GPU-11fb8d20-b2a7-3d97-5f04-f47db0a9e28c)
+GPU 7: NVIDIA RTX PRO 6000 Blackwell Server Edition (UUID: GPU-13fd8da2-4b9c-0cf6-c89d-db199340c783)
+GPU count: 8
+Distinct models:       8 NVIDIA RTX PRO 6000 Blackwell Server Edition
+
+==================================================================
+== (b1) vastai show instance (selected non-secret fields only)
+== 2026-10-07T06:32:45Z
+==================================================================
+id: 54594546
+machine_id: 150953
+host_id: 647743
+gpu_name: RTX PRO 6000 S
+num_gpus: 8
+gpu_frac: 1.0
+gpu_totalram: 783096
+gpu_ram: 97887
+cpu_name: Xeon® Gold 6430
+cpu_cores: 128
+cpu_cores_effective: 128.0
+cpu_ram: 1031739
+mem_limit: 1014.2875647999999
+disk_space: 1024.0
+driver_version: 595.84
+cuda_max_good: 13.2
+compute_cap: 1200
+mobo_name: BS56M2C20SA
+pci_gen: 5.0
+gpu_lanes: 16
+pcie_bw: 53.6
+gpu_mem_bw: 1393.6
+bw_nvlink: 0.0
+geolocation: California, US
+verification: verified
+gpu_util: 0.0
+cpu_util: 0.41015625
+cur_state: running
+
+==================================================================
+== (b2) nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv
+== 2026-10-07T06:32:47Z
+==================================================================
+pid, process_name, used_gpu_memory [MiB]
+--- per-GPU memory used / utilization / persistence ---
+index, name, memory.used [MiB], memory.total [MiB], utilization.gpu [%], persistence_mode, pci.bus_id
+0, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB, 0 %, Enabled, 00000000:16:00.0
+1, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB, 0 %, Enabled, 00000000:38:00.0
+2, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB, 0 %, Enabled, 00000000:49:00.0
+3, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB, 0 %, Enabled, 00000000:5A:00.0
+4, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB, 0 %, Enabled, 00000000:98:00.0
+5, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB, 0 %, Enabled, 00000000:B8:00.0
+6, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB, 0 %, Enabled, 00000000:C8:00.0
+7, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB, 0 %, Enabled, 00000000:D8:00.0
+
+==================================================================
+== (b3) nvidia-smi -q | grep -iE 'MIG Mode|Virtualization' (with following lines)
+== 2026-10-07T06:32:48Z
+==================================================================
+    MIG Mode
+        Current                                        : Disabled
+        Pending                                        : Disabled
+--
+    GPU Virtualization Mode
+        Virtualization Mode                            : None
+        Host VGPU Mode                                 : N/A
+        vGPU Heterogeneous Mode                        : N/A
+--
+    MIG Mode
+        Current                                        : Disabled
+        Pending                                        : Disabled
+--
+    GPU Virtualization Mode
+        Virtualization Mode                            : None
+        Host VGPU Mode                                 : N/A
+        vGPU Heterogeneous Mode                        : N/A
+--
+    MIG Mode
+        Current                                        : Disabled
+        Pending                                        : Disabled
+--
+    GPU Virtualization Mode
+        Virtualization Mode                            : None
+        Host VGPU Mode                                 : N/A
+        vGPU Heterogeneous Mode                        : N/A
+--
+    MIG Mode
+        Current                                        : Disabled
+        Pending                                        : Disabled
+--
+    GPU Virtualization Mode
+        Virtualization Mode                            : None
+        Host VGPU Mode                                 : N/A
+        vGPU Heterogeneous Mode                        : N/A
+--
+    MIG Mode
+        Current                                        : Disabled
+        Pending                                        : Disabled
+--
+    GPU Virtualization Mode
+        Virtualization Mode                            : None
+        Host VGPU Mode                                 : N/A
+        vGPU Heterogeneous Mode                        : N/A
+--
+    MIG Mode
+        Current                                        : Disabled
+        Pending                                        : Disabled
+--
+    GPU Virtualization Mode
+        Virtualization Mode                            : None
+        Host VGPU Mode                                 : N/A
+        vGPU Heterogeneous Mode                        : N/A
+--
+    MIG Mode
+        Current                                        : Disabled
+        Pending                                        : Disabled
+--
+    GPU Virtualization Mode
+        Virtualization Mode                            : None
+        Host VGPU Mode                                 : N/A
+        vGPU Heterogeneous Mode                        : N/A
+--
+    MIG Mode
+        Current                                        : Disabled
+        Pending                                        : Disabled
+--
+    GPU Virtualization Mode
+        Virtualization Mode                            : None
+        Host VGPU Mode                                 : N/A
+        vGPU Heterogeneous Mode                        : N/A
+
+==================================================================
+== (b4) CPU: nproc, lscpu, cgroup cpu.max, cpu.stat, cpuset, affinity
+== 2026-10-07T06:32:49Z
+==================================================================
+nproc: 128
+Architecture:                       x86_64
+CPU op-mode(s):                     32-bit, 64-bit
+Address sizes:                      52 bits physical, 57 bits virtual
+Byte Order:                         Little Endian
+CPU(s):                             128
+On-line CPU(s) list:                0-127
+Vendor ID:                          GenuineIntel
+Model name:                         Intel(R) Xeon(R) Gold 6430
+CPU family:                         6
+Model:                              143
+Thread(s) per core:                 2
+Core(s) per socket:                 32
+Socket(s):                          2
+Stepping:                           8
+CPU(s) scaling MHz:                 28%
+CPU max MHz:                        3400.0000
+CPU min MHz:                        800.0000
+BogoMIPS:                           4200.00
+Flags:                              fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cat_l2 cdp_l3 invpcid_single intel_ppin cdp_l2 ssbd mba ibrs ibpb stibp ibrs_enhanced tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid cqm rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local split_lock_detect avx_vnni avx512_bf16 wbnoinvd dtherm ida arat pln pts hwp hwp_act_window hwp_epp hwp_pkg_req avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq la57 rdpid bus_lock_detect cldemote movdiri movdir64b enqcmd fsrm md_clear serialize tsxldtrk pconfig arch_lbr amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+Virtualization:                     VT-x
+L1d cache:                          3 MiB (64 instances)
+L1i cache:                          2 MiB (64 instances)
+L2 cache:                           128 MiB (64 instances)
+L3 cache:                           120 MiB (2 instances)
+NUMA node(s):                       2
+NUMA node0 CPU(s):                  0-31,64-95
+NUMA node1 CPU(s):                  32-63,96-127
+Vulnerability Gather data sampling: Not affected
+Vulnerability Itlb multihit:        Not affected
+Vulnerability L1tf:                 Not affected
+Vulnerability Mds:                  Not affected
+Vulnerability Meltdown:             Not affected
+Vulnerability Mmio stale data:      Not affected
+Vulnerability Retbleed:             Not affected
+Vulnerability Spec rstack overflow: Not affected
+Vulnerability Spec store bypass:    Mitigation; Speculative Store Bypass disabled via prctl and seccomp
+Vulnerability Spectre v1:           Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+Vulnerability Spectre v2:           Mitigation; Enhanced IBRS, IBPB conditional, RSB filling, PBRSB-eIBRS SW sequence
+Vulnerability Srbds:                Not affected
+Vulnerability Tsx async abort:      Not affected
+--- /sys/fs/cgroup/cpu.max ---
+12287999 100000
+--- /sys/fs/cgroup/cpu.stat ---
+usage_usec 461089326
+user_usec 300646614
+system_usec 160442711
+nr_periods 13157
+nr_throttled 0
+throttled_usec 0
+--- /sys/fs/cgroup/cpuset.cpus.effective ---
+0-127
+--- /sys/fs/cgroup/memory.max ---
+1038580973568
+--- affinity of this shell ---
+pid 6786's current affinity mask: ffffffffffffffffffffffffffffffff
+
+==================================================================
+== (b5) uptime / load average (before the 60 s GPU watch)
+== 2026-10-07T06:32:51Z
+==================================================================
+ 06:32:51 up 14 days,  5:35,  0 user,  load average: 1.19, 0.73, 0.68
+1.19 0.73 0.68 3/2654 6845
+
+==================================================================
+== (b6) nvidia-smi dmon -s u -c 60 (60 x 1 s samples while idle)
+== 2026-10-07T06:32:51Z
+==================================================================
+# gpu     sm    mem    enc    dec    jpg    ofa 
+# Idx      %      %      %      %      %      % 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+# gpu     sm    mem    enc    dec    jpg    ofa 
+# Idx      %      %      %      %      %      % 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+# gpu     sm    mem    enc    dec    jpg    ofa 
+# Idx      %      %      %      %      %      % 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+# gpu     sm    mem    enc    dec    jpg    ofa 
+# Idx      %      %      %      %      %      % 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+# gpu     sm    mem    enc    dec    jpg    ofa 
+# Idx      %      %      %      %      %      % 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+# gpu     sm    mem    enc    dec    jpg    ofa 
+# Idx      %      %      %      %      %      % 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+# gpu     sm    mem    enc    dec    jpg    ofa 
+# Idx      %      %      %      %      %      % 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+# gpu     sm    mem    enc    dec    jpg    ofa 
+# Idx      %      %      %      %      %      % 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+# gpu     sm    mem    enc    dec    jpg    ofa 
+# Idx      %      %      %      %      %      % 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+# gpu     sm    mem    enc    dec    jpg    ofa 
+# Idx      %      %      %      %      %      % 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+# gpu     sm    mem    enc    dec    jpg    ofa 
+# Idx      %      %      %      %      %      % 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+    0      0      0      0      0      0      0 
+    1      0      0      0      0      0      0 
+    2      0      0      0      0      0      0 
+    3      0      0      0      0      0      0 
+    4      0      0      0      0      0      0 
+    5      0      0      0      0      0      0 
+    6      0      0      0      0      0      0 
+    7      0      0      0      0      0      0 
+--- uptime after the 60 s watch ---
+ 06:33:51 up 14 days,  5:36,  0 user,  load average: 0.78, 0.70, 0.67
+
+==================================================================
+== (c) nvidia-smi -q -d PERFORMANCE,CLOCK
+== 2026-10-07T06:33:51Z
+==================================================================
+
+==============NVSMI LOG==============
+
+Timestamp                                              : Wed Oct  7 06:33:51 2026
+Driver Version                                         : 595.84
+CUDA Version                                           : 13.2
+
+Attached GPUs                                          : 8
+GPU 00000000:16:00.0
+    Performance State                                  : P8
+    Clocks Event Reasons
+        Idle                                           : Not Active
+        Applications Clocks Setting                    : Not Active
+        SW Power Cap                                   : Not Active
+        HW Slowdown                                    : Not Active
+            HW Thermal Slowdown                        : Not Active
+            HW Power Brake Slowdown                    : Not Active
+        Sync Boost                                     : Not Active
+        SW Thermal Slowdown                            : Not Active
+        Display Clock Setting                          : Not Active
+    Clocks Event Reasons Counters
+        SW Power Capping                               : 8089200276 us
+        Sync Boost                                     : 0 us
+        SW Thermal Slowdown                            : 1754969872 us
+        HW Thermal Slowdown                            : 0 us
+        HW Power Braking                               : 0 us
+    Sparse Operation Mode                              : N/A
+    Clocks
+        Graphics                                       : 180 MHz
+        SM                                             : 180 MHz
+        Memory                                         : 405 MHz
+        Video                                          : 600 MHz
+    Applications Clocks
+        Graphics                                       : Requested functionality has been deprecated
+        Memory                                         : Requested functionality has been deprecated
+    Default Applications Clocks
+        Graphics                                       : Requested functionality has been deprecated
+        Memory                                         : Requested functionality has been deprecated
+    Deferred Clocks
+        Memory                                         : N/A
+    Max Clocks
+        Graphics                                       : 2430 MHz
+        SM                                             : 2430 MHz
+        Memory                                         : 12481 MHz
+        Video                                          : 2107 MHz
+    Max Customer Boost Clocks
+        Graphics                                       : 2430 MHz
+    SM Clock Samples
+        Duration                                       : N/A
+        Number of Samples                              : N/A
+        Max                                            : N/A
+        Min                                            : N/A
+        Avg                                            : N/A
+    Memory Clock Samples
+        Duration                                       : N/A
+        Number of Samples                              : N/A
+        Max                                            : N/A
+        Min                                            : N/A
+        Avg                                            : N/A
+    Clock Policy
+        Auto Boost                                     : N/A
+        Auto Boost Default                             : N/A
+
+GPU 00000000:38:00.0
+    Performance State                                  : P8
+    Clocks Event Reasons
+        Idle                                           : Not Active
+        Applications Clocks Setting                    : Not Active
+        SW Power Cap                                   : Not Active
+        HW Slowdown                                    : Not Active
+            HW Thermal Slowdown                        : Not Active
+            HW Power Brake Slowdown                    : Not Active
+        Sync Boost                                     : Not Active
+        SW Thermal Slowdown                            : Not Active
+        Display Clock Setting                          : Not Active
+    Clocks Event Reasons Counters
+        SW Power Capping                               : 9334819113 us
+        Sync Boost                                     : 0 us
+        SW Thermal Slowdown                            : 1338375083 us
+        HW Thermal Slowdown                            : 0 us
+        HW Power Braking                               : 0 us
+    Sparse Operation Mode                              : N/A
+    Clocks
+        Graphics                                       : 180 MHz
+        SM                                             : 180 MHz
+        Memory                                         : 405 MHz
+        Video                                          : 600 MHz
+    Applications Clocks
+        Graphics                                       : Requested functionality has been deprecated
+        Memory                                         : Requested functionality has been deprecated
+    Default Applications Clocks
+        Graphics                                       : Requested functionality has been deprecated
+        Memory                                         : Requested functionality has been deprecated
+    Deferred Clocks
+        Memory                                         : N/A
+    Max Clocks
+        Graphics                                       : 2430 MHz
+        SM                                             : 2430 MHz
+        Memory                                         : 12481 MHz
+        Video                                          : 2107 MHz
+    Max Customer Boost Clocks
+        Graphics                                       : 2430 MHz
+    SM Clock Samples
+        Duration                                       : N/A
+        Number of Samples                              : N/A
+        Max                                            : N/A
+        Min                                            : N/A
+        Avg                                            : N/A
+    Memory Clock Samples
+        Duration                                       : N/A
+        Number of Samples                              : N/A
+        Max                                            : N/A
+        Min                                            : N/A
+        Avg                                            : N/A
+    Clock Policy
+        Auto Boost                                     : N/A
+        Auto Boost Default                             : N/A
+
+GPU 00000000:49:00.0
+    Performance State                                  : P8
+    Clocks Event Reasons
+        Idle                                           : Not Active
+        Applications Clocks Setting                    : Not Active
+        SW Power Cap                                   : Not Active
+        HW Slowdown                                    : Not Active
+            HW Thermal Slowdown                        : Not Active
+            HW Power Brake Slowdown                    : Not Active
+        Sync Boost                                     : Not Active
+        SW Thermal Slowdown                            : Not Active
+        Display Clock Setting                          : Not Active
+    Clocks Event Reasons Counters
+        SW Power Capping                               : 5935284491 us
+        Sync Boost                                     : 0 us
+        SW Thermal Slowdown                            : 13031007495 us
+        HW Thermal Slowdown                            : 0 us
+        HW Power Braking                               : 0 us
+    Sparse Operation Mode                              : N/A
+    Clocks
+        Graphics                                       : 180 MHz
+        SM                                             : 180 MHz
+        Memory                                         : 405 MHz
+        Video                                          : 600 MHz
+    Applications Clocks
+        Graphics                                       : Requested functionality has been deprecated
+        Memory                                         : Requested functionality has been deprecated
+    Default Applications Clocks
+        Graphics                                       : Requested functionality has been deprecated
+        Memory                                         : Requested functionality has been deprecated
+    Deferred Clocks
+        Memory                                         : N/A
+    Max Clocks
+        Graphics                                       : 2430 MHz
+        SM                                             : 2430 MHz
+        Memory                                         : 12481 MHz
+        Video                                          : 2107 MHz
+    Max Customer Boost Clocks
+        Graphics                                       : 2430 MHz
+    SM Clock Samples
+        Duration                                       : N/A
+        Number of Samples                              : N/A
+        Max                                            : N/A
+        Min                                            : N/A
+        Avg                                            : N/A
+    Memory Clock Samples
+        Duration                                       : N/A
+        Number of Samples                              : N/A
+        Max                                            : N/A
+        Min                                            : N/A
+        Avg                                            : N/A
+    Clock Policy
+        Auto Boost                                     : N/A
+        Auto Boost Default                             : N/A
+
+GPU 00000000:5A:00.0
+    Performance State                                  : P8
+    Clocks Event Reasons
+        Idle                                           : Not Active
+        Applications Clocks Setting                    : Not Active
+        SW Power Cap                                   : Not Active
+        HW Slowdown                                    : Not Active
+            HW Thermal Slowdown                        : Not Active
+            HW Power Brake Slowdown                    : Not Active
+        Sync Boost                                     : Not Active
+        SW Thermal Slowdown                            : Not Active
+        Display Clock Setting                          : Not Active
+    Clocks Event Reasons Counters
+        SW Power Capping                               : 5650736192 us
+        Sync Boost                                     : 0 us
+        SW Thermal Slowdown                            : 14496286965 us
+        HW Thermal Slowdown                            : 0 us
+        HW Power Braking                               : 0 us
+    Sparse Operation Mode                              : N/A
+    Clocks
+        Graphics                                       : 180 MHz
+        SM                                             : 180 MHz
+        Memory                                         : 405 MHz
+        Video                                          : 600 MHz
+    Applications Clocks
+        Graphics                                       : Requested functionality has been deprecated
+        Memory                                         : Requested functionality has been deprecated
+    Default Applications Clocks
+        Graphics                                       : Requested functionality has been deprecated
+        Memory                                         : Requested functionality has been deprecated
+    Deferred Clocks
+        Memory                                         : N/A
+    Max Clocks
+        Graphics                                       : 2430 MHz
+        SM                                             : 2430 MHz
+        Memory                                         : 12481 MHz
+        Video                                          : 2107 MHz
+    Max Customer Boost Clocks
+        Graphics                                       : 2430 MHz
+    SM Clock Samples
+        Duration                                       : N/A
+        Number of Samples                              : N/A
+        Max                                            : N/A
+        Min                                            : N/A
+        Avg                                            : N/A
+    Memory Clock Samples
+        Duration                                       : N/A
+        Number of Samples                              : N/A
+        Max                                            : N/A
+        Min                                            : N/A
+        Avg                                            : N/A
+    Clock Policy
+        Auto Boost                                     : N/A
+        Auto Boost Default                             : N/A
+
+GPU 00000000:98:00.0
+    Performance State                                  : P8
+    Clocks Event Reasons
+        Idle                                           : Not Active
+        Applications Clocks Setting                    : Not Active
+        SW Power Cap                                   : Not Active
+        HW Slowdown                                    : Not Active
+            HW Thermal Slowdown                        : Not Active
+            HW Power Brake Slowdown                    : Not Active
+        Sync Boost                                     : Not Active
+        SW Thermal Slowdown                            : Not Active
+        Display Clock Setting                          : Not Active
+    Clocks Event Reasons Counters
+        SW Power Capping                               : 6255761504 us
+        Sync Boost                                     : 0 us
+        SW Thermal Slowdown                            : 129288101 us
+        HW Thermal Slowdown                            : 0 us
+        HW Power Braking                               : 0 us
+    Sparse Operation Mode                              : N/A
+    Clocks
+        Graphics                                       : 180 MHz
+        SM                                             : 180 MHz
+        Memory                                         : 405 MHz
+        Video                                          : 600 MHz
+    Applications Clocks
+        Graphics                                       : Requested functionality has been deprecated
+        Memory                                         : Requested functionality has been deprecated
+    Default Applications Clocks
+        Graphics                                       : Requested functionality has been deprecated
+        Memory                                         : Requested functionality has been deprecated
+    Deferred Clocks
+        Memory                                         : N/A
+    Max Clocks
+        Graphics                                       : 2430 MHz
+        SM                                             : 2430 MHz
+        Memory                                         : 12481 MHz
+        Video                                          : 2107 MHz
+    Max Customer Boost Clocks
+        Graphics                                       : 2430 MHz
+    SM Clock Samples
+        Duration                                       : N/A
+        Number of Samples                              : N/A
+        Max                                            : N/A
+        Min                                            : N/A
+        Avg                                            : N/A
+    Memory Clock Samples
+        Duration                                       : N/A
+        Number of Samples                              : N/A
+        Max                                            : N/A
+        Min                                            : N/A
+        Avg                                            : N/A
+    Clock Policy
+        Auto Boost                                     : N/A
+        Auto Boost Default                             : N/A
+
+GPU 00000000:B8:00.0
+    Performance State                                  : P8
+    Clocks Event Reasons
+        Idle                                           : Not Active
+        Applications Clocks Setting                    : Not Active
+        SW Power Cap                                   : Not Active
+        HW Slowdown                                    : Not Active
+            HW Thermal Slowdown                        : Not Active
+            HW Power Brake Slowdown                    : Not Active
+        Sync Boost                                     : Not Active
+        SW Thermal Slowdown                            : Not Active
+        Display Clock Setting                          : Not Active
+    Clocks Event Reasons Counters
+        SW Power Capping                               : 5994038042 us
+        Sync Boost                                     : 0 us
+        SW Thermal Slowdown                            : 362626636 us
+        HW Thermal Slowdown                            : 0 us
+        HW Power Braking                               : 0 us
+    Sparse Operation Mode                              : N/A
+    Clocks
+        Graphics                                       : 180 MHz
+        SM                                             : 180 MHz
+        Memory                                         : 405 MHz
+        Video                                          : 600 MHz
+    Applications Clocks
+        Graphics                                       : Requested functionality has been deprecated
+        Memory                                         : Requested functionality has been deprecated
+    Default Applications Clocks
+        Graphics                                       : Requested functionality has been deprecated
+        Memory                                         : Requested functionality has been deprecated
+    Deferred Clocks
+        Memory                                         : N/A
+    Max Clocks
+        Graphics                                       : 2430 MHz
+        SM                                             : 2430 MHz
+        Memory                                         : 12481 MHz
+        Video                                          : 2107 MHz
+    Max Customer Boost Clocks
+        Graphics                                       : 2430 MHz
+    SM Clock Samples
+        Duration                                       : N/A
+        Number of Samples                              : N/A
+        Max                                            : N/A
+        Min                                            : N/A
+        Avg                                            : N/A
+    Memory Clock Samples
+        Duration                                       : N/A
+        Number of Samples                              : N/A
+        Max                                            : N/A
+        Min                                            : N/A
+        Avg                                            : N/A
+    Clock Policy
+        Auto Boost                                     : N/A
+        Auto Boost Default                             : N/A
+
+GPU 00000000:C8:00.0
+    Performance State                                  : P8
+    Clocks Event Reasons
+        Idle                                           : Not Active
+        Applications Clocks Setting                    : Not Active
+        SW Power Cap                                   : Not Active
+        HW Slowdown                                    : Not Active
+            HW Thermal Slowdown                        : Not Active
+            HW Power Brake Slowdown                    : Not Active
+        Sync Boost                                     : Not Active
+        SW Thermal Slowdown                            : Not Active
+        Display Clock Setting                          : Not Active
+    Clocks Event Reasons Counters
+        SW Power Capping                               : 7381501700 us
+        Sync Boost                                     : 0 us
+        SW Thermal Slowdown                            : 593822785 us
+        HW Thermal Slowdown                            : 0 us
+        HW Power Braking                               : 0 us
+    Sparse Operation Mode                              : N/A
+    Clocks
+        Graphics                                       : 180 MHz
+        SM                                             : 180 MHz
+        Memory                                         : 405 MHz
+        Video                                          : 600 MHz
+    Applications Clocks
+        Graphics                                       : Requested functionality has been deprecated
+        Memory                                         : Requested functionality has been deprecated
+    Default Applications Clocks
+        Graphics                                       : Requested functionality has been deprecated
+        Memory                                         : Requested functionality has been deprecated
+    Deferred Clocks
+        Memory                                         : N/A
+    Max Clocks
+        Graphics                                       : 2430 MHz
+        SM                                             : 2430 MHz
+        Memory                                         : 12481 MHz
+        Video                                          : 2107 MHz
+    Max Customer Boost Clocks
+        Graphics                                       : 2430 MHz
+    SM Clock Samples
+        Duration                                       : N/A
+        Number of Samples                              : N/A
+        Max                                            : N/A
+        Min                                            : N/A
+        Avg                                            : N/A
+    Memory Clock Samples
+        Duration                                       : N/A
+        Number of Samples                              : N/A
+        Max                                            : N/A
+        Min                                            : N/A
+        Avg                                            : N/A
+    Clock Policy
+        Auto Boost                                     : N/A
+        Auto Boost Default                             : N/A
+
+GPU 00000000:D8:00.0
+    Performance State                                  : P8
+    Clocks Event Reasons
+        Idle                                           : Not Active
+        Applications Clocks Setting                    : Not Active
+        SW Power Cap                                   : Not Active
+        HW Slowdown                                    : Not Active
+            HW Thermal Slowdown                        : Not Active
+            HW Power Brake Slowdown                    : Not Active
+        Sync Boost                                     : Not Active
+        SW Thermal Slowdown                            : Not Active
+        Display Clock Setting                          : Not Active
+    Clocks Event Reasons Counters
+        SW Power Capping                               : 17782728281 us
+        Sync Boost                                     : 0 us
+        SW Thermal Slowdown                            : 2332952069 us
+        HW Thermal Slowdown                            : 0 us
+        HW Power Braking                               : 0 us
+    Sparse Operation Mode                              : N/A
+    Clocks
+        Graphics                                       : 180 MHz
+        SM                                             : 180 MHz
+        Memory                                         : 405 MHz
+        Video                                          : 600 MHz
+    Applications Clocks
+        Graphics                                       : Requested functionality has been deprecated
+        Memory                                         : Requested functionality has been deprecated
+    Default Applications Clocks
+        Graphics                                       : Requested functionality has been deprecated
+        Memory                                         : Requested functionality has been deprecated
+    Deferred Clocks
+        Memory                                         : N/A
+    Max Clocks
+        Graphics                                       : 2430 MHz
+        SM                                             : 2430 MHz
+        Memory                                         : 12481 MHz
+        Video                                          : 2107 MHz
+    Max Customer Boost Clocks
+        Graphics                                       : 2430 MHz
+    SM Clock Samples
+        Duration                                       : N/A
+        Number of Samples                              : N/A
+        Max                                            : N/A
+        Min                                            : N/A
+        Avg                                            : N/A
+    Memory Clock Samples
+        Duration                                       : N/A
+        Number of Samples                              : N/A
+        Max                                            : N/A
+        Min                                            : N/A
+        Avg                                            : N/A
+    Clock Policy
+        Auto Boost                                     : N/A
+        Auto Boost Default                             : N/A
+
+
+==================================================================
+== (c2) power limits and persistence: nvidia-smi -q -d POWER; persistence query
+== 2026-10-07T06:33:51Z
+==================================================================
+
+==============NVSMI LOG==============
+
+Timestamp                                              : Wed Oct  7 06:33:52 2026
+Driver Version                                         : 595.84
+CUDA Version                                           : 13.2
+
+Attached GPUs                                          : 8
+GPU 00000000:16:00.0
+    GPU Power Readings
+        Average Power Draw                             : 34.97 W
+        Instantaneous Power Draw                       : 35.45 W
+        Current Power Limit                            : 600.00 W
+        Requested Power Limit                          : 600.00 W
+        Default Power Limit                            : 600.00 W
+        Min Power Limit                                : 300.00 W
+        Max Power Limit                                : 600.00 W
+    Power Samples
+        Duration                                       : 118.00 sec
+        Number of Samples                              : 119
+        Max                                            : 36.43 W
+        Min                                            : 34.96 W
+        Avg                                            : 35.62 W
+    GPU Memory Power Readings 
+        Average Power Draw                             : N/A
+        Instantaneous Power Draw                       : N/A
+    Module Power Readings
+        Average Power Draw                             : N/A
+        Instantaneous Power Draw                       : N/A
+        Current Power Limit                            : N/A
+        Requested Power Limit                          : N/A
+        Default Power Limit                            : N/A
+        Min Power Limit                                : N/A
+        Max Power Limit                                : N/A
+    EDPp Multiplier                                    : N/A
+
+GPU 00000000:38:00.0
+    GPU Power Readings
+        Average Power Draw                             : 35.47 W
+        Instantaneous Power Draw                       : 35.47 W
+        Current Power Limit                            : 600.00 W
+        Requested Power Limit                          : 600.00 W
+        Default Power Limit                            : 600.00 W
+        Min Power Limit                                : 300.00 W
+        Max Power Limit                                : 600.00 W
+    Power Samples
+        Duration                                       : 118.00 sec
+        Number of Samples                              : 119
+        Max                                            : 36.55 W
+        Min                                            : 34.96 W
+        Avg                                            : 35.31 W
+    GPU Memory Power Readings 
+        Average Power Draw                             : N/A
+        Instantaneous Power Draw                       : N/A
+    Module Power Readings
+        Average Power Draw                             : N/A
+        Instantaneous Power Draw                       : N/A
+        Current Power Limit                            : N/A
+        Requested Power Limit                          : N/A
+        Default Power Limit                            : N/A
+        Min Power Limit                                : N/A
+        Max Power Limit                                : N/A
+    EDPp Multiplier                                    : N/A
+
+GPU 00000000:49:00.0
+    GPU Power Readings
+        Average Power Draw                             : 34.74 W
+        Instantaneous Power Draw                       : 34.98 W
+        Current Power Limit                            : 600.00 W
+        Requested Power Limit                          : 600.00 W
+        Default Power Limit                            : 600.00 W
+        Min Power Limit                                : 300.00 W
+        Max Power Limit                                : 600.00 W
+    Power Samples
+        Duration                                       : 118.00 sec
+        Number of Samples                              : 119
+        Max                                            : 36.55 W
+        Min                                            : 34.96 W
+        Avg                                            : 35.54 W
+    GPU Memory Power Readings 
+        Average Power Draw                             : N/A
+        Instantaneous Power Draw                       : N/A
+    Module Power Readings
+        Average Power Draw                             : N/A
+        Instantaneous Power Draw                       : N/A
+        Current Power Limit                            : N/A
+        Requested Power Limit                          : N/A
+        Default Power Limit                            : N/A
+        Min Power Limit                                : N/A
+        Max Power Limit                                : N/A
+    EDPp Multiplier                                    : N/A
+
+GPU 00000000:5A:00.0
+    GPU Power Readings
+        Average Power Draw                             : 36.53 W
+        Instantaneous Power Draw                       : 36.53 W
+        Current Power Limit                            : 600.00 W
+        Requested Power Limit                          : 600.00 W
+        Default Power Limit                            : 600.00 W
+        Min Power Limit                                : 300.00 W
+        Max Power Limit                                : 600.00 W
+    Power Samples
+        Duration                                       : 118.00 sec
+        Number of Samples                              : 119
+        Max                                            : 37.53 W
+        Min                                            : 36.53 W
+        Avg                                            : 36.95 W
+    GPU Memory Power Readings 
+        Average Power Draw                             : N/A
+        Instantaneous Power Draw                       : N/A
+    Module Power Readings
+        Average Power Draw                             : N/A
+        Instantaneous Power Draw                       : N/A
+        Current Power Limit                            : N/A
+        Requested Power Limit                          : N/A
+        Default Power Limit                            : N/A
+        Min Power Limit                                : N/A
+        Max Power Limit                                : N/A
+    EDPp Multiplier                                    : N/A
+
+GPU 00000000:98:00.0
+    GPU Power Readings
+        Average Power Draw                             : 33.49 W
+        Instantaneous Power Draw                       : 33.49 W
+        Current Power Limit                            : 600.00 W
+        Requested Power Limit                          : 600.00 W
+        Default Power Limit                            : 600.00 W
+        Min Power Limit                                : 300.00 W
+        Max Power Limit                                : 600.00 W
+    Power Samples
+        Duration                                       : 118.00 sec
+        Number of Samples                              : 119
+        Max                                            : 38.96 W
+        Min                                            : 33.96 W
+        Avg                                            : 34.48 W
+    GPU Memory Power Readings 
+        Average Power Draw                             : N/A
+        Instantaneous Power Draw                       : N/A
+    Module Power Readings
+        Average Power Draw                             : N/A
+        Instantaneous Power Draw                       : N/A
+        Current Power Limit                            : N/A
+        Requested Power Limit                          : N/A
+        Default Power Limit                            : N/A
+        Min Power Limit                                : N/A
+        Max Power Limit                                : N/A
+    EDPp Multiplier                                    : N/A
+
+GPU 00000000:B8:00.0
+    GPU Power Readings
+        Average Power Draw                             : 34.06 W
+        Instantaneous Power Draw                       : 34.06 W
+        Current Power Limit                            : 600.00 W
+        Requested Power Limit                          : 600.00 W
+        Default Power Limit                            : 600.00 W
+        Min Power Limit                                : 300.00 W
+        Max Power Limit                                : 600.00 W
+    Power Samples
+        Duration                                       : 118.00 sec
+        Number of Samples                              : 119
+        Max                                            : 36.03 W
+        Min                                            : 34.55 W
+        Avg                                            : 35.19 W
+    GPU Memory Power Readings 
+        Average Power Draw                             : N/A
+        Instantaneous Power Draw                       : N/A
+    Module Power Readings
+        Average Power Draw                             : N/A
+        Instantaneous Power Draw                       : N/A
+        Current Power Limit                            : N/A
+        Requested Power Limit                          : N/A
+        Default Power Limit                            : N/A
+        Min Power Limit                                : N/A
+        Max Power Limit                                : N/A
+    EDPp Multiplier                                    : N/A
+
+GPU 00000000:C8:00.0
+    GPU Power Readings
+        Average Power Draw                             : 33.48 W
+        Instantaneous Power Draw                       : 33.48 W
+        Current Power Limit                            : 600.00 W
+        Requested Power Limit                          : 600.00 W
+        Default Power Limit                            : 600.00 W
+        Min Power Limit                                : 300.00 W
+        Max Power Limit                                : 600.00 W
+    Power Samples
+        Duration                                       : 118.00 sec
+        Number of Samples                              : 119
+        Max                                            : 35.53 W
+        Min                                            : 33.56 W
+        Avg                                            : 34.28 W
+    GPU Memory Power Readings 
+        Average Power Draw                             : N/A
+        Instantaneous Power Draw                       : N/A
+    Module Power Readings
+        Average Power Draw                             : N/A
+        Instantaneous Power Draw                       : N/A
+        Current Power Limit                            : N/A
+        Requested Power Limit                          : N/A
+        Default Power Limit                            : N/A
+        Min Power Limit                                : N/A
+        Max Power Limit                                : N/A
+    EDPp Multiplier                                    : N/A
+
+GPU 00000000:D8:00.0
+    GPU Power Readings
+        Average Power Draw                             : 34.94 W
+        Instantaneous Power Draw                       : 34.94 W
+        Current Power Limit                            : 600.00 W
+        Requested Power Limit                          : 600.00 W
+        Default Power Limit                            : 600.00 W
+        Min Power Limit                                : 300.00 W
+        Max Power Limit                                : 600.00 W
+    Power Samples
+        Duration                                       : 118.00 sec
+        Number of Samples                              : 119
+        Max                                            : 36.01 W
+        Min                                            : 34.92 W
+        Avg                                            : 35.29 W
+    GPU Memory Power Readings 
+        Average Power Draw                             : N/A
+        Instantaneous Power Draw                       : N/A
+    Module Power Readings
+        Average Power Draw                             : N/A
+        Instantaneous Power Draw                       : N/A
+        Current Power Limit                            : N/A
+        Requested Power Limit                          : N/A
+        Default Power Limit                            : N/A
+        Min Power Limit                                : N/A
+        Max Power Limit                                : N/A
+    EDPp Multiplier                                    : N/A
+
+index, persistence_mode, power.limit [W], power.default_limit [W], power.max_limit [W], power.draw [W], clocks.current.sm [MHz], clocks.current.memory [MHz], clocks.max.sm [MHz], clocks.max.memory [MHz], temperature.gpu, pstate
+0, Enabled, 600.00 W, 600.00 W, 600.00 W, 34.97 W, 180 MHz, 405 MHz, 2430 MHz, 12481 MHz, 29, P8
+1, Enabled, 600.00 W, 600.00 W, 600.00 W, 35.47 W, 180 MHz, 405 MHz, 2430 MHz, 12481 MHz, 29, P8
+2, Enabled, 600.00 W, 600.00 W, 600.00 W, 34.98 W, 180 MHz, 405 MHz, 2430 MHz, 12481 MHz, 31, P8
+3, Enabled, 600.00 W, 600.00 W, 600.00 W, 36.53 W, 180 MHz, 405 MHz, 2430 MHz, 12481 MHz, 30, P8
+4, Enabled, 600.00 W, 600.00 W, 600.00 W, 33.49 W, 180 MHz, 405 MHz, 2430 MHz, 12481 MHz, 28, P8
+5, Enabled, 600.00 W, 600.00 W, 600.00 W, 35.55 W, 180 MHz, 405 MHz, 2430 MHz, 12481 MHz, 28, P8
+6, Enabled, 600.00 W, 600.00 W, 600.00 W, 33.48 W, 180 MHz, 405 MHz, 2430 MHz, 12481 MHz, 27, P8
+7, Enabled, 600.00 W, 600.00 W, 600.00 W, 34.94 W, 180 MHz, 405 MHz, 2430 MHz, 12481 MHz, 28, P8
+
+==================================================================
+== (c3) enable persistence mode (nvidia-smi -pm 1)
+== 2026-10-07T06:33:52Z
+==================================================================
+Persistence mode is already Enabled for GPU 00000000:16:00.0.
+Persistence mode is already Enabled for GPU 00000000:38:00.0.
+Persistence mode is already Enabled for GPU 00000000:49:00.0.
+Persistence mode is already Enabled for GPU 00000000:5A:00.0.
+Persistence mode is already Enabled for GPU 00000000:98:00.0.
+Persistence mode is already Enabled for GPU 00000000:B8:00.0.
+Persistence mode is already Enabled for GPU 00000000:C8:00.0.
+Persistence mode is already Enabled for GPU 00000000:D8:00.0.
+All done.
+index, persistence_mode
+0, Enabled
+1, Enabled
+2, Enabled
+3, Enabled
+4, Enabled
+5, Enabled
+6, Enabled
+7, Enabled
+
+==================================================================
+== (d) driver / CUDA / torch / transformers versions
+== 2026-10-07T06:33:52Z
+==================================================================
+Wed Oct  7 06:33:52 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 595.84                 Driver Version: 595.84         CUDA Version: 13.2     |
++-----------------------------------------+------------------------+----------------------+
+Cuda compilation tools, release 12.8, V12.8.93
+Build cuda_12.8.r12.8/compiler.35583870_0
+python 3.12.14 Linux-5.15.0-94-generic-x86_64-with-glibc2.39
+torch import error: No module named 'torch'
+transformers import error: No module named 'transformers'
+accelerate not installed
+peft not installed
+numpy not installed
+safetensors not installed
+tokenizers not installed
+huggingface_hub 2.1.1
+flash_attn not installed
+
+==================================================================
+== (d2) GPU topology: nvidia-smi topo -m
+== 2026-10-07T06:33:52Z
+==================================================================
+	[4mGPU0	GPU1	GPU2	GPU3	GPU4	GPU5	GPU6	GPU7	NIC0	NIC1	CPU Affinity	NUMA Affinity	GPU NUMA ID[0m
+GPU0	 X 	NODE	NODE	NODE	SYS	SYS	SYS	SYS	NODE	NODE	0-31,64-95	0		N/A
+GPU1	NODE	 X 	NODE	NODE	SYS	SYS	SYS	SYS	NODE	NODE	0-31,64-95	0		N/A
+GPU2	NODE	NODE	 X 	NODE	SYS	SYS	SYS	SYS	NODE	NODE	0-31,64-95	0		N/A
+GPU3	NODE	NODE	NODE	 X 	SYS	SYS	SYS	SYS	NODE	NODE	0-31,64-95	0		N/A
+GPU4	SYS	SYS	SYS	SYS	 X 	NODE	NODE	NODE	SYS	SYS	32-63,96-127	1		N/A
+GPU5	SYS	SYS	SYS	SYS	NODE	 X 	NODE	NODE	SYS	SYS	32-63,96-127	1		N/A
+GPU6	SYS	SYS	SYS	SYS	NODE	NODE	 X 	NODE	SYS	SYS	32-63,96-127	1		N/A
+GPU7	SYS	SYS	SYS	SYS	NODE	NODE	NODE	 X 	SYS	SYS	32-63,96-127	1		N/A
+NIC0	NODE	NODE	NODE	NODE	SYS	SYS	SYS	SYS	 X 	PIX				
+NIC1	NODE	NODE	NODE	NODE	SYS	SYS	SYS	SYS	PIX	 X 				
+
+Legend:
+
+  X    = Self
+  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)
+  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node
+  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)
+  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)
+  PIX  = Connection traversing at most a single PCIe bridge
+  NV#  = Connection traversing a bonded set of # NVLinks
+
+NIC Legend:
+
+  NIC0: mlx5_0
+  NIC1: mlx5_1
+
+
+Finished 2026-10-07T06:33:53Z (UTC)

@@ -1,0 +1,506 @@
+{
+ "humaneval": {
+  "stock": {
+   "n": 164,
+   "acc": 78.04878,
+   "exp_tok": 982.3371,
+   "drafter_fwd_tok": 0.0,
+   "drafter_cost_tok": 0.0,
+   "charged_tok": 982.3371,
+   "drafter_ms_tok": 0.0,
+   "ms_tok": 172.523859,
+   "passes_blk": 8.255639,
+   "kept": null
+  },
+  "S0_nopool": {
+   "n": 164,
+   "acc": 74.390244,
+   "exp_tok": 739.193037,
+   "drafter_fwd_tok": 0.359416,
+   "drafter_cost_tok": 131.057557,
+   "charged_tok": 870.250594,
+   "drafter_ms_tok": 3.398656,
+   "ms_tok": 68.522578,
+   "passes_blk": 5.91474,
+   "kept": 70.371543,
+   "sp_judge": 1.328932,
+   "sp_full": 1.128798,
+   "sp_drafter_compute": 1.0,
+   "sp_drafter_time": 1.0
+  },
+  "F2_nopool": {
+   "n": 164,
+   "acc": 76.219512,
+   "exp_tok": 712.194457,
+   "drafter_fwd_tok": 0.311947,
+   "drafter_cost_tok": 113.748501,
+   "charged_tok": 825.942959,
+   "drafter_ms_tok": 3.644298,
+   "ms_tok": 80.810587,
+   "passes_blk": 5.575887,
+   "kept": 53.702311,
+   "sp_judge": 1.37931,
+   "sp_full": 1.189352,
+   "sp_drafter_compute": 1.15217,
+   "sp_drafter_time": 0.932595
+  },
+  "F2_nopool_delta": [
+   1.829268,
+   -3.658537,
+   7.926829
+  ],
+  "S1_nopool": {
+   "n": 164,
+   "acc": 78.04878,
+   "exp_tok": 715.63422,
+   "drafter_fwd_tok": 0.368905,
+   "drafter_cost_tok": 46.600039,
+   "charged_tok": 762.234259,
+   "drafter_ms_tok": 4.361615,
+   "ms_tok": 82.182492,
+   "passes_blk": 5.430931,
+   "kept": 43.963089,
+   "sp_judge": 1.37268,
+   "sp_full": 1.28876,
+   "sp_drafter_compute": 2.812392,
+   "sp_drafter_time": 0.77922
+  },
+  "S1_nopool_delta": [
+   3.658537,
+   -1.829268,
+   9.756098
+  ]
+ },
+ "mbpp": {
+  "stock": {
+   "n": 257,
+   "acc": 65.36965,
+   "exp_tok": 1713.958362,
+   "drafter_fwd_tok": 0.0,
+   "drafter_cost_tok": 0.0,
+   "charged_tok": 1713.958362,
+   "drafter_ms_tok": 0.0,
+   "ms_tok": 295.619538,
+   "passes_blk": 11.925484,
+   "kept": null
+  },
+  "S0_nopool": {
+   "n": 257,
+   "acc": 66.14786,
+   "exp_tok": 1285.367778,
+   "drafter_fwd_tok": 0.44291,
+   "drafter_cost_tok": 161.502639,
+   "charged_tok": 1446.870417,
+   "drafter_ms_tok": 4.183527,
+   "ms_tok": 117.160098,
+   "passes_blk": 8.75,
+   "kept": 59.378412,
+   "sp_judge": 1.333438,
+   "sp_full": 1.184597,
+   "sp_drafter_compute": 1.0,
+   "sp_drafter_time": 1.0
+  },
+  "F2_nopool": {
+   "n": 257,
+   "acc": 67.315175,
+   "exp_tok": 1331.15725,
+   "drafter_fwd_tok": 0.373115,
+   "drafter_cost_tok": 136.0528,
+   "charged_tok": 1467.210049,
+   "drafter_ms_tok": 4.271735,
+   "ms_tok": 148.061998,
+   "passes_blk": 9.252149,
+   "kept": 32.81898,
+   "sp_judge": 1.28757,
+   "sp_full": 1.168175,
+   "sp_drafter_compute": 1.187059,
+   "sp_drafter_time": 0.979351
+  },
+  "F2_nopool_delta": [
+   1.167315,
+   -3.891051,
+   5.836576
+  ],
+  "S1_nopool": {
+   "n": 257,
+   "acc": 68.48249,
+   "exp_tok": 1382.924226,
+   "drafter_fwd_tok": 0.44561,
+   "drafter_cost_tok": 56.289481,
+   "charged_tok": 1439.213706,
+   "drafter_ms_tok": 5.319417,
+   "ms_tok": 155.43337,
+   "passes_blk": 9.431918,
+   "kept": 15.808255,
+   "sp_judge": 1.239373,
+   "sp_full": 1.190899,
+   "sp_drafter_compute": 2.869144,
+   "sp_drafter_time": 0.786463
+  },
+  "S1_nopool_delta": [
+   2.33463,
+   -3.501946,
+   7.782101
+  ]
+ },
+ "gsm8k500": {
+  "stock": {
+   "n": 500,
+   "acc": 90.2,
+   "exp_tok": 1164.172294,
+   "drafter_fwd_tok": 0.0,
+   "drafter_cost_tok": 0.0,
+   "charged_tok": 1164.172294,
+   "drafter_ms_tok": 0.0,
+   "ms_tok": 197.611041,
+   "passes_blk": 10.056057,
+   "kept": null
+  },
+  "S0_nopool": {
+   "n": 500,
+   "acc": 91.6,
+   "exp_tok": 888.522405,
+   "drafter_fwd_tok": 0.332107,
+   "drafter_cost_tok": 121.099578,
+   "charged_tok": 1009.621983,
+   "drafter_ms_tok": 3.066903,
+   "ms_tok": 79.483095,
+   "passes_blk": 7.12241,
+   "kept": 51.01781,
+   "sp_judge": 1.310234,
+   "sp_full": 1.153077,
+   "sp_drafter_compute": 1.0,
+   "sp_drafter_time": 1.0
+  },
+  "F2_nopool": {
+   "n": 500,
+   "acc": 91.0,
+   "exp_tok": 976.260319,
+   "drafter_fwd_tok": 0.288608,
+   "drafter_cost_tok": 105.237927,
+   "charged_tok": 1081.498247,
+   "drafter_ms_tok": 3.289144,
+   "ms_tok": 107.050443,
+   "passes_blk": 8.043451,
+   "kept": 28.555003,
+   "sp_judge": 1.192481,
+   "sp_full": 1.076444,
+   "sp_drafter_compute": 1.150722,
+   "sp_drafter_time": 0.932432
+  },
+  "F2_nopool_delta": [
+   -0.6,
+   -2.2,
+   0.8
+  ],
+  "S1_nopool": {
+   "n": 500,
+   "acc": 91.6,
+   "exp_tok": 942.175649,
+   "drafter_fwd_tok": 0.332706,
+   "drafter_cost_tok": 42.027485,
+   "charged_tok": 984.203134,
+   "drafter_ms_tok": 3.930838,
+   "ms_tok": 104.506106,
+   "passes_blk": 7.618112,
+   "kept": 28.663967,
+   "sp_judge": 1.235621,
+   "sp_full": 1.182858,
+   "sp_drafter_compute": 2.881438,
+   "sp_drafter_time": 0.780216
+  },
+  "S1_nopool_delta": [
+   0.0,
+   -1.4,
+   1.4
+  ]
+ },
+ "ifeval541": {
+  "stock": {
+   "n": 541,
+   "acc": 52.680222,
+   "exp_tok": 1576.549371,
+   "drafter_fwd_tok": 0.0,
+   "drafter_cost_tok": 0.0,
+   "charged_tok": 1576.549371,
+   "drafter_ms_tok": 0.0,
+   "ms_tok": 140.321879,
+   "passes_blk": 20.228924,
+   "kept": null
+  },
+  "S0_nopool": {
+   "n": 541,
+   "acc": 51.016636,
+   "exp_tok": 1229.87003,
+   "drafter_fwd_tok": 0.301251,
+   "drafter_cost_tok": 109.848242,
+   "charged_tok": 1339.718273,
+   "drafter_ms_tok": 2.818655,
+   "ms_tok": 111.976249,
+   "passes_blk": 15.565624,
+   "kept": 45.894019,
+   "sp_judge": 1.281883,
+   "sp_full": 1.176777,
+   "sp_drafter_compute": 1.0,
+   "sp_drafter_time": 1.0
+  },
+  "F2_nopool": {
+   "n": 541,
+   "acc": 49.907579,
+   "exp_tok": 1220.15963,
+   "drafter_fwd_tok": 0.265259,
+   "drafter_cost_tok": 96.724135,
+   "charged_tok": 1316.883765,
+   "drafter_ms_tok": 3.551461,
+   "ms_tok": 137.465454,
+   "passes_blk": 15.524613,
+   "kept": 41.769324,
+   "sp_judge": 1.292085,
+   "sp_full": 1.197182,
+   "sp_drafter_compute": 1.135686,
+   "sp_drafter_time": 0.793661
+  },
+  "F2_nopool_delta": [
+   -1.109057,
+   -4.621072,
+   2.5878
+  ],
+  "S1_nopool": {
+   "n": 541,
+   "acc": 51.386322,
+   "exp_tok": 1323.915937,
+   "drafter_fwd_tok": 0.308369,
+   "drafter_cost_tok": 38.953151,
+   "charged_tok": 1362.869088,
+   "drafter_ms_tok": 3.654123,
+   "ms_tok": 149.915346,
+   "passes_blk": 16.480602,
+   "kept": 35.899908,
+   "sp_judge": 1.190823,
+   "sp_full": 1.156787,
+   "sp_drafter_compute": 2.820009,
+   "sp_drafter_time": 0.771363
+  },
+  "S1_nopool_delta": [
+   0.369686,
+   -3.142329,
+   3.881701
+  ]
+ },
+ "math500": {
+  "stock": {
+   "n": 500,
+   "acc": 72.4,
+   "exp_tok": 853.544547,
+   "drafter_fwd_tok": 0.0,
+   "drafter_cost_tok": 0.0,
+   "charged_tok": 853.544547,
+   "drafter_ms_tok": 0.0,
+   "ms_tok": 150.459437,
+   "passes_blk": 8.524915,
+   "kept": null
+  },
+  "S0_nopool": {
+   "n": 500,
+   "acc": 71.6,
+   "exp_tok": 687.64167,
+   "drafter_fwd_tok": 0.296911,
+   "drafter_cost_tok": 108.26553,
+   "charged_tok": 795.907199,
+   "drafter_ms_tok": 2.828381,
+   "ms_tok": 63.577482,
+   "passes_blk": 6.381398,
+   "kept": 62.385204,
+   "sp_judge": 1.241264,
+   "sp_full": 1.072417,
+   "sp_drafter_compute": 1.0,
+   "sp_drafter_time": 1.0
+  },
+  "F2_nopool": {
+   "n": 500,
+   "acc": 69.8,
+   "exp_tok": 754.717004,
+   "drafter_fwd_tok": 0.261738,
+   "drafter_cost_tok": 95.44013,
+   "charged_tok": 850.157134,
+   "drafter_ms_tok": 3.651991,
+   "ms_tok": 84.120259,
+   "passes_blk": 7.1736,
+   "kept": 33.894887,
+   "sp_judge": 1.130946,
+   "sp_full": 1.003984,
+   "sp_drafter_compute": 1.134382,
+   "sp_drafter_time": 0.774476
+  },
+  "F2_nopool_delta": [
+   -1.8,
+   -5.0,
+   1.4
+  ],
+  "S1_nopool": {
+   "n": 500,
+   "acc": 71.2,
+   "exp_tok": 728.846835,
+   "drafter_fwd_tok": 0.298289,
+   "drafter_cost_tok": 37.679923,
+   "charged_tok": 766.526758,
+   "drafter_ms_tok": 3.528569,
+   "ms_tok": 81.604898,
+   "passes_blk": 6.822254,
+   "kept": 39.918357,
+   "sp_judge": 1.171089,
+   "sp_full": 1.113522,
+   "sp_drafter_compute": 2.873295,
+   "sp_drafter_time": 0.801566
+  },
+  "S1_nopool_delta": [
+   -0.4,
+   -3.2,
+   2.6
+  ]
+ },
+ "gpqa": {
+  "stock": {
+   "n": 198,
+   "acc": 37.373737,
+   "exp_tok": 1381.110013,
+   "drafter_fwd_tok": 0.0,
+   "drafter_cost_tok": 0.0,
+   "charged_tok": 1381.110013,
+   "drafter_ms_tok": 0.0,
+   "ms_tok": 245.829325,
+   "passes_blk": 16.071468,
+   "kept": null
+  },
+  "S0_nopool": {
+   "n": 198,
+   "acc": 36.868687,
+   "exp_tok": 1090.343192,
+   "drafter_fwd_tok": 0.296018,
+   "drafter_cost_tok": 107.9401,
+   "charged_tok": 1198.283292,
+   "drafter_ms_tok": 2.844507,
+   "ms_tok": 100.035768,
+   "passes_blk": 12.003431,
+   "kept": 43.427715,
+   "sp_judge": 1.266675,
+   "sp_full": 1.152574,
+   "sp_drafter_compute": 1.0,
+   "sp_drafter_time": 1.0
+  },
+  "F2_nopool": {
+   "n": 198,
+   "acc": 38.888889,
+   "exp_tok": 1136.593515,
+   "drafter_fwd_tok": 0.26129,
+   "drafter_cost_tok": 95.276687,
+   "charged_tok": 1231.870201,
+   "drafter_ms_tok": 4.111221,
+   "ms_tok": 125.778102,
+   "passes_blk": 12.613401,
+   "kept": 34.331747,
+   "sp_judge": 1.215131,
+   "sp_full": 1.121149,
+   "sp_drafter_compute": 1.132912,
+   "sp_drafter_time": 0.691889
+  },
+  "F2_nopool_delta": [
+   2.020202,
+   -4.040404,
+   8.585859
+  ],
+  "S1_nopool": {
+   "n": 198,
+   "acc": 34.848485,
+   "exp_tok": 1125.468985,
+   "drafter_fwd_tok": 0.29739,
+   "drafter_cost_tok": 37.566262,
+   "charged_tok": 1163.035247,
+   "drafter_ms_tok": 3.523197,
+   "ms_tok": 124.944824,
+   "passes_blk": 12.388086,
+   "kept": 33.116603,
+   "sp_judge": 1.227142,
+   "sp_full": 1.187505,
+   "sp_drafter_compute": 2.873326,
+   "sp_drafter_time": 0.807365
+  },
+  "S1_nopool_delta": [
+   -2.020202,
+   -8.585859,
+   4.545455
+  ]
+ },
+ "aime": {
+  "stock": {
+   "n": 90,
+   "acc": 7.142857,
+   "exp_tok": 997.713842,
+   "drafter_fwd_tok": 0.0,
+   "drafter_cost_tok": 0.0,
+   "charged_tok": 997.713842,
+   "drafter_ms_tok": 0.0,
+   "ms_tok": 178.368288,
+   "passes_blk": 10.76577,
+   "kept": null
+  },
+  "S0_nopool": {
+   "n": 90,
+   "acc": 5.555556,
+   "exp_tok": 789.340865,
+   "drafter_fwd_tok": 0.29137,
+   "drafter_cost_tok": 106.245307,
+   "charged_tok": 895.586172,
+   "drafter_ms_tok": 2.686427,
+   "ms_tok": 69.367895,
+   "passes_blk": 7.873201,
+   "kept": 56.815009,
+   "sp_judge": 1.263984,
+   "sp_full": 1.114034,
+   "sp_drafter_compute": 1.0,
+   "sp_drafter_time": 1.0
+  },
+  "F2_nopool": {
+   "n": 90,
+   "acc": 7.777778,
+   "exp_tok": 879.653686,
+   "drafter_fwd_tok": 0.257335,
+   "drafter_cost_tok": 93.834651,
+   "charged_tok": 973.488336,
+   "drafter_ms_tok": 3.905356,
+   "ms_tok": 97.598649,
+   "passes_blk": 8.98127,
+   "kept": 33.433206,
+   "sp_judge": 1.134212,
+   "sp_full": 1.024885,
+   "sp_drafter_compute": 1.132261,
+   "sp_drafter_time": 0.687883
+  },
+  "F2_nopool_delta": [
+   2.222222,
+   -2.222222,
+   6.666667
+  ],
+  "S1_nopool": {
+   "n": 90,
+   "acc": 6.666667,
+   "exp_tok": 822.84998,
+   "drafter_fwd_tok": 0.29079,
+   "drafter_cost_tok": 36.732533,
+   "charged_tok": 859.582513,
+   "drafter_ms_tok": 3.432333,
+   "ms_tok": 91.414323,
+   "passes_blk": 8.314572,
+   "kept": 40.830918,
+   "sp_judge": 1.21251,
+   "sp_full": 1.160696,
+   "sp_drafter_compute": 2.892403,
+   "sp_drafter_time": 0.782682
+  },
+  "S1_nopool_delta": [
+   1.111111,
+   -3.333333,
+   5.555556
+  ]
+ }
+}

@@ -1,0 +1,457 @@
+{
+ "benchmarks": {
+  "humaneval": {
+   "name": "HumanEval",
+   "full_base_run": true,
+   "base_identical_to_phase1": [
+    164,
+    164
+   ],
+   "base_here": {
+    "n": 164,
+    "acc": 74.39024390243902,
+    "passes_blk": 5.914739884393064,
+    "loads_tok": 739.1930368838332,
+    "drafter_fwd_tok": 0.3594162932322188,
+    "tokens": 17406,
+    "seconds": 2407.374,
+    "tok_s": 7.230284949492685,
+    "ms_tok": 138.3071354705274
+   },
+   "base_phase1_box": {
+    "n": 164,
+    "acc": 74.39024390243902,
+    "passes_blk": 5.914739884393064,
+    "loads_tok": 739.1930368838332,
+    "drafter_fwd_tok": 0.3594162932322188,
+    "tokens": 17406,
+    "seconds": 1192.704,
+    "tok_s": 14.59372987765615,
+    "ms_tok": 68.52257842123406
+   },
+   "stock_tps_phase1_box": 11.554649429767057,
+   "box_ratio_base": 2.018416975209272,
+   "wall_base_min": 11.416666666666666,
+   "arms": {
+    "rd1": {
+     "all_items": {
+      "n": 164,
+      "acc": 75.60975609756098,
+      "passes_blk": 4.5840386940749696,
+      "loads_tok": 578.4581064870351,
+      "drafter_fwd_tok": 0.6951647134815908,
+      "tokens": 21674,
+      "seconds": 2517.485,
+      "tok_s": 8.609385954633295,
+      "ms_tok": 116.15230229768386
+     },
+     "paired_items": 164,
+     "rd_paired": {
+      "n": 164,
+      "acc": 75.60975609756098,
+      "passes_blk": 4.5840386940749696,
+      "loads_tok": 578.4581064870351,
+      "drafter_fwd_tok": 0.6951647134815908,
+      "tokens": 21674,
+      "seconds": 2517.485,
+      "tok_s": 8.609385954633295,
+      "ms_tok": 116.15230229768386
+     },
+     "base_paired": {
+      "n": 164,
+      "acc": 74.39024390243902,
+      "passes_blk": 5.914739884393064,
+      "loads_tok": 739.1930368838332,
+      "drafter_fwd_tok": 0.3594162932322188,
+      "tokens": 17406,
+      "seconds": 2407.374,
+      "tok_s": 7.230284949492685,
+      "ms_tok": 138.3071354705274
+     },
+     "delta_acc_vs_base": [
+      1.2195121951219512,
+      -4.878048780487805,
+      7.317073170731707
+     ],
+     "speedup_raw": 1.1907395095455229,
+     "host_index_30b_prefill": 0.9786316070333466,
+     "host_index_drafter_prefill": 0.9648263881054981,
+     "host_index_first_half": 0.9823255722945031,
+     "host_index_second_half": 0.9749412521973703,
+     "speedup_drift_adjusted": 1.165295319784634,
+     "wall_here_min": 11.666666666666666,
+     "extrap_tps_raw": 17.377330756960127,
+     "extrap_tps_adjusted": 17.00600512463389,
+     "extrap_x_stock_raw": 1.5039253992589938,
+     "extrap_x_stock_adjusted": 1.4717889303350966,
+     "extrap_wall_8gpu_min": 2.9681841794419976
+    },
+    "rd2": {
+     "all_items": {
+      "n": 164,
+      "acc": 79.8780487804878,
+      "passes_blk": 4.649635036496351,
+      "loads_tok": 627.3705016840986,
+      "drafter_fwd_tok": 0.5111386869940318,
+      "tokens": 16923,
+      "seconds": 1972.338,
+      "tok_s": 8.580172363966014,
+      "ms_tok": 116.54777521716008
+     },
+     "paired_items": 164,
+     "rd_paired": {
+      "n": 164,
+      "acc": 79.8780487804878,
+      "passes_blk": 4.649635036496351,
+      "loads_tok": 627.3705016840986,
+      "drafter_fwd_tok": 0.5111386869940318,
+      "tokens": 16923,
+      "seconds": 1972.338,
+      "tok_s": 8.580172363966014,
+      "ms_tok": 116.54777521716008
+     },
+     "base_paired": {
+      "n": 164,
+      "acc": 74.39024390243902,
+      "passes_blk": 5.914739884393064,
+      "loads_tok": 739.1930368838332,
+      "drafter_fwd_tok": 0.3594162932322188,
+      "tokens": 17406,
+      "seconds": 2407.374,
+      "tok_s": 7.230284949492685,
+      "ms_tok": 138.3071354705274
+     },
+     "delta_acc_vs_base": [
+      5.487804878048781,
+      0.0,
+      10.975609756097562
+     ],
+     "speedup_raw": 1.1866990615035227,
+     "host_index_30b_prefill": 0.9469537484965362,
+     "host_index_drafter_prefill": 0.9264264603027773,
+     "host_index_first_half": 0.928593690819109,
+     "host_index_second_half": 0.9652958613342418,
+     "speedup_drift_adjusted": 1.1237491246280824,
+     "wall_here_min": 9.916666666666666,
+     "extrap_tps_raw": 17.318365549650473,
+     "extrap_tps_adjusted": 16.39969117507479,
+     "extrap_x_stock_raw": 1.4988222407713163,
+     "extrap_x_stock_adjusted": 1.4193153392283757,
+     "extrap_wall_8gpu_min": 2.744238051254188
+    }
+   }
+  },
+  "mbpp": {
+   "name": "MBPP",
+   "full_base_run": true,
+   "base_identical_to_phase1": [
+    257,
+    257
+   ],
+   "base_here": {
+    "n": 257,
+    "acc": 66.14785992217898,
+    "passes_blk": 8.75,
+    "loads_tok": 1285.3677778581243,
+    "drafter_fwd_tok": 0.4429098271747776,
+    "tokens": 13829,
+    "seconds": 2940.262,
+    "tok_s": 4.703322356987234,
+    "ms_tok": 212.61566273772507
+   },
+   "base_phase1_box": {
+    "n": 257,
+    "acc": 66.14785992217898,
+    "passes_blk": 8.75,
+    "loads_tok": 1285.3677778581243,
+    "drafter_fwd_tok": 0.4429098271747776,
+    "tokens": 13829,
+    "seconds": 1620.207,
+    "tok_s": 8.53532912769788,
+    "ms_tok": 117.16009834405959
+   },
+   "stock_tps_phase1_box": 6.638022992157497,
+   "box_ratio_base": 1.8147446591700938,
+   "wall_base_min": 13.916666666666666,
+   "arms": {
+    "rd1": {
+     "all_items": {
+      "n": 257,
+      "acc": 71.20622568093385,
+      "passes_blk": 7.1737891737891735,
+      "loads_tok": 1062.222229994404,
+      "drafter_fwd_tok": 1.3232372691662004,
+      "tokens": 14296,
+      "seconds": 2844.543,
+      "tok_s": 5.0257633651521525,
+      "ms_tok": 198.97474818130945
+     },
+     "paired_items": 257,
+     "rd_paired": {
+      "n": 257,
+      "acc": 71.20622568093385,
+      "passes_blk": 7.1737891737891735,
+      "loads_tok": 1062.222229994404,
+      "drafter_fwd_tok": 1.3232372691662004,
+      "tokens": 14296,
+      "seconds": 2844.543,
+      "tok_s": 5.0257633651521525,
+      "ms_tok": 198.97474818130945
+     },
+     "base_paired": {
+      "n": 257,
+      "acc": 66.14785992217898,
+      "passes_blk": 8.75,
+      "loads_tok": 1285.3677778581243,
+      "drafter_fwd_tok": 0.4429098271747776,
+      "tokens": 13829,
+      "seconds": 2940.262,
+      "tok_s": 4.703322356987234,
+      "ms_tok": 212.61566273772507
+     },
+     "delta_acc_vs_base": [
+      5.058365758754864,
+      0.0,
+      10.116731517509727
+     ],
+     "speedup_raw": 1.0685560086448043,
+     "host_index_30b_prefill": 1.0116011588004963,
+     "host_index_drafter_prefill": 0.9998202085580727,
+     "host_index_first_half": 1.0185704977194125,
+     "host_index_second_half": 1.0045230969586547,
+     "speedup_drift_adjusted": 1.080952496588317,
+     "wall_here_min": 13.583333333333334,
+     "extrap_tps_raw": 9.120477225162585,
+     "extrap_tps_adjusted": 9.226285329788006,
+     "extrap_x_stock_raw": 1.3739749374080186,
+     "extrap_x_stock_adjusted": 1.389914638844791,
+     "extrap_wall_8gpu_min": 3.6433867614688755
+    },
+    "rd2": {
+     "all_items": {
+      "n": 257,
+      "acc": 69.26070038910505,
+      "passes_blk": 7.296296296296297,
+      "loads_tok": 1121.73950763755,
+      "drafter_fwd_tok": 0.8241138958920362,
+      "tokens": 13486,
+      "seconds": 2633.24,
+      "tok_s": 5.121447342437454,
+      "ms_tok": 195.25730387068072
+     },
+     "paired_items": 257,
+     "rd_paired": {
+      "n": 257,
+      "acc": 69.26070038910505,
+      "passes_blk": 7.296296296296297,
+      "loads_tok": 1121.73950763755,
+      "drafter_fwd_tok": 0.8241138958920362,
+      "tokens": 13486,
+      "seconds": 2633.24,
+      "tok_s": 5.121447342437454,
+      "ms_tok": 195.25730387068072
+     },
+     "base_paired": {
+      "n": 257,
+      "acc": 66.14785992217898,
+      "passes_blk": 8.75,
+      "loads_tok": 1285.3677778581243,
+      "drafter_fwd_tok": 0.4429098271747776,
+      "tokens": 13829,
+      "seconds": 2940.262,
+      "tok_s": 4.703322356987234,
+      "ms_tok": 212.61566273772507
+     },
+     "delta_acc_vs_base": [
+      3.11284046692607,
+      -1.556420233463035,
+      7.782101167315175
+     ],
+     "speedup_raw": 1.0888999208887002,
+     "host_index_30b_prefill": 0.9953703752421622,
+     "host_index_drafter_prefill": 0.9914680788467196,
+     "host_index_first_half": 0.9995269660668638,
+     "host_index_second_half": 0.9911489408635562,
+     "speedup_drift_adjusted": 1.0838587228561463,
+     "wall_here_min": 12.35,
+     "extrap_tps_raw": 9.29411921190924,
+     "extrap_tps_adjusted": 9.251090927503489,
+     "extrap_x_stock_raw": 1.4001336275710092,
+     "extrap_x_stock_adjusted": 1.393651534264525,
+     "extrap_wall_8gpu_min": 3.300831682516728
+    }
+   }
+  },
+  "gsm8k500": {
+   "name": "GSM8K-500",
+   "full_base_run": true,
+   "base_identical_to_phase1": [
+    500,
+    500
+   ],
+   "base_here": {
+    "n": 500,
+    "acc": 91.60000000000001,
+    "passes_blk": 7.122409945808097,
+    "loads_tok": 888.5224048981703,
+    "drafter_fwd_tok": 0.33210722386095215,
+    "tokens": 85093,
+    "seconds": 12312.226,
+    "tok_s": 6.911260400840595,
+    "ms_tok": 144.69140822394323
+   },
+   "base_phase1_box": {
+    "n": 500,
+    "acc": 91.60000000000001,
+    "passes_blk": 7.122409945808097,
+    "loads_tok": 888.5224048981703,
+    "drafter_fwd_tok": 0.33210722386095215,
+    "tokens": 85093,
+    "seconds": 6763.455,
+    "tok_s": 12.581291662323473,
+    "ms_tok": 79.48309496668351
+   },
+   "stock_tps_phase1_box": 9.987705591767844,
+   "box_ratio_base": 1.8204048078977388,
+   "wall_base_min": 61.86666666666667,
+   "arms": {
+    "rd1": {
+     "all_items": {
+      "n": 500,
+      "acc": 91.60000000000001,
+      "passes_blk": 5.929581892486639,
+      "loads_tok": 754.5449669394739,
+      "drafter_fwd_tok": 0.7667498959633791,
+      "tokens": 86508,
+      "seconds": 12660.353,
+      "tok_s": 6.832984830675732,
+      "ms_tok": 146.34892726684237
+     },
+     "paired_items": 500,
+     "rd_paired": {
+      "n": 500,
+      "acc": 91.60000000000001,
+      "passes_blk": 5.929581892486639,
+      "loads_tok": 754.5449669394739,
+      "drafter_fwd_tok": 0.7667498959633791,
+      "tokens": 86508,
+      "seconds": 12660.353,
+      "tok_s": 6.832984830675732,
+      "ms_tok": 146.34892726684237
+     },
+     "base_paired": {
+      "n": 500,
+      "acc": 91.60000000000001,
+      "passes_blk": 7.122409945808097,
+      "loads_tok": 888.5224048981703,
+      "drafter_fwd_tok": 0.33210722386095215,
+      "tokens": 85093,
+      "seconds": 12312.226,
+      "tok_s": 6.911260400840595,
+      "ms_tok": 144.69140822394323
+     },
+     "delta_acc_vs_base": [
+      0.0,
+      -1.4000000000000001,
+      1.4000000000000001
+     ],
+     "speedup_raw": 0.988674197523314,
+     "host_index_30b_prefill": 1.0937776746277004,
+     "host_index_drafter_prefill": 1.086147908529025,
+     "host_index_first_half": 1.102045170865418,
+     "host_index_second_half": 1.0854474707029174,
+     "speedup_drift_adjusted": 1.081389764731458,
+     "wall_here_min": 64.43333333333334,
+     "extrap_tps_raw": 12.43879843805442,
+     "extrap_tps_adjusted": 13.605280030737836,
+     "extrap_x_stock_raw": 1.2454110029341312,
+     "extrap_x_stock_adjusted": 1.3622027507450463,
+     "extrap_wall_8gpu_min": 17.604371947546284
+    },
+    "rd2": {
+     "all_items": {
+      "n": 500,
+      "acc": 92.0,
+      "passes_blk": 6.033616085453974,
+      "loads_tok": 769.8813814858628,
+      "drafter_fwd_tok": 0.5453111590471551,
+      "tokens": 86226,
+      "seconds": 12589.119,
+      "tok_s": 6.849248148341436,
+      "ms_tok": 146.00142648389118
+     },
+     "paired_items": 500,
+     "rd_paired": {
+      "n": 500,
+      "acc": 92.0,
+      "passes_blk": 6.033616085453974,
+      "loads_tok": 769.8813814858628,
+      "drafter_fwd_tok": 0.5453111590471551,
+      "tokens": 86226,
+      "seconds": 12589.119,
+      "tok_s": 6.849248148341436,
+      "ms_tok": 146.00142648389118
+     },
+     "base_paired": {
+      "n": 500,
+      "acc": 91.60000000000001,
+      "passes_blk": 7.122409945808097,
+      "loads_tok": 888.5224048981703,
+      "drafter_fwd_tok": 0.33210722386095215,
+      "tokens": 85093,
+      "seconds": 12312.226,
+      "tok_s": 6.911260400840595,
+      "ms_tok": 144.69140822394323
+     },
+     "delta_acc_vs_base": [
+      0.4,
+      -1.2,
+      1.7999999999999998
+     ],
+     "speedup_raw": 0.991027359858758,
+     "host_index_30b_prefill": 1.1140869908462427,
+     "host_index_drafter_prefill": 1.1109919920946407,
+     "host_index_first_half": 1.1048539673430984,
+     "host_index_second_half": 1.1233900454122212,
+     "speedup_drift_adjusted": 1.1040906891913402,
+     "wall_here_min": 62.65,
+     "extrap_tps_raw": 12.468404259725435,
+     "extrap_tps_adjusted": 13.890886982371986,
+     "extrap_x_stock_raw": 1.2483752294423112,
+     "extrap_x_stock_adjusted": 1.3907986028163724,
+     "extrap_wall_8gpu_min": 17.63851270554163
+    }
+   }
+  }
+ },
+ "samples": {
+  "math500": {
+   "name": "MATH-500",
+   "items": 12,
+   "identical_to_phase1": 12,
+   "base_tps_here": 8.934615529610767,
+   "box_ratio": 1.778579466279524
+  },
+  "aime": {
+   "name": "AIME",
+   "items": 12,
+   "identical_to_phase1": 12,
+   "base_tps_here": 8.584046562980198,
+   "box_ratio": 1.822919597790231
+  },
+  "gpqa": {
+   "name": "GPQA-Diamond",
+   "items": 12,
+   "identical_to_phase1": 12,
+   "base_tps_here": 6.179817320046554,
+   "box_ratio": 1.8017481253693324
+  },
+  "ifeval541": {
+   "name": "IFEval-541",
+   "items": 12,
+   "identical_to_phase1": 12,
+   "base_tps_here": 4.212521173610855,
+   "box_ratio": 1.8808844774003015
+  }
+ }
+}
