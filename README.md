@@ -4,7 +4,8 @@ Faster decoding for the 30B block-diffusion MoE **JetLM/SDAR-30B-A3B-Chat-b32**,
 **drafter** fills each block of 32 tokens with guesses, and a tiny LoRA **judge** on the frozen 30B decides which
 guesses to keep. Fewer 30B passes per block means a faster answer at about the same accuracy.
 
-Everything is in one place:
+Everything is in one place. One link for all of it: the Hugging Face collection
+[sdar30b-draft-judge](https://huggingface.co/collections/Anupam-Rawat-IITB/sdar30b-draft-judge-6ade42e18e3e2ca978d1d560).
 
 | What | Where |
 |---|---|
