@@ -272,9 +272,7 @@ import json; t = sum(json.loads(l)['corpus_tokens'] for l in open('$IDX')); prin
   # finishes they are all pushed to the Hub and verified (hf_sync.py ckpt), then the 5 newest stay on disk
   T8 --out logs/c1b/train/main --lr $LR --max-tokens $MAXTOK --epochs 1 --stop-at $TRAIN_STOP \
     --save-every-tokens 5e5 --keep-rolling 1000 \
-    $( [ -d logs/c1b/train/main ] && echo --resume ) >> logs/c1b/train/main.log 2>&1 \
-    || { say "main run FAILED (logs/c1b/train/main.log): stopping (a rerun resumes from its newest checkpoint)"; exit 2; }
-  mark main
+    $( [ -d logs/c1b/train/main ] && echo --resume ) >> logs/c1b/train/main.log 2>&1 && mark main
   say "training finished: pushing every checkpoint to the Hub (background) while the evaluations run"
   ( bash code/corpus1b/backup_hf.sh ckpt > logs/c1b/backup_ckpt_after_training.log 2>&1 ) &
 fi

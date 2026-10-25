@@ -21,11 +21,9 @@ say(){ echo "[backup $(date -u +%H:%M:%S) UTC] $*"; }
 push_links(){  # commit + push only the links doc (and the README pointer) to the branch, token never in a URL
   git diff --quiet -- docs/PHASE1_HF_ARTIFACTS.md 2>/dev/null && git ls-files --error-unmatch docs/PHASE1_HF_ARTIFACTS.md >/dev/null 2>&1 && return 0
   [ -n "${GITHUB_TOKEN:-}" ] || { say "no GITHUB_TOKEN: links doc not pushed"; return 0; }
-  local br=${GIT_PUSH_BRANCH:-$(git rev-parse --abbrev-ref HEAD)}         # the branch this box runs (never a hardcoded one)
-  [ "$br" = HEAD ] && { say "detached HEAD: links doc not pushed"; return 0; }
   git add docs/PHASE1_HF_ARTIFACTS.md && git commit -q -m "phase 1: HF artefact links (auto)" -- docs/PHASE1_HF_ARTIFACTS.md \
     && git -c credential.helper='!f(){ echo username=x-access-token; echo "password=$GITHUB_TOKEN"; }; f' \
-         push -q origin "HEAD:$br" && say "links doc pushed to GitHub ($br)" || say "links doc push failed (retry next round)"
+         push -q origin HEAD:phase1-datacorpus && say "links doc pushed to GitHub" || say "links doc push failed (retry next round)"
 }
 data(){ timeout ${DATA_TIMEOUT:-1500} $PY code/corpus1b/hf_sync.py data \
           || { say "data upload failed or hit ${DATA_TIMEOUT:-1500} s (resumes next round)"; return 1; }; }
@@ -37,6 +35,5 @@ case "${1:-once}" in
   ckpt) ckpt ;;
   once) once ;;
   loop) while true; do say "round"; once; say "round done"; sleep ${BACKUP_EVERY:-1800}; done ;;
-  ckptloop) while true; do ckpt; sleep ${CKPT_EVERY:-300}; done ;;     # checkpoints only, every 5 min
-  *) echo "usage: $0 [once|data|ckpt|loop|ckptloop]"; exit 1 ;;
+  *) echo "usage: $0 [once|data|ckpt|loop]"; exit 1 ;;
 esac

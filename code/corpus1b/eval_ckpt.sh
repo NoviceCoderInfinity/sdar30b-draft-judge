@@ -73,36 +73,11 @@ elif [ "$TAG" = "final" ]; then
     line "${s}_released" $s --stock
     line "${s}_released_des48" $s --stock $DES
   done
-elif [ "$TAG" = "checkpointB" ]; then
-  # the judge after the extended wave-A run (main/final, frozen to main/eval_checkpointB when the queue is built) on
-  # the six standard sets + IFEval-541, and on IFEval-541 also the released model and blind accept (their
-  # standard-set cells are RESULTS.md sections 1 and 2: same model, decode settings and harness). ChartQA-300 and
-  # FinQA-500 are deferred (user, 2026-09-29). Longest shards first, so the 8 GPUs finish together.
-  CK=$MAIN/eval_checkpointB
-  SRC=$(python3 -c "import glob, json, os; c = [(json.load(open(f))['tokens'], os.path.dirname(f)) for f in
-glob.glob('$MAIN/final/trainer_state.json') + glob.glob('$MAIN/roll_*/trainer_state.json')]; print(max(c)[1] if c else '')")
-  [ -n "$SRC" ] || { say "no checkpoint under $MAIN"; exit 1; }      # the newest (most tokens): final after a clean stop
-  rm -rf $CK.tmp && cp -r $SRC $CK.tmp && rm -rf $CK && mv $CK.tmp $CK
-  echo "$CK (copy of $(basename $SRC)) adapter sha256 $(sha256sum $CK/adapter.safetensors | cut -c1-16)," \
-       "$(python3 -c "import json; s = json.load(open('$CK/trainer_state.json')); print(f\"{s['tokens']:.0f} tokens, step {s['step']}\")")" \
-       > $OUT/checkpoint.txt
-  mkdir -p $OUT/ifeval541_released                     # the released model's finished IFEval shards (checkpoint-A run)
-  for d in logs/c1b/eval/checkpointA/ifeval541_released/*.jsonl.done; do
-    cp -n "${d%.done}" "$d" $OUT/ifeval541_released/
-  done
-  BLIND="--drafter d32 --judge blind --tau-acc-q 0.50 --draft s8"          # RESULTS.md section 2 (blind_q50)
-  for k in 0 1 2 3 4 5 6 7; do
-    shard_line "ifeval541_judge_des48" ifeval541 $k $JUDGE --adapter $CK $DES
-    shard_line "ifeval541_blind" ifeval541 $k $BLIND
-    ls $OUT/ifeval541_released/*.shard${k}of8.jsonl.done >/dev/null 2>&1 || shard_line "ifeval541_released" ifeval541 $k --stock
-  done
-  for s in math500 gpqa aime gsm8k500 mbpp humaneval; do line "${s}_judge_des48" $s $JUDGE --adapter $CK $DES; done
 else
   echo "unknown tag $TAG"; exit 1
 fi
 cp $Q $Q.bak                                     # gpu_queue.sh deletes its queue when it drains (AGENTS.md 9(c))
 say "$(wc -l < $Q) jobs"
-[ -n "${EVAL_DRY:-}" ] && { say "EVAL_DRY: queue built, nothing launched ($Q)"; exit 0; }
 
 # deadline guard: stop launching at DEADLINE - 45 min, kill this queue's jobs at DEADLINE
 if [ -n "$DEADLINE" ]; then

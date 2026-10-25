@@ -28,6 +28,6 @@ __pycache__/
 # macOS
 .DS_Store
 
-# large local data and HF caches (backed up to Hugging Face, never to git)
-data/
-hf_home/
+# Claude Code session exports (local notes, not project files)
+export.txt
+export*.txt

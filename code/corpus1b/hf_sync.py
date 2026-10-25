@@ -93,9 +93,6 @@ DATA_ALLOW = [
     "logs/c1b/draft/wave*/gpu*/drafts.*.npz", "logs/c1b/draft/wave*/gpu*/done.txt",
     "logs/c1b/trainset/wave*/index.jsonl", "logs/c1b/trainset/wave*/build_summary.json",
     "logs/c1b/trainset/wave*/items_tar/*.tar",
-    "logs/c1b/trainset/index_*.jsonl", "logs/c1b/trainset/holdout_pids_*.txt",       # merged indexes (128M, 228M)
-    "logs/c1b/train/*/seen_items.json", "logs/c1b/c228_state/*.md", "logs/c1b/c228_state/*.json",
-    "logs/c1b/eval/*/compare.*",
     "data/c1b/prompt_lists/*.jsonl", "data/c1b/prompt_lists/manifest.json", "data/c1b/prompt_lists/spotcheck/**",
     "data/c1b/eval/**", "data/c1b/sources_manifest.json",
     "logs/c1b/stage1/*.jsonl", "logs/c1b/stage1/*.log", "logs/c1b/waveA_state/*.jsonl",
@@ -303,15 +300,29 @@ def verified_markers() -> List[dict]:
     return [json.load(open(p)) for p in sorted(glob.glob(os.path.join(MARK_DIR, "*.json")))]
 
 
+def training_running() -> bool:
+    import subprocess
+    out = subprocess.run("ps -eo args | grep -c '[t]rain_c1b.py --index'", shell=True, capture_output=True, text=True)
+    return out.stdout.strip() not in ("", "0")
+
+
 def cmd_ckpt(a) -> int:
     repo = os.environ["HF_CKPT_REPO"]
     h = api()
     h.create_repo(repo, repo_type="model", private=False, exist_ok=True)
     os.makedirs(MARK_DIR, exist_ok=True)
     rc = 0
-    # every complete checkpoint is pushed as soon as it lands, newest first (the box may die at any time); the KEEP (5)
-    # newest of each run stay on the local disk, older ones are deleted by prune only once verified on the Hub
-    cks = sorted(local_ckpts(), key=lambda c: (c["tokens"], c["mtime"]), reverse=True)
+    cks = local_ckpts()
+    if training_running():
+        # the user's rule: while a run trains, its KEEP (5) newest checkpoints stay on the local disk untouched; a
+        # checkpoint is pushed (and verified, then deleted locally by prune) only once it falls out of that window
+        # (the 6th landing pushes the 1st, the 7th the 2nd, ...); after training every checkpoint is pushed
+        by_run: Dict[str, List[dict]] = {}
+        for c in cks:
+            by_run.setdefault(c["run"], []).append(c)
+        cks = [c for cs in by_run.values()
+               for c in sorted(cs, key=lambda c: (c["tokens"], c["mtime"]), reverse=True)[KEEP:]]
+        say(f"training is running: pushing only checkpoints beyond the {KEEP} newest per run ({len(cks)})")
     for c in cks:
         mp, fp = marker_path(c), fingerprint(c["dir"])
         if os.path.exists(mp) and json.load(open(mp)).get("fingerprint") == fp:

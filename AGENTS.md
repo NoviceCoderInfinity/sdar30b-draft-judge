@@ -21,6 +21,11 @@ width, fresh from the stock base, on a 35 / 35 / 30 code / maths / IF mix
 footguns §9 (l)–(s), its live status `WORKTREE.md` §3. No round-3 result exists yet; do not
 quote one.
 
+**Phase 2 (branch `phase2-drafter-swap`, 2026-09-29)** swaps the drafter for other released diffusion LMs on the
+same frozen checkpoint and block width; the only thing it ever trains is the LoRA judge adapter. Everything lives in
+`code/phase2/` and `docs/PHASE2_DRAFTER_SWAP.md`; its stop rules are frozen in `code/phase2/rules.json`. It runs in
+`/venv/p2` (transformers 4.54.1 + the `LossKwargs` shim), not `/venv/r3`. No Phase 2 result exists yet.
+
 **The single most important measurement:** expert *pooling* is where the cost
 goes, not the drafter. `stock + DES M=32` is the cheapest arm at 654.9
 experts/token and 93.0 on calibvalid, with no drafter and no training. The

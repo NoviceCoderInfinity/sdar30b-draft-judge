@@ -1,11 +1,4 @@
-> **Get everything (code + corpus + evals + checkpoints) in one directory: [`RETRIEVE.md`](RETRIEVE.md).**
-
 # wide-when-sure
-
-> **Phase 1 results at 28.5M training tokens (2026-09-29): [`docs/metrics_28.5M.md`](docs/metrics_28.5M.md).**
-> The judge (checkpoint `main/final`, 28,498,676 tokens, adapter sha256 `957c48353ddf5593`) decodes with 1.25–1.34× fewer MoE passes per block than stock (1.20–1.37× net of the drafter) and matches stock within noise on GSM8K, MATH-500, MBPP, HumanEval, GPQA-Diamond and AIME; **IFEval-541 is the one significant loss (37.9% vs 52.7%)**.
-> Also: AIME at a 4,096-token limit [`docs/AIME_unconstrained_token.md`](docs/AIME_unconstrained_token.md) · **how to resume training** ([`docs/metrics_28.5M.md` §6](docs/metrics_28.5M.md#6-how-to-resume-training-from-here)) · **how to generate the rest of the corpus** (wave A = 74.76M tokens is complete; 1.95M wave-B prompts remain) [`docs/DATA_GENERATION_CONTINUATION.md`](docs/DATA_GENERATION_CONTINUATION.md) · all checkpoints [`docs/metrics_28.5M.md` §7](docs/metrics_28.5M.md#7-all-checkpoints-hf-model-repo-each-complete-adapter--optimizertrainer-state-verified-file-by-file) and [`docs/PHASE1_HF_ARTIFACTS.md`](docs/PHASE1_HF_ARTIFACTS.md).
-> Weights: https://huggingface.co/Arushhh/c1b-judge-lora-sdar30b-b32 · 74M-token generated corpus, eval records and logs: https://huggingface.co/datasets/Arushhh/c1b-judge-corpus-waveA
 
 > **Phase 1, 1B-token judge corpus (branch `phase1-datacorpus`, 2026-09-28): public Hugging Face artefacts.**
 > Generated corpus (the 30B's own checked answers, block traces, 1.7B drafts, training items, prompt lists, eval sets, logs):
@@ -246,3 +239,14 @@ link, every checkpoint hash, and the `hf download` command for each piece.
 
 Every table in [RESULTS.md](RESULTS.md) names the record path it came from, so a
 reader who pulls the mirror can recompute it.
+
+## Phase 2 drafter swap (branch `phase2-drafter-swap`): results bundle
+
+Everything from the Phase 2 no-pool run (records, per-forward logs, analysis, tables, plots, datasets, judge weights, code snapshot):
+
+```bash
+pip install -U huggingface_hub
+hf download Arushhh/phase2-drafter-swap --repo-type dataset --local-dir phase2_bundle
+```
+
+Guide and replication: `docs/PHASE2_NOPOOL_REPLICATE.md`. Results page: https://claude.ai/artifact/JZBprrkKPKbX4XEgWyu8sK

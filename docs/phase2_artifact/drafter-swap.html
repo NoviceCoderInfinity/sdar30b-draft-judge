@@ -1,0 +1,2124 @@
+<title>Phase 2 Drafter Swap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=STIX+Two+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Layout: a preprint. Prose keeps a 66ch column; the pipeline schematic, coverage grid, Table 1 and the figure grid break out to a 1200px measure. Paper conventions (numbered sections, Table/Figure captions, booktabs rules) carry the structure. */
+:root {
+  /* color: paper and ink lean faintly indigo, toward the accent */
+  --paper: #f6f6f9;
+  --card: #ffffff;
+  --ink: #16172a;
+  --ink-2: #46485c;
+  --muted: #6c6e82;
+  --hair: #e0e1e9;
+  --axis: #b5b7c5;
+  --rule: #16172a;
+  --accent: #3b3f9a;
+  --cell: #a6a8b8;
+  /* series: neutral reference + validated categorical slots 1-3 */
+  --s-stock: #868896;
+  --s-sdar: #2a78d6;
+  --s-coda: #eb6834;
+  --s-qwen: #1baf7a;
+  /* slot classes (neutral greys = format, indigo ramp = content), candidate shading, picks */
+  --on-accent: #ffffff;
+  --c-head: #8d90a6;
+  --c-pad: #bcbecd;
+  --c-kept: #aab0f0;
+  --c-alt: #6f76d8;
+  --c-miss: #3b3f9a;
+  --diff: #fbe9df;
+  --pick: #1e7f5c;
+  --on-pick: #ffffff;
+  --bm1: #2a78d6;
+  --bm2: #eb6834;
+  --bm3: #1baf7a;
+  --bm4: #eda100;
+  --bm5: #e87ba4;
+  --bm6: #008300;
+  --bm7: #4a3aa7;
+  /* type */
+  --font-serif: "STIX Two Text", "STIX Two", "Times New Roman", Times, serif;
+  --font-sans: "Instrument Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --t-xs: 0.75rem;
+  --t-sm: 0.875rem;
+  --t-base: 1.0625rem;
+  --t-md: 1.25rem;
+  --t-lg: 1.5rem;
+  --t-xl: 2.5rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #14151f;
+    --card: #1b1c29;
+    --ink: #e8e9f1;
+    --ink-2: #b6b8c9;
+    --muted: #8c8ea3;
+    --hair: #2a2c3c;
+    --axis: #4b4d61;
+    --rule: #d8d9e5;
+    --accent: #a9adf3;
+    --cell: #5d6075;
+    --s-stock: #6b6e80;
+    --s-sdar: #3987e5;
+    --s-coda: #d95926;
+    --s-qwen: #199e70;
+    --on-accent: #14151f;
+    --c-head: #7b7e94;
+    --c-pad: #4f5268;
+    --c-kept: #3f4590;
+    --c-alt: #6168cf;
+    --c-miss: #9aa0f4;
+    --diff: #3a2a22;
+    --pick: #4cba8e;
+    --on-pick: #0f1f18;
+    --bm1: #3987e5;
+    --bm2: #d95926;
+    --bm3: #199e70;
+    --bm4: #c98500;
+    --bm5: #d55181;
+    --bm6: #008300;
+    --bm7: #9085e9;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #14151f;
+  --card: #1b1c29;
+  --ink: #e8e9f1;
+  --ink-2: #b6b8c9;
+  --muted: #8c8ea3;
+  --hair: #2a2c3c;
+  --axis: #4b4d61;
+  --rule: #d8d9e5;
+  --accent: #a9adf3;
+  --cell: #5d6075;
+  --s-stock: #6b6e80;
+  --s-sdar: #3987e5;
+  --s-coda: #d95926;
+  --s-qwen: #199e70;
+  --on-accent: #14151f;
+  --c-head: #7b7e94;
+  --c-pad: #4f5268;
+  --c-kept: #3f4590;
+  --c-alt: #6168cf;
+  --c-miss: #9aa0f4;
+  --diff: #3a2a22;
+  --pick: #4cba8e;
+  --on-pick: #0f1f18;
+  --bm1: #3987e5;
+  --bm2: #d95926;
+  --bm3: #199e70;
+  --bm4: #c98500;
+  --bm5: #d55181;
+  --bm6: #008300;
+  --bm7: #9085e9;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: var(--t-base);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-inline: clamp(16px, 4vw, 44px);
+  padding-block: 52px 88px;
+  display: grid;
+  gap: 64px;
+}
+section { display: grid; gap: 20px; min-width: 0; }
+p { margin: 0; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+h1 { font-family: var(--font-serif); font-weight: 600; font-size: var(--t-xl); line-height: 1.08; letter-spacing: -0.015em; }
+h2 { font-family: var(--font-serif); font-weight: 600; font-size: var(--t-lg); line-height: 1.25; display: flex; align-items: baseline; gap: 14px; }
+h2 .secno { font-family: var(--font-sans); font-weight: 500; font-size: var(--t-sm); color: var(--accent); font-variant-numeric: tabular-nums; min-width: 1.2ch; }
+h3 { font-family: var(--font-sans); font-weight: 600; font-size: 0.95rem; line-height: 1.35; }
+.prose { max-width: 66ch; display: grid; gap: 14px; }
+.kicker { font-family: var(--font-sans); font-size: var(--t-xs); font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+.mono { font-family: var(--font-mono); font-size: 0.8em; letter-spacing: -0.01em; }
+.sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; flex: none; }
+.notes { font-family: var(--font-sans); font-size: 0.8125rem; color: var(--muted); display: grid; gap: 3px; max-width: 110ch; line-height: 1.5; }
+
+/* masthead */
+.masthead { display: grid; gap: 16px; padding-bottom: 32px; border-bottom: 1px solid var(--hair); }
+.masthead .lede { font-size: var(--t-md); line-height: 1.45; color: var(--ink-2); max-width: 62ch; }
+.status { font-family: var(--font-sans); font-size: var(--t-sm); color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 18px; font-variant-numeric: tabular-nums; }
+.status span + span::before { content: "·"; margin-right: 18px; color: var(--axis); }
+
+/* coverage */
+.cov-wrap { overflow-x: auto; }
+table.cov { border-collapse: collapse; font-family: var(--font-sans); font-size: var(--t-sm); }
+table.cov th, table.cov td { padding: 7px 10px; text-align: center; white-space: nowrap; vertical-align: middle; }
+table.cov .l { text-align: left; padding-left: 0; }
+table.cov thead tr.dom th { font-size: var(--t-xs); font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); padding-bottom: 2px; }
+table.cov thead tr.dom th span { display: block; border-bottom: 1px solid var(--hair); padding-bottom: 4px; }
+table.cov thead tr.sets th { font-weight: 600; color: var(--ink); vertical-align: bottom; }
+table.cov thead tr.sets th .n { display: block; font-weight: 400; font-size: var(--t-xs); color: var(--muted); font-variant-numeric: tabular-nums; }
+table.cov thead th.rs { vertical-align: bottom; font-weight: 500; color: var(--muted); font-size: var(--t-xs); letter-spacing: 0.07em; text-transform: uppercase; }
+table.cov tbody tr { border-top: 1px solid var(--hair); }
+table.cov tbody th { font-weight: 600; }
+table.cov tbody th .sw { margin-right: 8px; vertical-align: -1px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px 2px 8px; border-radius: 999px; font-size: var(--t-xs); font-weight: 500; letter-spacing: 0.02em; }
+.chip .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.chip.done { background: var(--ink); color: var(--paper); }
+.chip.run { color: var(--muted); box-shadow: inset 0 0 0 1px var(--axis); }
+.chip.run .dot { background: transparent; box-shadow: inset 0 0 0 1.5px currentColor; }
+table.cov td.count { font-variant-numeric: tabular-nums; color: var(--ink-2); font-weight: 500; }
+
+/* Table 1: booktabs */
+.caption { font-size: 0.95rem; line-height: 1.55; color: var(--ink-2); max-width: 112ch; }
+.caption b { color: var(--ink); font-weight: 600; }
+.tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table.bt {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 1100px;
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums lining-nums;
+  border-top: 1.5px solid var(--rule);
+  border-bottom: 1.5px solid var(--rule);
+}
+table.bt thead { border-bottom: 0.8px solid var(--rule); }
+table.bt th, table.bt td { padding: 4px 10px; text-align: right; vertical-align: baseline; white-space: nowrap; }
+table.bt th { font-weight: 400; color: var(--ink-2); line-height: 1.3; vertical-align: bottom; }
+table.bt thead tr:first-child th { padding-top: 9px; }
+table.bt thead tr:last-child th { padding-bottom: 7px; }
+table.bt .l { text-align: left; }
+table.bt th.grp { text-align: center; padding-bottom: 2px; color: var(--ink); }
+table.bt th.grp span { display: block; border-bottom: 0.8px solid var(--rule); padding-bottom: 3px; margin-inline: 4px; }
+table.bt tbody + tbody tr.domrow td { border-top: 0.8px solid var(--axis); }
+table.bt td.dom { text-align: left; font-style: italic; color: var(--ink-2); padding-top: 12px; padding-bottom: 2px; }
+table.bt tr.first td { padding-top: 8px; }
+table.bt tr.first.sep td { border-top: 1px solid var(--hair); }
+table.bt tr.last td { padding-bottom: 8px; }
+table.bt td.bench { vertical-align: top; font-weight: 600; color: var(--ink); }
+table.bt td.bench .n { display: block; font-weight: 400; font-size: 0.82rem; color: var(--muted); }
+table.bt td.setup { color: var(--ink); }
+table.bt td.setup .sw { margin-right: 8px; vertical-align: 0; }
+table.bt .best { font-weight: 700; color: var(--ink); }
+table.bt .fixed { color: var(--muted); }
+table.bt .na { color: var(--muted); }
+table.bt .ci { color: var(--muted); }
+table.bt .sig { display: inline-block; width: 0.6em; text-align: left; font-size: 0.85em; vertical-align: 0.35em; line-height: 0; }
+table.bt td.pending { text-align: left; font-style: italic; color: var(--muted); }
+
+/* figures */
+.figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 48px 52px; }
+figure.chart { margin: 0; display: grid; gap: 8px; align-content: start; min-width: 0; }
+figure.chart .fig-no { font-family: var(--font-sans); font-size: var(--t-xs); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+figure.chart figcaption { font-size: 0.92rem; color: var(--ink-2); line-height: 1.5; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 16px; list-style: none; margin: 2px 0 0; padding: 0; font-family: var(--font-sans); font-size: 0.8125rem; color: var(--ink-2); }
+.legend li { display: inline-flex; align-items: center; gap: 6px; }
+.plot { width: 100%; min-height: 40px; }
+.plot svg { display: block; overflow: visible; }
+.plot svg text { font-family: var(--font-sans); }
+.plot .bar { transition: opacity 120ms ease; }
+.plot .bar.hot { opacity: 0.72; }
+.plot .hit { fill: transparent; cursor: default; outline: none; }
+.plot .hit:focus-visible { stroke: var(--accent); stroke-width: 1.5; }
+.plot .empty { font-style: italic; color: var(--muted); font-size: 0.92rem; }
+
+.tip {
+  position: fixed;
+  z-index: 10;
+  pointer-events: none;
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--hair);
+  border-radius: 6px;
+  box-shadow: 0 6px 22px rgba(12, 12, 30, 0.16);
+  padding: 8px 10px;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  line-height: 1.45;
+  max-width: 320px;
+  display: grid;
+  gap: 2px;
+}
+.tip .v { font-size: 1rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.tip .k { display: flex; align-items: center; gap: 6px; color: var(--ink-2); }
+.tip .k i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; flex: none; }
+.tip .x { color: var(--muted); font-variant-numeric: tabular-nums; }
+
+footer { border-top: 1px solid var(--hair); padding-top: 16px; font-family: var(--font-sans); font-size: 0.8125rem; color: var(--muted); display: grid; gap: 4px; }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .plot .bar { transition: none; } }
+
+section > * { min-width: 0; }
+figure.chart { grid-template-columns: minmax(0, 1fr); }
+
+/* contents row */
+.toc { font-family: var(--font-sans); font-size: var(--t-sm); display: flex; flex-wrap: wrap; gap: 4px 20px; padding-top: 4px; }
+.toc a { color: var(--muted); text-decoration: none; border-bottom: 1px solid transparent; }
+.toc a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* §1 setup: spec strip + drafter cards */
+dl.spec { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 0 28px; margin: 0; }
+dl.spec > div { display: grid; gap: 3px; align-content: start; padding: 10px 0 12px; border-top: 1px solid var(--hair); min-width: 0; }
+dl.spec dt { font-family: var(--font-sans); font-size: var(--t-xs); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+dl.spec dd { margin: 0; display: grid; gap: 1px; font-size: 0.95rem; color: var(--ink-2); line-height: 1.4; }
+dl.spec dd b { color: var(--ink); font-weight: 600; }
+dl.spec > div.wide { grid-column: span 3; }
+@media (max-width: 900px) { dl.spec > div.wide { grid-column: 1 / -1; } }
+dl.spec dd span { font-family: var(--font-sans); font-size: 0.8125rem; color: var(--muted); }
+.bench { display: flex; flex-wrap: wrap; gap: 4px 12px; font-family: var(--font-sans); font-size: 0.8125rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.bench span i { font-style: normal; color: var(--muted); margin-left: 4px; }
+
+.dcards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; align-items: stretch; }
+.dcard { display: grid; gap: 12px; align-content: start; grid-template-rows: auto auto 1fr auto; padding: 16px 18px; border: 1px solid var(--hair); border-radius: 6px; background: var(--card); min-width: 0; }
+.dcard header { display: grid; gap: 4px; }
+.dcard .tag { font-family: var(--font-sans); font-size: var(--t-xs); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.dcard h3 { display: flex; align-items: center; gap: 8px; font-size: 1.05rem; }
+.dcard .ckpt { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); overflow-wrap: anywhere; }
+dl.mini { display: flex; flex-wrap: wrap; gap: 4px 20px; margin: 0; font-family: var(--font-sans); font-variant-numeric: tabular-nums; }
+dl.mini > div { display: grid; gap: 0; }
+dl.mini dt { font-size: 0.6875rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+dl.mini dd { margin: 0; font-size: 0.9rem; font-weight: 600; color: var(--ink); }
+ul.bul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; align-content: start; font-family: var(--font-sans); font-size: 0.875rem; line-height: 1.4; color: var(--ink-2); }
+ul.bul li { position: relative; padding-left: 14px; }
+ul.bul li::before { content: ""; position: absolute; left: 0; top: 0.58em; width: 6px; height: 2px; background: var(--axis); }
+.dcard .res { margin: 0; padding-top: 10px; border-top: 1px solid var(--hair); font-family: var(--font-sans); font-size: 0.8125rem; color: var(--ink-2); display: flex; flex-wrap: wrap; gap: 2px 14px; font-variant-numeric: tabular-nums; }
+.dcard .res b { color: var(--ink); font-weight: 600; }
+.vchip { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-sans); font-size: var(--t-xs); font-weight: 500; letter-spacing: 0.02em; padding: 1px 9px 1px 7px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--axis); color: var(--ink-2); white-space: nowrap; }
+.vchip i { width: 9px; height: 9px; border-radius: 50%; box-sizing: border-box; flex: none; }
+.vchip.v0 i { box-shadow: inset 0 0 0 1.5px currentColor; }
+.vchip.v1 i { background: linear-gradient(90deg, currentColor 50%, transparent 50%); box-shadow: inset 0 0 0 1.5px currentColor; }
+.vchip.v2 i { background: currentColor; }
+
+/* §2 flow */
+figure.flow { margin: 0; display: grid; gap: 14px; min-width: 0; }
+.rail { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0 22px; margin: 0; padding: 0; list-style: none; counter-reset: st; }
+.step { position: relative; display: grid; gap: 2px; align-content: start; padding: 9px 12px 10px; border: 1px solid var(--hair); border-radius: 6px; background: var(--card); font-family: var(--font-sans); transition: border-color 0.2s, background-color 0.2s; min-width: 0; }
+.step::after { content: "\2192"; position: absolute; right: -19px; top: 50%; transform: translateY(-50%); color: var(--axis); font-size: 0.95rem; }
+.step:last-child::after { content: none; }
+.step b { font-size: 0.8125rem; font-weight: 600; color: var(--ink); }
+.step span { font-size: 0.75rem; color: var(--muted); line-height: 1.35; }
+.step.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 9%, var(--card)); }
+.step.on b { color: var(--accent); }
+.loopmark { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0 22px; margin-top: -8px; }
+.loopmark div { grid-column: 3 / 5; height: 14px; border: 1px dashed var(--axis); border-top: 0; border-radius: 0 0 8px 8px; position: relative; margin-inline: 10%; }
+.loopmark div span { position: absolute; left: 50%; bottom: -9px; transform: translateX(-50%); background: var(--paper); padding-inline: 8px; font-family: var(--font-sans); font-size: 0.75rem; color: var(--muted); white-space: nowrap; }
+@media (max-width: 760px) {
+  .rail { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .step { padding: 7px 12px 8px; }
+  .step::after { content: "\2193"; right: auto; left: 50%; top: auto; bottom: -21px; transform: translateX(-50%); }
+  .step:last-child::after { content: none; }
+  .loopmark { display: none; }
+}
+@media (max-width: 480px) { .step span { display: none; } }
+.qa { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 14px; align-items: baseline; font-size: 0.92rem; line-height: 1.45; }
+.qa dt { font-family: var(--font-sans); font-size: var(--t-xs); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.qa dd { margin: 0; color: var(--ink-2); min-width: 0; }
+.qa dd.q { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-style: italic; }
+.qa dd.a { min-height: 2.9em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.qa dd.a b { color: var(--ink); font-weight: 600; }
+.qa dd.a mark { background: transparent; color: var(--accent); font-weight: 600; }
+.fhead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 18px; font-family: var(--font-sans); min-height: 2.6em; }
+.fhead b { font-size: 0.95rem; font-weight: 600; }
+.fhead .st { font-size: 0.8125rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.fhead .sep { margin-inline: 0.55em; color: var(--axis); }
+.fhead .st em { font-style: normal; color: var(--accent); font-weight: 600; }
+.slots { --cols: 16; display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); gap: 4px; }
+@media (max-width: 900px) { .slots { --cols: 8; } }
+@media (max-width: 480px) { .slots { --cols: 4; } }
+.slot { height: 34px; border-radius: 4px; display: flex; align-items: center; justify-content: center; padding-inline: 3px; overflow: hidden; white-space: nowrap; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: -0.02em; transition: background-color 0.25s, color 0.25s, box-shadow 0.25s; }
+.slot span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.slot.p { background: transparent; box-shadow: inset 0 0 0 1px var(--hair); }
+.slot.d { background: var(--cell); color: var(--ink); }
+.slot.m { background: transparent; box-shadow: inset 0 0 0 1px var(--muted); }
+.slot.a { background: var(--accent); color: var(--on-accent); }
+.slot.f { box-shadow: 0 0 0 2px var(--paper), 0 0 0 3.5px var(--accent); }
+.slot.new { animation: land 0.45s ease-out; }
+.slot.pop { animation: pop 0.32s ease-out backwards; animation-delay: calc(var(--i, 0) * 10ms); }
+.slots.reading .slot.d, .slots.reading .slot.m { animation: scan 0.5s ease-in-out; animation-delay: calc(var(--i, 0) * 8ms); }
+@keyframes land { from { transform: scale(1.14); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 35%, transparent); } to { transform: scale(1); } }
+@keyframes pop { from { opacity: 0; transform: translateY(5px); } }
+@keyframes scan { 50% { filter: brightness(1.18); } }
+.flow-legend { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 0; padding: 0; list-style: none; font-family: var(--font-sans); font-size: 0.8125rem; color: var(--ink-2); }
+.flow-legend li { display: inline-flex; align-items: center; gap: 7px; }
+.ks { display: inline-block; width: 16px; height: 14px; border-radius: 3px; flex: none; }
+.ks.p { box-shadow: inset 0 0 0 1px var(--hair); }
+.ks.d { background: var(--cell); }
+.ks.m { box-shadow: inset 0 0 0 1px var(--muted); }
+.ks.a { background: var(--accent); }
+.ks.f { background: var(--accent); box-shadow: 0 0 0 1.5px var(--paper), 0 0 0 2.5px var(--accent); }
+.meter { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 8px 22px; align-items: center; padding: 14px 16px; border: 1px solid var(--hair); border-radius: 6px; background: var(--card); font-family: var(--font-sans); }
+.meter .big { display: grid; gap: 0; }
+.meter .big b { font-family: var(--font-serif); font-weight: 600; font-size: 1.9rem; line-height: 1.1; font-variant-numeric: tabular-nums lining-nums; }
+.meter .big span { font-size: 0.75rem; color: var(--muted); }
+.mbars { display: grid; gap: 8px; min-width: 0; }
+.mrow { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr) 4.4rem; gap: 10px; align-items: center; font-size: 0.78rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.mrow.gap { margin-top: 4px; padding-top: 10px; border-top: 1px solid var(--hair); }
+.mrow .lab { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+.mrow .val { text-align: right; color: var(--ink); font-weight: 600; }
+.mtrack { height: 12px; border-radius: 2px; background: var(--hair); display: flex; overflow: hidden; }
+.mtrack i { display: block; height: 100%; width: 0; }
+.mtrack i.l { background: var(--ink-2); }
+.mtrack i.r { background: var(--s-qwen); }
+.mtrack i.s { background: var(--s-stock); }
+@media (max-width: 640px) {
+  .meter { grid-template-columns: minmax(0, 1fr); }
+  .mrow { grid-template-columns: minmax(0, 1fr) 3.8rem; gap: 3px 10px; }
+  .mrow .lab { grid-column: 1 / -1; }
+}
+.fctl { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; font-family: var(--font-sans); font-size: 0.8125rem; color: var(--muted); }
+.fctl button { font: inherit; font-weight: 500; color: var(--ink); background: var(--card); border: 1px solid var(--axis); border-radius: 4px; padding: 5px 12px; cursor: pointer; min-width: 4.2rem; }
+.fctl button:hover { border-color: var(--accent); color: var(--accent); }
+.fctl input[type=range] { flex: 1 1 160px; min-width: 120px; accent-color: var(--accent); }
+.fctl .pos { font-variant-numeric: tabular-nums; min-width: 7ch; text-align: right; }
+figure.flow figcaption { font-family: var(--font-sans); font-size: 0.8125rem; color: var(--muted); }
+
+/* analysis figures */
+.figs figure.chart.wide { grid-column: 1 / -1; }
+.sw.ring { background: transparent; border: 2px solid var(--ink-2); border-radius: 50%; width: 11px; height: 11px; }
+.sw.dot { background: var(--ink-2); border-radius: 50%; width: 11px; height: 11px; }
+.sw.band { width: 20px; height: 8px; background: var(--s-sdar); opacity: 0.3; }
+.sw.tick { width: 0; height: 12px; border-left: 1.5px dashed var(--ink-2); border-radius: 0; background: none; }
+.sw.dia { width: 9px; height: 9px; background: var(--ink); transform: rotate(45deg); border-radius: 1px; }
+.verdicts { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; font-family: var(--font-sans); font-size: 0.875rem; color: var(--ink-2); }
+.verdicts li { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font-variant-numeric: tabular-nums; }
+.verdicts li b { color: var(--ink); font-weight: 600; display: inline-flex; align-items: center; gap: 8px; min-width: 9.5rem; }
+.sc-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table.sc { border-collapse: collapse; width: 100%; min-width: 560px; font-family: var(--font-serif); font-size: 0.95rem; font-variant-numeric: tabular-nums lining-nums; border-top: 1.5px solid var(--rule); border-bottom: 1.5px solid var(--rule); }
+table.sc thead { border-bottom: 0.8px solid var(--rule); }
+table.sc th, table.sc td { padding: 5px 12px; text-align: right; vertical-align: baseline; }
+table.sc th { font-weight: 400; color: var(--ink-2); }
+table.sc th.l, table.sc td.l { text-align: left; }
+table.sc td.l { color: var(--ink); }
+table.sc tr.grp td { text-align: left; font-style: italic; color: var(--ink-2); padding-top: 12px; padding-bottom: 2px; border-top: 0.8px solid var(--axis); }
+table.sc tbody tr.grp:first-child td { border-top: 0; }
+table.sc td.ref { color: var(--muted); }
+table.sc td .ci { color: var(--muted); font-size: 0.85em; }
+table.sc td .vchip { margin-left: 8px; }
+table.sc th .sw { margin-right: 8px; vertical-align: 0; }
+
+.plan { display: grid; gap: 0; font-family: var(--font-sans); }
+.prow { display: grid; grid-template-columns: 1.4rem minmax(0, 1.25fr) 8.5rem minmax(0, 2.2fr); gap: 4px 14px; align-items: center; padding: 9px 0; border-top: 1px solid var(--hair); }
+.prow.head { border-top: 0; padding: 0 0 6px; font-size: 0.75rem; color: var(--muted); }
+.prow .rk { font-size: 0.8125rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.prow .nm { font-size: 0.9rem; color: var(--ink); line-height: 1.3; }
+.prow .nm small { display: block; font-size: 0.75rem; color: var(--muted); }
+.need { display: inline-flex; align-items: center; width: max-content; font-size: var(--t-xs); font-weight: 500; padding: 1px 9px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--axis); color: var(--ink-2); white-space: nowrap; }
+.need.t1 { background: var(--ink); color: var(--paper); box-shadow: none; }
+.need.t2 { background: color-mix(in srgb, var(--ink) 16%, var(--card)); box-shadow: none; color: var(--ink); }
+.pairs { display: grid; gap: 6px; min-width: 0; }
+.pbar { display: grid; grid-template-columns: minmax(0, 1fr) 8.6rem; gap: 10px; align-items: center; font-size: 0.78rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.ptrack { position: relative; height: 12px; background: var(--hair); border-radius: 2px; }
+.ptrack .est { position: absolute; left: 0; top: 0; bottom: 0; min-width: 2px; border-radius: 0 3px 3px 0; background-image: repeating-linear-gradient(135deg, rgba(255,255,255,0.38) 0 2px, transparent 2px 5px); }
+.ptrack .rng { position: absolute; top: 50%; height: 0; border-top: 1.5px solid var(--ink); }
+.ptrack .rng::before, .ptrack .rng::after { content: ""; position: absolute; top: -4px; height: 8px; border-left: 1.5px solid var(--ink); }
+.ptrack .rng::before { left: 0; }
+.ptrack .rng::after { right: 0; }
+.ptrack .band { position: absolute; top: 2px; bottom: 2px; background-image: repeating-linear-gradient(135deg, currentColor 0 2px, transparent 2px 5px); opacity: 0.55; }
+.ptrack .more { position: absolute; right: 2px; top: -3px; font-size: 0.8rem; color: var(--ink); line-height: 18px; }
+.ptxt b { color: var(--ink); font-weight: 600; }
+.ptxt span { color: var(--muted); }
+.prow.scen .nm { color: var(--ink-2); }
+.pscale { position: relative; height: 14px; }
+.pscale i { position: absolute; top: 0; transform: translateX(-50%); font-style: normal; font-size: 0.6875rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.pnote { margin: 0; padding-top: 8px; border-top: 1px solid var(--hair); font-family: var(--font-sans); font-size: 0.8125rem; color: var(--ink-2); display: flex; flex-wrap: wrap; gap: 4px 18px; }
+@media (max-width: 760px) {
+  .prow { grid-template-columns: 1.4rem minmax(0, 1fr); }
+  .prow .need, .prow .pairs { grid-column: 2; }
+  .prow.head { display: none; }
+}
+
+/* §9 candidates */
+.ctbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table.ctbl { border-collapse: collapse; width: 100%; min-width: 1000px; font-family: var(--font-sans); font-size: 0.8125rem; line-height: 1.4; border-top: 1.5px solid var(--rule); border-bottom: 1.5px solid var(--rule); }
+table.ctbl thead { border-bottom: 0.8px solid var(--rule); }
+table.ctbl th { font-weight: 500; font-size: 0.6875rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 8px 10px; vertical-align: bottom; }
+table.ctbl td { padding: 7px 10px; text-align: left; vertical-align: top; color: var(--ink-2); border-top: 1px solid var(--hair); }
+table.ctbl tbody tr:first-child td { border-top: 0; }
+table.ctbl td.diff { background: var(--diff); color: var(--ink); }
+table.ctbl td.idc { white-space: nowrap; color: var(--ink); font-weight: 600; }
+table.ctbl td.idc .sw { margin-right: 8px; vertical-align: -1px; }
+table.ctbl td.idc .pick { display: inline-block; margin-left: 8px; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--on-pick); background: var(--pick); border-radius: 3px; padding: 0 6px; }
+table.ctbl td.wt { font-family: var(--font-mono); font-size: 0.72rem; overflow-wrap: anywhere; min-width: 130px; }
+table.ctbl th, table.ctbl td { padding-inline: 8px; }
+table.ctbl .stc { display: inline-flex; align-items: center; gap: 6px; font-size: var(--t-xs); font-weight: 500; padding: 1px 10px 1px 8px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--axis); color: var(--muted); white-space: nowrap; }
+table.ctbl .stc.run { background: var(--ink); color: var(--paper); box-shadow: none; }
+table.ctbl .stc.ref { color: var(--ink-2); }
+.ckey { display: flex; flex-wrap: wrap; gap: 4px 18px; font-family: var(--font-sans); font-size: 0.8125rem; color: var(--muted); }
+.ckey span { display: inline-flex; align-items: center; gap: 7px; }
+.ckey i { display: inline-block; width: 16px; height: 12px; border-radius: 2px; background: var(--diff); box-shadow: inset 0 0 0 1px var(--axis); }
+.ckey i.pk { background: var(--pick); box-shadow: none; }
+table.hm { border-collapse: collapse; font-family: var(--font-serif); font-size: 0.95rem; font-variant-numeric: tabular-nums lining-nums; width: 100%; min-width: 560px; border-top: 1.5px solid var(--rule); border-bottom: 1.5px solid var(--rule); }
+table.hm thead { border-bottom: 0.8px solid var(--rule); }
+table.hm th, table.hm td { padding: 5px 12px; text-align: right; }
+table.hm th { font-weight: 400; color: var(--ink-2); }
+table.hm th.l, table.hm td.l { text-align: left; }
+table.hm td.l { color: var(--ink); }
+table.hm td.v { background: color-mix(in srgb, var(--accent) calc(var(--v) * 0.36%), transparent); }
+table.hm td.v small { display: block; font-family: var(--font-sans); font-size: 0.6875rem; color: var(--muted); line-height: 1.1; }
+table.hm td.na { color: var(--muted); }
+table.hm tr.tgt td { border-bottom: 0.8px solid var(--axis); }
+details.defs { font-family: var(--font-sans); font-size: 0.8125rem; color: var(--ink-2); }
+details.defs summary { cursor: pointer; color: var(--muted); width: max-content; }
+details.defs summary:hover { color: var(--accent); }
+details.defs dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 16px; margin: 8px 0 0; max-width: 110ch; }
+details.defs dt { font-weight: 600; color: var(--ink); }
+details.defs dd { margin: 0; }
+@media (max-width: 560px) { details.defs dl { grid-template-columns: minmax(0, 1fr); gap: 0; } details.defs dd { margin-bottom: 8px; } }
+@media (prefers-reduced-motion: reduce) {
+  .slot, .step { transition: none; }
+  .slot.new, .slot.pop, .slots.reading .slot { animation: none; }
+}
+
+/* line charts and the speedup-kind toggle */
+.figs .ftool { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; font-family: var(--font-sans); font-size: 0.8125rem; color: var(--muted); }
+.seg { display: inline-flex; border: 1px solid var(--axis); border-radius: 5px; overflow: hidden; }
+.seg button { font: inherit; font-weight: 500; color: var(--ink-2); background: var(--card); border: 0; padding: 6px 14px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--axis); }
+.seg button:hover { color: var(--accent); }
+.seg button[aria-checked="true"] { background: var(--ink); color: var(--paper); }
+.legend li svg { flex: none; }
+.tip .k i.ln { height: 3px; width: 12px; border-radius: 2px; }
+.tip .k b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* small multiples */
+.smgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 236px), 1fr)); gap: 26px 22px; }
+.smp { display: grid; gap: 2px; align-content: start; min-width: 0; }
+.smp h4 { margin: 0; font-family: var(--font-sans); font-size: 0.85rem; font-weight: 600; color: var(--ink); line-height: 1.3; }
+.smp h4 span { margin-left: 8px; font-weight: 400; font-size: 0.75rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.smb { min-width: 0; }
+.smb svg { display: block; overflow: visible; }
+.smb svg text { font-family: var(--font-sans); }
+.smp.pend .smb { height: 184px; display: grid; place-items: center; border: 1px dashed var(--axis); border-radius: 4px; }
+.smp.pend p { margin: 0; font-family: var(--font-sans); font-size: 0.8125rem; font-style: italic; color: var(--muted); }
+.smb .hit { fill: transparent; outline: none; cursor: default; }
+.smb .hit:focus-visible { stroke: var(--accent); stroke-width: 1.5; }
+
+/* rows that were run */
+table.ctbl tr.ran td { border-top: 2.5px solid var(--ink); border-bottom: 2.5px solid var(--ink); }
+table.ctbl tr.ran td:first-child { border-left: 2.5px solid var(--ink); }
+table.ctbl tr.ran td:last-child { border-right: 2.5px solid var(--ink); }
+table.ctbl .rantag { display: inline-block; margin-left: 8px; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--paper); background: var(--ink); border-radius: 3px; padding: 0 6px; }
+.ckey i.rn { background: transparent; box-shadow: none; border: 2.5px solid var(--ink); box-sizing: border-box; }
+
+/* final verdict */
+.vcards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 16px; }
+.vcard { display: grid; gap: 14px; align-content: start; padding: 16px 18px 18px; border: 1px solid var(--hair); border-radius: 6px; background: var(--card); min-width: 0; }
+.vcard .tag { font-family: var(--font-sans); font-size: var(--t-xs); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.vcard h3 { display: flex; align-items: center; gap: 8px; font-size: 1.15rem; }
+.vstats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px 22px; }
+.vstat { display: grid; gap: 3px; align-content: start; min-width: 0; font-family: var(--font-sans); }
+.vstat dt { font-size: 0.6875rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.vstat dd { margin: 0; display: grid; gap: 3px; min-width: 0; }
+.vstat .big { font-family: var(--font-serif); font-weight: 600; font-size: 1.7rem; line-height: 1.1; color: var(--ink); font-variant-numeric: lining-nums; }
+.vstat .big small { font-family: var(--font-sans); font-weight: 400; font-size: 0.8125rem; color: var(--muted); margin-left: 4px; }
+.vstat .sub { font-size: 0.8125rem; color: var(--ink-2); font-variant-numeric: tabular-nums; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; }
+.vstat svg { display: block; overflow: visible; max-width: 100%; }
+.vstat svg text { font-family: var(--font-sans); }
+.vcard .ans { margin: 0; padding-top: 12px; border-top: 1px solid var(--hair); font-family: var(--font-sans); font-size: 0.95rem; font-weight: 600; color: var(--ink); line-height: 1.4; }
+.vclose { margin: 0; font-family: var(--font-sans); font-size: 0.9rem; color: var(--ink-2); max-width: 90ch; line-height: 1.5; }
+</style>
+
+<main class="wrap">
+  <header class="masthead">
+    <p class="kicker">Phase 2 &middot; pure inference &middot; nothing trained</p>
+    <h1>Phase 2 Drafter Swap</h1>
+    <p class="lede">Same frozen 30B and judge, three different drafters.</p>
+    <p class="status" id="status"></p>
+    <nav class="toc" aria-label="Sections">
+      <a href="#verdict">Verdict</a><a href="#setup">Setup</a><a href="#flow">How a block is written</a><a href="#cov">Coverage</a><a href="#table">Results</a><a href="#figures">Figures</a><a href="#dip">Accuracy</a><a href="#why">Passes</a><a href="#levers">Speed levers</a><a href="#cands">Candidates</a>
+    </nav>
+  </header>
+
+  <section id="verdict" aria-labelledby="h-verdict" hidden>
+    <h2 id="h-verdict">Final verdict</h2>
+    <div class="vcards" id="vcards"></div>
+    <p class="vclose" id="vclose"></p>
+  </section>
+
+  <section id="setup" aria-labelledby="h-setup">
+    <h2 id="h-setup"><span class="secno">1</span>Setup</h2>
+    <dl class="spec">
+      <div><dt>Target, frozen</dt><dd><b>SDAR-30B-A3B-Chat-b32</b><span>MoE, 48 layers &times; 128 experts, 8 per token, blocks of 32</span></dd></div>
+      <div><dt>Judge, frozen</dt><dd><b>LoRA adapter from Phase 1</b><span>128M training tokens, hash <span class="mono">35805974</span></span></dd></div>
+      <div><dt>Expert pool</dt><dd><b>None</b><span>only the drafter changes</span></dd></div>
+      <div><dt>Cost unit</dt><dd><b>Experts loaded per token</b><span>counted for the 30B and for the drafter</span></dd></div>
+      <div><dt>Statistics</dt><dd><b>Paired &Delta; vs SDAR-1.7B</b><span>95% bootstrap CI, 2000 resamples</span></dd></div>
+      <div class="wide"><dt>Benchmarks, full sets</dt><dd><div class="bench" id="bench"></div></dd></div>
+    </dl>
+    <div class="dcards" id="dcards"></div>
+  </section>
+
+  <section id="flow" aria-labelledby="h-flow">
+    <h2 id="h-flow"><span class="secno">2</span>How a block is written</h2>
+    <figure class="flow" id="flow-fig" aria-label="Animated replay of one real decode">
+      <ol class="rail" id="rail"></ol>
+      <div class="loopmark" aria-hidden="true"><div><span>next pass, until every slot is accepted</span></div></div>
+      <dl class="qa"><dt>Prompt</dt><dd class="q" id="qa-q"></dd><dt>Answer</dt><dd class="a" id="qa-a"></dd></dl>
+      <div class="fhead"><b id="fh-block"></b><span class="st" id="fh-st"></span></div>
+      <div class="slots" id="slots" role="img" aria-label="The 32 token slots of the current block"></div>
+      <ul class="flow-legend">
+        <li><i class="ks d" aria-hidden="true"></i>drafted token, kept</li>
+        <li><i class="ks a" aria-hidden="true"></i>accepted by the judge (p &gt; 0.95)</li>
+        <li><i class="ks f" aria-hidden="true"></i>forced: nothing cleared 0.95</li>
+        <li><i class="ks m" aria-hidden="true"></i>re-masked</li>
+        <li><i class="ks p" aria-hidden="true"></i>prompt token</li>
+      </ul>
+      <div class="meter" aria-live="off">
+        <div class="big"><b id="m-total">0</b><span>expert loads so far</span></div>
+        <div class="mbars">
+          <div class="mrow"><span class="lab"><i class="sw" style="background:var(--ink-2)" aria-hidden="true"></i>30B experts</span><div class="mtrack"><i class="l" id="mb-30"></i></div><span class="val" id="mv-30">0</span></div>
+          <div class="mrow"><span class="lab"><i class="sw" id="mb-dr-sw" aria-hidden="true"></i>drafter, charged</span><div class="mtrack"><i class="r" id="mb-dr2"></i></div><span class="val" id="mv-dr">0</span></div>
+          <div class="mrow gap"><span class="lab"><i class="sw" style="background:var(--s-stock)" aria-hidden="true"></i>stock 30B / token</span><div class="mtrack"><i class="s" id="mb-stock"></i></div><span class="val" id="mv-stock">&nbsp;</span></div>
+          <div class="mrow"><span class="lab"><i class="sw" style="background:var(--ink)" aria-hidden="true"></i>this answer / token</span><div class="mtrack"><i class="l" id="mb-this"></i></div><span class="val" id="mv-this">&nbsp;</span></div>
+        </div>
+      </div>
+      <div class="fctl">
+        <button type="button" id="f-play" aria-pressed="true">Pause</button>
+        <button type="button" id="f-prev" aria-label="Previous step">Prev</button>
+        <button type="button" id="f-next" aria-label="Next step">Next</button>
+        <input type="range" id="f-range" min="0" max="1" value="0" aria-label="Step through the decode">
+        <span class="pos" id="f-pos"></span>
+      </div>
+      <figcaption id="flow-cap"></figcaption>
+    </figure>
+  </section>
+
+  <section id="cov" aria-labelledby="h-cov">
+    <h2 id="h-cov"><span class="secno">3</span>Coverage</h2>
+    <p class="caption">Finished runs per new drafter. Reference rows come from earlier records.</p>
+    <div class="cov-wrap" id="coverage"></div>
+  </section>
+
+  <section id="table" aria-labelledby="h-table">
+    <h2 id="h-table"><span class="secno">4</span>Results</h2>
+    <p class="caption"><b>Table 1.</b> Per benchmark. Every row except Stock 30B runs the frozen 30B and judge with no expert pool; only the drafter differs. Bold marks the best value in a benchmark; * marks a paired &Delta; whose 95% CI excludes 0.</p>
+    <div class="tbl-wrap" id="table1"></div>
+    <details class="defs">
+      <summary>Column definitions</summary>
+      <dl>
+        <dt>Accuracy</dt><dd>Share of items answered correctly.</dd>
+        <dt>&Delta; vs SDAR-1.7B</dt><dd>Paired per-item difference in points against SDAR-1.7B + judge (no pool), with the 95% bootstrap CI in brackets.</dd>
+        <dt>Experts / token</dt><dd>MoE experts the 30B loads per generated token.</dd>
+        <dt>MoE-only speedup</dt><dd>Stock experts per token divided by this setup's, drafter treated as free.</dd>
+        <dt>Full-pipeline speedup</dt><dd>Stock experts per token divided by this setup's experts plus the drafter's cost per token. One drafter forward is charged as 364.64 expert loads for SDAR-1.7B and CoDA-1.7B, 126.32 for Qwen3-0.6B.</dd>
+        <dt>Drafter-only speedup</dt><dd>SDAR-1.7B's drafter cost per token divided by this drafter's (compute), and the same with measured drafter milliseconds (time).</dd>
+        <dt>Passes / block</dt><dd>30B forward passes per 32-token block, excluding prefill and flush.</dd>
+        <dt>Draft tokens kept</dt><dd>Share of drafter tokens that remain in the final answer.</dd>
+        <dt>Grey values</dt><dd>Fixed by definition. Bold accuracy does not mean a significant difference.</dd>
+      </dl>
+    </details>
+    <div class="notes">
+      <p>&dagger; SDAR-1.7B drafter timings are Phase 1 records from a different machine of the same type, so time ratios carry a cross-machine caveat. Compute ratios do not.</p>
+    </div>
+  </section>
+
+  <section id="figures" aria-labelledby="h-figs">
+    <h2 id="h-figs"><span class="secno">5</span>Figures</h2>
+    <p class="notes" id="fig-note"></p>
+    <div class="figs" id="figs"></div>
+  </section>
+
+  <section id="dip" aria-labelledby="h-dip" hidden>
+    <h2 id="h-dip"><span class="secno">6</span>Did accuracy dip?</h2>
+    <ul class="verdicts" id="verdicts"></ul>
+    <div class="figs" id="figs-dip"></div>
+    <div id="score"></div>
+  </section>
+
+  <section id="why" aria-labelledby="h-why" hidden>
+    <h2 id="h-why"><span class="secno">7</span>Where the extra passes come from</h2>
+    <div class="figs" id="figs-why"></div>
+  </section>
+
+  <section id="levers" aria-labelledby="h-levers" hidden>
+    <h2 id="h-levers"><span class="secno">8</span>What could still be faster</h2>
+    <div class="figs" id="figs-levers"></div>
+  </section>
+
+  <section id="cands" aria-labelledby="h-cands" hidden>
+    <h2 id="h-cands"><span class="secno">9</span>Candidate drafters</h2>
+    <p class="caption">The recommended candidates considered for Phase 2, from the team's Notion page. Outlined rows were run; S0 is the baseline reference.</p>
+    <div class="ckey" aria-label="Key"><span><i aria-hidden="true"></i>differs from SDAR-1.7B</span><span><i class="pk" aria-hidden="true"></i>recommended pick</span><span><i class="rn" aria-hidden="true"></i>ran in this experiment</span></div>
+    <div id="cand-tables" style="display:grid;gap:40px"></div>
+  </section>
+
+  <footer>
+    <p>Numbers come from per-item decode logs, aggregated by <span class="mono">table.py</span> into <span class="mono">metrics.json</span>; the analysis sections come from <span class="mono">analysis.json</span> (CPU-only, offline estimates are marked); all embedded by <span class="mono">build.py</span>. Only no-pool runs are shown.</p>
+    <p id="foot-snap"></p>
+  </footer>
+</main>
+
+<div class="tip" id="tip" role="status" aria-live="polite" hidden></div>
+
+<script type="application/json" id="metrics-data" data-snapshot="2026-10-05 17:43 UTC">{"humaneval":{"stock":{"n":164,"acc":78.04878,"exp_tok":982.3371,"drafter_fwd_tok":0.0,"drafter_cost_tok":0.0,"charged_tok":982.3371,"drafter_ms_tok":0.0,"ms_tok":172.523859,"passes_blk":8.255639,"kept":null},"S0_nopool":{"n":164,"acc":74.390244,"exp_tok":739.193037,"drafter_fwd_tok":0.359416,"drafter_cost_tok":131.057557,"charged_tok":870.250594,"drafter_ms_tok":3.398656,"ms_tok":68.522578,"passes_blk":5.91474,"kept":70.371543,"sp_judge":1.328932,"sp_full":1.128798,"sp_drafter_compute":1.0,"sp_drafter_time":1.0},"F2_nopool":{"n":164,"acc":76.219512,"exp_tok":712.194457,"drafter_fwd_tok":0.311947,"drafter_cost_tok":113.748501,"charged_tok":825.942959,"drafter_ms_tok":3.644298,"ms_tok":80.810587,"passes_blk":5.575887,"kept":53.702311,"sp_judge":1.37931,"sp_full":1.189352,"sp_drafter_compute":1.15217,"sp_drafter_time":0.932595},"F2_nopool_delta":[1.829268,-3.658537,7.926829],"S1_nopool":{"n":164,"acc":78.04878,"exp_tok":715.63422,"drafter_fwd_tok":0.368905,"drafter_cost_tok":46.600039,"charged_tok":762.234259,"drafter_ms_tok":4.361615,"ms_tok":82.182492,"passes_blk":5.430931,"kept":43.963089,"sp_judge":1.37268,"sp_full":1.28876,"sp_drafter_compute":2.812392,"sp_drafter_time":0.77922},"S1_nopool_delta":[3.658537,-1.829268,9.756098]},"mbpp":{"stock":{"n":257,"acc":65.36965,"exp_tok":1713.958362,"drafter_fwd_tok":0.0,"drafter_cost_tok":0.0,"charged_tok":1713.958362,"drafter_ms_tok":0.0,"ms_tok":295.619538,"passes_blk":11.925484,"kept":null},"S0_nopool":{"n":257,"acc":66.14786,"exp_tok":1285.367778,"drafter_fwd_tok":0.44291,"drafter_cost_tok":161.502639,"charged_tok":1446.870417,"drafter_ms_tok":4.183527,"ms_tok":117.160098,"passes_blk":8.75,"kept":59.378412,"sp_judge":1.333438,"sp_full":1.184597,"sp_drafter_compute":1.0,"sp_drafter_time":1.0},"F2_nopool":{"n":257,"acc":67.315175,"exp_tok":1331.15725,"drafter_fwd_tok":0.373115,"drafter_cost_tok":136.0528,"charged_tok":1467.210049,"drafter_ms_tok":4.271735,"ms_tok":148.061998,"passes_blk":9.252149,"kept":32.81898,"sp_judge":1.28757,"sp_full":1.168175,"sp_drafter_compute":1.187059,"sp_drafter_time":0.979351},"F2_nopool_delta":[1.167315,-3.891051,5.836576],"S1_nopool":{"n":257,"acc":68.48249,"exp_tok":1382.924226,"drafter_fwd_tok":0.44561,"drafter_cost_tok":56.289481,"charged_tok":1439.213706,"drafter_ms_tok":5.319417,"ms_tok":155.43337,"passes_blk":9.431918,"kept":15.808255,"sp_judge":1.239373,"sp_full":1.190899,"sp_drafter_compute":2.869144,"sp_drafter_time":0.786463},"S1_nopool_delta":[2.33463,-3.501946,7.782101]},"gsm8k500":{"stock":{"n":500,"acc":90.2,"exp_tok":1164.172294,"drafter_fwd_tok":0.0,"drafter_cost_tok":0.0,"charged_tok":1164.172294,"drafter_ms_tok":0.0,"ms_tok":197.611041,"passes_blk":10.056057,"kept":null},"S0_nopool":{"n":500,"acc":91.6,"exp_tok":888.522405,"drafter_fwd_tok":0.332107,"drafter_cost_tok":121.099578,"charged_tok":1009.621983,"drafter_ms_tok":3.066903,"ms_tok":79.483095,"passes_blk":7.12241,"kept":51.01781,"sp_judge":1.310234,"sp_full":1.153077,"sp_drafter_compute":1.0,"sp_drafter_time":1.0},"F2_nopool":{"n":500,"acc":91.0,"exp_tok":976.260319,"drafter_fwd_tok":0.288608,"drafter_cost_tok":105.237927,"charged_tok":1081.498247,"drafter_ms_tok":3.289144,"ms_tok":107.050443,"passes_blk":8.043451,"kept":28.555003,"sp_judge":1.192481,"sp_full":1.076444,"sp_drafter_compute":1.150722,"sp_drafter_time":0.932432},"F2_nopool_delta":[-0.6,-2.2,0.8],"S1_nopool":{"n":500,"acc":91.6,"exp_tok":942.175649,"drafter_fwd_tok":0.332706,"drafter_cost_tok":42.027485,"charged_tok":984.203134,"drafter_ms_tok":3.930838,"ms_tok":104.506106,"passes_blk":7.618112,"kept":28.663967,"sp_judge":1.235621,"sp_full":1.182858,"sp_drafter_compute":2.881438,"sp_drafter_time":0.780216},"S1_nopool_delta":[0.0,-1.4,1.4]},"ifeval541":{"stock":{"n":541,"acc":52.680222,"exp_tok":1576.549371,"drafter_fwd_tok":0.0,"drafter_cost_tok":0.0,"charged_tok":1576.549371,"drafter_ms_tok":0.0,"ms_tok":140.321879,"passes_blk":20.228924,"kept":null},"S0_nopool":{"n":541,"acc":51.016636,"exp_tok":1229.87003,"drafter_fwd_tok":0.301251,"drafter_cost_tok":109.848242,"charged_tok":1339.718273,"drafter_ms_tok":2.818655,"ms_tok":111.976249,"passes_blk":15.565624,"kept":45.894019,"sp_judge":1.281883,"sp_full":1.176777,"sp_drafter_compute":1.0,"sp_drafter_time":1.0},"F2_nopool":{"n":541,"acc":49.907579,"exp_tok":1220.15963,"drafter_fwd_tok":0.265259,"drafter_cost_tok":96.724135,"charged_tok":1316.883765,"drafter_ms_tok":3.551461,"ms_tok":137.465454,"passes_blk":15.524613,"kept":41.769324,"sp_judge":1.292085,"sp_full":1.197182,"sp_drafter_compute":1.135686,"sp_drafter_time":0.793661},"F2_nopool_delta":[-1.109057,-4.621072,2.5878],"S1_nopool":{"n":541,"acc":51.386322,"exp_tok":1323.915937,"drafter_fwd_tok":0.308369,"drafter_cost_tok":38.953151,"charged_tok":1362.869088,"drafter_ms_tok":3.654123,"ms_tok":149.915346,"passes_blk":16.480602,"kept":35.899908,"sp_judge":1.190823,"sp_full":1.156787,"sp_drafter_compute":2.820009,"sp_drafter_time":0.771363},"S1_nopool_delta":[0.369686,-3.142329,3.881701]},"math500":{"stock":{"n":500,"acc":72.4,"exp_tok":853.544547,"drafter_fwd_tok":0.0,"drafter_cost_tok":0.0,"charged_tok":853.544547,"drafter_ms_tok":0.0,"ms_tok":150.459437,"passes_blk":8.524915,"kept":null},"S0_nopool":{"n":500,"acc":71.6,"exp_tok":687.64167,"drafter_fwd_tok":0.296911,"drafter_cost_tok":108.26553,"charged_tok":795.907199,"drafter_ms_tok":2.828381,"ms_tok":63.577482,"passes_blk":6.381398,"kept":62.385204,"sp_judge":1.241264,"sp_full":1.072417,"sp_drafter_compute":1.0,"sp_drafter_time":1.0},"F2_nopool":{"n":500,"acc":69.8,"exp_tok":754.717004,"drafter_fwd_tok":0.261738,"drafter_cost_tok":95.44013,"charged_tok":850.157134,"drafter_ms_tok":3.651991,"ms_tok":84.120259,"passes_blk":7.1736,"kept":33.894887,"sp_judge":1.130946,"sp_full":1.003984,"sp_drafter_compute":1.134382,"sp_drafter_time":0.774476},"F2_nopool_delta":[-1.8,-5.0,1.4],"S1_nopool":{"n":500,"acc":71.2,"exp_tok":728.846835,"drafter_fwd_tok":0.298289,"drafter_cost_tok":37.679923,"charged_tok":766.526758,"drafter_ms_tok":3.528569,"ms_tok":81.604898,"passes_blk":6.822254,"kept":39.918357,"sp_judge":1.171089,"sp_full":1.113522,"sp_drafter_compute":2.873295,"sp_drafter_time":0.801566},"S1_nopool_delta":[-0.4,-3.2,2.6]},"gpqa":{"stock":{"n":198,"acc":37.373737,"exp_tok":1381.110013,"drafter_fwd_tok":0.0,"drafter_cost_tok":0.0,"charged_tok":1381.110013,"drafter_ms_tok":0.0,"ms_tok":245.829325,"passes_blk":16.071468,"kept":null},"S0_nopool":{"n":198,"acc":36.868687,"exp_tok":1090.343192,"drafter_fwd_tok":0.296018,"drafter_cost_tok":107.9401,"charged_tok":1198.283292,"drafter_ms_tok":2.844507,"ms_tok":100.035768,"passes_blk":12.003431,"kept":43.427715,"sp_judge":1.266675,"sp_full":1.152574,"sp_drafter_compute":1.0,"sp_drafter_time":1.0},"F2_nopool":{"n":198,"acc":38.888889,"exp_tok":1136.593515,"drafter_fwd_tok":0.26129,"drafter_cost_tok":95.276687,"charged_tok":1231.870201,"drafter_ms_tok":4.111221,"ms_tok":125.778102,"passes_blk":12.613401,"kept":34.331747,"sp_judge":1.215131,"sp_full":1.121149,"sp_drafter_compute":1.132912,"sp_drafter_time":0.691889},"F2_nopool_delta":[2.020202,-4.040404,8.585859],"S1_nopool":{"n":198,"acc":34.848485,"exp_tok":1125.468985,"drafter_fwd_tok":0.29739,"drafter_cost_tok":37.566262,"charged_tok":1163.035247,"drafter_ms_tok":3.523197,"ms_tok":124.944824,"passes_blk":12.388086,"kept":33.116603,"sp_judge":1.227142,"sp_full":1.187505,"sp_drafter_compute":2.873326,"sp_drafter_time":0.807365},"S1_nopool_delta":[-2.020202,-8.585859,4.545455]},"aime":{"stock":{"n":90,"acc":7.142857,"exp_tok":997.713842,"drafter_fwd_tok":0.0,"drafter_cost_tok":0.0,"charged_tok":997.713842,"drafter_ms_tok":0.0,"ms_tok":178.368288,"passes_blk":10.76577,"kept":null},"S0_nopool":{"n":90,"acc":5.555556,"exp_tok":789.340865,"drafter_fwd_tok":0.29137,"drafter_cost_tok":106.245307,"charged_tok":895.586172,"drafter_ms_tok":2.686427,"ms_tok":69.367895,"passes_blk":7.873201,"kept":56.815009,"sp_judge":1.263984,"sp_full":1.114034,"sp_drafter_compute":1.0,"sp_drafter_time":1.0},"F2_nopool":{"n":90,"acc":7.777778,"exp_tok":879.653686,"drafter_fwd_tok":0.257335,"drafter_cost_tok":93.834651,"charged_tok":973.488336,"drafter_ms_tok":3.905356,"ms_tok":97.598649,"passes_blk":8.98127,"kept":33.433206,"sp_judge":1.134212,"sp_full":1.024885,"sp_drafter_compute":1.132261,"sp_drafter_time":0.687883},"F2_nopool_delta":[2.222222,-2.222222,6.666667],"S1_nopool":{"n":90,"acc":6.666667,"exp_tok":822.84998,"drafter_fwd_tok":0.29079,"drafter_cost_tok":36.732533,"charged_tok":859.582513,"drafter_ms_tok":3.432333,"ms_tok":91.414323,"passes_blk":8.314572,"kept":40.830918,"sp_judge":1.21251,"sp_full":1.160696,"sp_drafter_compute":2.892403,"sp_drafter_time":0.782682},"S1_nopool_delta":[1.111111,-3.333333,5.555556]}}</script>
+<script type="application/json" id="analysis-data" data-snapshot="2026-10-05 17:47 UTC">{"generated":"2026-10-05T17:47:37Z","arms":{"F2_nopool":{"label":"CoDA-1.7B","sets":["humaneval","mbpp","gsm8k500","ifeval541","math500","gpqa","aime"],"pooled":{"n":2250,"n_sets":7,"delta":-0.002667,"lo":-0.017778,"hi":0.011556,"mcnemar_p":0.768338,"x_only":141,"y_only":147,"macro_delta":0.005329,"macro_lo":-0.011563,"macro_hi":0.022144,"acc_x":0.647111,"acc_y":0.649778,"verdict":"non-significant dip"},"per_set":{"humaneval":{"n":164,"acc_x":0.762195,"acc_y":0.743902,"delta":0.018293,"lo":-0.036585,"hi":0.079268,"mcnemar_p":0.677639,"x_only":13,"y_only":10,"verdict":"no dip","A_passes":5.91474},"mbpp":{"n":257,"acc_x":0.673152,"acc_y":0.661479,"delta":0.011673,"lo":-0.038911,"hi":0.058366,"mcnemar_p":0.749259,"x_only":21,"y_only":18,"verdict":"no dip","A_passes":8.75},"gsm8k500":{"n":500,"acc_x":0.91,"acc_y":0.916,"delta":-0.006,"lo":-0.022,"hi":0.008,"mcnemar_p":0.607239,"x_only":6,"y_only":9,"verdict":"non-significant dip","A_passes":7.12241},"ifeval541":{"n":541,"acc_x":0.499076,"acc_y":0.510166,"delta":-0.011091,"lo":-0.046211,"hi":0.025878,"mcnemar_p":0.613734,"x_only":46,"y_only":52,"verdict":"non-significant dip","A_passes":15.565624},"math500":{"n":500,"acc_x":0.698,"acc_y":0.716,"delta":-0.018,"lo":-0.05,"hi":0.014,"mcnemar_p":0.328432,"x_only":29,"y_only":38,"verdict":"non-significant dip","A_passes":6.381398},"gpqa":{"n":198,"acc_x":0.388889,"acc_y":0.368687,"delta":0.020202,"lo":-0.040404,"hi":0.085859,"mcnemar_p":0.643969,"x_only":23,"y_only":19,"verdict":"no dip","A_passes":12.003431},"aime":{"n":90,"acc_x":0.077778,"acc_y":0.055556,"delta":0.022222,"lo":-0.022222,"hi":0.066667,"mcnemar_p":0.625,"x_only":3,"y_only":1,"verdict":"no dip","A_passes":7.873201}},"ind":{"agreement_new_vs_A":[0.3575,0.5386],"passes_per_block_new_vs_A":[10.3157,9.7247],"forced_per_block_new_vs_A":[5.1167,4.5858],"stock_divergence_hazard_new_vs_A":[0.2782,0.3463],"slot_match_to_stock_new_vs_A":[0.818,0.7811],"commit_precision_clean_new":0.982,"error_entry_rate_new":0.018,"error_entry_by_type_new":{"confirm":0.1676,"override":0.3541,"forced":0.4784},"wrong_draft_confirmed_first_read_new":0.0018,"correct_draft_recall_first_read_new":0.7319,"agreement_block0_new_vs_A":[0.0159,0.4145],"agreement_later_new_vs_A":[0.3909,0.5508],"think_preamble_block0_new":1.0,"block0_excess_pass_share":0.0053,"no_eos_new_A_stock":[0.0689,0.0653,0.056],"charged_speedup_new_vs_A":[1.0869,1.1231]},"content":{"humaneval":{"raw_new":0.601093,"content_new":0.581788,"raw_A":0.692175,"content_A":0.653883,"content_A_range":[0.647973,0.791568],"header_new":0.029898,"tail_new":0.13181,"tail_A":0.125564},"mbpp":{"raw_new":0.400131,"content_new":0.272944,"raw_A":0.540413,"content_A":0.416861,"content_A_range":[0.396699,0.709402],"header_new":0.051358,"tail_new":0.236914,"tail_A":0.238213},"gsm8k500":{"raw_new":0.308483,"content_new":0.259722,"raw_A":0.541223,"content_A":0.499776,"content_A_range":[0.497766,0.59249],"header_new":0.020015,"tail_new":0.084495,"tail_A":0.086527},"ifeval541":{"raw_new":0.43475,"content_new":0.431455,"raw_A":0.464353,"content_A":0.450436,"content_A_range":[0.448983,0.477677],"header_new":0.010287,"tail_new":0.029012,"tail_A":0.027894},"math500":{"raw_new":0.348343,"content_new":0.337423,"raw_A":0.621451,"content_A":0.612149,"content_A_range":[0.611544,0.637714],"header_new":0.006956,"tail_new":0.024776,"tail_A":0.025502},"gpqa":{"raw_new":0.352668,"content_new":0.34253,"raw_A":0.43629,"content_A":0.423743,"content_A_range":[0.422465,0.44699],"header_new":0.006518,"tail_new":0.024308,"tail_A":0.023937},"aime":{"raw_new":0.340827,"content_new":0.33507,"raw_A":0.567063,"content_A":0.560553,"content_A_range":[0.560323,0.575891],"header_new":0.005023,"tail_new":0.014036,"tail_A":0.01533}},"classes":{"humaneval":{"header":0.29646,"padding":0.427155,"kept":1.258691,"plausible":0.741822,"miss":2.85176,"total":5.575887},"mbpp":{"header":0.268083,"padding":0.749948,"kept":1.113125,"plausible":1.634841,"miss":5.486152,"total":9.252149},"gsm8k500":{"header":0.241682,"padding":0.257311,"kept":0.964721,"plausible":1.237094,"miss":5.342643,"total":8.043451},"ifeval541":{"header":0.227018,"padding":0.271924,"kept":1.809469,"plausible":3.099508,"miss":10.116695,"total":15.524613},"math500":{"header":0.079305,"padding":0.089838,"kept":1.021121,"plausible":1.244517,"miss":4.738819,"total":7.1736},"gpqa":{"header":0.109708,"padding":0.127956,"kept":1.568175,"plausible":2.262694,"miss":8.544869,"total":12.613401},"aime":{"header":0.063992,"padding":0.055167,"kept":1.204637,"plausible":1.672371,"miss":5.985103,"total":8.98127}},"gap":{"humaneval":{"first":0.084474,"padding":-0.087881,"plausible":-0.070421,"miss":-0.270717,"mix":0.005692,"total":-0.338853},"mbpp":{"first":0.392225,"padding":-0.060877,"plausible":0.024601,"miss":0.082556,"mix":0.063644,"total":0.502149},"gsm8k500":{"first":0.024483,"padding":0.101844,"plausible":0.148808,"miss":0.642658,"mix":0.003247,"total":0.921041},"ifeval541":{"first":0.032061,"padding":0.006535,"plausible":-0.018076,"miss":-0.058998,"mix":-0.002532,"total":-0.041011},"math500":{"first":0.044279,"padding":0.038614,"plausible":0.147053,"miss":0.559943,"mix":0.002313,"total":0.792202},"gpqa":{"first":0.080687,"padding":0.012457,"plausible":0.107085,"miss":0.404399,"mix":0.005342,"total":0.60997},"aime":{"first":0.049403,"padding":0.037845,"plausible":0.226822,"miss":0.811754,"mix":-0.017755,"total":1.108069}},"levers":{"Header strip / prefill":{"central":0.132962,"lo":0.0,"hi":0.424768,"best_set":"mbpp","best_set_cut":1.485712,"ranked":true},"Padding-token remap":{"central":0.016049,"lo":0.0,"hi":0.168747,"best_set":"ifeval541","best_set_cut":0.036367,"ranked":true},"Rule-fill of the post-EOS tail":{"central":0.13267,"lo":0.0,"hi":0.13267,"best_set":"humaneval","best_set_cut":1.075477,"ranked":true},"Judge retrained on this drafter (confidence)":{"central":1.172654,"lo":0.0,"hi":1.802395,"best_set":"humaneval","best_set_cut":2.998301,"ranked":true},"Drafter aligned to SDAR-1.7B's agreement":{"central":4.297229,"lo":0.0,"hi":4.921883,"best_set":"aime","best_set_cut":9.251733,"ranked":true},"Fewer drafter steps (8 -> 4)":{"central":null,"lo":0.0,"hi":4.561267,"best_set":"humaneval","best_set_cut":6.885978,"ranked":false},"Drafter +10 points content agreement":{"central":null,"lo":2.784301,"hi":9.216493,"best_set":"ifeval541","best_set_cut":12.24938,"ranked":false},"Ceiling: every block at >= 90% draft agreement":{"central":null,"lo":61.016364,"hi":61.016364,"best_set":"ifeval541","best_set_cut":75.649149,"ranked":false}},"speedup_now":1.086853},"S1_nopool":{"label":"Qwen3-0.6B bd3lm","sets":["humaneval","mbpp","gsm8k500","ifeval541","math500","gpqa","aime"],"pooled":{"n":2250,"n_sets":7,"delta":0.004,"lo":-0.010667,"hi":0.018222,"mcnemar_p":0.629589,"x_only":142,"y_only":133,"macro_delta":0.00722,"macro_lo":-0.010263,"macro_hi":0.024976,"acc_x":0.653778,"acc_y":0.649778,"verdict":"no dip"},"per_set":{"humaneval":{"n":164,"acc_x":0.780488,"acc_y":0.743902,"delta":0.036585,"lo":-0.018293,"hi":0.097561,"mcnemar_p":0.286279,"x_only":14,"y_only":8,"verdict":"no dip","A_passes":5.91474},"mbpp":{"n":257,"acc_x":0.684825,"acc_y":0.661479,"delta":0.023346,"lo":-0.035019,"hi":0.077821,"mcnemar_p":0.470879,"x_only":27,"y_only":21,"verdict":"no dip","A_passes":8.75},"gsm8k500":{"n":500,"acc_x":0.916,"acc_y":0.916,"delta":0.0,"lo":-0.014,"hi":0.014,"mcnemar_p":1.0,"x_only":7,"y_only":7,"verdict":"no dip","A_passes":7.12241},"ifeval541":{"n":541,"acc_x":0.513863,"acc_y":0.510166,"delta":0.003697,"lo":-0.031423,"hi":0.038817,"mcnemar_p":0.917041,"x_only":47,"y_only":45,"verdict":"no dip","A_passes":15.565624},"math500":{"n":500,"acc_x":0.712,"acc_y":0.716,"delta":-0.004,"lo":-0.032,"hi":0.026,"mcnemar_p":0.887725,"x_only":24,"y_only":26,"verdict":"non-significant dip","A_passes":6.381398},"gpqa":{"n":198,"acc_x":0.348485,"acc_y":0.368687,"delta":-0.020202,"lo":-0.085859,"hi":0.045455,"mcnemar_p":0.651588,"x_only":20,"y_only":24,"verdict":"non-significant dip","A_passes":12.003431},"aime":{"n":90,"acc_x":0.066667,"acc_y":0.055556,"delta":0.011111,"lo":-0.033333,"hi":0.055556,"mcnemar_p":1.0,"x_only":3,"y_only":2,"verdict":"no dip","A_passes":7.873201}},"ind":{"agreement_new_vs_A":[0.361,0.5386],"passes_per_block_new_vs_A":[10.1848,9.7247],"forced_per_block_new_vs_A":[4.9566,4.5858],"stock_divergence_hazard_new_vs_A":[0.2848,0.3463],"slot_match_to_stock_new_vs_A":[0.81,0.7811],"commit_precision_clean_new":0.981,"error_entry_rate_new":0.019,"error_entry_by_type_new":{"confirm":0.158,"override":0.3729,"forced":0.4691},"wrong_draft_confirmed_first_read_new":0.0019,"correct_draft_recall_first_read_new":0.708,"agreement_block0_new_vs_A":[0.0172,0.4145],"agreement_later_new_vs_A":[0.3959,0.5508],"think_preamble_block0_new":1.0,"block0_excess_pass_share":0.0049,"no_eos_new_A_stock":[0.0578,0.0653,0.056],"charged_speedup_new_vs_A":[1.1505,1.1231]},"content":{"humaneval":{"raw_new":0.495314,"content_new":0.584458,"raw_A":0.692175,"content_A":0.653883,"content_A_range":[0.647973,0.791568],"header_new":0.031874,"tail_new":0.144385,"tail_A":0.125564},"mbpp":{"raw_new":0.194107,"content_new":0.252434,"raw_A":0.540413,"content_A":0.416861,"content_A_range":[0.396699,0.709402],"header_new":0.052744,"tail_new":0.24269,"tail_A":0.238213},"gsm8k500":{"raw_new":0.3098,"content_new":0.341414,"raw_A":0.541223,"content_A":0.499776,"content_A_range":[0.497766,0.59249],"header_new":0.020365,"tail_new":0.087272,"tail_A":0.086527},"ifeval541":{"raw_new":0.374904,"content_new":0.395587,"raw_A":0.464353,"content_A":0.450436,"content_A_range":[0.448983,0.477677],"header_new":0.011189,"tail_new":0.0481,"tail_A":0.027894},"math500":{"raw_new":0.410401,"content_new":0.423827,"raw_A":0.621451,"content_A":0.612149,"content_A_range":[0.611544,0.637714],"header_new":0.007098,"tail_new":0.029852,"tail_A":0.025502},"gpqa":{"raw_new":0.34056,"content_new":0.35109,"raw_A":0.43629,"content_A":0.423743,"content_A_range":[0.422465,0.44699],"header_new":0.006866,"tail_new":0.027664,"tail_A":0.023937},"aime":{"raw_new":0.415847,"content_new":0.422935,"raw_A":0.567063,"content_A":0.560553,"content_A_range":[0.560323,0.575891],"header_new":0.004793,"tail_new":0.014199,"tail_A":0.01533}},"classes":{"humaneval":{"header":0.314729,"padding":0.392019,"kept":1.309137,"plausible":0.764702,"miss":2.650344,"total":5.430931},"mbpp":{"header":0.268362,"padding":1.028774,"kept":0.929415,"plausible":1.4733,"miss":5.732068,"total":9.431918},"gsm8k500":{"header":0.247849,"padding":0.249084,"kept":1.266763,"plausible":1.806871,"miss":4.047545,"total":7.618112},"ifeval541":{"header":0.244865,"padding":0.679764,"kept":1.825012,"plausible":3.571635,"miss":10.159325,"total":16.480602},"math500":{"header":0.081714,"padding":0.087002,"kept":1.313071,"plausible":1.642274,"miss":3.698193,"total":6.822254},"gpqa":{"header":0.109775,"padding":0.178204,"kept":1.680251,"plausible":2.642943,"miss":7.776913,"total":12.388086},"aime":{"header":0.058179,"padding":0.039509,"kept":1.495828,"plausible":2.05578,"miss":4.665276,"total":8.314572}},"gap":{"humaneval":{"first":0.086924,"padding":-0.194978,"plausible":-0.079988,"miss":-0.277228,"mix":-0.018539,"total":-0.483809},"mbpp":{"first":0.396489,"padding":0.191437,"plausible":0.017203,"miss":0.06693,"mix":0.00986,"total":0.681918},"gsm8k500":{"first":0.020834,"padding":-0.010369,"plausible":0.153069,"miss":0.342888,"mix":-0.010722,"total":0.495702},"ifeval541":{"first":0.023084,"padding":-0.027703,"plausible":0.241035,"miss":0.685611,"mix":-0.00705,"total":0.914978},"math500":{"first":0.044245,"padding":-0.026709,"plausible":0.131693,"miss":0.296556,"mix":-0.004928,"total":0.440856},"gpqa":{"first":0.060691,"padding":0.006166,"plausible":0.083677,"miss":0.246222,"mix":-0.012101,"total":0.384656},"aime":{"first":0.039424,"padding":0.010708,"plausible":0.115732,"miss":0.262636,"mix":0.01287,"total":0.441371}},"levers":{"Header strip / prefill":{"central":0.081969,"lo":0.0,"hi":0.418371,"best_set":"humaneval","best_set_cut":1.091167,"ranked":true},"Padding-token remap":{"central":0.048306,"lo":0.0,"hi":1.152277,"best_set":"mbpp","best_set_cut":1.522965,"ranked":true},"Rule-fill of the post-EOS tail":{"central":0.182761,"lo":0.0,"hi":0.182761,"best_set":"humaneval","best_set_cut":0.776763,"ranked":true},"Judge retrained on this drafter (confidence)":{"central":1.350909,"lo":0.0,"hi":2.089954,"best_set":"humaneval","best_set_cut":3.18103,"ranked":true},"Drafter aligned to SDAR-1.7B's agreement":{"central":4.365625,"lo":0.0,"hi":4.629085,"best_set":"ifeval541","best_set_cut":5.229974,"ranked":true},"Fewer drafter steps (8 -> 4)":{"central":null,"lo":0.0,"hi":1.920271,"best_set":"humaneval","best_set_cut":3.056806,"ranked":false},"Drafter +10 points content agreement":{"central":null,"lo":2.982588,"hi":9.780173,"best_set":"ifeval541","best_set_cut":11.906708,"ranked":false},"Ceiling: every block at >= 90% draft agreement":{"central":null,"lo":64.534378,"hi":64.534378,"best_set":"ifeval541","best_set_cut":81.737733,"ranked":false}},"speedup_now":1.150506}}}</script>
+<script type="application/json" id="flow-data">{"arm":"S1_nopool","set":"gsm8k500","idx":0,"question":"Janet’s ducks lay 16 eggs per day. She eats three for breakfast every morning and bakes muffins for her friends every day with four. She sells the remainder at the farmers' market daily for $2 per fresh duck egg. How much in dollars does she make every day at the farmers' market?","answer":"Janet's ducks lay 16 eggs per day.\nShe eats 3 eggs for breakfast and uses 4 eggs to bake muffins, so she uses a total of 3 + 4 = 7 eggs.\nThe number of eggs remaining to sell at the farmers' market is 16 - 7 = 9 eggs.\nShe sells each egg for $2, so she makes 9 * $2 = $18 every day at the farmers' market.\nThe answer is $\\boxed{18}$.","correct":true,"tau":0.95,"tokens":107,"prefill_cost":3236,"draft_cost":126.32,"drafter_forwards_per_draft":8,"drafter_prefill_forwards":1,"drafter_flush_forwards":1,"charged_per_token":956.2,"loads_total":96499,"blocks":[{"valid":"00000000000000000000000011111111","draft":["","","","","","","","","","","","","","","","","","","","","","","","","<think>","↵↵","<\/think>","↵↵","Jan","et","'s","ducks"],"final":["","","","","","","","","","","","","","","","","","","","","","","","","Janet","'s","ducks","lay","·","1","6","eggs"],"text":" Janet's ducks lay 16 eggs","passes":[{"st":"........................oooooooo","n_commit":8,"n_confirm":0,"n_keep":0,"n_remask":0,"forced":false,"cost":3232,"pmax":1.0}],"flush_cost":3317,"agreement":0.0,"tokens_total":8},{"valid":"11111111111111111111111111111111","draft":["per","day",".","She","eats","·","3","for","breakfast","every","morning","and","b","akes","muff","ins","for","·","friends","every","day","with","·","4",".","So","she","eats","·","3","+","·"],"final":["per","day",".↵","She","eats","·","3","eggs","for","breakfast","and","uses","·","4","eggs","to","bake","muff","ins",",","so","she","uses","a","total","of","·","3","+","·","4","="],"text":" per day.\nShe eats 3 eggs for breakfast and uses 4 eggs to bake muffins, so she uses a total of 3 + 4 =","passes":[{"st":"aaomamkkkmmkmmmmmmkmmmmmmmmmkmmk","n_commit":4,"n_confirm":3,"n_keep":7,"n_remask":21,"forced":false,"cost":2139,"pmax":1.0},{"st":"AAOoAaammmkkkkmmmmkmmmmmmmkmkkmk","n_commit":3,"n_confirm":2,"n_keep":9,"n_remask":16,"forced":false,"cost":2374,"pmax":1.0},{"st":"AAOOAAAfmmmmmmmkmmmmmmmmmmmmkkmk","n_commit":1,"n_confirm":0,"n_keep":4,"n_remask":20,"forced":true,"cost":2425,"pmax":0.881},{"st":"AAOOAAAOooommmkmmmmmmmmmmmmmkmmk","n_commit":3,"n_confirm":0,"n_keep":3,"n_remask":18,"forced":false,"cost":2421,"pmax":1.0},{"st":"AAOOAAAOOOOomommmmmmmmmmmmmmmkkk","n_commit":2,"n_confirm":0,"n_keep":3,"n_remask":16,"forced":false,"cost":2517,"pmax":0.995},{"st":"AAOOAAAOOOOOoOommmmmmmmmmmmmkmmk","n_commit":2,"n_confirm":0,"n_keep":2,"n_remask":15,"forced":false,"cost":2624,"pmax":1.0},{"st":"AAOOAAAOOOOOOOOommmmmmmmmmmmkkmk","n_commit":1,"n_confirm":0,"n_keep":3,"n_remask":13,"forced":false,"cost":2621,"pmax":0.971},{"st":"AAOOAAAOOOOOOOOOoooommmmmmmmkkmk","n_commit":4,"n_confirm":0,"n_keep":3,"n_remask":9,"forced":false,"cost":2633,"pmax":1.0},{"st":"AAOOAAAOOOOOOOOOOOOOooommomommmm","n_commit":5,"n_confirm":0,"n_keep":0,"n_remask":7,"forced":false,"cost":2724,"pmax":1.0},{"st":"AAOOAAAOOOOOOOOOOOOOOOOooOoOoomm","n_commit":5,"n_confirm":0,"n_keep":0,"n_remask":2,"forced":false,"cost":2897,"pmax":1.0},{"st":"AAOOAAAOOOOOOOOOOOOOOOOOOOOOOOoo","n_commit":2,"n_confirm":0,"n_keep":0,"n_remask":0,"forced":false,"cost":3109,"pmax":1.0}],"flush_cost":3068,"agreement":0.156,"tokens_total":40},{"valid":"11111111111111111111111111111111","draft":["·","7","eggs","per","day",".↵","She",",","however",",","has","·","9","eggs","eggs","at","the","farmers","'","market",".↵","So","sells","·","9","-","·","7","=","·","2","eggs"],"final":["·","7","eggs",".↵","The","number","of","eggs","remaining","to","sell","at","the","farmers","'","market","is","·","1","6","-","·","7","=","·","9","eggs",".↵","She","sells","each","egg"],"text":" 7 eggs.\nThe number of eggs remaining to sell at the farmers' market is 16 - 7 = 9 eggs.\nShe sells each egg","passes":[{"st":"aaaoommmmmmmmmmmmmmmmmmkmmkmmmmm","n_commit":5,"n_confirm":3,"n_keep":2,"n_remask":25,"forced":false,"cost":2319,"pmax":1.0},{"st":"AAAOOmfmmmmmmmmmmmmmmmmkmmmmmmmm","n_commit":1,"n_confirm":0,"n_keep":1,"n_remask":25,"forced":true,"cost":2329,"pmax":0.823},{"st":"AAAOOmOommmmmmmmmmmmmmmmmmmmmmmm","n_commit":1,"n_confirm":0,"n_keep":0,"n_remask":25,"forced":false,"cost":2375,"pmax":0.97},{"st":"AAAOOfOOmmmmmmmmmmmmmmmmmmmmmmmm","n_commit":1,"n_confirm":0,"n_keep":0,"n_remask":24,"forced":true,"cost":2342,"pmax":0.731},{"st":"AAAOOOOOmmmmmmmfmmmmmmmmmmmmmmmm","n_commit":1,"n_confirm":0,"n_keep":0,"n_remask":23,"forced":true,"cost":2346,"pmax":0.602},{"st":"AAAOOOOOmmmooooOmmmmmmmmmmmmmmmm","n_commit":4,"n_confirm":0,"n_keep":0,"n_remask":19,"forced":false,"cost":2627,"pmax":0.994},{"st":"AAAOOOOOmmmOOOOOfmmmmmmmmmmmmmmm","n_commit":1,"n_confirm":0,"n_keep":0,"n_remask":18,"forced":true,"cost":2725,"pmax":0.838},{"st":"AAAOOOOOmfmOOOOOOmmmmmmmmmmmmmmm","n_commit":1,"n_confirm":0,"n_keep":0,"n_remask":17,"forced":true,"cost":2786,"pmax":0.748},{"st":"AAAOOOOOmOoOOOOOOmmmmmmmmmmmmmmm","n_commit":1,"n_confirm":0,"n_keep":0,"n_remask":16,"forced":false,"cost":2793,"pmax":1.0},{"st":"AAAOOOOOmOOOOOOOOmmmmmmmmmmmmfmm","n_commit":1,"n_confirm":0,"n_keep":0,"n_remask":15,"forced":true,"cost":2805,"pmax":0.898},{"st":"AAAOOOOOmOOOOOOOOooooooooooooOoo","n_commit":14,"n_confirm":0,"n_keep":0,"n_remask":1,"forced":false,"cost":2914,"pmax":1.0},{"st":"AAAOOOOOfOOOOOOOOOOOOOOOOOOOOOOO","n_commit":1,"n_confirm":0,"n_keep":0,"n_remask":0,"forced":true,"cost":3111,"pmax":0.562}],"flush_cost":3083,"agreement":0.094,"tokens_total":72},{"valid":"11111111111111111111111111111111","draft":["for","$","2",",","so","she","makes","·","9","*","$","2","=","$","1","8","every","day","at","the","farmers","'","market",".↵","The","final","answer",":","·","1","8","."],"final":["for","$","2",",","so","she","makes","·","9","*","$","2","=","$","1","8","every","day","at","the","farmers","'","market",".↵","The","answer","is","$\\","boxed","{","1","8"],"text":" for $2, so she makes 9 * $2 = $18 every day at the farmers' market.\nThe answer is $\\boxed{18","passes":[{"st":"aaaaammkkmmmmkmmmmmmmmkmmmmmmmmm","n_commit":5,"n_confirm":5,"n_keep":4,"n_remask":23,"forced":false,"cost":2351,"pmax":1.0},{"st":"AAAAAaaaakaaaaaakkkkkmkkmmmmmmmm","n_commit":10,"n_confirm":10,"n_keep":8,"n_remask":9,"forced":false,"cost":2420,"pmax":0.998},{"st":"AAAAAAAAAaAAAAAAaaaaaaaakmmmmmmm","n_commit":9,"n_confirm":9,"n_keep":1,"n_remask":7,"forced":false,"cost":2928,"pmax":1.0},{"st":"AAAAAAAAAAAAAAAAAAAAAAAAaoooommo","n_commit":6,"n_confirm":1,"n_keep":0,"n_remask":2,"forced":false,"cost":3066,"pmax":1.0},{"st":"AAAAAAAAAAAAAAAAAAAAAAAAAOOOOooO","n_commit":2,"n_confirm":0,"n_keep":0,"n_remask":0,"forced":false,"cost":3247,"pmax":1.0}],"flush_cost":3139,"agreement":0.781,"tokens_total":104},{"valid":"11111111111111111111111111111111","draft":["}.","<end>","↵","<end>","<end>","<end>","<end>","<end>","<end>","<end>","<end>","<end>","<end>","<end>","<end>","<end>","<end>","<end>","<end>","<end>","<end>","<end>","<end>","<end>","<end>","<end>","<end>","<end>","<end>","<end>","<end>","<end>"],"final":["}","$.","<end>","↵","<pad>","<pad>","<pad>","<pad>","<pad>","<pad>","<pad>","<pad>","<pad>","<pad>","<pad>","<pad>","<pad>","<pad>","<pad>","<pad>","<pad>","<pad>","<pad>","<pad>","<pad>","<pad>","<pad>","<pad>","<pad>","<pad>","<pad>","<pad>"],"text":"}$.\n","passes":[{"st":"oooooooooooooooooooooooooooooooo","n_commit":32,"n_confirm":0,"n_keep":0,"n_remask":0,"forced":false,"cost":1606,"pmax":1.0}],"flush_cost":1850,"agreement":0.0,"tokens_total":107}]}</script>
+<script type="application/json" id="cand-data">{"source":"Notion page \"Phase 2: Drafter swap ablations\", Conscious Engines, 2026-09-29","tables":{"t1":{"title":"Family / corpus variation (same size, about 1.5-1.7B)","cols":["ID","Weights","Base","Size","How its authors built it","Their corpus","Tokenizer","Block","Role","Status in this run"],"rows":[[{"t":"S0","d":0,"pick":0},{"t":"JetLM/SDAR-1.7B-Chat-b32","d":0,"pick":0},{"t":"Qwen3-1.7B","d":0,"pick":0},{"t":"1.7B","d":0,"pick":0},{"t":"Pretraining (50B) + SFT (4B)","d":0,"pick":0},{"t":"In-house web / STEM / code","d":0,"pick":0},{"t":"Qwen3","d":0,"pick":0},{"t":"32","d":0,"pick":0},{"t":"Baseline","d":0,"pick":0},{"t":"reference (Phase 1 records)","d":0,"pick":0}],[{"t":"F1","d":0,"pick":1},{"t":"Efficient-Large-Model/Fast_dLLM_v2_1.5B","d":0,"pick":0},{"t":"Qwen2.5-1.5B","d":1,"pick":0},{"t":"1.5B","d":0,"pick":0},{"t":"SFT only (3.15B; card says ~1B)","d":1,"pick":0},{"t":"Synthetic LLaMA-Nemotron post-training data","d":1,"pick":0},{"t":"Qwen2.5 (mask remap)","d":1,"pick":0},{"t":"32","d":0,"pick":0},{"t":"Different family and corpus","d":0,"pick":0},{"t":"not run (fallback only)","d":0,"pick":0}],[{"t":"F2","d":0,"pick":1},{"t":"Salesforce/CoDA-v0-Instruct","d":0,"pick":0},{"t":"Qwen3-1.7B","d":0,"pick":0},{"t":"1.7B","d":0,"pick":0},{"t":"Pretraining (179B) + mid-training (21B) + SFT","d":0,"pick":0},{"t":"Public: DCLM, Stack v2, OpenWebMath, arXiv, Wikipedia; OpenCoder SFT","d":1,"pick":0},{"t":"Qwen3","d":0,"pick":0},{"t":"Full-sequence","d":1,"pick":0},{"t":"Partial control: same Qwen3-1.7B base, code-focused corpus","d":0,"pick":0},{"t":"RUN","d":0,"pick":0}],[{"t":"F3","d":0,"pick":0},{"t":"JetLM/MDM-1.7B","d":0,"pick":0},{"t":"InternLM2 arch, from scratch","d":1,"pick":0},{"t":"1.7B","d":0,"pick":0},{"t":"Pretraining only (1.1T)","d":1,"pick":0},{"t":"Unclear","d":1,"pick":0},{"t":"128k vocab, needs bridge","d":1,"pick":0},{"t":"Full-sequence","d":1,"pick":0},{"t":"Different family; needs a tokenizer bridge","d":0,"pick":0},{"t":"not wired","d":0,"pick":0}]]},"t2":{"title":"Size variation (any family)","cols":["ID","Weights","Base","Size","How its authors built it","Their corpus","Tokenizer","Block","Role","Status in this run"],"rows":[[{"t":"S0","d":0,"pick":0},{"t":"JetLM/SDAR-1.7B-Chat-b32","d":0,"pick":0},{"t":"Qwen3-1.7B","d":0,"pick":0},{"t":"1.7B","d":0,"pick":0},{"t":"Pretraining (50B) + SFT (4B)","d":0,"pick":0},{"t":"In-house web / STEM / code","d":0,"pick":0},{"t":"Qwen3","d":0,"pick":0},{"t":"32","d":0,"pick":0},{"t":"Baseline","d":0,"pick":0},{"t":"reference","d":0,"pick":0}],[{"t":"S1","d":0,"pick":1},{"t":"dllm-hub/Qwen3-0.6B-diffusion-bd3lm-v0.1","d":0,"pick":0},{"t":"Qwen3-0.6B","d":1,"pick":0},{"t":"0.6B","d":1,"pick":0},{"t":"SFT only","d":1,"pick":0},{"t":"Tulu-3, SmolTalk, OpenCoder SFT","d":1,"pick":0},{"t":"Qwen3","d":0,"pick":0},{"t":"32","d":0,"pick":0},{"t":"First size test","d":0,"pick":0},{"t":"RUN","d":0,"pick":0}],[{"t":"S2","d":0,"pick":1},{"t":"dllm-hub/Qwen2.5-Coder-0.5B-Instruct-diffusion-bd3lm-v0.1","d":0,"pick":0},{"t":"Qwen2.5-Coder-0.5B","d":1,"pick":0},{"t":"0.49B","d":1,"pick":0},{"t":"SFT only","d":1,"pick":0},{"t":"OpenCoder SFT, code only","d":1,"pick":0},{"t":"Qwen2.5 (remap)","d":1,"pick":0},{"t":"32","d":0,"pick":0},{"t":"Small code-only drafter","d":0,"pick":0},{"t":"not run","d":0,"pick":0}],[{"t":"S3","d":0,"pick":0},{"t":"fredzzp/open-dcoder-0.5B","d":0,"pick":0},{"t":"Qwen2.5-Coder-0.5B","d":1,"pick":0},{"t":"0.49B","d":1,"pick":0},{"t":"Continued pretraining, masked diffusion, no SFT","d":1,"pick":0},{"t":"FineCode, code only","d":1,"pick":0},{"t":"Qwen2.5 (remap)","d":1,"pick":0},{"t":"Full-sequence","d":1,"pick":0},{"t":"Lower bound on quality","d":0,"pick":0},{"t":"not wired","d":0,"pick":0}],[{"t":"S4","d":0,"pick":0},{"t":"nieshen/SMDM","d":0,"pick":0},{"t":"LLaMA-style, from scratch","d":1,"pick":0},{"t":"1.1B","d":1,"pick":0},{"t":"Pretraining only","d":1,"pick":0},{"t":"SlimPajama (540B)","d":1,"pick":0},{"t":"Llama-2, needs bridge","d":1,"pick":0},{"t":"Full-sequence","d":1,"pick":0},{"t":"Mid-size; needs a bridge","d":0,"pick":0},{"t":"not wired","d":0,"pick":0}],[{"t":"S5","d":0,"pick":0},{"t":"OpenGVLab/SDLM-3B-D4","d":0,"pick":0},{"t":"Qwen2.5-3B","d":1,"pick":0},{"t":"3.09B","d":1,"pick":0},{"t":"SFT only (2.3B)","d":1,"pick":0},{"t":"Mixed SFT (maths, code, chat, science)","d":1,"pick":0},{"t":"Qwen2.5 (remap)","d":1,"pick":0},{"t":"4","d":1,"pick":0},{"t":"Stronger drafter at the limit","d":0,"pick":0},{"t":"not wired (block 4)","d":0,"pick":0}],[{"t":"S6","d":0,"pick":1},{"t":"JetLM/SDAR-4B-Chat-b32","d":0,"pick":0},{"t":"Qwen3-4B","d":1,"pick":0},{"t":"4B","d":1,"pick":0},{"t":"Same as S0","d":0,"pick":0},{"t":"Same as S0","d":0,"pick":0},{"t":"Qwen3","d":0,"pick":0},{"t":"32","d":0,"pick":0},{"t":"Only size changes (upward)","d":0,"pick":0},{"t":"not run (over the 3B-active budget)","d":0,"pick":0}],[{"t":"S7","d":0,"pick":0},{"t":"nvidia/Nemotron-Labs-Diffusion-3B","d":0,"pick":0},{"t":"Ministral-3B","d":1,"pick":0},{"t":"3.83B","d":1,"pick":0},{"t":"AR + diffusion pretraining (1.3T) + SFT","d":1,"pick":0},{"t":"NVIDIA mix","d":1,"pick":0},{"t":"Mistral, needs bridge","d":1,"pick":0},{"t":"32","d":0,"pick":0},{"t":"Strong other-family drafter","d":0,"pick":0},{"t":"not wired","d":0,"pick":0}]]},"claimed":{"title":"Claimed scores by the authors (their settings, not ours), %","cols":["ID","GSM8K","MATH","HumanEval","MBPP","GPQA-D","IFEval"],"rows":[["Target SDAR-30B-A3B (block 4)",{"v":91.4,"n":""},{"v":77.8,"n":""},{"v":87.2,"n":""},{"v":71.6,"n":""},{"v":36.7,"n":""},{"v":60.6,"n":""}],["S0 SDAR-1.7B (block 4)",{"v":80.1,"n":""},{"v":63.2,"n":""},{"v":61.6,"n":""},{"v":61.1,"n":""},{"v":29.8,"n":""},{"v":43.4,"n":""}],["F1 Fast-dLLM v2 1.5B",{"v":62.0,"n":""},{"v":38.1,"n":"full MATH"},{"v":43.9,"n":""},{"v":50.0,"n":""},{"v":27.7,"n":""},{"v":47.0,"n":""}],["F2 CoDA-v0-Instruct",{"v":null,"n":""},{"v":null,"n":""},{"v":54.3,"n":""},{"v":47.2,"n":""},{"v":null,"n":""},{"v":null,"n":""}],["S1 Qwen3-0.6B bd3lm",{"v":46.6,"n":""},{"v":13.9,"n":"full MATH"},{"v":47.6,"n":""},{"v":32.0,"n":""},{"v":null,"n":""},{"v":null,"n":""}]]}}}</script>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- configuration ---------- */
+  var BASE = "S0_nopool";
+  var SETS = [
+    { key: "humaneval", name: "HumanEval", n: 164, dom: "code" },
+    { key: "mbpp", name: "MBPP", n: 257, dom: "code" },
+    { key: "gsm8k500", name: "GSM8K-500", n: 500, dom: "math" },
+    { key: "math500", name: "MATH-500", n: 500, dom: "math" },
+    { key: "aime", name: "AIME", n: 90, dom: "math" },
+    { key: "ifeval541", name: "IFEval-541", n: 541, dom: "if" },
+    { key: "gpqa", name: "GPQA-Diamond", n: 198, dom: "sci" }
+  ];
+  var DOMAINS = [
+    { key: "code", label: "Code" },
+    { key: "math", label: "Maths" },
+    { key: "if", label: "Instruction following" },
+    { key: "sci", label: "Science" }
+  ];
+  var ARMS = [
+    { key: "stock", short: "Stock 30B", label: "Stock 30B", kind: "ref", color: "var(--s-stock)" },
+    { key: BASE, short: "SDAR-1.7B", label: "SDAR-1.7B + judge (no pool)", kind: "base", color: "var(--s-sdar)",
+      role: "Phase 1 baseline", desc: "The drafter used in Phase 1. Its results here are the Phase 1 records.", cost: 364.64 },
+    { key: "F2_nopool", short: "CoDA-1.7B", label: "CoDA-1.7B + judge (no pool)", kind: "new", color: "var(--s-coda)",
+      role: "new", ckpt: "Salesforce/CoDA-v0-Instruct", desc: "Same Qwen3-1.7B base, trained on a code-heavy corpus. Full-sequence diffusion, not a block-32 model.", cost: 364.64 },
+    { key: "S1_nopool", short: "Qwen3-0.6B", label: "Qwen3-0.6B + judge (no pool)", kind: "new", color: "var(--s-qwen)",
+      role: "new", ckpt: "dllm-hub/Qwen3-0.6B-diffusion-bd3lm-v0.1", desc: "Block-32 diffusion model, about 3× smaller than the 1.7B drafters.", cost: 126.32 }
+  ];
+  var ARM = {};
+  ARMS.forEach(function (a) { ARM[a.key] = a; });
+  var NEW = ARMS.filter(function (a) { return a.kind === "new"; });
+
+  var dataEl = document.getElementById("metrics-data");
+  var DATA = {};
+  try { DATA = JSON.parse(dataEl.textContent) || {}; } catch (e) { DATA = {}; }
+
+  /* ---------- data access ---------- */
+  function rec(s, a) { var d = DATA[s]; var r = d ? d[a] : null; return (r && typeof r === "object" && !Array.isArray(r)) ? r : null; }
+  function val(s, a, f) { var r = rec(s, a); var v = r ? r[f] : null; return (typeof v === "number" && isFinite(v)) ? v : null; }
+  function delta(s, a) {
+    var d = DATA[s]; var x = d ? d[a + "_delta"] : null;
+    return (Array.isArray(x) && x.length === 3 && x.every(function (v) { return typeof v === "number" && isFinite(v); })) ? x : null;
+  }
+  function done(s, a) { return !!(rec(s, a) && rec(s, BASE) && delta(s, a)); }
+  function anyDone(s) { return NEW.some(function (a) { return done(s, a.key); }); }
+  function armSeen(a) { return SETS.some(function (s) { return done(s.key, a); }); }
+  function isSig(d) { return !!d && (d[1] > 0 || d[2] < 0); }
+  var LIVE = SETS.filter(function (s) { return anyDone(s.key); });
+
+  /* ---------- formatting ---------- */
+  var MINUS = "−", TIMES = "×";
+  function num(v, p) {
+    if (v === null || v === undefined || !isFinite(v)) return "—";
+    var s = Math.abs(v).toFixed(p);
+    return (v < 0 && parseFloat(s) !== 0 ? MINUS : "") + s;
+  }
+  function signed(v, p) {
+    var s = Math.abs(v).toFixed(p);
+    if (parseFloat(s) === 0) return s;
+    return (v > 0 ? "+" : MINUS) + s;
+  }
+  function round(v, p) { return parseFloat(v.toFixed(p)); }
+  function times(v) { return num(v, 2) + TIMES; }
+  function pct(v) { return num(v, 1) + "%"; }
+  function listJoin(xs) {
+    if (xs.length <= 1) return xs.join("");
+    if (xs.length === 2) return xs[0] + " and " + xs[1];
+    return xs.slice(0, -1).join(", ") + " and " + xs[xs.length - 1];
+  }
+  function el(tag, attrs, text) {
+    var e = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      if (k === "class") e.className = attrs[k];
+      else e.setAttribute(k, attrs[k]);
+    });
+    if (text !== undefined && text !== null) e.textContent = text;
+    return e;
+  }
+  function swatch(a) { var s = el("span", { class: "sw", "aria-hidden": "true" }); s.style.background = a.color; return s; }
+
+  /* ---------- analysis data (optional) ---------- */
+  var AN = null, ANSTAMP = "";
+  try {
+    var anEl = document.getElementById("analysis-data");
+    AN = JSON.parse(anEl.textContent); ANSTAMP = anEl.getAttribute("data-snapshot") || "";
+  } catch (e) { AN = null; }
+  if (!AN || !AN.arms || !Object.keys(AN.arms).length) AN = null;
+  var ANARMS = AN ? NEW.filter(function (a) { return AN.arms[a.key]; }).map(function (a) { return a.key; }) : [];
+
+  /* ---------- masthead status ---------- */
+  var TOTAL = NEW.length * SETS.length, NDONE = 0;
+  NEW.forEach(function (a) { SETS.forEach(function (s) { if (done(s.key, a.key)) NDONE++; }); });
+  (function () {
+    var host = document.getElementById("status");
+    var stamp = dataEl.getAttribute("data-snapshot");
+    host.appendChild(el("span", null, NDONE + " of " + TOTAL + " drafter × benchmark runs finished"));
+    host.appendChild(el("span", null, stamp ? "Results snapshot " + stamp : "No data embedded yet"));
+    if (AN && ANSTAMP) host.appendChild(el("span", null, "Analysis snapshot " + ANSTAMP));
+    var fs = document.getElementById("foot-snap");
+    if (fs) fs.textContent = (stamp ? "Results snapshot " + stamp + ". " : "") + (AN && ANSTAMP ? "Analysis snapshot " + ANSTAMP + "." : "");
+  })();
+
+  /* ---------- verdict chip ---------- */
+  function vchip(v) {
+    var s = String(v || "");
+    var lvl = /^no dip/i.test(s) ? 0 : (/non-?significant/i.test(s) ? 1 : 2);
+    var c = el("span", { class: "vchip v" + lvl });
+    c.appendChild(el("i", { "aria-hidden": "true" }));
+    c.appendChild(document.createTextNode(s || "—"));
+    return c;
+  }
+
+  /* ---------- §1 benchmarks and drafter cards ---------- */
+  (function () {
+    var b = document.getElementById("bench");
+    SETS.forEach(function (s) { var sp = el("span", null, s.name); sp.appendChild(el("i", null, String(s.n))); b.appendChild(sp); });
+
+    var CARD = {
+      S0_nopool: { tag: "Baseline", ckpt: "JetLM/SDAR-1.7B-Chat-b32",
+        mini: [["Size", "1.7B"], ["Block", "32"], ["Cost / forward", "364.64"]],
+        bullets: ["Qwen3-1.7B base, pretrained and SFT-trained by the SDAR authors", "Its results are the Phase 1 records, not re-run", "Every Δ on this page is measured against it"] },
+      F2_nopool: { tag: "Why CoDA-1.7B: the corpus question", ckpt: "Salesforce/CoDA-v0-Instruct",
+        mini: [["Size", "1.7B"], ["Block", "full sequence"], ["Cost / forward", "364.64"]],
+        bullets: ["Same Qwen3-1.7B base, size, tokenizer and cost per forward as SDAR-1.7B", "Only the corpus differs: public, code-heavy (179B pretraining, 21B mid-training tokens)", "Full-sequence model: no KV cache, recomputes the context each draft step", "Read as a pattern across domains, not as absolute levels", "Fallback was Fast-dLLM v2 1.5B; not needed, not run"] },
+      S1_nopool: { tag: "Why Qwen3-0.6B: the size question", ckpt: "dllm-hub/Qwen3-0.6B-diffusion-bd3lm-v0.1",
+        mini: [["Size", "0.6B"], ["Block", "32"], ["Cost / forward", "126.32"]],
+        bullets: ["Only drafter under 1.7B that covers all 7 benchmarks with the Qwen3 tokenizer and a block-32 cache", "126.32 per forward against 364.64: 2.9× cheaper", "Pre-run best case on HumanEval: 1.39× charged speedup against 1.24×", "Break-even if the 30B's experts per token rise by less than about 13.6%", "Changes size and corpus together: it tests this 0.6B drafter, not size alone"] }
+    };
+    var host = document.getElementById("dcards");
+    ARMS.filter(function (a) { return a.kind !== "ref"; }).forEach(function (a) {
+      var c = CARD[a.key]; if (!c) return;
+      var card = el("article", { class: "dcard" });
+      var hd = el("header");
+      hd.appendChild(el("span", { class: "tag" }, c.tag));
+      var h = el("h3"); h.appendChild(swatch(a)); h.appendChild(document.createTextNode(a.short)); hd.appendChild(h);
+      hd.appendChild(el("span", { class: "ckpt" }, c.ckpt));
+      card.appendChild(hd);
+      var dl = el("dl", { class: "mini" });
+      c.mini.forEach(function (m) { var d = el("div"); d.appendChild(el("dt", null, m[0])); d.appendChild(el("dd", null, m[1])); dl.appendChild(d); });
+      card.appendChild(dl);
+      var ul = el("ul", { class: "bul" });
+      c.bullets.forEach(function (t) { ul.appendChild(el("li", null, t)); });
+      card.appendChild(ul);
+      var res = el("p", { class: "res" });
+      if (a.kind === "base") {
+        res.appendChild(el("span", null, "Phase 1 records, the reference for every Δ"));
+      } else {
+        var k = SETS.filter(function (s) { return done(s.key, a.key); }).length;
+        var f = el("span"); f.appendChild(el("b", null, k + " of " + SETS.length)); f.appendChild(document.createTextNode(" benchmarks finished")); res.appendChild(f);
+        var A = AN && AN.arms[a.key];
+        if (A && A.pooled && A.pooled.delta !== null && A.pooled.delta !== undefined) {
+          var d = el("span"); d.appendChild(document.createTextNode("pooled Δ "));
+          d.appendChild(el("b", null, signed(A.pooled.delta * 100, 1) + " [" + signed(A.pooled.lo * 100, 1) + ", " + signed(A.pooled.hi * 100, 1) + "]"));
+          res.appendChild(d); res.appendChild(vchip(A.pooled.verdict));
+        }
+      }
+      card.appendChild(res);
+      host.appendChild(card);
+    });
+  })();
+
+
+  /* ---------- §3 coverage ---------- */
+  (function () {
+    var host = document.getElementById("coverage");
+    var t = el("table", { class: "cov" });
+    var thead = el("thead");
+    var r0 = el("tr", { class: "dom" }), r1 = el("tr", { class: "sets" });
+    r0.appendChild(el("th", { scope: "col", rowspan: "2", class: "l rs" }, "Drafter"));
+    DOMAINS.forEach(function (d) {
+      var span = SETS.filter(function (s) { return s.dom === d.key; }).length;
+      var th = el("th", { scope: "colgroup", colspan: String(span) });
+      th.appendChild(el("span", null, d.label));
+      r0.appendChild(th);
+    });
+    r0.appendChild(el("th", { scope: "col", rowspan: "2", class: "rs" }, "Finished"));
+    DOMAINS.forEach(function (d) {
+      SETS.filter(function (s) { return s.dom === d.key; }).forEach(function (s) {
+        var th = el("th", { scope: "col" });
+        th.appendChild(document.createTextNode(s.name));
+        th.appendChild(el("span", { class: "n" }, "n = " + s.n));
+        r1.appendChild(th);
+      });
+    });
+    thead.appendChild(r0); thead.appendChild(r1); t.appendChild(thead);
+    var tb = el("tbody");
+    NEW.forEach(function (a) {
+      var tr = el("tr");
+      var th = el("th", { scope: "row", class: "l" });
+      th.appendChild(swatch(a)); th.appendChild(document.createTextNode(a.short));
+      tr.appendChild(th);
+      var n = 0;
+      DOMAINS.forEach(function (d) {
+        SETS.filter(function (s) { return s.dom === d.key; }).forEach(function (s) {
+          var ok = done(s.key, a.key);
+          if (ok) n++;
+          var td = el("td");
+          var chip = el("span", { class: "chip " + (ok ? "done" : "run") });
+          chip.appendChild(el("span", { class: "dot", "aria-hidden": "true" }));
+          chip.appendChild(document.createTextNode(ok ? "Done" : "Pending"));
+          td.appendChild(chip);
+          tr.appendChild(td);
+        });
+      });
+      tr.appendChild(el("td", { class: "count" }, n + " / " + SETS.length));
+      tb.appendChild(tr);
+    });
+    t.appendChild(tb);
+    host.appendChild(t);
+  })();
+
+  /* ---------- §4 Table 1 ---------- */
+  function notStock(a) { return a !== "stock"; }
+  function all() { return true; }
+  var COLS = [
+    { key: "acc", grp: "q", head: ["Accuracy", "(%)"], get: function (s, a) { return val(s, a, "acc"); }, p: 1, best: "max", elig: all },
+    { key: "delta", grp: "q", head: ["Δ vs SDAR-1.7B", "[95% CI]"] },
+    { key: "exp", grp: "c", head: ["Experts", "/ token"], get: function (s, a) { return val(s, a, "exp_tok"); }, p: 0, best: "min", elig: all },
+    { key: "spj", grp: "sp", head: ["MoE-only", "(drafter free)"], get: function (s, a) { return a === "stock" ? 1 : val(s, a, "sp_judge"); }, p: 2, suf: TIMES, best: "max", elig: notStock, fixed: function (a) { return a === "stock"; } },
+    { key: "spf", grp: "sp", head: ["Full pipeline", "(drafter counted)"], get: function (s, a) { return a === "stock" ? 1 : val(s, a, "sp_full"); }, p: 2, suf: TIMES, best: "max", elig: notStock, fixed: function (a) { return a === "stock"; } },
+    { key: "dc", grp: "dr", head: ["Compute"], get: function (s, a) { return a === "stock" ? null : val(s, a, "sp_drafter_compute"); }, p: 2, suf: TIMES, best: "max", elig: notStock, fixed: function (a) { return a === BASE; } },
+    { key: "dt", grp: "dr", head: ["Time†"], get: function (s, a) { return a === "stock" ? null : val(s, a, "sp_drafter_time"); }, p: 2, suf: TIMES, best: "max", elig: notStock, fixed: function (a) { return a === BASE; } },
+    { key: "pb", grp: "dec", head: ["Passes", "/ block"], get: function (s, a) { return val(s, a, "passes_blk"); }, p: 2, best: "min", elig: all },
+    { key: "kept", grp: "dec", head: ["Draft tokens", "kept (%)"], get: function (s, a) { return a === "stock" ? null : val(s, a, "kept"); }, p: 1, best: "max", elig: notStock }
+  ];
+  var GROUPS = [
+    { key: "q", label: "Quality" },
+    { key: "c", label: "30B cost" },
+    { key: "sp", label: "Speedup vs stock 30B" },
+    { key: "dr", label: "Drafter-only vs SDAR-1.7B" },
+    { key: "dec", label: "Decoding" }
+  ];
+  function hasRow(s, a) { return ARM[a].kind === "new" ? done(s, a) : !!rec(s, a); }
+
+  (function () {
+    var host = document.getElementById("table1");
+    var t = el("table", { class: "bt" });
+    var thead = el("thead");
+    var r1 = el("tr"), r2 = el("tr");
+    r1.appendChild(el("th", { class: "l", rowspan: "2", scope: "col" }, "Benchmark"));
+    r1.appendChild(el("th", { class: "l", rowspan: "2", scope: "col" }, "Setup"));
+    GROUPS.forEach(function (g) {
+      var span = COLS.filter(function (c) { return c.grp === g.key; }).length;
+      var th = el("th", { class: "grp", colspan: String(span), scope: "colgroup" });
+      th.appendChild(el("span", null, g.label));
+      r1.appendChild(th);
+    });
+    COLS.forEach(function (c) {
+      var th = el("th", { scope: "col" });
+      c.head.forEach(function (line, i) {
+        if (i) th.appendChild(el("br"));
+        th.appendChild(document.createTextNode(line));
+      });
+      r2.appendChild(th);
+    });
+    thead.appendChild(r1); thead.appendChild(r2); t.appendChild(thead);
+    var NCOL = 2 + COLS.length;
+
+    DOMAINS.forEach(function (dom) {
+      var sets = SETS.filter(function (s) { return s.dom === dom.key; });
+      var tb = el("tbody");
+      var dr = el("tr", { class: "domrow" });
+      dr.appendChild(el("td", { class: "dom", colspan: String(NCOL) }, dom.label));
+      tb.appendChild(dr);
+      sets.forEach(function (s, si) {
+        var sep = si > 0 ? " sep" : "";
+        var benchCell = function (rows) {
+          var td = el("td", { class: "l bench", rowspan: String(rows) });
+          td.appendChild(document.createTextNode(s.name));
+          td.appendChild(el("span", { class: "n" }, "n = " + (val(s.key, "stock", "n") || s.n)));
+          return td;
+        };
+        if (!anyDone(s.key)) {
+          var tr0 = el("tr", { class: "first last" + sep });
+          tr0.appendChild(benchCell(1));
+          tr0.appendChild(el("td", { class: "pending", colspan: String(NCOL - 1) }, "Pending"));
+          tb.appendChild(tr0);
+          return;
+        }
+        var rows = ARMS.filter(function (a) { return a.kind === "new" || !!rec(s.key, a.key); });
+        var best = {};
+        COLS.forEach(function (c) {
+          if (!c.get) return;
+          var vs = rows.filter(function (a) { return c.elig(a.key) && hasRow(s.key, a.key); })
+            .map(function (a) { return c.get(s.key, a.key); })
+            .filter(function (v) { return v !== null; })
+            .map(function (v) { return round(v, c.p); });
+          if (vs.length < 2) return;
+          best[c.key] = c.best === "max" ? Math.max.apply(null, vs) : Math.min.apply(null, vs);
+        });
+        rows.forEach(function (a, ri) {
+          var cls = (ri === 0 ? "first" + sep : "") + (ri === rows.length - 1 ? " last" : "");
+          var tr = el("tr", { class: cls.trim() });
+          if (ri === 0) tr.appendChild(benchCell(rows.length));
+          var sc = el("td", { class: "l setup" });
+          sc.appendChild(swatch(a));
+          sc.appendChild(document.createTextNode(a.label));
+          tr.appendChild(sc);
+          if (!hasRow(s.key, a.key)) {
+            tr.appendChild(el("td", { class: "pending", colspan: String(COLS.length) }, "Pending"));
+            tb.appendChild(tr);
+            return;
+          }
+          COLS.forEach(function (c) {
+            var td = el("td");
+            if (c.key === "delta") {
+              if (a.kind === "ref") { td.className = "na"; td.textContent = "—"; }
+              else if (a.kind === "base") { td.className = "na"; td.textContent = "ref."; }
+              else {
+                var d = delta(s.key, a.key);
+                td.appendChild(document.createTextNode(signed(d[0], 1) + " "));
+                td.appendChild(el("span", { class: "ci" }, "[" + signed(d[1], 1) + ", " + signed(d[2], 1) + "]"));
+                td.appendChild(el("span", { class: "sig", "aria-label": isSig(d) ? "significant" : "" }, isSig(d) ? "*" : ""));
+              }
+            } else {
+              var v = c.get(s.key, a.key);
+              if (v === null) { td.className = "na"; td.textContent = "—"; }
+              else {
+                td.textContent = num(v, c.p) + (c.suf || "");
+                var isBest = best[c.key] !== undefined && c.elig(a.key) && round(v, c.p) === best[c.key];
+                if (isBest) td.className = "best";
+                else if (c.fixed && c.fixed(a.key)) td.className = "fixed";
+              }
+            }
+            tr.appendChild(td);
+          });
+          tb.appendChild(tr);
+        });
+      });
+      t.appendChild(tb);
+    });
+    host.appendChild(t);
+  })();
+
+  /* ---------- tooltip ---------- */
+  var tip = document.getElementById("tip");
+  function showTip(lines, x, y) {
+    tip.textContent = "";
+    lines.forEach(function (ln) {
+      var row = el("div", { class: ln.cls });
+      if (ln.color) { var i = el("i"); i.style.background = ln.color; if (ln.line) i.className = "ln"; row.appendChild(i); }
+      if (ln.val !== undefined) row.appendChild(el("b", null, ln.val));
+      row.appendChild(document.createTextNode(ln.text));
+      tip.appendChild(row);
+    });
+    tip.hidden = false;
+    var r = tip.getBoundingClientRect();
+    var vw = document.documentElement.clientWidth, vh = document.documentElement.clientHeight;
+    var left = x + 14, top = y + 14;
+    if (left + r.width > vw - 8) left = Math.max(8, x - r.width - 14);
+    if (top + r.height > vh - 8) top = Math.max(8, y - r.height - 14);
+    tip.style.left = left + "px"; tip.style.top = top + "px";
+  }
+  function hideTip() { tip.hidden = true; }
+
+  /* ---------- §5 figures ---------- */
+  var SVGNS = "http://www.w3.org/2000/svg";
+  function svg(tag, attrs, text) {
+    var e = document.createElementNS(SVGNS, tag);
+    var st = "";
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      var v = attrs[k];
+      if ((k === "fill" || k === "stroke") && String(v).indexOf("var(") === 0) st += k + ":" + v + ";";
+      else if (k === "style") st += v + ";";
+      else e.setAttribute(k, v);
+    });
+    if (st) e.setAttribute("style", st);
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+  function niceScale(max) {
+    if (!(max > 0)) max = 1;
+    var raw = max / 4, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+    var steps = [1, 2, 2.5, 5, 10].map(function (m) { return m * mag; });
+    var step = steps[steps.length - 1];
+    for (var i = 0; i < steps.length; i++) { if (Math.ceil(max / steps[i] - 1e-9) <= 5) { step = steps[i]; break; } }
+    var top = round(Math.ceil(max / step - 1e-9) * step, 6);
+    var ticks = [];
+    for (var k = 0; k * step <= top + step / 1000; k++) ticks.push(round(k * step, 6));
+    return { max: top, ticks: ticks };
+  }
+  // rounded data-end on the right, square at the baseline
+  function barPath(x, y, w, h) {
+    if (!(w > 0)) return "";
+    var r = Math.min(4, h / 2, w);
+    return "M" + x + "," + y + "H" + (x + w - r) + "A" + r + "," + r + " 0 0 1 " + (x + w) + "," + (y + r) +
+      "V" + (y + h - r) + "A" + r + "," + r + " 0 0 1 " + (x + w - r) + "," + (y + h) + "H" + x + "Z";
+  }
+
+  /* ---------- §5 figures: one small chart per benchmark (small multiples) ---------- */
+  (function () {
+    var note = document.getElementById("fig-note");
+    var waiting = SETS.filter(function (s) { return !anyDone(s.key); }).map(function (s) { return s.name; });
+    note.textContent = LIVE.length
+      ? "Benchmarks with a finished new drafter: " + listJoin(LIVE.map(function (s) { return s.name; })) +
+        (waiting.length ? "; still pending: " + listJoin(waiting) : "") + ". Each panel has its own y-range. Hover or focus a point for its inputs."
+      : "No benchmark has finished yet. Panels fill in as runs finish.";
+    window.addEventListener("scroll", hideTip, { passive: true });
+
+    var grid = document.getElementById("figs");
+    if (!grid || !LIVE.length) return;
+
+    /* benchmarks in run order */
+    var XB = [["humaneval", "HumanEval"], ["mbpp", "MBPP"], ["gsm8k500", "GSM8K-500"], ["ifeval541", "IFEval-541"], ["math500", "MATH-500"], ["gpqa", "GPQA-Diamond"], ["aime", "AIME"]];
+    var BM = XB.map(function (b) { var s = SETS.filter(function (x) { return x.key === b[0]; })[0]; return { key: b[0], name: b[1], n: s ? s.n : null }; });
+    var AX = [
+      { key: "stock", tiny: "Stock", shape: "diamond" },
+      { key: BASE, tiny: "SDAR", shape: "circle" },
+      { key: "F2_nopool", tiny: "CoDA", shape: "square" },
+      { key: "S1_nopool", tiny: "Qwen3", shape: "triangle" }
+    ];
+    AX.forEach(function (a) { var m = ARM[a.key]; a.color = m.color; a.label = m.label; a.short = m.short; });
+    function axOf(k) { return AX.filter(function (a) { return a.key === k; })[0]; }
+    var KINDS = {
+      full: { name: "Full pipeline", field: "sp_full", yt: "Speedup vs stock 30B, drafter counted", cap: "Stock experts per token ÷ (experts + drafter cost) per token." },
+      moe: { name: "MoE-only", field: "sp_judge", yt: "Speedup vs stock 30B, drafter free", cap: "Stock experts per token ÷ experts per token, drafter treated as free." },
+      drafter: { name: "Drafter-only", field: "sp_drafter_compute", yt: "Drafter speedup vs SDAR-1.7B", cap: "SDAR-1.7B drafter cost ÷ this drafter's cost, per token. Time ratios are in Table 1." }
+    };
+    var kind = "full";
+
+    /* ---------- values ---------- */
+    function has2(v) { return v !== null && v !== undefined && isFinite(v); }
+    function gate(sk, ak, f) {
+      if (ak === "stock") return val(sk, "stock", f);
+      if (ARM[ak].kind === "new" && !done(sk, ak)) return null;
+      return val(sk, ak, f);
+    }
+    var METRICS = {
+      speed: {
+        arms: function () { return kind === "drafter" ? [BASE, "F2_nopool", "S1_nopool"] : ["stock", BASE, "F2_nopool", "S1_nopool"]; },
+        v: function (sk, ak) {
+          if (ak === "stock") return (kind === "drafter" || !rec(sk, "stock")) ? null : 1;
+          return gate(sk, ak, KINDS[kind].field);
+        },
+        fmt: times, tick: function (t, st) { return num(t, st < 0.1 ? 2 : 1) + TIMES; }, ref: function () { return 1; },
+        extra: function (sk, ak) {
+          if (ak === "stock") return ["Defined as 1× (no drafter, no judge)"];
+          return [num(val(sk, ak, "exp_tok"), 0) + " experts + " + num(val(sk, ak, "drafter_cost_tok"), 0) + " drafter = " + num(val(sk, ak, "charged_tok"), 0) + " per token",
+            "Stock 30B: " + num(val(sk, "stock", "exp_tok"), 0) + " experts per token"];
+        },
+        aria: "speedup"
+      },
+      acc: {
+        arms: function () { return ["stock", BASE, "F2_nopool", "S1_nopool"]; },
+        v: function (sk, ak) { return gate(sk, ak, "acc"); },
+        err: function (sk, ak) {
+          if (ARM[ak].kind !== "new" || !done(sk, ak)) return null;
+          var d = delta(sk, ak), b = val(sk, BASE, "acc");
+          return (d && has2(b)) ? [b + d[1], b + d[2]] : null;
+        },
+        fmt: function (v) { return num(v, 1) + "%"; }, tick: function (t) { return t + "%"; }, ref: function () { return null; },
+        extra: function (sk, ak) {
+          var L = ["n = " + (val(sk, ak, "n") || "")];
+          if (ARM[ak].kind === "new") { var d = delta(sk, ak); if (d) L.unshift("Δ vs SDAR-1.7B " + signed(d[0], 1) + " pts [" + signed(d[1], 1) + ", " + signed(d[2], 1) + "], " + (isSig(d) ? "significant" : "not significant")); }
+          return L;
+        },
+        aria: "accuracy"
+      },
+      exp: {
+        arms: function () { return ["stock", BASE, "F2_nopool", "S1_nopool"]; },
+        v: function (sk, ak) { return gate(sk, ak, "exp_tok"); },
+        fmt: function (v) { return Math.round(v).toLocaleString("en-US"); }, tick: function (t) { return t.toLocaleString("en-US"); }, ref: function () { return null; },
+        extra: function (sk, ak) { return ["Passes per block " + num(val(sk, ak, "passes_blk"), 2)]; },
+        aria: "experts per generated token"
+      },
+      kept: {
+        arms: function () { return [BASE, "F2_nopool", "S1_nopool"]; },
+        v: function (sk, ak) { return gate(sk, ak, "kept"); },
+        fmt: function (v) { return num(v, 1) + "%"; }, tick: function (t) { return t + "%"; }, ref: function () { return null; },
+        extra: function () { return []; },
+        aria: "draft tokens kept"
+      }
+    };
+
+    /* ---------- scale ---------- */
+    function niceStep(raw) {
+      var mag = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / mag;
+      return (f <= 1 ? 1 : (f <= 2 ? 2 : (f <= 2.5 ? 2.5 : (f <= 5 ? 5 : 10)))) * mag;
+    }
+    function domainFor(vals) {
+      var xs = vals.filter(has2);
+      if (!xs.length) return { lo: 0, hi: 1, ticks: [0, 0.5, 1], step: 0.5 };
+      var lo = Math.min.apply(null, xs), hi = Math.max.apply(null, xs);
+      var pad = (hi - lo) * 0.14 || Math.abs(hi) * 0.1 || 0.1;
+      lo -= pad; hi += pad;
+      var step = niceStep((hi - lo) / 3), dlo = Math.floor(lo / step + 1e-9) * step, dhi = Math.ceil(hi / step - 1e-9) * step, t = [];
+      for (var v = dlo; v <= dhi + step / 1000; v += step) t.push(round(v, 6));
+      return { lo: round(dlo, 6), hi: round(dhi, 6), ticks: t, step: step };
+    }
+
+    /* ---------- marks ---------- */
+    function marker(shape, cx, cy, color, r) {
+      var a = { fill: color, stroke: "var(--card)", "stroke-width": 1.5 };
+      if (shape === "circle") { a.cx = cx; a.cy = cy; a.r = r; return svg("circle", a); }
+      var q = r, d;
+      if (shape === "square") d = "M" + (cx - q * 0.9) + "," + (cy - q * 0.9) + "h" + (q * 1.8) + "v" + (q * 1.8) + "h" + (-q * 1.8) + "Z";
+      else if (shape === "diamond") d = "M" + cx + "," + (cy - q * 1.3) + "L" + (cx + q * 1.3) + "," + cy + "L" + cx + "," + (cy + q * 1.3) + "L" + (cx - q * 1.3) + "," + cy + "Z";
+      else d = "M" + cx + "," + (cy - q * 1.3) + "L" + (cx + q * 1.2) + "," + (cy + q * 0.95) + "L" + (cx - q * 1.2) + "," + (cy + q * 0.95) + "Z";
+      a.d = d; return svg("path", a);
+    }
+    function markerLegend(ul, arms, refName) {
+      ul.textContent = "";
+      arms.forEach(function (k) {
+        var a = axOf(k), li = el("li"), sv = svg("svg", { width: 14, height: 14, viewBox: "0 0 14 14", "aria-hidden": "true" });
+        sv.appendChild(marker(a.shape, 7, 7, a.color, 4.5)); li.appendChild(sv); li.appendChild(document.createTextNode(a.label)); ul.appendChild(li);
+      });
+      if (refName) {
+        var li2 = el("li"), s2 = svg("svg", { width: 24, height: 12, viewBox: "0 0 24 12", "aria-hidden": "true" });
+        s2.appendChild(svg("line", { x1: 0, x2: 24, y1: 6, y2: 6, stroke: "var(--ink-2)", "stroke-width": 1.25, "stroke-dasharray": "4 3" }));
+        li2.appendChild(s2); li2.appendChild(document.createTextNode(refName)); ul.appendChild(li2);
+      }
+    }
+
+    /* ---------- one panel ---------- */
+    function drawPanel(host, W, m, b) {
+      host.textContent = "";
+      var arms = m.arms(), vals = arms.map(function (k) { return m.v(b.key, k); });
+      var errs = arms.map(function (k) { return m.err ? m.err(b.key, k) : null; });
+      var refv = m.ref();
+      var all = vals.slice(); errs.forEach(function (e) { if (e) all = all.concat(e); }); if (refv !== null) all.push(refv);
+      var dm = domainFor(all), n = arms.length;
+      var padL = 40, padR = 12, padT = 24, axisH = 38, H = 184, plotH = H - padT - axisH;
+      var x0 = padL, x1 = W - padR, step = (x1 - x0) / n;
+      var X = function (i) { return x0 + step * (i + 0.5); }, Y = function (v) { return padT + (1 - (v - dm.lo) / (dm.hi - dm.lo)) * plotH; };
+      var yBase = padT + plotH;
+      var root = svg("svg", { width: W, height: H, viewBox: "0 0 " + W + " " + H, role: "group", "aria-label": b.name + ", " + m.aria });
+      dm.ticks.forEach(function (t) {
+        var y = Math.round(Y(t)) + 0.5;
+        root.appendChild(svg("line", { x1: x0, x2: x1, y1: y, y2: y, stroke: "var(--hair)", "stroke-width": 1 }));
+        root.appendChild(svg("text", { x: x0 - 6, y: y, "text-anchor": "end", "dominant-baseline": "central", "font-size": 10.5, fill: "var(--muted)", style: "font-variant-numeric:tabular-nums" }, m.tick(t, dm.step)));
+      });
+      root.appendChild(svg("line", { x1: x0, x2: x1, y1: yBase + 0.5, y2: yBase + 0.5, stroke: "var(--axis)", "stroke-width": 1 }));
+      if (refv !== null && refv >= dm.lo && refv <= dm.hi) {
+        var ry = Math.round(Y(refv)) + 0.5;
+        root.appendChild(svg("line", { x1: x0, x2: x1, y1: ry, y2: ry, stroke: "var(--ink-2)", "stroke-width": 1, "stroke-dasharray": "4 3" }));
+      }
+      arms.forEach(function (k, i) {
+        root.appendChild(svg("text", { x: X(i), y: yBase + 15, "text-anchor": "middle", "font-size": 10.5, fill: "var(--ink-2)" }, axOf(k).tiny));
+        if (!has2(vals[i]) && ARM[k].kind === "new") root.appendChild(svg("text", { x: X(i), y: yBase + 28, "text-anchor": "middle", "font-size": 9.5, "font-style": "italic", fill: "var(--muted)" }, "pending"));
+      });
+      var cross = svg("line", { x1: 0, x2: 0, y1: padT, y2: yBase, stroke: "var(--axis)", "stroke-width": 1 });
+      cross.setAttribute("visibility", "hidden"); root.appendChild(cross);
+      var d = "", pen = false;
+      vals.forEach(function (v, i) {
+        if (!has2(v)) { pen = false; return; }
+        d += (pen ? "L" : "M") + X(i).toFixed(1) + "," + Y(v).toFixed(1); pen = true;
+      });
+      if (d.indexOf("L") >= 0) root.appendChild(svg("path", { d: d, fill: "none", stroke: "var(--ink-2)", "stroke-width": 1.5, "stroke-linejoin": "round", "stroke-linecap": "round" }));
+      vals.forEach(function (v, i) {
+        var e = errs[i], c = axOf(arms[i]).color;
+        if (e && has2(v)) {
+          var y1 = Y(e[0]), y2 = Y(e[1]);
+          root.appendChild(svg("line", { x1: X(i), x2: X(i), y1: y1, y2: y2, stroke: c, "stroke-width": 1.5 }));
+          root.appendChild(svg("line", { x1: X(i) - 3.5, x2: X(i) + 3.5, y1: y1, y2: y1, stroke: c, "stroke-width": 1.5 }));
+          root.appendChild(svg("line", { x1: X(i) - 3.5, x2: X(i) + 3.5, y1: y2, y2: y2, stroke: c, "stroke-width": 1.5 }));
+        }
+      });
+      vals.forEach(function (v, i) { if (has2(v)) root.appendChild(marker(axOf(arms[i]).shape, X(i), Y(v), axOf(arms[i]).color, 4.5)); });
+      vals.forEach(function (v, i) {
+        if (!has2(v)) return;
+        var top = errs[i] ? Math.min(Y(errs[i][1]), Y(v)) : Y(v);
+        root.appendChild(svg("text", { x: X(i), y: Math.max(9, top - 9), "text-anchor": "middle", "font-size": 10.5, "font-weight": 500, fill: "var(--ink)",
+          style: "font-variant-numeric:tabular-nums;paint-order:stroke;stroke:var(--card);stroke-width:3px;stroke-linejoin:round" }, m.fmt(v)));
+      });
+      arms.forEach(function (k, i) {
+        var a = axOf(k), v = vals[i];
+        var hit = svg("rect", { x: X(i) - step / 2, y: padT - 12, width: step, height: plotH + axisH + 12, class: "hit", tabindex: "0",
+          "aria-label": b.name + ", " + a.label + ": " + (has2(v) ? m.fmt(v) : "pending") });
+        var lines = function () {
+          var L = [{ cls: "v", text: a.label }];
+          L.push(has2(v) ? { cls: "k", color: a.color, val: m.fmt(v), text: "  " + b.name } : { cls: "k", color: a.color, val: "pending", text: "  " + b.name });
+          if (has2(v)) (m.extra(b.key, k) || []).forEach(function (t) { L.push({ cls: "x", text: t }); });
+          return L;
+        };
+        var show = function (cx, cy) { cross.setAttribute("x1", X(i)); cross.setAttribute("x2", X(i)); cross.setAttribute("visibility", "visible"); showTip(lines(), cx, cy); };
+        var hide = function () { cross.setAttribute("visibility", "hidden"); hideTip(); };
+        hit.addEventListener("pointerenter", function (e) { show(e.clientX, e.clientY); });
+        hit.addEventListener("pointermove", function (e) { show(e.clientX, e.clientY); });
+        hit.addEventListener("pointerleave", hide);
+        hit.addEventListener("focus", function () { var r = hit.getBoundingClientRect(); show(r.left + r.width / 2, r.top + 24); });
+        hit.addEventListener("blur", hide);
+        root.appendChild(hit);
+      });
+      host.appendChild(root);
+    }
+
+    /* ---------- a figure of seven panels ---------- */
+    function mkMulti(o) {
+      var fig = el("figure", { class: "chart wide" });
+      fig.appendChild(el("span", { class: "fig-no" }, o.no));
+      fig.appendChild(el("h3", null, o.title));
+      var lg = el("ul", { class: "legend", "aria-label": "Legend" });
+      fig.appendChild(lg);
+      var plot = el("div", { class: "plot" });
+      fig.appendChild(plot);
+      var cap = el("figcaption", null, o.caption || "");
+      fig.appendChild(cap);
+      grid.appendChild(fig);
+      var render = function (host) {
+        var m = METRICS[o.metric];
+        markerLegend(lg, m.arms(), m.ref() !== null ? (kind === "drafter" ? "SDAR-1.7B = 1×" : "Stock 30B = 1×") : null);
+        host.textContent = "";
+        var sm = el("div", { class: "smgrid" });
+        host.appendChild(sm);
+        var cells = BM.map(function (b) {
+          var p = el("div", { class: "smp" });
+          var h = el("h4", null, b.name); if (b.n) h.appendChild(el("span", null, "n = " + b.n)); p.appendChild(h);
+          var body = el("div", { class: "smb" }); p.appendChild(body); sm.appendChild(p);
+          return { b: b, body: body, p: p };
+        });
+        cells.forEach(function (c) {
+          var arms = METRICS[o.metric].arms();
+          var any = anyDone(c.b.key);
+          if (!any) { c.p.className = "smp pend"; c.body.appendChild(el("p", null, "pending")); return; }
+          drawPanel(c.body, Math.max(150, Math.floor(c.body.clientWidth)), METRICS[o.metric], c.b);
+        });
+      };
+      var handle = responsive(plot, function (host) { render(host); });
+      return { cap: cap, refresh: handle.refresh };
+    }
+
+    /* ---------- toolbar and figures ---------- */
+    var toolbar = el("div", { class: "ftool" });
+    toolbar.appendChild(el("span", { id: "kind-lab" }, "Speedup shown in Figure 1"));
+    var seg = el("div", { class: "seg", role: "radiogroup", "aria-labelledby": "kind-lab" }), btns = {};
+    Object.keys(KINDS).forEach(function (k) {
+      var b = el("button", { type: "button", role: "radio", id: "kind-" + k, "aria-checked": k === kind ? "true" : "false" }, KINDS[k].name);
+      b.addEventListener("click", function () { setKind(k); });
+      seg.appendChild(b); btns[k] = b;
+    });
+    seg.addEventListener("keydown", function (e) {
+      var ks = Object.keys(KINDS), i = ks.indexOf(kind), d = e.key === "ArrowRight" || e.key === "ArrowDown" ? 1 : (e.key === "ArrowLeft" || e.key === "ArrowUp" ? -1 : 0);
+      if (!d) return;
+      e.preventDefault(); var nk = ks[(i + d + ks.length) % ks.length]; setKind(nk); btns[nk].focus();
+    });
+    toolbar.appendChild(seg); grid.appendChild(toolbar);
+
+    var F1 = mkMulti({ no: "Figure 1", title: "Speedup by benchmark", metric: "speed" });
+    var F2 = mkMulti({ no: "Figure 2", title: "Accuracy by benchmark", metric: "acc",
+      caption: "Items correct, %, one panel per benchmark with its own y-range. Whiskers on the new drafters: 95% CI of the paired Δ vs SDAR-1.7B, centred on the point. A gap or \"pending\" means the run has not finished." });
+    mkMulti({ no: "Figure 3", title: "Experts loaded per generated token", metric: "exp",
+      caption: "MoE experts the 30B loads per generated token, one panel per benchmark with its own y-range. Lower is better." });
+    mkMulti({ no: "Figure 4", title: "Draft tokens kept", metric: "kept",
+      caption: "Share of drafter tokens that stay in the final answer, one panel per benchmark with its own y-range. Stock 30B has no drafter." });
+
+    function setKind(k) {
+      kind = k;
+      Object.keys(btns).forEach(function (x) { btns[x].setAttribute("aria-checked", x === k ? "true" : "false"); });
+      F1.cap.textContent = KINDS[k].cap + " Higher is better. Dashed line: " + (k === "drafter" ? "SDAR-1.7B" : "stock 30B") + " at 1×; each panel has its own y-range. A gap or \"pending\" means the run has not finished.";
+      F1.refresh();
+    }
+    setKind("full");
+  })();
+
+  /* ---------- §2 flow: replay of one real decode ---------- */
+  (function () {
+    var FD = {};
+    try { FD = JSON.parse(document.getElementById("flow-data").textContent) || {}; } catch (e) { FD = {}; }
+    var sec = document.getElementById("flow");
+    if (!FD.blocks || !FD.blocks.length) { sec.hidden = true; return; }
+    var arm = ARM[FD.arm] || ARM.S1_nopool;
+    var NB = FD.blocks.length;
+    var reduce = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    var STOCK = val(FD.set, "stock", "exp_tok");
+    var nf = function (v) { return Math.round(v).toLocaleString("en-US"); };
+
+    /* rail */
+    var STEPS = [
+      ["Prompt", "The question is read once"],
+      ["Drafter · " + arm.short, "Guesses all 32 slots at once"],
+      ["30B + judge", "Reads the block, scores every slot"],
+      ["Decide per slot", "Accept above 0.95, keep, or re-mask"],
+      ["Commit", "Block full, next block starts"]
+    ];
+    var rail = document.getElementById("rail");
+    var stepEls = STEPS.map(function (s) {
+      var li = el("li", { class: "step" });
+      li.appendChild(el("b", null, s[0])); li.appendChild(el("span", null, s[1]));
+      rail.appendChild(li); return li;
+    });
+    document.getElementById("mb-dr-sw").style.background = arm.color;
+    document.getElementById("mb-dr2").style.background = arm.color;
+
+    /* frames: one per drafter call, judge pass, block commit, plus a closing frame */
+    var frames = [], c30 = FD.prefill_cost, cd = FD.draft_cost * FD.drafter_prefill_forwards, passesTotal = 0;
+    FD.blocks.forEach(function (b, bi) {
+      cd += FD.draft_cost * FD.drafter_forwards_per_draft;
+      frames.push({ t: "draft", b: bi, c30: c30, cd: cd });
+      b.passes.forEach(function (p, k) { c30 += p.cost; passesTotal++; frames.push({ t: "pass", b: bi, k: k, c30: c30, cd: cd }); });
+      c30 += b.flush_cost; cd += FD.draft_cost * FD.drafter_flush_forwards;
+      frames.push({ t: "commit", b: bi, c30: c30, cd: cd });
+    });
+    frames.push({ t: "done", b: NB - 1, c30: c30, cd: cd });
+    var LAST = frames.length - 1, TOT = c30 + cd, PERTOK = TOT / FD.tokens;
+
+    /* slots */
+    var slotsEl = document.getElementById("slots"), cells = [];
+    for (var q = 0; q < 32; q++) {
+      var cell = el("div", { class: "slot p" }); cell.style.setProperty("--i", String(q));
+      cell.appendChild(el("span")); slotsEl.appendChild(cell); cells.push(cell);
+    }
+    function gridFor(f) {
+      var b = FD.blocks[f.b], st = "", tok = [], i;
+      if (f.t === "draft") {
+        for (i = 0; i < 32; i++) { st += b.valid.charAt(i) === "1" ? "k" : "."; tok.push(b.draft[i]); }
+      } else if (f.t === "pass") {
+        st = b.passes[f.k].st;
+        for (i = 0; i < 32; i++) { var ch = st.charAt(i); tok.push("aAoOf".indexOf(ch) >= 0 ? b.final[i] : (ch === "k" ? b.draft[i] : "")); }
+      } else {
+        for (i = 0; i < 32; i++) { st += b.valid.charAt(i) === "1" ? "A" : "."; tok.push(b.final[i]); }
+      }
+      return { st: st, tok: tok, pop: f.t === "draft" };
+    }
+    function paint(g, reading) {
+      slotsEl.className = "slots" + (reading ? " reading" : "");
+      for (var i = 0; i < 32; i++) {
+        var ch = g.st.charAt(i), cls = "slot ";
+        if (ch === ".") cls += "p";
+        else if (ch === "k") cls += "d" + (g.pop ? " pop" : "");
+        else if (ch === "m") cls += "m";
+        else cls += "a" + (ch === "a" || ch === "o" || ch === "f" ? " new" : "") + (ch === "f" ? " f" : "");
+        cells[i].className = cls;
+        cells[i].firstChild.textContent = g.tok[i];
+      }
+    }
+
+    /* text, meter */
+    var elQ = document.getElementById("qa-q"), elA = document.getElementById("qa-a");
+    var elBlock = document.getElementById("fh-block"), elSt = document.getElementById("fh-st");
+    var m = {
+      total: document.getElementById("m-total"), b30: document.getElementById("mb-30"), bdr: document.getElementById("mb-dr2"),
+      v30: document.getElementById("mv-30"), vdr: document.getElementById("mv-dr"), bstock: document.getElementById("mb-stock"),
+      vstock: document.getElementById("mv-stock"), bthis: document.getElementById("mb-this"), vthis: document.getElementById("mv-this")
+    };
+    if (FD.question) { elQ.textContent = FD.question; elQ.setAttribute("title", FD.question); } else elQ.parentNode.style.display = "none";
+    var shown = { a: 0, d: 0 }, tw = null;
+    function paintMeter(a, d) {
+      shown.a = a; shown.d = d;
+      m.total.textContent = nf(a + d); m.v30.textContent = nf(a); m.vdr.textContent = nf(d);
+      m.b30.style.width = (a / TOT * 100).toFixed(2) + "%"; m.bdr.style.width = (d / TOT * 100).toFixed(2) + "%";
+    }
+    function tweenMeter(a, d, animated) {
+      if (tw) { cancelAnimationFrame(tw); tw = null; }
+      if (!animated || reduce || !window.requestAnimationFrame) { paintMeter(a, d); return; }
+      var a0 = shown.a, d0 = shown.d, t0 = null, dur = 420;
+      var stepf = function (t) {
+        if (t0 === null) t0 = t;
+        var k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+        paintMeter(a0 + (a - a0) * e, d0 + (d - d0) * e);
+        if (k < 1) tw = requestAnimationFrame(stepf); else tw = null;
+      };
+      tw = requestAnimationFrame(stepf);
+    }
+    function paintPerToken(f) {
+      var top = Math.max(STOCK || 0, PERTOK);
+      if (STOCK) { m.bstock.style.width = (STOCK / top * 100).toFixed(1) + "%"; m.vstock.textContent = nf(STOCK); }
+      var fin = f.t === "done";
+      m.bthis.style.width = fin ? (PERTOK / top * 100).toFixed(1) + "%" : "0%";
+      m.vthis.textContent = fin ? nf(PERTOK) : "—";
+      m.vthis.style.fontWeight = fin ? "600" : "400";
+    }
+    function flat(t) { return t.replace(/\n+/g, " \u21b5 ").replace(/^\s+/, ""); }
+    function tail(t) {
+      var max = Math.max(60, Math.floor((elA.clientWidth || 600) / 7.3) * 2 - 10);
+      return t.length > max ? "\u2026" + t.slice(t.length - max).replace(/^\S*\s/, "") : t;
+    }
+    function answerSoFar(f) {
+      elA.textContent = "";
+      if (f.t === "done") {
+        elA.appendChild(document.createTextNode(tail(flat(FD.answer)) + "  "));
+        elA.appendChild(el("mark", null, FD.correct ? "(correct)" : "(incorrect)"));
+        return;
+      }
+      var s = "", i;
+      for (i = 0; i < f.b; i++) s += FD.blocks[i].text;
+      s = flat(s);
+      if (f.t === "commit") {
+        var cur = flat(FD.blocks[f.b].text), t = tail(s ? s + " " + cur : cur), cut = Math.max(0, t.length - cur.length);
+        elA.appendChild(document.createTextNode(t.slice(0, cut)));
+        elA.appendChild(el("mark", null, t.slice(cut)));
+      } else elA.appendChild(document.createTextNode(tail(s)));
+    }
+    function setStatus(f, phase) {
+      var b = FD.blocks[f.b], nv = b.valid.split("1").length - 1;
+      elSt.textContent = "";
+      var add = function (t, em) { if (em) elSt.appendChild(el("em", null, t)); else elSt.appendChild(document.createTextNode(t)); };
+      var sep = function () { elSt.appendChild(el("span", { class: "sep", "aria-hidden": "true" }, "\u00b7")); };
+      if (f.t === "done") {
+        elBlock.textContent = "Answer complete";
+        add(FD.tokens + " tokens, " + passesTotal + " judge passes in " + NB + " blocks");
+      } else if (f.t === "draft") {
+        elBlock.textContent = "Block " + (f.b + 1) + " of " + NB;
+        add("Drafter proposes " + nv + " tokens" + (nv < 32 ? "; the other " + (32 - nv) + " slots hold the prompt" : ""));
+      } else if (f.t === "pass") {
+        var p = b.passes[f.k], n = b.passes.length;
+        elBlock.textContent = "Block " + (f.b + 1) + " of " + NB;
+        if (phase === "read") add("Pass " + (f.k + 1) + " of " + n + ": the 30B and the judge read the block");
+        else {
+          add("Pass " + (f.k + 1) + " of " + n + ": ");
+          add("accept " + p.n_commit, true);
+          add(" (" + p.n_confirm + " match the draft)"); sep(); add("keep " + p.n_keep); sep(); add("re-mask " + p.n_remask);
+          if (p.forced) { sep(); add("forced: nothing cleared 0.95, best slot taken"); }
+        }
+      } else {
+        elBlock.textContent = "Block " + (f.b + 1) + " of " + NB;
+        add("All " + nv + " slots accepted after " + b.passes.length + (b.passes.length === 1 ? " pass" : " passes") + ". Block committed" + (f.b < NB - 1 ? "; the drafter reads it, then the next block starts" : ""));
+      }
+    }
+    function setRail(on) { stepEls.forEach(function (s, i) { s.className = "step" + (on.indexOf(i) >= 0 ? " on" : ""); }); }
+
+    /* control */
+    var rng = document.getElementById("f-range"), pos = document.getElementById("f-pos"), btnPlay = document.getElementById("f-play");
+    rng.max = String(LAST);
+    var idx = 0, playing = !reduce, timer = null, phaseTimer = null, inView = true;
+    function renderFrame(i, animated) {
+      var f = frames[i];
+      paint(gridFor(f), false);
+      setStatus(f, "decide");
+      setRail(f.t === "draft" ? (f.b === 0 ? [0, 1] : [1]) : (f.t === "pass" ? [3] : [4]));
+      answerSoFar(f); tweenMeter(f.c30, f.cd, animated); paintPerToken(f);
+    }
+    function show(i, animated) {
+      idx = i; clearTimeout(phaseTimer);
+      var f = frames[i];
+      rng.value = String(i); pos.textContent = (i + 1) + " / " + frames.length;
+      if (f.t === "pass" && animated && !reduce && i > 0) {
+        paint(gridFor(frames[i - 1]), true); setStatus(f, "read"); setRail([2]);
+        answerSoFar(f); tweenMeter(f.c30, f.cd, true); paintPerToken(f);
+        phaseTimer = setTimeout(function () { if (idx === i) renderFrame(i, false); }, 280);
+      } else renderFrame(i, animated);
+    }
+    function delay(f) { return f.t === "pass" ? 680 : (f.t === "done" ? 3600 : (f.t === "commit" ? 1150 : 1400)); }
+    function schedule() {
+      clearTimeout(timer);
+      if (!playing || !inView || document.hidden) return;
+      timer = setTimeout(function () { show((idx + 1) % frames.length, true); schedule(); }, delay(frames[idx]));
+    }
+    function setPlaying(p) { playing = p; btnPlay.textContent = p ? "Pause" : "Play"; btnPlay.setAttribute("aria-pressed", p ? "true" : "false"); if (p) schedule(); else clearTimeout(timer); }
+    btnPlay.addEventListener("click", function () { setPlaying(!playing); });
+    document.getElementById("f-prev").addEventListener("click", function () { setPlaying(false); show((idx + frames.length - 1) % frames.length, false); });
+    document.getElementById("f-next").addEventListener("click", function () { setPlaying(false); show((idx + 1) % frames.length, false); });
+    rng.addEventListener("input", function () { setPlaying(false); show(parseInt(rng.value, 10) || 0, false); });
+    if (window.IntersectionObserver) {
+      new IntersectionObserver(function (es) { inView = es[0].isIntersecting; if (inView) schedule(); else clearTimeout(timer); }, { threshold: 0.15 }).observe(document.getElementById("flow-fig"));
+    }
+    document.addEventListener("visibilitychange", function () { if (!document.hidden) schedule(); else clearTimeout(timer); });
+
+    var start = 0;
+    if (reduce) { for (var j = 0; j < frames.length; j++) if (frames[j].t === "pass" && frames[j].b === 1 && frames[j].k === 2) { start = j; break; } }
+    show(start, false);
+    setPlaying(playing);
+    document.getElementById("flow-cap").textContent =
+      "Replay of one real decode: " + (SETS.filter(function (s) { return s.key === FD.set; })[0] || { name: FD.set }).name + " test item " + FD.idx + ", " + arm.short +
+      " drafter, frozen 30B and 128M judge, no pool. Tokens, probabilities and expert loads are read from the decode log; the drafter is charged " +
+      num(FD.draft_cost, 2) + " expert loads per forward.";
+  })();
+
+  /* ---------- analysis: shared helpers ---------- */
+  function mkFig(grid, o) {
+    var fig = el("figure", { class: "chart" + (o.wide ? " wide" : "") });
+    fig.appendChild(el("span", { class: "fig-no" }, o.no));
+    fig.appendChild(el("h3", null, o.title));
+    if (o.legend && o.legend.length) {
+      var lg = el("ul", { class: "legend", "aria-label": "Legend" });
+      o.legend.forEach(function (l) {
+        var li = el("li"), sp = el("span", { class: "sw" + (l.cls ? " " + l.cls : ""), "aria-hidden": "true" });
+        if (l.color) sp.style.background = l.color;
+        li.appendChild(sp); li.appendChild(document.createTextNode(l.label)); lg.appendChild(li);
+      });
+      fig.appendChild(lg);
+    }
+    var plot = el("div", { class: "plot" });
+    fig.appendChild(plot);
+    fig.appendChild(el("figcaption", null, o.caption));
+    grid.appendChild(fig);
+    return plot;
+  }
+  function responsive(plot, draw) {
+    var last = -1;
+    var redraw = function (force) {
+      var w = Math.floor(plot.clientWidth);
+      if (w === last && force !== true) return;
+      last = w; hideTip(); draw(plot, Math.max(280, w));
+    };
+    if (window.ResizeObserver) new ResizeObserver(function () { window.requestAnimationFrame(function () { redraw(); }); }).observe(plot);
+    redraw();
+    return { refresh: function () { redraw(true); } };
+  }
+  function bindTip(hit, bar, lines) {
+    var on = function (e) { if (bar) bar.classList.add("hot"); showTip(lines(), e.clientX, e.clientY); };
+    hit.addEventListener("pointerenter", on);
+    hit.addEventListener("pointermove", on);
+    hit.addEventListener("pointerleave", function () { if (bar) bar.classList.remove("hot"); hideTip(); });
+    hit.addEventListener("focus", function () { var r = hit.getBoundingClientRect(); showTip(lines(), r.right, r.top); });
+    hit.addEventListener("blur", function () { if (bar) bar.classList.remove("hot"); hideTip(); });
+  }
+  function symTicks(sc) { var t = []; for (var i = sc.ticks.length - 1; i > 0; i--) t.push(-sc.ticks[i]); return t.concat(sc.ticks); }
+  function tlabel(t) { return (t > 0 ? "+" : (t < 0 ? MINUS : "")) + Math.abs(t); }
+  function pfmt(p) { return (p === null || p === undefined) ? "—" : (p < 0.001 ? "<0.001" : p.toFixed(2)); }
+  function has(v) { return v !== null && v !== undefined && isFinite(v); }
+  function perSet(ak, key) { var p = AN.arms[ak].per_set; return p ? p[key] : null; }
+  function gridAxis(root, ticks, X, yTop, yBot, every, zeroKey, lab) {
+    var zi = ticks.indexOf(zeroKey);
+    ticks.forEach(function (t, i) {
+      var x = Math.round(X(t)) + 0.5;
+      root.appendChild(svg("line", { x1: x, x2: x, y1: yTop, y2: yBot, stroke: t === zeroKey ? "var(--axis)" : "var(--hair)", "stroke-width": 1 }));
+      if (((i - zi) % every) === 0) root.appendChild(svg("text", { x: x, y: yBot + 16, "text-anchor": "middle", "font-size": 11, fill: "var(--muted)", style: "font-variant-numeric:tabular-nums" }, lab(t)));
+    });
+  }
+
+  /* ---------- Figure 7: did accuracy dip (forest plot) ---------- */
+  function drawDip(host, W) {
+    host.textContent = "";
+    var narrow = W < 520;
+    var labelW = narrow ? 86 : 124, colP = 50, colD = narrow ? 0 : 128;
+    var x0 = labelW, x1 = W - colP - colD - 14;
+    var rows = [], ext = 0;
+    ANARMS.forEach(function (ak) {
+      var A = AN.arms[ak];
+      rows.push({ head: true, ak: ak });
+      SETS.forEach(function (s) {
+        var r = A.per_set && A.per_set[s.key];
+        if (r && has(r.delta)) { rows.push({ ak: ak, name: s.name, r: r }); ext = Math.max(ext, Math.abs(r.lo), Math.abs(r.hi)); }
+      });
+      var P = A.pooled;
+      if (P && has(P.delta)) { rows.push({ ak: ak, name: narrow ? "All combined" : "All benchmarks", r: P, pooled: true }); ext = Math.max(ext, Math.abs(P.lo), Math.abs(P.hi)); }
+    });
+    if (!rows.length) { host.appendChild(el("p", { class: "empty" }, "No analysis yet.")); return; }
+    var sc = niceScale(ext * 100 * 1.04), M = sc.max, ticks = symTicks(sc);
+    var padT = 22, rowH = 24, headH = 30, axisH = 38;
+    var H = padT + axisH; rows.forEach(function (r) { H += r.head ? headH : rowH; });
+    var X = function (v) { return x0 + (v + M) / (2 * M) * (x1 - x0); };
+    var root = svg("svg", { width: W, height: H, viewBox: "0 0 " + W + " " + H, role: "group", "aria-label": "Paired accuracy difference against SDAR-1.7B, by benchmark and drafter" });
+    var yTop = padT, yBot = H - axisH;
+    var every = Math.max(1, Math.ceil(30 / (((x1 - x0) / (ticks.length - 1)) || 1)));
+    gridAxis(root, ticks, X, yTop, yBot, every, 0, tlabel);
+    root.appendChild(svg("text", { x: (x0 + x1) / 2, y: yBot + 32, "text-anchor": "middle", "font-size": 11, fill: "var(--muted)" }, narrow ? "Δ accuracy, points" : "Δ accuracy in points, new minus SDAR-1.7B"));
+    if (!narrow) root.appendChild(svg("text", { x: x1 + 14, y: padT - 9, "font-size": 11, fill: "var(--muted)" }, "Δ [95% CI]"));
+    root.appendChild(svg("text", { x: W, y: padT - 9, "text-anchor": "end", "font-size": 11, fill: "var(--muted)" }, "p"));
+    var y = padT;
+    rows.forEach(function (r) {
+      var col = ARM[r.ak].color;
+      if (r.head) {
+        root.appendChild(svg("rect", { x: 0, y: y + 10, width: 10, height: 10, rx: 2, fill: col }));
+        root.appendChild(svg("text", { x: 16, y: y + 15, "dominant-baseline": "central", "font-size": 12.5, "font-weight": 600, fill: "var(--ink)" }, ARM[r.ak].short));
+        var pv = AN.arms[r.ak].pooled && AN.arms[r.ak].pooled.verdict;
+        if (pv && !narrow) root.appendChild(svg("text", { x: W, y: y + 15, "text-anchor": "end", "dominant-baseline": "central", "font-size": 11, "font-style": "italic", fill: "var(--muted)" }, "all benchmarks: " + pv));
+        y += headH; return;
+      }
+      var cy = y + rowH / 2, d = r.r.delta * 100, lo = r.r.lo * 100, hi = r.r.hi * 100, px = X(d);
+      if (r.pooled) root.appendChild(svg("line", { x1: 0, x2: W, y1: y + 0.5, y2: y + 0.5, stroke: "var(--hair)", "stroke-width": 1 }));
+      root.appendChild(svg("text", { x: x0 - 10, y: cy, "text-anchor": "end", "dominant-baseline": "central", "font-size": 12.5, "font-weight": r.pooled ? 600 : 400, fill: "var(--ink)" }, r.name));
+      root.appendChild(svg("line", { x1: X(lo), x2: X(hi), y1: cy, y2: cy, stroke: col, "stroke-width": 2 }));
+      root.appendChild(svg("line", { x1: X(lo), x2: X(lo), y1: cy - 4, y2: cy + 4, stroke: col, "stroke-width": 2 }));
+      root.appendChild(svg("line", { x1: X(hi), x2: X(hi), y1: cy - 4, y2: cy + 4, stroke: col, "stroke-width": 2 }));
+      if (r.pooled) root.appendChild(svg("path", { d: "M" + px + "," + (cy - 6.5) + "L" + (px + 6.5) + "," + cy + "L" + px + "," + (cy + 6.5) + "L" + (px - 6.5) + "," + cy + "Z", fill: col, stroke: "var(--card)", "stroke-width": 1.5 }));
+      else root.appendChild(svg("circle", { cx: px, cy: cy, r: 4.5, fill: col, stroke: "var(--card)", "stroke-width": 1.5 }));
+      if (!narrow) root.appendChild(svg("text", { x: x1 + 14, y: cy, "dominant-baseline": "central", "font-size": 11, fill: "var(--ink-2)", style: "font-variant-numeric:tabular-nums" }, signed(d, 1) + " [" + signed(lo, 1) + ", " + signed(hi, 1) + "]"));
+      root.appendChild(svg("text", { x: W, y: cy, "text-anchor": "end", "dominant-baseline": "central", "font-size": 11, fill: "var(--ink-2)", style: "font-variant-numeric:tabular-nums" }, pfmt(r.r.mcnemar_p)));
+      var hit = svg("rect", { x: 0, y: y, width: W, height: rowH, class: "hit", tabindex: "0", "aria-label": ARM[r.ak].short + ", " + r.name + ": " + signed(d, 1) + " points, p " + pfmt(r.r.mcnemar_p) });
+      bindTip(hit, null, function () {
+        var rr = r.r, L = [
+          { cls: "v", text: signed(d, 1) + " pts [" + signed(lo, 1) + ", " + signed(hi, 1) + "]" },
+          { cls: "k", color: col, text: ARM[r.ak].label + " · " + (r.pooled ? "all benchmarks combined" : r.name) }];
+        if (has(rr.acc_x) && has(rr.acc_y)) L.push({ cls: "x", text: "Accuracy " + pct(rr.acc_x * 100) + " against SDAR-1.7B " + pct(rr.acc_y * 100) + ", n = " + rr.n });
+        L.push({ cls: "x", text: "McNemar exact p = " + (has(rr.mcnemar_p) ? rr.mcnemar_p.toFixed(3) : "—") + "; new-only " + rr.x_only + ", SDAR-only " + rr.y_only });
+        if (rr.verdict) L.push({ cls: "x", text: rr.verdict });
+        return L;
+      });
+      root.appendChild(hit);
+      y += rowH;
+    });
+    host.appendChild(root);
+  }
+
+  /* ---------- Figure 8: content-only versus raw agreement (dumbbells) ---------- */
+  function drawAgree(host, W) {
+    host.textContent = "";
+    var groups = [];
+    SETS.forEach(function (s) {
+      var rows = [], A = null;
+      ANARMS.forEach(function (ak) {
+        var c = AN.arms[ak].content && AN.arms[ak].content[s.key];
+        if (!c) return;
+        if (!A) A = c;
+        rows.push({ key: ak, raw: c.raw_new, content: c.content_new, head: c.header_new, tail: c.tail_new });
+      });
+      if (!rows.length) return;
+      rows.unshift({ key: BASE, est: true, raw: A.raw_A, content: A.content_A, range: A.content_A_range, tail: A.tail_A });
+      groups.push({ s: s, rows: rows });
+    });
+    if (!groups.length) { host.appendChild(el("p", { class: "empty" }, "No analysis yet.")); return; }
+    var narrow = W < 440, labelW = narrow ? 86 : 104, padR = 46, rowH = 18, hdr = 20, gg = 10, axisH = 30, padT = 4;
+    var x0 = labelW, x1 = W - padR;
+    var X = function (v) { return x0 + Math.max(0, Math.min(1, v)) * (x1 - x0); };
+    var H = padT + axisH; groups.forEach(function (g) { H += hdr + g.rows.length * rowH + gg; });
+    var root = svg("svg", { width: W, height: H, viewBox: "0 0 " + W + " " + H, role: "group", "aria-label": "Draft agreement with all slots and with content slots only, by benchmark and drafter" });
+    var yTop = padT, yBot = H - axisH;
+    [0, 25, 50, 75, 100].forEach(function (t) {
+      var x = Math.round(X(t / 100)) + 0.5;
+      root.appendChild(svg("line", { x1: x, x2: x, y1: yTop, y2: yBot, stroke: t === 0 ? "var(--axis)" : "var(--hair)", "stroke-width": 1 }));
+      root.appendChild(svg("text", { x: x, y: yBot + 16, "text-anchor": "middle", "font-size": 11, fill: "var(--muted)", style: "font-variant-numeric:tabular-nums" }, t + "%"));
+    });
+    var y = padT;
+    groups.forEach(function (g) {
+      root.appendChild(svg("text", { x: 0, y: y + hdr / 2, "dominant-baseline": "central", "font-size": 12.5, "font-weight": 600, fill: "var(--ink)" }, g.s.name));
+      y += hdr;
+      g.rows.forEach(function (r) {
+        var a = ARM[r.key], cy = y + rowH / 2;
+        root.appendChild(svg("circle", { cx: 8, cy: cy, r: 4, fill: a.color }));
+        root.appendChild(svg("text", { x: 18, y: cy, "dominant-baseline": "central", "font-size": narrow ? 11 : 11.5, fill: "var(--ink-2)" }, a.short + (r.est ? " est." : "")));
+        if (has(r.raw) && has(r.content)) {
+          var xr = X(r.raw), xc = X(r.content), end = Math.max(xr, xc);
+          if (r.range && has(r.range[0])) {
+            var rl = X(r.range[0]), rh = X(r.range[1]);
+            root.appendChild(svg("rect", { x: rl, y: cy - 4, width: Math.max(2, rh - rl), height: 8, fill: a.color, opacity: 0.28 }));
+            end = Math.max(end, rh);
+          }
+          root.appendChild(svg("line", { x1: xr, x2: xc, y1: cy, y2: cy, stroke: a.color, "stroke-width": 2, opacity: 0.6 }));
+          root.appendChild(svg("circle", { cx: xr, cy: cy, r: 4.5, fill: "var(--card)", stroke: a.color, "stroke-width": 2 }));
+          root.appendChild(svg("circle", { cx: xc, cy: cy, r: 5, fill: a.color, stroke: "var(--card)", "stroke-width": 1.5 }));
+          root.appendChild(svg("text", { x: end + 9, y: cy, "dominant-baseline": "central", "font-size": 10.5, fill: "var(--ink-2)", style: "font-variant-numeric:tabular-nums" }, num(r.content * 100, 0) + "%"));
+          var hit = svg("rect", { x: 0, y: y, width: W, height: rowH, class: "hit", tabindex: "0", "aria-label": a.short + ", " + g.s.name + ": content-only " + num(r.content * 100, 1) + " percent, all slots " + num(r.raw * 100, 1) + " percent" });
+          bindTip(hit, null, function () {
+            var L = [{ cls: "v", text: num(r.content * 100, 1) + "% content only" }, { cls: "k", color: a.color, text: a.label + " · " + g.s.name },
+              { cls: "x", text: "All slots (raw): " + num(r.raw * 100, 1) + "%" }];
+            if (has(r.head)) L.push({ cls: "x", text: "Header slots " + num(r.head * 100, 1) + "% of all slots" });
+            if (has(r.tail)) L.push({ cls: "x", text: "Padding slots " + num(r.tail * 100, 1) + "% of all slots" });
+            if (r.est) L.push({ cls: "x", text: "Estimate: SDAR-1.7B drafts are not logged" + (r.range ? "; range " + num(r.range[0] * 100, 0) + "–" + num(r.range[1] * 100, 0) + "%" : "") });
+            return L;
+          });
+          root.appendChild(hit);
+        }
+        y += rowH;
+      });
+      y += gg;
+    });
+    host.appendChild(root);
+  }
+
+  /* ---------- Figures 9 and 10: where the passes go ---------- */
+  var SEGS = [
+    { k: "header", c: "var(--c-head)", n: "Header" },
+    { k: "padding", c: "var(--c-pad)", n: "Padding" },
+    { k: "kept", c: "var(--c-kept)", n: "Content, draft kept" },
+    { k: "plausible", c: "var(--c-alt)", n: "Content, plausible alternative" },
+    { k: "miss", c: "var(--c-miss)", n: "Content, genuine miss" }
+  ];
+  var GSEGS = [
+    { k: "first", c: "var(--c-head)", n: "First block" },
+    { k: "padding", c: "var(--c-pad)", n: "Padding" },
+    { k: "plausible", c: "var(--c-alt)", n: "Interior, plausible alternative" },
+    { k: "miss", c: "var(--c-miss)", n: "Interior, genuine miss" }
+  ];
+  function drawStack(host, W, spec) {
+    host.textContent = "";
+    var groups = [];
+    SETS.forEach(function (s) {
+      var rows = [];
+      ANARMS.forEach(function (ak) { var d = AN.arms[ak][spec.src] && AN.arms[ak][spec.src][s.key]; if (d) rows.push({ ak: ak, d: d }); });
+      if (rows.length) groups.push({ s: s, rows: rows });
+    });
+    if (!groups.length) { host.appendChild(el("p", { class: "empty" }, "No analysis yet.")); return; }
+    var narrow = W < 440, labelW = narrow ? 84 : 98, padR = 50, barH = 14, gap = 3, hdr = 18, gg = 14, axisH = 32, padT = 6;
+    var x0 = labelW, x1 = W - padR;
+    var mx = 0, mn = 0;
+    groups.forEach(function (g) {
+      g.rows.forEach(function (r) {
+        var pos = 0, neg = 0;
+        spec.segs.forEach(function (sg) { var v = r.d[sg.k]; if (has(v)) { if (v >= 0) pos += v; else neg += v; } });
+        mx = Math.max(mx, pos); mn = Math.min(mn, neg);
+      });
+      if (spec.ref) { var pa = perSet(g.rows[0].ak, g.s.key); if (pa && has(pa.A_passes)) mx = Math.max(mx, pa.A_passes); }
+    });
+    var dmin, dmax, ticks;
+    if (spec.diverge) { var sc = niceScale(Math.max(mx, -mn) * 1.08); dmin = -sc.max; dmax = sc.max; ticks = symTicks(sc); }
+    else { var s2 = niceScale(mx * 1.04); dmin = 0; dmax = s2.max; ticks = s2.ticks; }
+    var X = function (v) { return x0 + (v - dmin) / (dmax - dmin) * (x1 - x0); };
+    var H = padT + axisH; groups.forEach(function (g) { H += hdr + g.rows.length * (barH + gap) - gap + gg; });
+    var root = svg("svg", { width: W, height: H, viewBox: "0 0 " + W + " " + H, role: "group", "aria-label": spec.aria });
+    var yTop = padT, yBot = H - axisH;
+    var every = Math.max(1, Math.ceil(30 / (((x1 - x0) / (ticks.length - 1)) || 1)));
+    gridAxis(root, ticks, X, yTop, yBot, every, 0, spec.diverge ? tlabel : function (t) { return String(t); });
+    root.appendChild(svg("text", { x: (x0 + x1) / 2, y: yBot + 29, "text-anchor": "middle", "font-size": 11, fill: "var(--muted)" }, spec.axis));
+    var y = padT;
+    groups.forEach(function (g) {
+      root.appendChild(svg("text", { x: 0, y: y + hdr / 2, "dominant-baseline": "central", "font-size": 12.5, "font-weight": 600, fill: "var(--ink)" }, g.s.name));
+      y += hdr;
+      var y0 = y, refX = 0, paR = spec.ref ? perSet(g.rows[0].ak, g.s.key) : null;
+      if (paR && has(paR.A_passes)) refX = X(paR.A_passes);
+      g.rows.forEach(function (r, ri) {
+        var a = ARM[r.ak], cy = y + barH / 2, pos = 0, neg = 0, lastSeg = -1, si;
+        for (si = 0; si < spec.segs.length; si++) if (has(r.d[spec.segs[si].k]) && r.d[spec.segs[si].k] > 0) lastSeg = si;
+        root.appendChild(svg("circle", { cx: 8, cy: cy, r: 4, fill: a.color }));
+        root.appendChild(svg("text", { x: 18, y: cy, "dominant-baseline": "central", "font-size": narrow ? 11 : 11.5, fill: "var(--ink-2)" }, a.short));
+        spec.segs.forEach(function (sg, i) {
+          var v = r.d[sg.k]; if (!has(v) || v === 0) return;
+          var lo, hi;
+          if (v >= 0) { lo = pos; hi = pos + v; pos = hi; } else { hi = neg; lo = neg + v; neg = lo; }
+          var xa = X(lo), xb = X(hi), w = xb - xa;
+          if (w < 0.4) return;
+          var sx = xa + (w > 2.5 ? 0.75 : 0), sw = w > 2.5 ? w - 1.5 : w;
+          var node = (!spec.diverge && i === lastSeg) ? svg("path", { d: barPath(sx, y, sw, barH), fill: sg.c }) : svg("rect", { x: sx, y: y, width: sw, height: barH, fill: sg.c });
+          root.appendChild(node);
+        });
+        var tot = r.d.total;
+        if (spec.diverge && has(tot)) {
+          var dx = X(tot);
+          root.appendChild(svg("path", { d: "M" + dx + "," + (cy - 6) + "L" + (dx + 6) + "," + cy + "L" + dx + "," + (cy + 6) + "L" + (dx - 6) + "," + cy + "Z", fill: "var(--ink)", stroke: "var(--card)", "stroke-width": 1.5 }));
+        }
+        var ex = Math.max(X(pos), spec.diverge ? X(tot || 0) + 6 : 0, refX);
+        root.appendChild(svg("text", { x: ex + 6, y: cy, "dominant-baseline": "central", "font-size": 10.5, fill: "var(--ink-2)", style: "font-variant-numeric:tabular-nums" }, spec.diverge ? signed(tot, 2) : num(tot, 2)));
+        var hit = svg("rect", { x: 0, y: y - gap / 2, width: W, height: barH + gap, class: "hit", tabindex: "0", "aria-label": a.short + ", " + g.s.name + ": " + (spec.diverge ? signed(tot, 2) : num(tot, 2)) + " passes per block" });
+        bindTip(hit, null, function () {
+          var L = [{ cls: "v", text: (spec.diverge ? signed(tot, 2) : num(tot, 2)) + " passes / block" + (spec.diverge ? " vs SDAR-1.7B" : "") },
+            { cls: "k", color: a.color, text: a.label + " · " + g.s.name }];
+          spec.segs.forEach(function (sg) { if (has(r.d[sg.k])) L.push({ cls: "k", color: sg.c, text: sg.n + ": " + (spec.diverge ? signed(r.d[sg.k], 2) : num(r.d[sg.k], 2)) }); });
+          if (spec.diverge && has(r.d.mix)) L.push({ cls: "x", text: "Output-length mix term " + signed(r.d.mix, 2) + " (not drawn)" });
+          if (spec.ref) { var pa = perSet(r.ak, g.s.key); if (pa && has(pa.A_passes)) L.push({ cls: "x", text: "SDAR-1.7B: " + num(pa.A_passes, 2) + " passes / block" }); }
+          return L;
+        });
+        root.appendChild(hit);
+        y += barH + gap;
+      });
+      y -= gap;
+      if (spec.ref) {
+        var pa0 = perSet(g.rows[0].ak, g.s.key);
+        if (pa0 && has(pa0.A_passes)) {
+          var tx = Math.round(X(pa0.A_passes)) + 0.5;
+          root.appendChild(svg("line", { x1: tx, x2: tx, y1: y0 - 3, y2: y + 3, stroke: "var(--ink)", "stroke-width": 1.25, "stroke-dasharray": "3 2" }));
+        }
+      }
+      y += gg;
+    });
+    host.appendChild(root);
+  }
+
+  /* ---------- §6 verdicts and scorecard ---------- */
+  function buildVerdicts() {
+    var ul = document.getElementById("verdicts");
+    ANARMS.forEach(function (ak) {
+      var A = AN.arms[ak], P = A.pooled || {}, ind = A.ind || {}, a = ARM[ak];
+      var li = el("li"), b = el("b"); b.appendChild(swatch(a)); b.appendChild(document.createTextNode(a.short)); li.appendChild(b);
+      li.appendChild(vchip(P.verdict));
+      if (has(P.delta)) li.appendChild(el("span", null, signed(P.delta * 100, 1) + " pts [" + signed(P.lo * 100, 1) + ", " + signed(P.hi * 100, 1) + "], p " + pfmt(P.mcnemar_p)));
+      var sp = ind.charged_speedup_new_vs_A;
+      if (sp && has(sp[0])) li.appendChild(el("span", null, "charged speedup " + times(sp[0]) + " vs " + times(sp[1])));
+      var pb = ind.passes_per_block_new_vs_A;
+      if (pb && has(pb[0])) li.appendChild(el("span", null, num(pb[0], 1) + " vs " + num(pb[1], 1) + " passes per block"));
+      ul.appendChild(li);
+    });
+  }
+  function buildScore(host) {
+    var cap = el("p", { class: "caption" });
+    cap.appendChild(el("b", null, "Table 2. "));
+    cap.appendChild(document.createTextNode("Verdict scorecard, all finished benchmarks combined. SDAR-1.7B + judge is the reference where it was measured."));
+    host.appendChild(cap);
+    var wrap = el("div", { class: "sc-wrap" }), t = el("table", { class: "sc" });
+    var th = el("thead"), tr = el("tr");
+    tr.appendChild(el("th", { class: "l", scope: "col" }, "Measure"));
+    ANARMS.forEach(function (ak) { var c = el("th", { scope: "col" }); c.appendChild(swatch(ARM[ak])); c.appendChild(document.createTextNode(ARM[ak].short)); tr.appendChild(c); });
+    var rh = el("th", { scope: "col" }); rh.appendChild(swatch(ARM[BASE])); rh.appendChild(document.createTextNode("SDAR-1.7B")); tr.appendChild(rh);
+    th.appendChild(tr); t.appendChild(th);
+    var tb = el("tbody");
+    var pair = function (k, f) { return function (A, which) { var v = (A.ind || {})[k]; return Array.isArray(v) && has(v[which]) ? f(v[which]) : null; }; };
+    var single = function (k, f) { return function (A, which) { if (which === 1) return null; var v = (A.ind || {})[k]; return has(v) ? f(v) : null; }; };
+    var ROWS = [
+      { g: "Accuracy" },
+      { n: "Δ vs SDAR-1.7B, points [95% CI]", f: function (A, w) { var P = A.pooled || {}; if (w === 1 || !has(P.delta)) return null; var s = el("span"); s.appendChild(document.createTextNode(signed(P.delta * 100, 1) + " ")); s.appendChild(el("span", { class: "ci" }, "[" + signed(P.lo * 100, 1) + ", " + signed(P.hi * 100, 1) + "]")); s.appendChild(vchip(P.verdict)); return s; } },
+      { n: "McNemar exact p", f: function (A, w) { var P = A.pooled || {}; return (w === 1 || !has(P.mcnemar_p)) ? null : P.mcnemar_p.toFixed(3); } },
+      { g: "Speed" },
+      { n: "Draft agreement", f: pair("agreement_new_vs_A", pct100) },
+      { n: "Judge passes per block", f: pair("passes_per_block_new_vs_A", function (v) { return num(v, 2); }) },
+      { n: "Forced passes per block", f: pair("forced_per_block_new_vs_A", function (v) { return num(v, 2); }) },
+      { n: "Charged speedup vs stock 30B", f: pair("charged_speedup_new_vs_A", times) },
+      { g: "Judge on the new drafts" },
+      { n: "Wrong drafts confirmed at first read", f: single("wrong_draft_confirmed_first_read_new", pct100d) },
+      { n: "Correct drafts committed at first read", f: single("correct_draft_recall_first_read_new", pct100) },
+      { n: "Commit precision, clean state", f: single("commit_precision_clean_new", pct100) },
+      { n: "Errors enter at, per clean commit", f: single("error_entry_rate_new", pct100d) }
+    ];
+    function pct100(v) { return pct(v * 100); }
+    function pct100d(v) { return num(v * 100, 2) + "%"; }
+    ROWS.forEach(function (r) {
+      var row = el("tr");
+      if (r.g) { row.className = "grp"; row.appendChild(el("td", { colspan: String(ANARMS.length + 2) }, r.g)); tb.appendChild(row); return; }
+      row.appendChild(el("td", { class: "l" }, r.n));
+      var cols = ANARMS.map(function (ak, i) { return { A: AN.arms[ak], w: 0 }; });
+      cols.forEach(function (c) { var v = r.f(c.A, 0), td = el("td"); if (v === null || v === undefined) { td.className = "ref"; td.textContent = "—"; } else if (typeof v === "string") td.textContent = v; else td.appendChild(v); row.appendChild(td); });
+      var rv = ANARMS.length ? r.f(AN.arms[ANARMS[0]], 1) : null, td2 = el("td", { class: "ref" });
+      td2.textContent = rv === null || rv === undefined ? "—" : rv;
+      row.appendChild(td2);
+      tb.appendChild(row);
+    });
+    t.appendChild(tb); wrap.appendChild(t); host.appendChild(wrap);
+  }
+
+  /* ---------- Figure 11: ranked levers ---------- */
+  var LEVERS = {
+    "Drafter aligned to SDAR-1.7B's agreement": { n: "Align the drafter to SDAR-1.7B's agreement", needs: "Drafter training", t: 1 },
+    "Judge retrained on this drafter (confidence)": { n: "Retrain the judge on this drafter", needs: "Judge retrain", t: 2 },
+    "Header strip / prefill": { n: "Strip or pre-fill the <think> header", needs: "No training", t: 0 },
+    "Rule-fill of the post-EOS tail": { n: "Fill the tail after the end token by rule", needs: "No training", t: 0 },
+    "Padding-token remap": { n: "Remap the padding token", needs: "No training", t: 0 },
+    "Fewer drafter steps (8 -> 4)": { n: "Fewer drafter steps, 8 to 4", needs: "No training", t: 0, note: "upper bound only" },
+    "Drafter +10 points content agreement": { n: "+10 points of content agreement", needs: "Drafter training", t: 1, note: "range of two slopes" },
+    "Ceiling: every block at >= 90% draft agreement": { n: "Ceiling: every block at 90% agreement or more", needs: "Drafter training", t: 1, note: "theoretical, not a target" }
+  };
+  function buildPlan(host) {
+    host.textContent = "";
+    var names = [];
+    ANARMS.forEach(function (ak) { Object.keys(AN.arms[ak].levers || {}).forEach(function (n) { if (names.indexOf(n) < 0) names.push(n); }); });
+    var items = names.map(function (n) {
+      var per = ANARMS.map(function (ak) { return (AN.arms[ak].levers || {})[n] || null; });
+      var cs = per.filter(function (l) { return l && has(l.central); }).map(function (l) { return l.central; });
+      return { n: n, per: per, ranked: per.some(function (l) { return l && l.ranked; }), mean: cs.length ? cs.reduce(function (a, b) { return a + b; }, 0) / cs.length : null, meta: LEVERS[n] || { n: n, needs: "", t: -1 } };
+    });
+    var ranked = items.filter(function (i) { return i.ranked; }).sort(function (a, b) { return (b.mean || 0) - (a.mean || 0); });
+    var scen = items.filter(function (i) { return !i.ranked; });
+    var vmax = 0;
+    items.forEach(function (i) { i.per.forEach(function (l) { if (!l) return; var hv = has(l.central) ? Math.max(l.central, l.hi || 0) : (l.hi || 0); if (hv <= 30) vmax = Math.max(vmax, hv); }); });
+    var sc = niceScale(vmax * 1.02), top = sc.max;
+    function row(it, rk) {
+      var r = el("div", { class: "prow" + (rk ? "" : " scen") });
+      r.appendChild(el("span", { class: "rk" }, rk ? String(rk) : ""));
+      var nm = el("div", { class: "nm" }, it.meta.n);
+      if (it.meta.note) nm.appendChild(el("small", null, it.meta.note));
+      r.appendChild(nm);
+      r.appendChild(el("span", { class: "need" + (it.meta.t === 1 ? " t1" : (it.meta.t === 2 ? " t2" : "")) }, it.meta.needs || "—"));
+      var pairs = el("div", { class: "pairs" });
+      it.per.forEach(function (l, i) {
+        var a = ARM[ANARMS[i]], pb = el("div", { class: "pbar" }), tr = el("div", { class: "ptrack", role: "img" });
+        var tx = el("div", { class: "ptxt" });
+        if (!l) { tx.appendChild(el("span", null, "—")); }
+        else {
+          var beyond = (l.hi || 0) > 30;
+          if (has(l.central)) {
+            var est = el("div", { class: "est" }); est.style.width = (Math.min(l.central, top) / top * 100) + "%"; est.style.backgroundColor = a.color; tr.appendChild(est);
+          } else if (!beyond) {
+            var bd = el("div", { class: "band" }); bd.style.color = a.color;
+            bd.style.left = (Math.min(l.lo || 0, top) / top * 100) + "%"; bd.style.width = (Math.max(0.5, Math.min(l.hi, top) - Math.min(l.lo || 0, top)) / top * 100) + "%"; tr.appendChild(bd);
+          }
+          if (has(l.central) && has(l.hi) && l.hi > l.lo) {
+            var rg = el("div", { class: "rng" }); rg.style.left = (Math.min(l.lo, top) / top * 100) + "%"; rg.style.width = ((Math.min(l.hi, top) - Math.min(l.lo, top)) / top * 100) + "%"; tr.appendChild(rg);
+          }
+          if (beyond) tr.appendChild(el("span", { class: "more", "aria-hidden": "true" }, "▸"));
+          if (has(l.central)) { tx.appendChild(el("b", null, num(l.central, 2) + "%")); tx.appendChild(el("span", null, " [" + num(l.lo, 1) + "–" + num(l.hi, 1) + "]")); }
+          else if (l.lo === l.hi) tx.appendChild(el("b", null, num(l.hi, 0) + "%"));
+          else { tx.appendChild(el("b", null, num(l.lo, 1) + "–" + num(l.hi, 1) + "%")); }
+          tr.setAttribute("aria-label", a.short + ": " + (has(l.central) ? num(l.central, 2) + " percent, range " + num(l.lo, 1) + " to " + num(l.hi, 1) : num(l.lo, 1) + " to " + num(l.hi, 1) + " percent"));
+          tr.setAttribute("title", a.short + ", best single set: " + (l.best_set || "—") + " " + num(l.best_set_cut, 1) + "%");
+        }
+        pb.appendChild(tr); pb.appendChild(tx); pairs.appendChild(pb);
+      });
+      r.appendChild(pairs);
+      return r;
+    }
+    var plan = el("div", { class: "plan" });
+    var hd = el("div", { class: "prow head" });
+    hd.appendChild(el("span")); hd.appendChild(el("span", null, "Lever")); hd.appendChild(el("span", null, "Needs"));
+    var hp = el("div", { class: "pairs" }), hl = el("div", { class: "pbar" }), sc2 = el("div", { class: "pscale" });
+    sc.ticks.forEach(function (t) { var i = el("i", null, t + "%"); i.style.left = (t / top * 100) + "%"; if (t === 0) i.style.transform = "none"; if (t === top) i.style.transform = "translateX(-100%)"; sc2.appendChild(i); });
+    hl.appendChild(sc2); hl.appendChild(el("span")); hp.appendChild(hl); hd.appendChild(hp);
+    plan.appendChild(hd);
+    ranked.forEach(function (it, i) { plan.appendChild(row(it, i + 1)); });
+    if (scen.length) {
+      var sh = el("div", { class: "prow head" }); sh.appendChild(el("span")); sh.appendChild(el("span", null, "Scenarios, not ranked")); plan.appendChild(sh);
+      scen.forEach(function (it) { plan.appendChild(row(it, 0)); });
+    }
+    host.appendChild(plan);
+    var note = el("p", { class: "pnote" });
+    var best = ranked[0];
+    if (best) {
+      var s1 = el("span"); s1.appendChild(el("b", null, "Largest lever "));
+      s1.appendChild(document.createTextNode(best.meta.n + ", est. " + best.per.map(function (l) { return l && has(l.central) ? num(l.central, 1) + "%" : "—"; }).join(" / ")));
+      note.appendChild(s1);
+    }
+    var nt = ranked.filter(function (i) { return i.meta.t === 0; });
+    if (nt.length) {
+      var mxv = 0; nt.forEach(function (i) { i.per.forEach(function (l) { if (l && has(l.central)) mxv = Math.max(mxv, l.central); }); });
+      var s2 = el("span"); s2.appendChild(el("b", null, "No-training fixes ")); s2.appendChild(document.createTextNode("each at most est. " + num(mxv, 2) + "%")); note.appendChild(s2);
+    }
+    var jl = ranked.filter(function (i) { return i.meta.t === 2; })[0];
+    if (jl) {
+      var s3 = el("span"); s3.appendChild(el("b", null, "Judge retrain ")); s3.appendChild(document.createTextNode("est. " + jl.per.map(function (l) { return l && has(l.central) ? num(l.central, 1) + "%" : "—"; }).join(" / "))); note.appendChild(s3);
+    }
+    host.appendChild(note);
+  }
+
+  /* ---------- wire the analysis sections ---------- */
+  if (AN && ANARMS.length) {
+    var G6 = document.getElementById("figs-dip"), G7 = document.getElementById("figs-why"), G8 = document.getElementById("figs-levers");
+    var armLegend = ANARMS.map(function (k) { return { color: ARM[k].color, label: ARM[k].short }; });
+    document.getElementById("dip").hidden = false;
+    buildVerdicts();
+    responsive(mkFig(G6, { no: "Figure 5", title: "Paired accuracy difference vs SDAR-1.7B", wide: true,
+      caption: "Points with 95% bootstrap CI; the line at 0 is no difference. p is the McNemar exact test on the discordant items. A whisker that crosses 0 is no significant difference." }), drawDip);
+    buildScore(document.getElementById("score"));
+
+    document.getElementById("why").hidden = false;
+    responsive(mkFig(G7, { no: "Figure 6", title: "Draft agreement, raw and content only", wide: true,
+      legend: [{ cls: "ring", label: "all slots (raw)" }, { cls: "dot", label: "content only: header and padding removed" }, { cls: "band", label: "SDAR-1.7B estimate range" }],
+      caption: "Share of draft tokens equal to the final token. SDAR-1.7B values are estimates because its drafts were not logged. Qwen3-0.6B pads with a different token, which lowers its raw figure." }), drawAgree);
+    responsive(mkFig(G7, { no: "Figure 7", title: "Passes per block, by what the slot was",
+      legend: SEGS.map(function (s) { return { color: s.c, label: s.n }; }).concat([{ cls: "tick", label: "SDAR-1.7B total" }]),
+      caption: "Each judge pass is split among the slots it commits. Plausible alternative: the judge gave the draft token at least 5% at its first read. Genuine miss: under 5%." }),
+      function (h, W) { drawStack(h, W, { src: "classes", segs: SEGS, ref: true, diverge: false, axis: "judge passes per 32-token block", aria: "Passes per block split by slot class, by benchmark and drafter" }); });
+    responsive(mkFig(G7, { no: "Figure 8", title: "Extra passes vs SDAR-1.7B",
+      legend: GSEGS.map(function (s) { return { color: s.c, label: s.n }; }).concat([{ cls: "dia", label: "net difference" }]),
+      caption: "Passes per block, new drafter minus SDAR-1.7B. Right of 0 means more passes. The interior term is split into the two miss classes." }),
+      function (h, W) { drawStack(h, W, { src: "gap", segs: GSEGS, diverge: true, axis: "passes per block, new minus SDAR-1.7B", aria: "Extra passes against SDAR-1.7B, split by cause" }); });
+
+    if (ANARMS.some(function (k) { return AN.arms[k].levers; })) {
+      document.getElementById("levers").hidden = false;
+      var pf = mkFig(G8, { no: "Figure 9", title: "Estimated cut in charged expert loads", wide: true,
+        legend: armLegend.concat([{ cls: "dia", label: "whisker: low to high" }]),
+        caption: "Estimate, not measured: offline counterfactuals on the logged decodes, all finished benchmarks combined and weighted by generated tokens. Hatched bars are central values." });
+      buildPlan(pf);
+    }
+  }
+
+  /* ---------- §9 candidates ---------- */
+  (function () {
+    var CD = {};
+    try { CD = JSON.parse(document.getElementById("cand-data").textContent) || {}; } catch (e) { CD = {}; }
+    var T = CD.tables;
+    if (!T || !Object.keys(T).length) return;
+    var sec = document.getElementById("cands"), host = document.getElementById("cand-tables");
+    sec.hidden = false;
+    var src = CD.source || "the team's Notion page";
+    var IDARM = { S0: BASE, F2: "F2_nopool", S1: "S1_nopool" };
+    function nDone(ak) { return SETS.filter(function (s) { return done(s.key, ak); }).length; }
+    function block(no, tbl, cap, kind) {
+      var fig = el("div", { style: "display:grid;gap:10px;min-width:0" });
+      var p = el("p", { class: "caption" }); p.appendChild(el("b", null, no + " ")); p.appendChild(document.createTextNode(cap)); fig.appendChild(p);
+      fig.appendChild(kind === "hm" ? tblHeat(tbl) : tblCand(tbl));
+      return fig;
+    }
+    function tblCand(tbl) {
+      var wrap = el("div", { class: "ctbl-wrap" }), t = el("table", { class: "ctbl" }), th = el("thead"), tr = el("tr");
+      var n = tbl.cols.length, ord = [0, n - 1];
+      for (var k = 1; k < n - 1; k++) ord.push(k);   /* status column right after the ID */
+      ord.forEach(function (ci) { tr.appendChild(el("th", { scope: "col" }, ci === n - 1 ? "Status in this run" : tbl.cols[ci])); });
+      th.appendChild(tr); t.appendChild(th);
+      var tb = el("tbody");
+      tbl.rows.forEach(function (r) {
+        var row = el("tr", { class: IDARM[r[0].t] ? "ran" : "" }), id = r[0].t;
+        ord.forEach(function (i) {
+          var c = r[i], td = el("td"), last = i === r.length - 1;
+          if (i === 0) {
+            td.className = "idc";
+            var ak = IDARM[id];
+            if (ak && ARM[ak]) td.appendChild(swatch(ARM[ak]));
+            td.appendChild(document.createTextNode(c.t));
+            if (c.pick) td.appendChild(el("span", { class: "pick" }, "pick"));
+            if (IDARM[id]) td.appendChild(el("span", { class: "rantag" }, "ran"));
+          } else if (i === 1) { td.className = "wt"; td.textContent = c.t; }
+          else if (last) {
+            var ak2 = IDARM[id], txt = c.t, cls = "stc";
+            if (/^run$/i.test(txt) && ak2 && id !== "S0") { txt = "Run · " + nDone(ak2) + " of " + SETS.length; cls += " run"; }
+            else if (/^reference/i.test(txt)) cls += " ref";
+            td.appendChild(el("span", { class: cls }, txt));
+          } else td.textContent = c.t;
+          if (c.d && i > 0 && !last) td.className = (td.className ? td.className + " " : "") + "diff";
+          row.appendChild(td);
+        });
+        tb.appendChild(row);
+      });
+      t.appendChild(tb); wrap.appendChild(t); return wrap;
+    }
+    function tblHeat(tbl) {
+      var wrap = el("div", { class: "sc-wrap" }), t = el("table", { class: "hm" }), th = el("thead"), tr = el("tr");
+      tbl.cols.forEach(function (c, i) { tr.appendChild(el("th", { class: i === 0 ? "l" : "", scope: "col" }, i === 0 ? "Drafter" : c)); });
+      th.appendChild(tr); t.appendChild(th);
+      var tb = el("tbody");
+      tbl.rows.forEach(function (r, ri) {
+        var row = el("tr", { class: ri === 0 ? "tgt" : "" });
+        r.forEach(function (c, i) {
+          if (i === 0) { row.appendChild(el("td", { class: "l" }, c)); return; }
+          var td = el("td");
+          if (c.v === null || c.v === undefined) { td.className = "na"; td.textContent = "–"; }
+          else { td.className = "v"; td.style.setProperty("--v", String(c.v)); td.appendChild(document.createTextNode(num(c.v, 1))); if (c.n) td.appendChild(el("small", null, c.n)); }
+          row.appendChild(td);
+        });
+        tb.appendChild(row);
+      });
+      t.appendChild(tb); wrap.appendChild(t); return wrap;
+    }
+    var cite = " Source: the team's " + src + ".";
+    if (T.t1) host.appendChild(block("Table 3.", T.t1, T.t1.title + "." + cite));
+    if (T.t2) host.appendChild(block("Table 4.", T.t2, T.t2.title + "." + cite));
+    if (T.claimed) host.appendChild(block("Table 5.", T.claimed, T.claimed.title + ". Darker cells score higher. Not comparable with the results above." + cite, "hm"));
+  })();
+
+
+  /* ---------- final verdict panel ---------- */
+  (function () {
+    if (!AN) return;
+    var sec = document.getElementById("verdict"), host = document.getElementById("vcards");
+    var WHY = {
+      F2_nopool: { tag: "Corpus question", why: "drafts reasoning and science poorly (code-heavy corpus)" },
+      S1_nopool: { tag: "Size question", why: "a 3× cheaper drafter pays for itself" }
+    };
+    var arms = ANARMS.filter(function (k) { var A = AN.arms[k]; return WHY[k] && A.pooled && A.pooled.delta !== null && A.pooled.delta !== undefined && A.ind && A.ind.charged_speedup_new_vs_A; });
+    if (!arms.length) return;
+    var complete = arms.every(function (k) { return AN.arms[k].pooled.n_sets >= SETS.length; });
+    document.getElementById("h-verdict").textContent = complete ? "Final verdict" : "Verdict so far";
+    function ciSvg(P, color) {
+      var W = 168, H = 22, M = 3, X = function (v) { return W / 2 + (v / M) * (W / 2 - 6); };
+      var s = svg("svg", { width: W, height: H, viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": "Accuracy difference with 95% CI on a scale of minus 3 to plus 3 points" });
+      s.appendChild(svg("line", { x1: 6, x2: W - 6, y1: 11, y2: 11, stroke: "var(--hair)", "stroke-width": 1 }));
+      s.appendChild(svg("line", { x1: X(0), x2: X(0), y1: 2, y2: 20, stroke: "var(--ink-2)", "stroke-width": 1 }));
+      var lo = Math.max(-M, P.lo * 100), hi = Math.min(M, P.hi * 100);
+      s.appendChild(svg("line", { x1: X(lo), x2: X(hi), y1: 11, y2: 11, stroke: color, "stroke-width": 2 }));
+      s.appendChild(svg("line", { x1: X(lo), x2: X(lo), y1: 7, y2: 15, stroke: color, "stroke-width": 2 }));
+      s.appendChild(svg("line", { x1: X(hi), x2: X(hi), y1: 7, y2: 15, stroke: color, "stroke-width": 2 }));
+      s.appendChild(svg("circle", { cx: X(P.delta * 100), cy: 11, r: 4.5, fill: color, stroke: "var(--card)", "stroke-width": 1.5 }));
+      return s;
+    }
+    function spSvg(nv, rv, color) {
+      var W = 168, H = 22, lo0 = 1, hi0 = 1.25, X = function (v) { return 6 + (Math.max(lo0, Math.min(hi0, v)) - lo0) / (hi0 - lo0) * (W - 12); };
+      var s = svg("svg", { width: W, height: H, viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": "Speedup against SDAR-1.7B on a scale of 1.00 to 1.25 times" });
+      s.appendChild(svg("line", { x1: 6, x2: W - 6, y1: 11, y2: 11, stroke: "var(--hair)", "stroke-width": 1 }));
+      s.appendChild(svg("line", { x1: X(Math.min(nv, rv)), x2: X(Math.max(nv, rv)), y1: 11, y2: 11, stroke: "var(--ink-2)", "stroke-width": 2 }));
+      s.appendChild(svg("circle", { cx: X(rv), cy: 11, r: 4.5, fill: ARM[BASE].color, stroke: "var(--card)", "stroke-width": 1.5 }));
+      s.appendChild(svg("circle", { cx: X(nv), cy: 11, r: 4.5, fill: color, stroke: "var(--card)", "stroke-width": 1.5 }));
+      return s;
+    }
+    arms.forEach(function (k) {
+      var A = AN.arms[k], P = A.pooled, a = ARM[k], sp = A.ind.charged_speedup_new_vs_A;
+      var card = el("article", { class: "vcard" });
+      card.appendChild(el("span", { class: "tag" }, WHY[k].tag));
+      var h = el("h3"); h.appendChild(swatch(a)); h.appendChild(document.createTextNode(a.short)); card.appendChild(h);
+      var dl = el("dl", { class: "vstats" });
+      var s1 = el("div", { class: "vstat" }); s1.appendChild(el("dt", null, "Accuracy vs SDAR-1.7B"));
+      var d1 = el("dd"); var b1 = el("span", { class: "big" }, signed(P.delta * 100, 1)); b1.appendChild(el("small", null, "pts")); d1.appendChild(b1);
+      d1.appendChild(ciSvg(P, a.color));
+      var u1 = el("span", { class: "sub" }); u1.appendChild(document.createTextNode("[" + signed(P.lo * 100, 1) + ", " + signed(P.hi * 100, 1) + "] · p = " + pfmt(P.mcnemar_p))); u1.appendChild(vchip(P.verdict)); d1.appendChild(u1);
+      s1.appendChild(d1); dl.appendChild(s1);
+      var s2 = el("div", { class: "vstat" }); s2.appendChild(el("dt", null, "Full-pipeline speedup"));
+      var d2 = el("dd"); var b2 = el("span", { class: "big" }, num(sp[0], 3) + TIMES); b2.appendChild(el("small", null, "vs " + num(sp[1], 3) + TIMES + " for SDAR-1.7B")); d2.appendChild(b2);
+      d2.appendChild(spSvg(sp[0], sp[1], a.color));
+      d2.appendChild(el("span", { class: "sub" }, "all " + P.n_sets + " benchmarks combined, drafter counted"));
+      s2.appendChild(d2); dl.appendChild(s2);
+      card.appendChild(dl);
+      var okAcc = !/^significant/i.test(String(P.verdict || ""));
+      var line = (okAcc ? "Same accuracy" : "Lower accuracy") + ", " + (sp[0] < sp[1] ? "slower" : "faster") + " \u2014 " + WHY[k].why;
+      card.appendChild(el("p", { class: "ans" }, line));
+      host.appendChild(card);
+    });
+    var lv = arms.map(function (k) { var l = AN.arms[k].levers && AN.arms[k].levers["Drafter aligned to SDAR-1.7B's agreement"]; return l && has(l.central) ? l.central : null; }).filter(function (v) { return v !== null; });
+    var close = "In both swaps the judge carries accuracy; the drafter only moves speed.";
+    if (lv.length) close += " Biggest remaining lever: aligning the drafter to the 30B (training; est. +" + Math.floor(Math.min.apply(null, lv)) + "\u2013" + Math.ceil(Math.max.apply(null, lv)) + "% compute saved).";
+    document.getElementById("vclose").textContent = close;
+    sec.hidden = false;
+  })();
+})();
+</script>

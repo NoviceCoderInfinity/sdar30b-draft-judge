@@ -55,6 +55,11 @@ MODELS = {
 def load_sdar(model_key: str, device: str, dtype=None):
     """Tokenizer + model for MODELS[model_key], cache only, revision pinned and asserted."""
     import torch
+    try:                                             # Phase 2 venv (transformers >= 4.54): LossKwargs shim, else no-op
+        from phase2.tf_compat import apply as _tf_compat
+        _tf_compat()
+    except ImportError:
+        pass
     from transformers import AutoModelForCausalLM, AutoTokenizer
     m = MODELS[model_key]
     kw = {"trust_remote_code": True, "local_files_only": True, "revision": m["revision"]}

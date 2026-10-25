@@ -115,22 +115,3 @@ def test_ramp_and_schedule():
     f = lambda t: TC.wsd_lr_scale(t, 2e6, 1e9, 0.15, 0.1)
     assert f(1e6) == pytest.approx(0.5) and f(128e6) == 1.0 and f(850e6) == 1.0
     assert f(1e9) == pytest.approx(0.1) and 0.1 < f(925e6) < 1.0
-
-
-def test_stop_at_file_and_domain_weights(tmp_path, monkeypatch):
-    """--stop-at-file overrides --stop-at and is re-read every step; a domain-weighted resume continues its own plan."""
-    import time
-    monkeypatch.setattr(TC.P, "safe_out", lambda p: p)
-    idx, _ = write_index(str(tmp_path / "ts"))
-    out, saf = str(tmp_path / "run"), str(tmp_path / "stop_at")
-    TC.main(["--index", idx, "--out", out, "--save-at-tokens", "1e9", "--max-tokens", "60"] + COMMON, model_builder=tiny)
-    dw = ["--domain-weights", "maths=40,code=40,chat=20", "--repeat-domains", "chat", "--max-passes", "2"]
-    open(saf, "w").write("1\n")                                   # in the past: stop at the first step boundary
-    st = TC.main(["--index", idx, "--out", out, "--resume", "--save-at-tokens", "1e9", "--stop-at",
-                  str(time.time() + 3600), "--stop-at-file", saf] + dw + COMMON, model_builder=tiny)
-    assert st["dw_step"] == 1
-    open(saf, "w").write(f"{time.time() + 3600}\n")                # moved later: the run goes on to --max-tokens
-    st2 = TC.main(["--index", idx, "--out", out, "--resume", "--save-at-tokens", "1e9", "--stop-at", "1",
-                   "--stop-at-file", saf, "--max-tokens", str(st["tokens"] + 40)] + dw + COMMON, model_builder=tiny)
-    assert st2["dw_step"] > 1 and st2["tokens"] >= st["tokens"] + 40
-    assert st2["dw_from_step"] == st["dw_from_step"] and sum(st2["dom_tokens"].values()) > 0

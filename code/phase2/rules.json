@@ -1,0 +1,92 @@
+{
+  "version": "phase2-rules-v2",
+  "fixed_on": "2026-09-30",
+  "note": "Step 1 of the Phase 2 plan (Notion 'Phase 2: Drafter swap ablations'): every pass/fail and stop rule is fixed here BEFORE any run. Every Phase 2 output records this file's sha256. Change a rule only in a new version, never mid-run. v2 (2026-09-30, before any Phase 2 run): the benchmark list grows from 5 to 7 sets -- IFEval-541 joins the in-domain sets (instruction following is one of the three domains of the judge's round-3 training mix) and AIME joins the near-domain out-of-mix sets (competition maths, like MATH-500). No threshold changed.",
+
+  "pass_fail": {
+    "in_domain_sets": ["humaneval", "mbpp", "gsm8k500", "ifeval541"],
+    "out_of_mix_sets": ["math500", "aime", "gpqa"],
+    "near_domain_sets": ["math500", "aime"],
+    "out_of_domain_sets": ["gpqa"],
+    "bootstrap": {"resamples": 2000, "seed": 0, "ci": 0.95},
+    "alignment_hurt": {
+      "rule": "any in-domain set: paired delta accuracy (new drafter - S0, both judge + DES48, same items) has its 95% CI upper bound < 0, OR the probe's precision of commits above 0.95 is < 0.99",
+      "commit_precision_floor": 0.99,
+      "commit_tau": 0.95
+    },
+    "cross_domain_gain": {
+      "rule": "an out-of-mix set: paired delta accuracy 95% CI lower bound > 0. MATH-500 counts as near-domain; only GPQA counts as out of domain."
+    },
+    "size_pays_off": {
+      "rule": "charged speedup (drafter charged at its own cost per forward) above S0's on the same set, and alignment not hurt",
+      "s0_charged_speedup": {"humaneval": 1.24}
+    },
+    "drafter_fits": {
+      "rule": "drafter-only agreement with the 30B tokens >= 0.5 x S0's agreement on the SAME blocks; else stop: the drafter does not fit this MoE",
+      "min_ratio_to_s0": 0.5
+    },
+    "retrain_trigger": {
+      "rule": "retrain the LoRA judge adapter only if the zero-shot decode is 'alignment_hurt' on an in-domain set"
+    }
+  },
+
+  "stop": {
+    "_doc": "Checked after EVERY unit of work (drafted item, decoded item, optimizer step, probe). metric is a key of the stage's running-metrics dict; op in <,>,<=,>=,nonfinite,true,false; threshold = value, or value x refs[ref] when ref is set (skipped, with one warning, while the ref is unknown); min_n = the stage's count (items / blocks / steps) before the rule may fire; patience = consecutive checks it must hold. action stop -> the process writes STOPPED.json and exits 3; warn -> logged to stop_events.jsonl only. A file named STOP in the run dir or in logs/phase2/ stops every stage at its next check (manual kill switch).",
+
+    "agreement": [
+      {"id": "nonfinite_drafter", "metric": "nonfinite_logits", "op": ">", "value": 0, "min_n": 0, "action": "stop",
+       "why": "the drafter produced NaN/inf logits"},
+      {"id": "tokenizer_or_remap_bug", "metric": "agreement", "op": "<", "value": 0.05, "min_n": 64, "count": "blocks", "action": "stop",
+       "why": "agreement near chance: a mask-id remap or vocabulary-map bug, not a weak drafter (Notion risk table)"},
+      {"id": "mask_argmax", "metric": "raw_mask_argmax_rate", "op": ">", "value": 0.5, "min_n": 64, "count": "blocks", "action": "stop",
+       "why": "the drafter's raw argmax is its own [MASK] on most open slots: its mask id is wrong"},
+      {"id": "drafter_misfit", "metric": "agreement", "op": "<", "value": 0.5, "ref": "s0_agreement", "min_n": 512, "count": "blocks", "action": "stop",
+       "why": "far below SDAR-1.7B on the same blocks: stop, the drafter does not fit this MoE (flowchart step 3)"},
+      {"id": "drafter_weaker", "metric": "agreement", "op": "<", "value": 0.85, "ref": "s0_agreement", "min_n": 512, "count": "blocks", "action": "warn",
+       "why": "clearly weaker than SDAR-1.7B: expect fewer confirms"}
+    ],
+
+    "probe": [
+      {"id": "commit_precision", "metric": "all/conf_precision", "op": "<", "value": 0.99, "min_n": 0, "action": "warn",
+       "why": "the adapter's commits above 0.95 are below 99% precise on the new drafts (pass/fail: alignment_hurt)"},
+      {"id": "no_rows", "metric": "all/rows", "op": "<", "value": 100, "min_n": 0, "action": "stop",
+       "why": "the probe saw almost no draft-filled rows: the redrafted index is broken"}
+    ],
+
+    "decode": [
+      {"id": "stock_integrity", "metric": "stock_ref_mismatch", "op": ">", "value": 0, "min_n": 1, "action": "stop",
+       "why": "a --stock run no longer reproduces the recorded stock cell token for token (AGENTS.md 9(i))"},
+      {"id": "s0_rerun_drift", "metric": "ref_mismatch_rate", "op": ">", "value": 0.0, "min_n": 5, "action": "warn",
+       "why": "the S0 rerun differs from the recorded round-3 S0 cell (a new torch / GPU can do this; pair against the rerun, not the record)"},
+      {"id": "score_errors", "metric": "score_error_rate", "op": ">", "value": 0.2, "min_n": 10, "action": "stop",
+       "why": "the scorer fails on many items: wrong dataset family or a broken sandbox (AGENTS.md 9(b))"},
+      {"id": "no_eos", "metric": "truncated_rate", "op": ">", "value": 0.5, "min_n": 30, "action": "stop",
+       "why": "most generations never stop: degenerate decoding"},
+      {"id": "futility", "metric": "delta_acc_ci99_hi", "op": "<", "value": -0.10, "min_n": 60, "count": "paired", "action": "stop",
+       "why": "running paired delta vs S0 is below -10 points even at its 99% upper bound: finishing cannot change the verdict (reported as stopped, verdict alignment_hurt)"},
+      {"id": "agreement_low", "metric": "draft_agreement", "op": "<", "value": 0.5, "ref": "s0_agreement", "min_n": 20, "action": "warn",
+       "why": "in-decode draft agreement far below S0's"},
+      {"id": "fallback_high", "metric": "full_fallback_rate", "op": ">", "value": 0.5, "min_n": 20, "action": "warn",
+       "why": "the judge hits its pass cap on most blocks"},
+      {"id": "slow", "metric": "sec_per_item", "op": ">", "value": 5.0, "ref": "s0_sec_per_item", "min_n": 10, "action": "warn",
+       "why": "5x slower per item than S0"}
+    ],
+
+    "train": [
+      {"id": "nonfinite_loss", "metric": "nonfinite", "op": ">", "value": 0, "min_n": 0, "action": "stop",
+       "why": "NaN/inf loss or gradient"},
+      {"id": "grad_explosion", "metric": "grad_norm_over_median", "op": ">", "value": 50.0, "min_n": 20, "count": "steps", "action": "stop",
+       "why": "gradient norm 50x its running median"},
+      {"id": "divergence", "metric": "loss_ema_over_min", "op": ">", "value": 1.5, "min_n": 50, "count": "steps", "patience": 20, "action": "stop",
+       "why": "loss EMA 1.5x above its best for 20 consecutive steps"},
+      {"id": "probe_precision", "metric": "probe/all/conf_precision", "op": "<", "value": 0.99, "min_n": 2000000, "count": "tokens", "patience": 2, "action": "stop",
+       "why": "held-out commit precision below 99% at two consecutive probes (pass/fail floor)"},
+      {"id": "probe_overfit", "metric": "probe_ce_rises", "op": ">=", "value": 3, "min_n": 0, "action": "stop",
+       "why": "held-out CE rose at 3 consecutive probes: early stop, the best probe checkpoint is kept"},
+      {"id": "throughput", "metric": "states_per_s_over_median", "op": "<", "value": 0.3, "min_n": 50, "count": "steps", "action": "warn",
+       "why": "throughput collapsed to under 30% of its median"},
+      {"id": "gpu_mem", "metric": "gpu_mem_frac", "op": ">", "value": 0.97, "min_n": 0, "action": "warn",
+       "why": "GPU memory above 97%"}
+    ]
+  }
+}

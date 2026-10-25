@@ -110,6 +110,11 @@ def drafter_info(args) -> dict:
     if args.drafter in MODELS:
         return {"key": args.drafter, "repo": MODELS[args.drafter]["repo"], "revision": MODELS[args.drafter]["revision"],
                 "tag": "" if args.drafter == "d32" else f"_dr{args.drafter}", "path": None}
+    from phase2 import drafters as P2D                           # Phase 2: a released drafter from the registry
+    if P2D.is_key(args.drafter):
+        m = P2D.spec(args.drafter)
+        return {"key": args.drafter, "repo": m["repo"], "revision": m["revision"], "tag": P2D.cell_tag(args.drafter),
+                "path": None}
     import hashlib
     from draftalign.train_drafter import resolve_checkpoint
     path = resolve_checkpoint(safe_out(args.drafter))
@@ -239,8 +244,15 @@ def load_models(args):
     SINK.disarm(); SINK.verify = False
     drafter, tok_d = None, None
     if not args.stock:
+        from phase2 import drafters as P2D
         if args.drafter in MODELS:
             tok_d, drafter = load_sdar(args.drafter, args.device)
+        elif P2D.is_key(args.drafter):
+            # a released drafter behind the Phase 2 wrapper: it reads the MoE's own token ids (vocabulary map and
+            # mask remap inside), so there is no drafter tokenizer to compare against
+            drafter = P2D.load(args.drafter, args.device, moe_tok=tok)
+            print(f"[drafter] phase2 {args.drafter}: {drafter.describe()}", flush=True)
+            return tok, moe, None, drafter, SINK, ad
         else:
             from draftalign.eval_drafter_agreement import load_drafter
             tok_d, drafter, dinfo = load_drafter(args.drafter, args.device)
@@ -300,6 +312,15 @@ def build_parser():
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--no-trace", action="store_true")
     ap.add_argument("--score", action="store_true", help="score each item inline (CPU, vendored evaluator)")
+    # Phase 2 (code/phase2/decode_hooks.py); all off by default, none of them enters the config hash
+    ap.add_argument("--expert-log", choices=("off", "bits", "full"), default="off",
+                    help="per forward, per layer: the experts that ran (bits) or every row's top-8 ids + probs (full)")
+    ap.add_argument("--stop-rules", default=None,
+                    help="check code/phase2/rules.json (or this path) after every item; 'default' = the frozen file")
+    ap.add_argument("--p2-s0-dir", default=None, help="S0 (SDAR-1.7B) reference cell dir: paired delta + refs")
+    ap.add_argument("--p2-stock-dir", default=None, help="stock reference cell dir: speedup vs stock")
+    ap.add_argument("--p2-integrity", action="store_true",
+                    help="warn when records differ from --ref-dir/--ref-cell (the S0 rerun against round 3)")
     return ap
 
 
@@ -348,7 +369,8 @@ def main(argv=None):
     out = safe_out(args.out or os.path.join(OUT_ROOT, cell))
     os.makedirs(out, exist_ok=True)
     proto, proto_sha = P.load_protocol()
-    ref_cell = args.ref_cell or f"{ds}_B{BLOCK}_t{pct(args.threshold)}_stock"
+    # --p2-integrity (Phase 2's S0 rerun) compares against the SAME cell recorded in round 3
+    ref_cell = args.ref_cell or (cell if args.p2_integrity else f"{ds}_B{BLOCK}_t{pct(args.threshold)}_stock")
     ref_recs = load_ref_records(safe_out(args.ref_dir), ref_cell, args.items) if os.path.isdir(safe_out(args.ref_dir)) else {}
 
     items = items_for_split(args.items)
@@ -430,9 +452,26 @@ def main(argv=None):
 
     POOL.configure(int(args.pool) or None, args.pool_rule)
     POOL.track_cov = bool(args.pool) and float(args.tau_pool_cov) > 0.0
-    moe = MoEMeter(SeqCache(moe_model, BLOCK, "moe"), sink, pool=POOL if args.pool else None,
-                   pool_flush=bool(args.pool_flush), draft_flag=bool((ad or {}).get("draft_flag")))
-    dr_seq = None if args.stock else SeqCache(drafter, BLOCK, "drafter")
+    hooks = None
+    if args.expert_log != "off" or args.stop_rules is not None:
+        from phase2.decode_hooks import DecodeHooks
+        from phase2 import drafters as P2D
+        dkey = None if args.stock else args.drafter
+        hooks = DecodeHooks(args, out, dest, args.items, is_stock=bool(args.stock), drafter_key=dkey,
+                            drafter_eq=0.0 if args.stock else P2D.cost_per_forward(dkey),
+                            s0_dir=safe_out(args.p2_s0_dir) if args.p2_s0_dir else None,
+                            stock_dir=safe_out(args.p2_stock_dir) if args.p2_stock_dir else None,
+                            expert_level=args.expert_log, rules_path=args.stop_rules,
+                            integrity=bool(args.p2_integrity), cell=cell,
+                            stock_cell=f"{ds}_B{BLOCK}_t{pct(args.threshold)}_stock")
+    meter_cls = hooks.meter_class(MoEMeter) if hooks else MoEMeter
+    moe = meter_cls(SeqCache(moe_model, BLOCK, "moe"), sink, pool=POOL if args.pool else None,
+                    pool_flush=bool(args.pool_flush), draft_flag=bool((ad or {}).get("draft_flag")),
+                    **(hooks.meter_kwargs() if hooks else {}))
+    if hooks:
+        hooks.attach(moe)                                           # the judge's per-pass probabilities
+    dr_seq = (None if args.stock else
+              drafter.as_seq(BLOCK) if hasattr(drafter, "as_seq") else SeqCache(drafter, BLOCK, "drafter"))
     gen_kw = dict(block_length=BLOCK, denoising_steps=BLOCK, threshold=args.threshold,
                   draft=None if args.stock else args.draft, tau_commit=args.tau_commit, tau_acc=args.tau_acc,
                   tau_acc_q=args.tau_acc_q, rejudge=bool(args.rejudge and not args.stock), rejudge_k=args.rejudge_k,
@@ -468,6 +507,7 @@ def main(argv=None):
                     rec["correct"] = None; rec["score_error"] = repr(e)
             if not args.no_trace:
                 save_trace(os.path.join(out, "traces", args.items, f"{it['idx']:05d}.npz"), res, BLOCK)
+            p2_stop = hooks.after_item(rec, moe) if hooks else False
             fh.write(json.dumps(rec) + "\n"); fh.flush()
             n_new += 1
             el = time.time() - t_cell
@@ -497,10 +537,20 @@ def main(argv=None):
                     "item/draft_agreement": float(np.mean(agree)) if agree else float("nan"),
                     "item/accepted_slots": acc, "item/judge_commits": cj,
                     "run/accuracy_so_far": (_wb_correct / _wb_scored) if _wb_scored else float("nan"),
-                    "run/items_done": _wb_n, "run/sec_per_item": el / n_new}, step=_wb_n)
+                    "run/items_done": _wb_n, "run/sec_per_item": el / n_new,
+                    **({k: v for k, v in rec.items() if k.startswith("exp_") and isinstance(v, (int, float))} if hooks else {}),
+                    **(hooks.wandb_row() if hooks else {})}, step=_wb_n)
             del res
+            if p2_stop:
+                wb.finish()
+                code = hooks.stopped(dest + ".stopped")
+                print(f"SHARD STOPPED BY RULE {cell} shard {args.shard}: {n_new} new items; see {dest}.stopped", flush=True)
+                launch.exit_code = code
+                sys.exit(code)
     wb.log({"run/final_accuracy": (_wb_correct / _wb_scored) if _wb_scored else float("nan"), "run/items_done": _wb_n}, step=max(_wb_n, 1))
     wb.finish()
+    if hooks:
+        hooks.close()
     open(dest + ".done", "w").write("ok\n")
     msg = f"SHARD DONE {cell} shard {args.shard}: {n_new} new items in {(time.time() - t_cell) / 60:.1f} min"
     if args.stock:
