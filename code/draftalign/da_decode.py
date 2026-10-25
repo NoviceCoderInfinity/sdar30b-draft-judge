@@ -75,6 +75,11 @@ Two OFF-by-default decode-rule variants (every default path is byte-identical wi
   judge rejected there (the slot's current draft) is -inf, before tokens are chosen and confidences ranked, so a
   re-draft never repeats it.  Only the judge commits, at the same threshold; nothing else changes.
 
+  LOOP GUARD (`loop_guard=n`, phase 5, full only, off at 0; Phase 3 report Table 15 "block loop continuations"):
+  no drafter fill (first draft or re-draft) may complete an n-token sequence that already appears in the committed
+  output; the completing tokens' logits are -inf before tokens are chosen (draftalign/loop_guard.py).  The judge
+  and its commit rule are untouched.  n = 0 runs exactly the phase-4 loop.
+
   JUDGE DIAGNOSTIC (`judge_diag=True`, full only; changes no decision).  At every judge pass, over the
   open slots whose next slot holds a real token different from their own: how often the judge's argmax
   equals that next token (the untrained model's next-token copy), split into flagged (draft) slots and
@@ -124,6 +129,7 @@ from sdar_harness.routing import moe_blocks
 from draftalign.adapter import draft_flag_scope
 from draftalign.seqcache import SeqCache
 from draftalign.drafter import SETTINGS, draft_block
+from draftalign.loop_guard import LoopGuard
 from draftalign.moe_probe import build_block_state, slot_metrics
 from draftalign.train_forward import expert_pool
 
@@ -487,6 +493,9 @@ class DABlock(BlockTrace):
     n_redraft_slots: int = 0                      # [MASK] slots re-drafted, summed over rounds
     n_redraft_eq_judge: int = 0                   # re-drafted tokens equal to the judge's argmax at the pass before
     n_redraft_eq_old: int = 0                     # re-drafted tokens equal to the draft the judge had rejected
+    # -- loop guard (phase 5, loop_guard n > 0; 0 on every other path) --
+    n_loopguard_slots: int = 0                    # (drafter step, slot) pairs that carried a non-empty ban set
+    n_loopguard_changed: int = 0                  # drafted tokens the guard changed (vs the unconstrained argmax)
     # -- judge diagnostic (judge_diag): next-slot copy at open slots ---------
     copy_flag_hit: int = 0                        # flagged (draft) open slots whose argmax == the next slot's token
     copy_flag_n: int = 0                          # flagged open slots where that comparison is defined
@@ -541,6 +550,7 @@ class DAResult:
     full_redraft_every: int = 0       # full: re-draft the [MASK] slots after every K judge passes (0 = off)
     judge_diag: bool = False          # full: next-slot copy counters recorded
     redraft_ban_rejected: bool = False  # full + re-draft (phase 4): the rejected token is banned at re-draft time
+    loop_guard: int = 0               # full (phase 5): n of the n-gram loop guard on every drafter fill (0 = off)
 
     def generated_ids(self) -> torch.Tensor:
         return self.x[:, self.prompt_length:]
@@ -718,7 +728,7 @@ def judge_full_block(moe: MoEMeter, cur: torch.Tensor, valid: torch.Tensor, D: t
                      tau_pool_cov: float = 0.0, p_draft: Optional[torch.Tensor] = None,
                      redraft_every: int = 0, dr_seq: Optional[SeqCache] = None, redraft_rate: int = 4,
                      redraft_setting: str = "s8", diag: bool = False,
-                     redraft_ban: bool = False) -> torch.Tensor:
+                     redraft_ban: bool = False, guard: Optional[LoopGuard] = None) -> torch.Tensor:
     """Run the full judge on block `cur` [bl] until every valid slot is committed (or the cap fires).
 
     The block enters with EVERY valid slot holding the drafter's token -- no masks.  Returns the new
@@ -733,7 +743,8 @@ def judge_full_block(moe: MoEMeter, cur: torch.Tensor, valid: torch.Tensor, D: t
     slots from the committed tokens only (tentative slots hidden as [MASK] in its input; their tokens are
     kept), in ceil(#[MASK] / redraft_rate) steps (max 8); see the module docstring.  `diag` adds the
     next-slot copy counters.  `redraft_ban` (phase 4) bans, at every re-drafted slot, the draft the judge rejected
-    there.  K = 0, diag False and redraft_ban False run exactly the original loop.
+    there.  `guard` (phase 5) is handed to every re-draft call (draftalign/loop_guard.py).  K = 0, diag False,
+    redraft_ban False and guard None run exactly the original loop.
     """
     cur = torch.where(valid, D, cur)                       # every open valid slot = the draft, no masks
     committed = torch.zeros_like(valid)
@@ -783,9 +794,10 @@ def judge_full_block(moe: MoEMeter, cur: torch.Tensor, valid: torch.Tensor, D: t
                     steps_h = min(8, -(-n_h // int(redraft_rate)))
                     ban = torch.where(holes, Dc, torch.full_like(Dc, -1)) if redraft_ban else None
                     d = draft_block(dr_seq, inp, holes, lo, redraft_setting, mask_id,
-                                    static_steps=steps_h, kind="redraft", ban=ban)
+                                    static_steps=steps_h, kind="redraft", ban=ban, guard=guard)
                     newtok = d["tokens"]
                     bt.n_redraft_rounds += 1; bt.n_redraft_slots += n_h
+                    bt.n_loopguard_slots += int(d.get("guard_slots", 0)); bt.n_loopguard_changed += int(d.get("guard_changed", 0))
                     bt.n_redraft_eq_judge += int((holes & (newtok == r["argmax"])).sum())
                     bt.n_redraft_eq_old += int((holes & (newtok == Dc)).sum())
                     bt.n_redraft_fwd += int(d["n_fwd"])
@@ -818,7 +830,7 @@ def da_generate(moe: MoEMeter, dr_seq: Optional[SeqCache], input_ids: torch.Tens
                 full_max_passes: int = FULL_MAX_PASSES, full_remask_only: bool = False,
                 tau_override: Optional[float] = None, draft_after_pass: int = 0, judge_passes: int = 0,
                 tau_pool_cov: float = 0.0, full_redraft_every: int = 0, full_redraft_rate: int = 4,
-                judge_diag: bool = False, redraft_ban_rejected: bool = False,
+                judge_diag: bool = False, redraft_ban_rejected: bool = False, loop_guard: int = 0,
                 stopping_criteria_idx: Optional[Sequence[int]] = None, temperature: float = 1.0,
                 top_k: int = 1, top_p: float = 1.0, greedy_exact: bool = True,
                 max_new_blocks: Optional[int] = None) -> DAResult:
@@ -863,6 +875,13 @@ def da_generate(moe: MoEMeter, dr_seq: Optional[SeqCache], input_ids: torch.Tens
         raise NotImplementedError("redraft_ban_rejected bans tokens at re-draft time: it needs full_redraft_every > 0")
     if judge_diag and not (full and draft is not None):
         raise NotImplementedError("judge_diag is for the full judge")
+    lgn = int(loop_guard or 0)
+    assert lgn >= 0, loop_guard
+    if lgn and not (full and draft is not None):
+        raise NotImplementedError("loop_guard acts on the drafter's fills under the full judge: it needs judge='full' and a drafter")
+    if lgn and lgn < 2:
+        raise ValueError("loop_guard needs n >= 2")
+    guard = LoopGuard(lgn, mask_id) if lgn else None
     bl = int(block_length)
     assert moe.bl == bl
     steps = bl if denoising_steps is None else int(denoising_steps)
@@ -880,6 +899,8 @@ def da_generate(moe: MoEMeter, dr_seq: Optional[SeqCache], input_ids: torch.Tens
     x[:, :prompt_length] = input_ids
 
     moe.seq.reset(); moe.reset()
+    if guard is not None:
+        guard.start_item(prompt_length)
     pl = moe.prefill(input_ids)
     prefill_blocks = pl // bl
     assert prefill_blocks == prompt_length // bl
@@ -901,11 +922,14 @@ def da_generate(moe: MoEMeter, dr_seq: Optional[SeqCache], input_ids: torch.Tens
 
         D = pD = None
         anchored = (draft is not None and da_pass > 0)     # blind: draft AFTER `da_pass` stock passes
+        if guard is not None:
+            guard.begin_block(x[0, :lo].tolist(), lo)      # everything before this block is final
         if draft is not None and not anchored:
             # 1. draft the valid slots (prompt tail fixed) against the drafter's prefix cache
-            d = draft_block(dr_seq, cur[0].clone(), valid, lo, draft, mask_id)
+            d = draft_block(dr_seq, cur[0].clone(), valid, lo, draft, mask_id, guard=guard)
             D, pD = d["tokens"], d["p_commit"].float()
             bt.n_draft_fwd = int(d["n_fwd"]); bt.judge_mode = judge
+            bt.n_loopguard_slots += int(d.get("guard_slots", 0)); bt.n_loopguard_changed += int(d.get("guard_changed", 0))
             bt.draft_tokens = D.cpu().clone(); bt.p_draft = pD.cpu().clone()
             bt.judge_code = torch.zeros(bl, dtype=torch.int8)
         elif anchored:
@@ -920,7 +944,7 @@ def da_generate(moe: MoEMeter, dr_seq: Optional[SeqCache], input_ids: torch.Tens
                                       tau_override=tau_override, tau_pool_cov=tau_pool_cov, p_draft=pD,
                                       redraft_every=rde, dr_seq=dr_seq, redraft_rate=int(full_redraft_rate),
                                       redraft_setting=draft, diag=bool(judge_diag),
-                                      redraft_ban=bool(redraft_ban_rejected))
+                                      redraft_ban=bool(redraft_ban_rejected), guard=guard)
         elif draft is not None and not blind:
             # 2. judge with complementary halves; 3. accept rule (+ progress guarantee)
             j = judge_halves(moe, cur[0], valid, D, lo, mask_id, "judge")
@@ -1021,7 +1045,8 @@ def da_generate(moe: MoEMeter, dr_seq: Optional[SeqCache], input_ids: torch.Tens
                     judge_passes=(jp if draft is not None else 0),
                     full_redraft_every=(rde if draft is not None else 0),
                     judge_diag=bool(judge_diag and draft is not None),
-                    redraft_ban_rejected=bool(redraft_ban_rejected and draft is not None and rde))
+                    redraft_ban_rejected=bool(redraft_ban_rejected and draft is not None and rde),
+                    loop_guard=(lgn if draft is not None else 0))
 
 
 # ---------------------------------------------------------------------------
@@ -1125,6 +1150,10 @@ def make_record(res: DAResult, tok, item: dict, prompt_ids: torch.Tensor, moe: M
         })
         if bool(getattr(res, "redraft_ban_rejected", False)):     # phase 4; absent on every earlier record
             rec["redraft_ban_rejected"] = True
+    if int(getattr(res, "loop_guard", 0) or 0):                 # phase 5; absent on every earlier record
+        rec["loop_guard"] = int(res.loop_guard)
+        rec["loopguard_slots_per_block"] = [b.n_loopguard_slots for b in blocks]
+        rec["loopguard_changed_per_block"] = [b.n_loopguard_changed for b in blocks]
     if bool(getattr(res, "judge_diag", False)):
         rec["judge_diag"] = {
             "copy_flag": [sum(b.copy_flag_hit for b in blocks), sum(b.copy_flag_n for b in blocks)],

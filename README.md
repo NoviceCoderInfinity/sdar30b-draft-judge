@@ -1,5 +1,7 @@
 # wide-when-sure
 
+> # **MEASUREMENT RULE: SGLANG IS FOR DATA GENERATION ONLY. ALL BENCHMARK INFERENCE (TOKENS/S, PASSES, SECONDS PER ANSWER, ACCURACY) AND ALL TRAINING RUN ON THE HF/TORCH HARNESS (`run_da_decode.py`, `train_c1b.py`). NEVER REPORT A SPEED MEASURED IN SGLANG. NEVER TRAIN IN SGLANG.** (2026-10-21; see docs/PHASE5_JUDGE_ROUND.md)
+
 > **Phase 1, 1B-token judge corpus (branch `phase1-datacorpus`, 2026-09-28): public Hugging Face artefacts.**
 > Generated corpus (the 30B's own checked answers, block traces, 1.7B drafts, training items, prompt lists, eval sets, logs):
 > https://huggingface.co/datasets/Arushhh/c1b-judge-corpus-waveA ·

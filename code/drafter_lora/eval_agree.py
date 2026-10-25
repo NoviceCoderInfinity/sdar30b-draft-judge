@@ -99,6 +99,18 @@ def shard_main(args) -> dict:
     for n, pid in enumerate(mine):
         it = D.load_item(by_pid[pid])
         dom = it["domain"]
+        if getattr(args, "trained_only", False):
+            # phase 5 judge round: only the TRAINED drafter's s8 first drafts, dumped in draft_sglang's format
+            assert m1 is not None and args.dump_drafts, "--trained-only needs --trained and --dump-drafts"
+            r1 = run(m1, it, device, False)
+            _add(acc, dom, {"items": 1, "slots": int(r1["valid"].sum()), "agree1": int(r1["right"].sum()), "fwd1": r1["n_fwd"]})
+            dump["pids"].append(pid); dump["nb"].append(r1["drafts"].shape[0])
+            dump["draft"].append(r1["drafts"].astype(np.int32)); dump["conf"].append(r1["conf"])
+            if (n + 1) % 100 == 0:
+                a = acc["all"]
+                print(f"[shard {args.shard}] {n + 1}/{len(mine)} trained {a['agree1'] / max(a['slots'], 1):.4f} "
+                      f"({time.time() - t0:.0f}s, {(n + 1) / max(time.time() - t0, 1e-9):.2f} items/s)", flush=True)
+            continue
         r0 = run(m0, it, device, args.redraft_probe and not args.parity_only)
         par = parity_with_stored(it, r0["drafts"])
         sa = stored_agreement(it)
@@ -193,6 +205,9 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--parity-only", action="store_true", help="untrained replay vs stored drafts only")
     ap.add_argument("--redraft-probe", action="store_true")
     ap.add_argument("--dump-drafts", default=None, help="dir for the trained drafter's drafts (Gate 2 input)")
+    ap.add_argument("--trained-only", action="store_true",
+                    help="phase 5 judge round: replay ONLY the trained drafter's first drafts for the pids in --holdout-pids "
+                         "(any pid list in that file's format) and dump them; no untrained replay, no probe")
     ap.add_argument("--n-items", type=int, default=0, help="a seeded subset of the held-out items (0 = all)")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--shard", type=int, default=0)

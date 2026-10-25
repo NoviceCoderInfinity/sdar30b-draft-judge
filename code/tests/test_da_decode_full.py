@@ -572,7 +572,7 @@ def test_runner_adapter_and_pool_helpers(tmp_path):
     from draftalign.adapter import attach_lora, freeze_base, save_adapter
     ns = lambda **kw: SimpleNamespace(**{"stock": False, "draft": "s8", "threshold": .95, "tau_commit": .95,
                                          "tau_acc": .70, "tau_acc_q": .50, "rejudge": False, "rejudge_k": 8,
-                                         "judge": "halves", "tau_draft": 0.0, "pool": 0, "pool_rule": "full",
+                                         "drafter": "d32", "judge": "halves", "tau_draft": 0.0, "pool": 0, "pool_rule": "full",
                                          "pool_flush": False, "adapter": None, "full_remask_only": False,
                                          "full_max_passes": DA.FULL_MAX_PASSES, **kw})
     assert R.cell_name("gsm8k", ns(judge="full")) == "gsm8k_B32_t95_dv-s8_full_c95"

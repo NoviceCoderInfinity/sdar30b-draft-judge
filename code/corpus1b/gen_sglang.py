@@ -4,9 +4,14 @@
     # one GPU (the launcher code/corpus1b/run_gen.sh starts one per GPU)
     CUDA_VISIBLE_DEVICES=3 /venv/sgl/bin/python code/corpus1b/gen_sglang.py --wave A --gpu 3 --num-gpus 8
 
+    # wave C: the fresh prompt lists, never re-decoding a prompt a wave A/B shard already finished
+    CUDA_VISIBLE_DEVICES=3 /venv/sgl/bin/python code/corpus1b/gen_sglang.py --wave C --gpu 3 --num-gpus 8 \\
+        --prompt-dir data/c1b/prompt_lists_fresh --extra-done 'logs/c1b/gen/wave[AB]/gpu*/done.txt'
+
 What it does, per GPU:
-  1. takes the prompt rows of the wave whose pid hashes to this GPU (data/c1b/prompt_lists/<domain>.jsonl),
-     skipping pids already finished (resume);
+  1. takes the prompt rows of the wave whose pid hashes to this GPU (<--prompt-dir>/<domain>.jsonl, default
+     data/c1b/prompt_lists), skipping pids already finished (this output dir's done.txt = resume, plus every pid
+     in the --extra-done files: a path or glob of done.txt files, repeatable, one pid per line);
   2. encodes each prompt exactly as every runner does (research_protocol.encode_prompt, b32 tokenizer);
   3. decodes with SGLang's dLLM engine, algorithm LowConfidenceTraced (sglang_plugin/c1b_traced.py) at block 32,
      threshold 0.95 -- the stock rule of sdar_harness/decode.py -- from the PINNED base checkpoint
@@ -24,6 +29,7 @@ against run_da_decode.py --stock; those records carry `pred`/`gold` and are scor
 from __future__ import annotations
 
 import argparse
+import glob
 import json
 import os
 import re
@@ -71,12 +77,27 @@ def shard_of(pid: str, n: int) -> int:
     return int(C.order_key(pid, "c1b-shard")[:12], 16) % max(1, n)
 
 
+def load_extra_done(specs: Sequence[str]) -> set:
+    """Union of the pids (one per line) in every file matched by `specs` (paths or globs; relative = under the repo root)."""
+    pids, n_files = set(), 0
+    for spec in specs:
+        files = sorted(glob.glob(spec if os.path.isabs(spec) else os.path.join(P.ROOT, spec)))
+        if not files:
+            print(f"[gen] WARNING: --extra-done {spec} matches no file", flush=True)
+        for f in files:
+            with open(f) as fh:
+                pids.update(fh.read().split())
+            n_files += 1
+    print(f"[gen] extra done: {len(pids)} pids from {n_files} files", flush=True)
+    return pids
+
+
 def load_rows(wave: str, domains: Sequence[str], gpu: int, ngpu: int, done: set,
-              limit: Optional[int] = None) -> List[dict]:
+              limit: Optional[int] = None, prompt_dir: str = C.PROMPT_DIR) -> List[dict]:
     rows = []
     for d in domains:
-        path = os.path.join(C.PROMPT_DIR, f"{d}.jsonl")
-        assert os.path.exists(path), f"missing prompt list {path} -- run build_prompt_lists.py"
+        path = os.path.join(prompt_dir, f"{d}.jsonl")
+        assert os.path.exists(path), f"missing prompt list {path} -- run build_prompt_lists.py (or fresh_lists.py)"
         n = 0
         for r in C.read_jsonl(path):
             if r.get("wave") != wave or shard_of(r["pid"], ngpu) != gpu or r["pid"] in done:
@@ -212,7 +233,12 @@ def _check_one(job: dict) -> dict:
 # ---------------------------------------------------------------------------
 def build_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--wave", choices=("A", "B"))
+    ap.add_argument("--wave", choices=("A", "B", "C"))
+    ap.add_argument("--prompt-dir", default=C.PROMPT_DIR,
+                    help="directory of <domain>.jsonl prompt lists (wave C: data/c1b/prompt_lists_fresh)")
+    ap.add_argument("--extra-done", action="append", default=[], metavar="PATH",
+                    help="repeatable: a path or glob of pid files (one pid per line, e.g. "
+                         "'logs/c1b/gen/wave[AB]/gpu*/done.txt'); those prompts are never decoded")
     ap.add_argument("--items", default=None, help="parity mode: a research_protocol split instead of the prompt lists")
     ap.add_argument("--domains", default=",".join(C.DOMAINS))
     ap.add_argument("--gpu", type=int, required=True, help="this process's shard (0..num_gpus-1)")
@@ -251,15 +277,18 @@ def main(argv=None) -> None:
     shutil.rmtree(trace_dir, ignore_errors=True)
     done_path = os.path.join(out, "done.txt")
     done = set(open(done_path).read().split()) if os.path.exists(done_path) else set()
+    n_own_done = len(done)
+    done |= load_extra_done(args.extra_done)                  # other waves' finished pids: never re-decoded
 
     tok = load_tokenizer("b32")
     if parity:
         rows = [r for r in rows_from_items(args.items, args.gpu, args.num_gpus) if r["pid"] not in done]
     else:
-        rows = load_rows(args.wave, [d for d in args.domains.split(",") if d], args.gpu, args.num_gpus, done, args.limit)
+        rows = load_rows(args.wave, [d for d in args.domains.split(",") if d], args.gpu, args.num_gpus, done, args.limit,
+                         prompt_dir=args.prompt_dir)
         if args.limit_total:
             rows = rows[:args.limit_total]
-    print(f"[gen] gpu {args.gpu}/{args.num_gpus}: {len(rows)} prompts to decode ({len(done)} already done) -> {out}",
+    print(f"[gen] gpu {args.gpu}/{args.num_gpus}: {len(rows)} prompts to decode ({n_own_done} already done) -> {out}",
           flush=True)
     if not rows:
         return

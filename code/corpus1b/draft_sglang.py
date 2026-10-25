@@ -2,15 +2,19 @@
 """Teacher-forced drafts: SDAR-1.7B-Chat-b32 drafts every block of every KEPT answer, via SGLang, one process per GPU.
 
     CUDA_VISIBLE_DEVICES=3 /venv/sgl/bin/python code/corpus1b/draft_sglang.py --wave A --gpu 3 --num-gpus 8
+    # a later wave with a drafter trained on the earlier waves (a directory holding config.json + weights):
+    CUDA_VISIBLE_DEVICES=3 /venv/sgl/bin/python code/corpus1b/draft_sglang.py --wave C --gpu 3 --drafter-dir DIR
 
 For each kept generation record (gen_sglang.py) and each of its blocks b, one request:
     input_ids      = prompt ids + the 30B's FINAL tokens before block b   (teacher forcing: the correct prefix)
     max_new_tokens = the block's generated slots (32, or 32 - prompt tail for block 0)
 so SGLang runs exactly one decode block, with the algorithm StaticDraftTraced (sglang_plugin/c1b_static_draft.py):
-the round-3 drafter setting s8 (min(8, n_open) static steps, top-k by fp32 confidence, [MASK] suppressed) from the
-PINNED base checkpoint JetLM/SDAR-1.7B-Chat-b32 @ research_protocol.MODELS["d32"]["revision"]. The block's
-drafted tokens and each token's committing confidence come back through the plugin's trace. Requests are sent
-item by item, so the radix cache reuses each item's prefix across its blocks.
+the round-3 drafter setting s8 (min(8, n_open) static steps, top-k by fp32 confidence, [MASK] suppressed). The
+drafter is the PINNED base checkpoint JetLM/SDAR-1.7B-Chat-b32 @ research_protocol.MODELS["d32"]["revision"]
+unless --drafter-dir names another checkpoint directory (then it is both the model and the tokenizer path);
+the choice is recorded in <out>/drafter.json. The block's drafted tokens and each token's committing confidence
+come back through the plugin's trace. Requests are sent item by item, so the radix cache reuses each item's
+prefix across its blocks.
 
 Output per GPU: logs/c1b/draft/wave<W>/gpu<k>/drafts.<n>.npz with
     pids [n] (str), nb [n] int32, draft [sum nb, 32] int32 (-1 = slot not drafted: the prompt tail),
@@ -21,6 +25,7 @@ from __future__ import annotations
 
 import argparse
 import glob
+import json
 import os
 import sys
 import time
@@ -77,9 +82,23 @@ def pack(pids: List[str], per_item: Dict[str, dict]) -> dict:
             "conf": np.concatenate([per_item[p]["conf"] for p in pids]).astype(np.uint8)}
 
 
-def main(argv=None) -> None:
+def engine_kwargs(args) -> dict:
+    """sgl.Engine arguments: the drafter is the pinned d32 snapshot unless --drafter-dir overrides it."""
+    model = args.drafter_dir or snapshot_dir("d32")
+    return dict(
+        model_path=model, tokenizer_path=model, trust_remote_code=True,
+        skip_tokenizer_init=True, dtype="bfloat16", random_seed=0, log_level="warning",
+        dllm_algorithm="StaticDraftTraced",
+        dllm_algorithm_config=os.path.join(HERE, "sglang_plugin", "draft_s8.yaml"),
+        max_running_requests=args.max_running, mem_fraction_static=args.mem_fraction,
+        context_length=args.context_length,
+        disable_cuda_graph=args.disable_cuda_graph,
+        **({"attention_backend": args.attention_backend} if args.attention_backend else {}))
+
+
+def build_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--wave", choices=("A", "B"), required=True)
+    ap.add_argument("--wave", choices=("A", "B", "C"), required=True)
     ap.add_argument("--gpu", type=int, required=True)
     ap.add_argument("--num-gpus", type=int, default=8)
     ap.add_argument("--gen", default=None, help="default logs/c1b/gen/wave<W>")
@@ -91,12 +110,27 @@ def main(argv=None) -> None:
     ap.add_argument("--context-length", type=int, default=4096)
     ap.add_argument("--attention-backend", default=None)
     ap.add_argument("--disable-cuda-graph", action="store_true")
-    args = ap.parse_args(argv)
+    ap.add_argument("--drafter-dir", default=None,
+                    help="checkpoint directory to draft with (default: the pinned stock d32 snapshot)")
+    return ap
+
+
+def main(argv=None) -> None:
+    args = build_parser().parse_args(argv)
 
     gen_root = P.safe_out(args.gen or os.path.join("logs", "c1b", "gen", f"wave{args.wave}"))
     out = os.path.join(P.safe_out(args.out or os.path.join("logs", "c1b", "draft", f"wave{args.wave}")),
                        f"gpu{args.gpu}")
     os.makedirs(out, exist_ok=True)
+    if args.drafter_dir:
+        assert os.path.isfile(os.path.join(args.drafter_dir, "config.json")), f"no checkpoint in {args.drafter_dir}"
+    meta_path = os.path.join(out, "drafter.json")                      # which drafter wrote these drafts
+    meta = {"drafter_dir": args.drafter_dir or "d32", "wave": args.wave}
+    if os.path.exists(meta_path):                                      # a resume must not mix two drafters in one dir
+        assert json.load(open(meta_path))["drafter_dir"] == meta["drafter_dir"], f"{out} was drafted by another drafter"
+    else:
+        with open(meta_path, "w") as fh:
+            json.dump(meta, fh)
     done_path = os.path.join(out, "done.txt")
     done = set(open(done_path).read().split()) if os.path.exists(done_path) else set()
     trace_dir = os.path.join(out, "trace")
@@ -106,15 +140,7 @@ def main(argv=None) -> None:
         return
 
     import sglang as sgl
-    engine = sgl.Engine(
-        model_path=snapshot_dir("d32"), tokenizer_path=snapshot_dir("d32"), trust_remote_code=True,
-        skip_tokenizer_init=True, dtype="bfloat16", random_seed=0, log_level="warning",
-        dllm_algorithm="StaticDraftTraced",
-        dllm_algorithm_config=os.path.join(HERE, "sglang_plugin", "draft_s8.yaml"),
-        max_running_requests=args.max_running, mem_fraction_static=args.mem_fraction,
-        context_length=args.context_length,
-        disable_cuda_graph=args.disable_cuda_graph,
-        **({"attention_backend": args.attention_backend} if args.attention_backend else {}))
+    engine = sgl.Engine(**engine_kwargs(args))
     reader = TraceReader(trace_dir)
     t0 = time.time()
     n_items = n_blocks = n_bad = 0

@@ -108,6 +108,9 @@ def drafter_info(args) -> dict:
     `tag` is appended to the cell name so records of different drafters never mix."""
     if args.stock:
         return {"key": None, "repo": None, "revision": None, "tag": "", "path": None}
+    if getattr(args, "oracle_drafter", None):                   # phase 5 probe: drafts = the vanilla 30B's own tokens
+        return {"key": "oracle", "repo": f"oracle:{args.oracle_drafter}", "revision": "vanilla-records",
+                "tag": "_droracle", "path": None}
     if args.drafter in MODELS:
         return {"key": args.drafter, "repo": MODELS[args.drafter]["repo"], "revision": MODELS[args.drafter]["revision"],
                 "tag": "" if args.drafter == "d32" else f"_dr{args.drafter}", "path": None}
@@ -159,6 +162,8 @@ def cell_name(ds: str, args, adapter_hash=None) -> str:
                 s += f"r{int(args.full_redraft_rate)}"
             if getattr(args, "redraft_ban_rejected", False):
                 s += "_ban"                                  # phase 4: the rejected token is banned at re-draft time
+        if int(getattr(args, "loop_guard", 0) or 0):
+            s += f"_lg{int(args.loop_guard)}"                # phase 5: n-gram loop guard on every drafter fill
         return s + drafter_info(args)["tag"] + tail
     s = f"{ds}_B{BLOCK}_t{t}_dv-{args.draft}_c{pct(args.tau_commit)}_a{pct(args.tau_acc)}_q{pct(args.tau_acc_q)}"
     if args.rejudge:
@@ -250,6 +255,8 @@ def load_models(args):
     assert n == moe.config.num_hidden_layers
     SINK.disarm(); SINK.verify = False
     drafter, tok_d = None, None
+    if not args.stock and getattr(args, "oracle_drafter", None):
+        return tok, moe, None, None, SINK, ad                    # the oracle needs no drafter model (loop_guard/oracle_drafter.py)
     if not args.stock:
         from phase2 import drafters as P2D
         if args.drafter in MODELS:
@@ -301,6 +308,13 @@ def build_parser():
     ap.add_argument("--redraft-ban-rejected", action="store_true",
                     help="re-draft (phase 4): the drafter may not re-propose, at a re-drafted slot, the token the judge "
                          "rejected there (its logit is -inf before choosing and ranking); appends _ban to the cell")
+    ap.add_argument("--oracle-drafter", default=None,
+                    help="phase 5 probe: a dir or glob of the VANILLA records of this split; every draft is the vanilla "
+                         "30B's own token (loop_guard/oracle_drafter.py); full judge only; no ban, no loop guard; cell tag _droracle")
+    ap.add_argument("--loop-guard", type=int, default=0,
+                    help="phase 5: n > 0 forbids any drafter fill (first draft and re-drafts) from completing an n-token "
+                         "sequence that already appears in the committed output (Phase 3 Table 15, 'block loop "
+                         "continuations'); the judge is untouched; full judge only; appends _lg<n> to the cell")
     ap.add_argument("--judge-diag", action="store_true",
                     help="full judge: record next-slot copy counts at the open slots (changes no decision)")
     ap.add_argument("--adapter", default=None, help="adapter dir (load_adapter + merge_lora before instrumenting)")
@@ -370,6 +384,17 @@ def resolve_args(args):
         raise NotImplementedError("--judge-diag is for --judge full")
     if getattr(args, "redraft_ban_rejected", False) and not rde:
         raise NotImplementedError("--redraft-ban-rejected needs --full-redraft-every > 0 (it acts at re-draft time)")
+    if getattr(args, "oracle_drafter", None):
+        if args.stock or args.judge != "full":
+            raise NotImplementedError("--oracle-drafter is a full-judge probe: use --judge full")
+        if getattr(args, "redraft_ban_rejected", False) or int(getattr(args, "loop_guard", 0) or 0):
+            raise NotImplementedError("--oracle-drafter cannot be combined with --redraft-ban-rejected or --loop-guard "
+                                      "(both would mask the oracle's only token)")
+    lgn = int(getattr(args, "loop_guard", 0) or 0)
+    if lgn and (args.stock or args.judge != "full"):
+        raise NotImplementedError("--loop-guard acts on the drafter's fills under the full judge: use --judge full with a drafter")
+    if lgn and lgn < 2:
+        raise ValueError("--loop-guard needs n >= 2")
     M = int(getattr(args, "pool", 0) or 0)
     assert M == 0 or M >= 8, f"--pool {M} is below the model's top-8"
     return args
@@ -433,6 +458,8 @@ def main(argv=None):
               if (not args.stock and args.judge == "full" and args.full_redraft_every) else {}),
            **({"redraft_ban_rejected": True}
               if (not args.stock and args.judge == "full" and args.full_redraft_every and args.redraft_ban_rejected) else {}),
+           **({"loop_guard": int(args.loop_guard)}
+              if (not args.stock and args.judge == "full" and int(getattr(args, "loop_guard", 0) or 0)) else {}),
            "pool_M": int(args.pool) or None, "pool_rule": args.pool_rule if args.pool else None,
            **({"tau_pool_cov": float(args.tau_pool_cov)} if args.pool and args.tau_pool_cov else {}),
            "pool_flush": bool(args.pool_flush and args.pool),
@@ -502,8 +529,16 @@ def main(argv=None):
                     **(hooks.meter_kwargs() if hooks else {}))
     if hooks:
         hooks.attach(moe)                                           # the judge's per-pass probabilities
-    dr_seq = (None if args.stock else
-              drafter.as_seq(BLOCK) if hasattr(drafter, "as_seq") else SeqCache(drafter, BLOCK, "drafter"))
+    oracle_recs = {}
+    if not args.stock and getattr(args, "oracle_drafter", None):
+        from loop_guard.oracle_drafter import OracleSeq
+        from drafter_lora.compare_gates import load_dir as _load_dir
+        oracle_recs = _load_dir(safe_out(args.oracle_drafter))
+        assert oracle_recs, f"--oracle-drafter: no records under {args.oracle_drafter}"
+        dr_seq = OracleSeq(BLOCK, moe_model.device, int(moe_model.config.vocab_size), EOS_IDS)
+    else:
+        dr_seq = (None if args.stock else
+                  drafter.as_seq(BLOCK) if hasattr(drafter, "as_seq") else SeqCache(drafter, BLOCK, "drafter"))
     gen_kw = dict(block_length=BLOCK, denoising_steps=BLOCK, threshold=args.threshold,
                   draft=None if args.stock else args.draft, tau_commit=args.tau_commit, tau_acc=args.tau_acc,
                   tau_acc_q=args.tau_acc_q, rejudge=bool(args.rejudge and not args.stock), rejudge_k=args.rejudge_k,
@@ -515,7 +550,8 @@ def main(argv=None):
                   full_redraft_every=0 if args.stock else int(args.full_redraft_every),
                   full_redraft_rate=int(args.full_redraft_rate),
                   judge_diag=bool(args.judge_diag and not args.stock),
-                  redraft_ban_rejected=bool(args.redraft_ban_rejected and not args.stock))
+                  redraft_ban_rejected=bool(args.redraft_ban_rejected and not args.stock),
+                  loop_guard=0 if args.stock else int(getattr(args, "loop_guard", 0) or 0))
     t_cell = time.time()
     n_new, n_ref, n_ref_ok = 0, 0, 0
     with open(dest, "a") as fh:
@@ -523,6 +559,10 @@ def main(argv=None):
             prompt_ids = encode_prompt(tok, it["prompt"])
             if tok_d is not None:
                 assert torch.equal(prompt_ids, encode_prompt(tok_d, it["prompt"])), "drafter tokenizer differs"
+            if oracle_recs:
+                orec = oracle_recs.get(int(it["idx"]))
+                assert orec is not None, f"--oracle-drafter: no vanilla record for idx {it['idx']}"
+                dr_seq.set_item(orec, prompt_ids)
             GPU_METER = globals().setdefault("GPU_METER", GpuMeter())
             g0 = GPU_METER.start()          # phase 3 8-GPU: GPU-active time, sampled OUTSIDE decode_item's timed span
             rec, res = decode_item(moe, dr_seq, tok, it, prompt_ids, mask_id=MASK_ID, eos_ids=EOS_IDS,

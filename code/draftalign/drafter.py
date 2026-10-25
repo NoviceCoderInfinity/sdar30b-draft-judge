@@ -38,7 +38,7 @@ def masked_base(final: torch.Tensor, valid: torch.Tensor, mask_id: int) -> torch
 @torch.no_grad()
 def draft_block(seq, final: torch.Tensor, valid: torch.Tensor, lo: int, setting: str,
                 mask_id: int, threshold_strict: bool = True, static_steps: Optional[int] = None,
-                kind: Optional[str] = None, ban: Optional[torch.Tensor] = None) -> dict:
+                kind: Optional[str] = None, ban: Optional[torch.Tensor] = None, guard=None) -> dict:
     """Generate the valid slots of block [lo, lo+bl) with the drafter behind `seq`.
 
     final [bl] long (device), valid [bl] bool (device). `static_steps` (static settings only)
@@ -46,7 +46,10 @@ def draft_block(seq, final: torch.Tensor, valid: torch.Tensor, lo: int, setting:
     replaces the timing label (default draft_<setting>; the phase-3 re-draft passes "redraft").
     `ban` [bl] long (phase 4): at every slot with ban >= 0 that token's logit is set to -inf at every step, before
     tokens are chosen and confidences ranked (the re-draft may not re-propose the token the judge just rejected).
-    All three default to None, which is exactly the original call. Returns a dict of device tensors
+    `guard` (phase 5, a draftalign.loop_guard.LoopGuard): at every step, every open slot whose n-1 preceding tokens
+    are known may not take a token that would complete an n-gram already in the committed output (same -inf
+    mechanism; `guard_slots` / `guard_changed` in the result count the slots with a ban and the transferred slots
+    whose token the guard changed).  All four default to None, which is exactly the original call. Returns a dict of device tensors
     + python ints:
       tokens [bl]        the drafted block (fixed slots untouched)
       p_commit [bl]      fp32 confidence of each slot's token at the forward that committed it
@@ -66,9 +69,10 @@ def draft_block(seq, final: torch.Tensor, valid: torch.Tensor, lo: int, setting:
     t_start = len(seq.timings)
     last_probs = None
     n_steps = 0
+    g_slots = g_changed = 0
     if n_open == 0:
         return {"tokens": cur[0], "p_commit": p_commit, "p_final_last": p_commit.clone(),
-                "n_fwd": 0, "n_steps": 0, "raw_mask_argmax": 0, "ms": []}
+                "n_fwd": 0, "n_steps": 0, "raw_mask_argmax": 0, "ms": [], "guard_slots": 0, "guard_changed": 0}
 
     if cfg["mode"] == "static":
         steps = min(int(cfg["steps"] if static_steps is None else static_steps), n_open)
@@ -93,6 +97,13 @@ def draft_block(seq, final: torch.Tensor, valid: torch.Tensor, lo: int, setting:
         lg[:, mask_id] = float("-inf")
         if ban is not None and ban_rows.numel():
             lg[ban_rows, ban_cols] = float("-inf")
+        x0_free = None
+        if guard is not None:
+            g_rows, g_cols = guard.bans(cur[0].cpu(), open_.cpu(), valid.cpu())
+            if g_rows:
+                x0_free = lg.argmax(-1)                            # the unconstrained choice, for the counters
+                g_slots += len(set(g_rows))
+                lg[torch.tensor(g_rows, device=dev), torch.tensor(g_cols, device=dev)] = float("-inf")
         probs = F.softmax(lg, dim=-1)
         conf, x0 = probs.max(dim=-1)
         last_probs = probs
@@ -107,6 +118,8 @@ def draft_block(seq, final: torch.Tensor, valid: torch.Tensor, lo: int, setting:
             top1 = torch.zeros(bl, dtype=torch.bool, device=dev)
             top1[conf_open.argmax()] = True
             transfer = torch.where(high.any(), high, top1)
+        if x0_free is not None:
+            g_changed += int(((x0 != x0_free) & transfer).sum())
         cur[0] = torch.where(transfer, x0, cur[0])
         p_commit = torch.where(transfer, conf, p_commit)
         open_ = open_ & ~transfer
@@ -116,8 +129,11 @@ def draft_block(seq, final: torch.Tensor, valid: torch.Tensor, lo: int, setting:
     assert int(open_.sum()) == 0, f"{setting}: {int(open_.sum())} slots left open after {n_steps} steps"
     p_final_last = last_probs.gather(1, final.view(-1, 1)).view(-1)
     ms = [m for _, m in seq.timings[t_start:]]
+    if guard is not None:
+        guard.n_changed += g_changed
     return {"tokens": cur[0], "p_commit": p_commit, "p_final_last": p_final_last,
-            "n_fwd": n_steps, "n_steps": n_steps, "raw_mask_argmax": int(raw_mask), "ms": ms}
+            "n_fwd": n_steps, "n_steps": n_steps, "raw_mask_argmax": int(raw_mask), "ms": ms,
+            "guard_slots": g_slots, "guard_changed": g_changed}
 
 
 @torch.no_grad()

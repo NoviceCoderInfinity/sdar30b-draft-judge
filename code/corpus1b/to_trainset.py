@@ -111,7 +111,7 @@ def iter_kept(gen_root: str, domains=None) -> Iterator[dict]:
 
 def main(argv=None) -> dict:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--wave", choices=("A", "B"), required=True)
+    ap.add_argument("--wave", choices=("A", "B", "C"), required=True)
     ap.add_argument("--gen", default=None, help="default logs/c1b/gen/wave<W>")
     ap.add_argument("--draft", default=None, help="default logs/c1b/draft/wave<W>")
     ap.add_argument("--out", default=None, help="default logs/c1b/trainset/wave<W>")

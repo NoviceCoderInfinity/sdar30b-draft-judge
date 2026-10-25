@@ -1,5 +1,7 @@
 # AGENTS.md — orientation for an AI agent picking this repo up cold
 
+> # **MEASUREMENT RULE: SGLANG IS FOR DATA GENERATION ONLY. ALL BENCHMARK INFERENCE (TOKENS/S, PASSES, SECONDS PER ANSWER, ACCURACY) AND ALL TRAINING RUN ON THE HF/TORCH HARNESS (`run_da_decode.py`, `train_c1b.py`). NEVER REPORT A SPEED MEASURED IN SGLANG. NEVER TRAIN IN SGLANG.** (2026-10-21; see docs/PHASE5_JUDGE_ROUND.md)
+
 You are looking at a curated snapshot of a decoding-efficiency study on
 `JetLM/SDAR-30B-A3B-Chat-b32`, a 30B block-diffusion MoE. Read this file before
 touching anything. It is written to save you the two days of archaeology that

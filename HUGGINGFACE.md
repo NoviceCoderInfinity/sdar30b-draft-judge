@@ -467,6 +467,33 @@ tar -xf Nemotron-data-subset-training-diffusion-moe/processed/datagen/<cell>/tra
 tar -xf Nemotron-data-subset-training-diffusion-moe/processed/trainset_r3/<pool>/items.tar -C <pool>/  # -> <pool>/items/*.npz
 ```
 
+## 10. Phase 5 backup — `Arushhh/phase5-loop-guard`
+
+Public HF dataset: **https://huggingface.co/datasets/Arushhh/phase5-loop-guard**
+
+Live incremental backup of the Phase 5 judge round (Texas box, instance 57349095). Pushed **every 15 min** by `code/judge_round/backup_loop_p5.sh` → `backup_p5.py` (an explicit allowlist; before every upload each file is scanned for the VALUES of HF_TOKEN / WANDB_API_KEY / GITHUB_TOKEN and for `hf_[A-Za-z0-9]{30,}` — any hit refuses the upload).
+
+What is in it, at the repo's own relative paths:
+- `logs/c1b/gen/waveC/` — wave C generation records (vanilla 30B answers)
+- `logs/c1b/draft/waveC/` — first drafts (Phase 4 merged drafter)
+- `logs/c1b/trainset/waveC/` — packed training items as a single **`items.tar`** (the ~150k small item files are tarred to stay under the Hub's API rate limit) + `index.jsonl`; `logs/c1b/trainset/fresh/` — the combined training `index.jsonl` + `build_summary.json`
+- `logs/phase5/judge_sglang/record/` and `logs/phase5/judge_sglang/record_run1/` — the recorded judge per-pass states (`gpu<k>/states.NNNNN.npz`)
+- `logs/phase5/judge/rec_main/` — the retrained judge checkpoints (flag-gated LoRA adapter)
+- `logs/phase5/` — logs (`events.tsv`, STATUS history, `corpus_verify.md`, `cp6_prep/` selection & exclusions)
+- `results/` — result tables and metrics
+
+NOT uploaded: optimizer states (`*.pt`); the transient `judge_side/`, `judge_trace/`, `drafter_side/`, `drafter_trace/` dirs (created and deleted mid-run, so they can vanish during an upload); `.env` / any secret.
+
+GitHub mirror: branch **`phase5-box-s1`** (code, `STATUS.md`, `results/`), branch **`phase5-logs`** (small text logs only, ≤5 MB).
+
+Restore:
+```
+hf download Arushhh/phase5-loop-guard --repo-type dataset --local-dir .
+tar -xf logs/c1b/trainset/waveC/items.tar -C logs/c1b/trainset/waveC/   # -> items/*  (packed training items)
+```
+
+**Full reproduce / resume-from-any-checkpoint:** see **docs/PHASE5_RESUME.md** — clone `phase5-box-s1` at the pinned commit, `hf download` the exact paths, verify against `logs/phase5/MANIFEST.sha256`, env from `logs/phase5/env/`, then resume training (`train_c1b_rec --continue-from` from `logs/phase5/judge/start_128m` or `rec_main/tok_000136000000…160M`) or run the rd1 eval. The new checkpoints include `trainer_state.pt` (optimizer) so a resume is exact; `start_128m/` is the 128M starting point copied into this dataset.
+
 ## Round 3 (2026-09-15)
 
 All round-3 model weights, eval records, logs and analysis: https://huggingface.co/datasets/Anupam-Rawat-IITB/dlm-exp1-drafter-voting-research-artifacts/tree/main/Nemotron-split-moe-train — index in `docs/MODELS_AND_RESULTS_2026-09-15.md`.

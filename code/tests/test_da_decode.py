@@ -547,7 +547,7 @@ def test_runner_helpers_and_analyzer(tmp_path):
     import draftalign.run_da_decode as R
     import draftalign.analyze_da as A
     ns = lambda **kw: SimpleNamespace(**{"stock": False, "draft": "s8", "threshold": .95, "tau_commit": .95, "tau_acc": .70,
-                                         "tau_acc_q": .50, "rejudge": False, "rejudge_k": 8, **kw})
+                                         "tau_acc_q": .50, "rejudge": False, "rejudge_k": 8, "drafter": "d32", **kw})
     assert R.cell_name("gsm8k", ns(stock=True)) == "gsm8k_B32_t95_stock"
     assert R.cell_name("gsm8k", ns()) == "gsm8k_B32_t95_dv-s8_c95_a70_q50"
     assert R.cell_name("mbpp", ns(draft="dyn90", tau_acc_q=1.0, rejudge=True)) == "mbpp_B32_t95_dv-dyn90_c95_a70_q100_rj8"
