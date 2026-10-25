@@ -1,272 +1,119 @@
-# RESULTS
+# Results
 
-Every number below was recomputed from the raw per-item record files on
-**2026-09-09 05:41 UTC (11:11 IST)**, using `eval_table.py`'s formulas verbatim.
-Nothing here is copied from an earlier summary.
+Every number below is recomputed from the per-item eval records in the data repo
+([Anupam-Rawat-IITB/sdar30b-draft-judge-data](https://huggingface.co/datasets/Anupam-Rawat-IITB/sdar30b-draft-judge-data)),
+all decoded with the plain HF harness (`code/draftalign/run_da_decode.py`, block 32, threshold 0.95, bf16), on the
+same 2,250 questions: GSM8K-500, MATH-500, HumanEval (164), MBPP (257), GPQA-Diamond (198), AIME (90), IFEval-541.
 
-Cells marked **partial** were still being written by running jobs at snapshot
-time; their `n` is stated and will only grow.
-
----
-
-## 0. Metric definitions
-
-Used identically in every table. All are **weighted sums over items**, not means
-of per-item means.
+Definitions (token- or block-weighted sums over items, never means of per-item means):
 
 ```
-passes/blk = sum(n_forward - n_prefill - n_flush) / sum(n_blocks)
-exp/token  = sum(unique_expert_layer_loads) / sum(n_gen_to_eos)
-ms/token   = 1000 * sum(seconds) / sum(n_gen_to_eos)
-+ drafter  = exp/token + sum(drafter_forwards) * 364.64 / sum(n_gen_to_eos)
-acc        = 100 * sum(correct) / n     (vendored OpenCompass evaluator, per item)
-Δacc       = paired bootstrap over the items two cells share,
-             2,000 resamples, seed 0, reported as point [2.5%, 97.5%]
+passes/blk = sum(passes_per_block) / sum(n_blocks)                          30B forwards per 32-token block
+exp/token  = sum(unique_expert_layer_loads) / sum(n_gen_to_eos)              30B experts loaded per generated token
+compute    = vanilla exp/token / (setup exp/token + drafter cost per token)  drafter charged at its parameter count
+             in 30B-expert units (SDAR-1.7B / CoDA-1.7B: 364.6 per forward, Qwen3-0.6B: 126.3)
 ```
 
-* `364.64 = 1,720,573,440 / 4,718,592` = SDAR-1.7B parameters excluding its token
-  embedding, divided by one 30B expert (3 × 2048 × 768). Defined at
-  `code/draftalign/compare_table.py:23`. `drafter_forwards` =
-  `sum(drafter_n_by_kind.values())` = prefill + draft + redraft + flush.
-* `unique_expert_layer_loads` = distinct (layer, expert) pairs actually
-  dispatched, read from `sdar_harness.moe_instr.SINK`. Under a pool it counts
-  the restricted set, i.e. what really ran.
-* `passes/blk` counts forwards over a 32-token block. Where arms differ in what
-  a pass costs, compare `exp/token` and `ms/token` instead.
-* `eval_table.py` also emits `fwd/blk (im)`, a mean of per-item means. It is a
-  *different* number (calibvalid stock: 9.31 block-weighted vs 9.02 item-mean).
-  Nothing in this file uses it.
+## 1. Accuracy (%)
 
-**Producers.** All decode records: `code/draftalign/run_da_decode.py`, except
-the block-32 threshold-sweep cells, which are
-`code/run_research_baselines.py`. Tables: `code/draftalign/eval_table.py`
-(canonical, → `results/reports/EVAL_TABLE.md`) and
-`code/draftalign/compare_table.py` (adds `exp/layer-fwd` and `+ drafter`).
-Per-item scoring: `code/analyze_s1b.py::per_item_correct` via
-`code/vendor/oc_datasets/`.
+| Setup | gsm8k500 | math500 | humaneval | mbpp | gpqa | aime | ifeval541 | all 7 |
+|---|---|---|---|---|---|---|---|---|
+| vanilla | 90.2 | 72.4 | 78.0 | 65.4 | 37.4 | 6.7 | 52.7 | 65.5 |
+| phase1 | 91.6 | 71.6 | 74.4 | 66.1 | 36.9 | 5.6 | 51.0 | 65.0 |
+| phase2-coda | 91.0 | 69.8 | 76.2 | 67.3 | 38.9 | 7.8 | 49.9 | 64.7 |
+| phase2-qwen3 | 91.6 | 71.2 | 78.0 | 68.5 | 34.8 | 6.7 | 51.4 | 65.4 |
+| phase3-rd1 | 91.6 | 70.8 | 75.6 | 71.2 | 37.4 | 5.6 | 46.6 | 64.4 |
+| phase3-rd2 | 92.0 | 70.2 | 79.9 | 69.3 | 37.9 | 5.6 | 48.1 | 64.9 |
+| phase4-rd1 | 91.4 | 71.6 | 76.8 | 70.4 | 36.9 | 7.8 | 46.2 | 64.5 |
+| phase4-rd2 | 91.6 | 70.6 | 75.0 | 70.4 | 36.9 | 7.8 | 46.0 | 64.2 |
 
-**Common configuration** unless stated: model `b32`
-(`JetLM/SDAR-30B-A3B-Chat-b32` @ `c351bbc37d240aa6871f167e8f92d694281b0c22`),
-block 32, stock threshold 0.95, drafter `d32` at setting `s8`, judge adapter
-`logs/draftalign/train/t2b_union_flag/step003057` (weights hash
-`734af65681ab6bb8`, cell tag `_ad734af656`) at `--tau-commit 0.95`, blind rule at
-`--tau-acc-q 0.50`, pools as `--pool M --pool-rule des --pool-flush`.
+## 2. 30B passes per block
 
----
+| Setup | gsm8k500 | math500 | humaneval | mbpp | gpqa | aime | ifeval541 | all 7 |
+|---|---|---|---|---|---|---|---|---|
+| vanilla | 10.06 | 8.52 | 8.26 | 11.93 | 16.07 | 10.77 | 20.23 | 12.79 |
+| phase1 | 7.12 | 6.38 | 5.91 | 8.75 | 12.00 | 7.87 | 15.57 | 9.72 |
+| phase2-coda | 8.04 | 7.17 | 5.58 | 9.25 | 12.61 | 8.98 | 15.52 | 10.32 |
+| phase2-qwen3 | 7.62 | 6.82 | 5.43 | 9.43 | 12.39 | 8.31 | 16.48 | 10.18 |
+| phase3-rd1 | 5.93 | 5.24 | 4.58 | 7.17 | 9.21 | 6.38 | 11.31 | 7.64 |
+| phase3-rd2 | 6.03 | 5.46 | 4.65 | 7.30 | 9.56 | 6.53 | 12.23 | 7.99 |
+| phase4-rd1 | 5.77 | 5.23 | 4.67 | 7.12 | 9.49 | 6.20 | 11.31 | 7.68 |
+| phase4-rd2 | 5.90 | 5.28 | 4.63 | 7.31 | 9.61 | 6.43 | 11.53 | 7.83 |
 
-## 1. Stock block-32 baselines
+## 3. Speed vs vanilla
 
-The reference every other table is paired against.
+**Compute** (experts loaded per token, drafter counted; machine independent):
 
-| dataset | n | passes/blk | exp/token | ms/token | acc % |
-|---|---:|---:|---:|---:|---:|
-| GSM8K-500 | 500 | 10.06 | 1164.2 | 197.6 | 90.2 |
-| MATH-500 | 500 | 8.52 | 853.5 | 150.5 | 72.4 |
-| MBPP (sanitized test) | 257 | 11.93 | 1714.0 | 295.6 | 65.4 |
-| HumanEval | 164 | 8.26 | 982.3 | 172.5 | 78.0 |
-| GPQA-Diamond | 198 | 16.07 | 1381.1 | 245.8 | 37.4 |
-| AIME | 90 | 10.77 | 997.7 | 178.3 | 6.7 |
-| calibvalid (100 frozen GSM8K *train* prompts) | 100 | 9.31 | 1090.6 | 187.1 | 95.0 |
+| Setup | gsm8k500 | math500 | humaneval | mbpp | gpqa | aime | ifeval541 | all 7 |
+|---|---|---|---|---|---|---|---|---|
+| phase1 | 1.15× | 1.07× | 1.13× | 1.18× | 1.15× | 1.11× | 1.18× | 1.12× |
+| phase2-coda | 1.08× | 1.00× | 1.19× | 1.17× | 1.12× | 1.02× | 1.20× | 1.09× |
+| phase2-qwen3 | 1.18× | 1.11× | 1.29× | 1.19× | 1.19× | 1.16× | 1.16× | 1.15× |
+| phase3-rd1 | 1.13× | 1.06× | 1.18× | 1.11× | 1.11× | 1.09× | 1.17× | 1.09× |
+| phase3-rd2 | 1.20× | 1.11× | 1.21× | 1.21× | 1.21× | 1.17× | 1.24× | 1.17× |
+| phase4-rd1 | 1.15× | 1.06× | 1.13× | 1.11× | 1.11× | 1.14× | 1.21× | 1.11× |
+| phase4-rd2 | 1.22× | 1.14× | 1.22× | 1.21× | 1.22× | 1.19× | 1.33× | 1.20× |
 
-Records: `logs/draftalign/da_decode/<ds>_B32_t95_stock/` for every row except
-GSM8K-500, whose stock reference lives at
-`logs/research_v1/baselines_b32/gsm8k_B32_t95_stock.gsm8k500.shard{0,1,2}of3.jsonl`
-(`run_research_baselines.py`). This is why `EVAL_TABLE.md`'s gsm8k500 section has
-no stock row and its `d_acc` column there is *vs the free rule*, not vs stock.
+**Wall-clock per answer, one machine** (8× RTX PRO 6000 Blackwell; vanilla and Phase 4 decoded there, Phase 3's
+recorded work priced at that machine's measured per-forward costs; 95% bootstrap ranges in `results/phase4_drafter/`):
 
-> **calibvalid ms/token, 184.3 vs 187.1.** Two independent stock decodes of the
-> same 100 items exist — one under `logs/research_v1/baselines_b32/` (184.3), one
-> under `logs/draftalign/da_decode/` (187.1). They are **bit-identical** in
-> `gen_ids` and `passes_per_block` for all 100 items; only wall-clock differs.
-> Every comparison in this file uses 187.1, the `da_decode` twin, so both sides
-> of each pair come from the same run family.
+| Setup | gsm8k500 | math500 | humaneval | mbpp | gpqa | aime | ifeval541 | all 7 |
+|---|---|---|---|---|---|---|---|---|
+| phase3-rd1 | 1.28× | 1.21× | 1.08× | 1.21× | 1.37× | 1.37× | 1.06× | 1.20× |
+| phase3-rd2 | 1.30× | 1.26× | 1.32× | 1.29× | 1.43× | 1.42× | 1.13× | 1.26× |
+| **phase4-rd1** | 1.31× | 1.28× | 1.26× | 1.22× | 1.39× | 1.43× | 1.10× | **1.25×** |
+| **phase4-rd2** | 1.34× | 1.31× | 1.26× | 1.29× | 1.44× | 1.45× | 1.09× | **1.26×** |
 
-## 2. Blind accept — training-free, zero extra MoE forwards
+Wall-clock gains exceed the compute gains because the drafter's forwards are cheap in time (small dense model) while
+the compute column charges them at full parameter cost. Phases 1 and 2 were not timed on a common machine, so only
+their compute speed-up is given.
 
-`--judge blind --tau-acc-q .50 --draft s8`. Cell
-`<ds>_B32_t95_dv-s8_blind_q50`.
+Notes:
+- IFEval is the weak spot of every judge setup: re-drafting (Phases 3–4) costs 4–6 points there, and repetition loops
+  rise (vanilla 44, Phase 4 rd1 104 of 541).
+- Phase 2: neither released drafter changes accuracy significantly (CoDA −0.3 points, p = 0.77; Qwen3-0.6B +0.4,
+  p = 0.63, paired McNemar). The analysis (`docs/phase2_artifact/`, data repo `phase2/phase2/analysis/`) found that only
+  training the drafter had real headroom, which became Phase 4.
 
-| dataset | n | passes/blk (Δ%) | exp/token | **+ drafter** | ms/token | acc % | Δacc vs stock [95% CI] |
-|---|---:|---:|---:|---:|---:|---:|---|
-| GSM8K-500 | 500 | 8.49 (−15.6%) | 1016.8 | 1138.3 | 184.5 | 90.4 | +0.2 [−1.2, +1.8] |
-| MATH-500 | 500 | 7.40 (−13.1%) | 764.0 | 872.8 | 141.8 | 70.8 | −1.6 [−4.8, +1.4] |
-| MBPP | 257 | 10.20 (−14.5%) | 1523.9 | 1692.2 | 279.1 | 60.3 | **−5.1 [−8.6, −1.6]** |
-| HumanEval | 164 | 6.33 (−23.4%) | 782.5 | 915.6 | 146.6 | 75.6 | −2.4 [−6.1, +1.2] |
-| GPQA-Diamond | 198 | 15.48 (−3.7%) | 1348.4 | 1456.9 | 243.3 | 35.4 | −2.0 [−8.1, +3.5] |
-| AIME | 90 | 9.75 (−9.5%) | 927.3 | 1033.5 | 170.6 | 5.6 | −1.1 [−4.4, +2.2] |
-| calibvalid | 100 | 7.93 (−14.8%) | 962.7 | **1085.9** | 171.6 | 95.0 | +0.0 [+0.0, +0.0] |
+## 4. Phase 5: judge retraining (failed)
 
-### 2.1 The blind-accept catch
+The Phase 1 judge was retrained from its 128M checkpoint on 47,799 judge states recorded in SGLang on a fresh corpus
+(wave C, 150,866 items), for one and then two epochs (to 147.61M and 155.66M tokens). The training-time probe looked
+good (precision 99.63%, commit share 28.7%; Phase 1 judge 99.21% / 30.74%), but in real decoding every retrained
+checkpoint loops until the length cap:
 
-On calibvalid the rule looks like a **1.13x** saving in expert work
-(1090.6 → 962.7). Charge the drafter's own forwards at 364.64
-expert-equivalents each and the total is **1085.9**:
+IFEval-541, first 16 items (fewer where the check was stopped), exact eval flags:
 
-```
-1090.6 / 962.7  = 1.133x   (what exp/token alone says)
-1090.6 / 1085.9 = 1.004x   (the honest total)
-```
+| Judge | Tokens | Items | Accuracy | Outputs cut at the length cap (looping) |
+|---|---|---|---|---|
+| Phase 1 (128M) | 128M | 16 | 56.2% | 1 |
+| retrained | 136M | 13 | 7.7% | 12 |
+| retrained | 147.61M | 16 | 6.2% | 15 |
+| retrained | 155.66M | 15 | 6.7% | 14 |
 
-**0.4%.** On three of the seven splits the honest total is *worse* than stock —
-MATH-500 872.8 vs 853.5, GPQA 1456.9 vs 1381.1, AIME 1033.5 vs 997.7 — and the
-best of the other four is GSM8K-500's 1138.3 vs 1164.2, a 2% win. The rule costs
-nothing and saves nothing. Its one real property is that it does not hurt accuracy on GSM8K —
-which is what made it usable as a **training-data generator** (see `DATA.md`).
+The stopped full IFEval run of the 155.66M judge: 181 items, **1.7%** accuracy (phase4-rd1, i.e. the Phase 1 judge with the same drafter and flags, on the same
+181 items: 48.1%), 173 of 181 outputs cut at the length cap.
 
-## 3. The trained judge
+Most likely cause (not proven): the states were recorded in SGLang while the judge is trained and evaluated in the HF
+harness. Before any training, the HF trainer reproduced only 89.8% of the SGLang-recorded judge's decisions for the
+same adapter, and that agreement fell to 72.6% by 155.66M. The training data, targets and loss rows were verified
+correct; the training-time probe and the step-0 check both measure on the recorded states, so neither could see the
+live-decode failure. Only IFEval was evaluated before the run was stopped. A valid retrain needs states recorded in
+the training and evaluation engine (or on-policy re-recording) and a live-decode check on every checkpoint.
+Details: data repo `phase5/logs/phase5/FAILURE_ANALYSIS.md`, `results/phase5/`.
 
-`--adapter .../t2b_union_flag/step003057 --judge full --draft s8 --tau-commit .95`.
-Cell `<ds>_B32_t95_dv-s8_full_c95_ad734af656`.
+The Phase 1 judge re-decoded on the Phase 5 machine reproduced its earlier records (GSM8K 495/500, HumanEval
+164/164, MBPP 256/257 outputs identical; MATH 395/500, bf16 near-tie flips), so the harness and machine were sound.
 
-| dataset | n | passes/blk (×) | exp/token | + drafter | ms/token | acc % | Δacc vs stock [95% CI] |
-|---|---:|---:|---:|---:|---:|---:|---|
-| GSM8K-500 | 500 | 6.64 (1.52x) | 849.3 | 971.5 | 158.8 | 88.8 | −1.4 [−3.6, +0.8] |
-| MATH-500 | 500 | 6.29 (1.35x) | 680.1 | 788.9 | 126.9 | 68.0 | **−4.4 [−7.6, −1.2]** |
-| MBPP | 257 | 10.43 (1.14x) | 1588.2 | 1754.6 | 300.6 | 51.4 | **−14.0 [−20.2, −7.8]** |
-| HumanEval | 164 | 5.03 (**1.64x**) | 610.4 | 733.9 | 117.1 | 64.6 | **−13.4 [−20.7, −6.1]** |
-| GPQA-Diamond | 198 | 14.20 (1.13x) | 1281.6 | 1390.2 | 238.1 | 32.8 | −4.5 [−12.1, +2.5] |
-| AIME | 90 | 8.07 (1.33x) | 800.1 | 906.3 | 149.8 | 5.6 | −1.1 [−3.3, +0.0] |
-| calibvalid | 100 | 6.00 (1.55x) | 780.8 | 903.8 | 148.2 | 94.0 | −1.0 [−5.0, +2.0] |
+## 5. Where the records are
 
-On MBPP the judge is **slower in wall-clock than stock** (300.6 vs 295.6 ms/token)
-*and* more expensive once the drafter is charged (1754.6 vs 1714.0) *and* 14
-points less accurate. It is a strict loss on that dataset.
+| Setup | Data repo path |
+|---|---|
+| vanilla | `phase4/logs/phase4/decode/vanilla_here/<set>/` |
+| phase1 | `phase2/assets/ref_S0_SDAR1.7B_judge128M_nopool/<set>/` (Phase 1 records) |
+| phase2-coda / -qwen3 | `phase2/phase2/decode/F2_nopool/<set>/`, `phase2/phase2/decode/S1_nopool/<set>/` |
+| phase3-rd1 / -rd2 | `phase3/logs/phase3_8gpu/decode/rd1/<set>/`, `.../rd2/<set>/` |
+| phase4-rd1 / -rd2 | `phase4/logs/phase4/decode/rd1/<set>/`, `.../rd2/<set>/` |
+| phase5 | `phase5/logs/phase5/eval/`, `phase5/logs/phase5/eval_diag/` |
 
-## 4. DES pooling
-
-`--pool M --pool-rule des --pool-flush`, applied to every block forward
-(judge / denoise), never the prefill, and to the flush because of `--pool-flush`.
-
-### 4.1 Under the stock decode — no drafter, no adapter, no training
-
-| dataset | n | passes/blk | exp/token | ms/token | acc % | Δacc vs stock [95% CI] |
-|---|---:|---:|---:|---:|---:|---|
-| calibvalid, DES M=32 | 100 | 9.94 | **654.9** | 127.3 | 93.0 | −2.0 [−7.0, +3.0] |
-| calibvalid, DES M=48 | 100 | 9.27 | 871.8 | 160.6 | 94.0 | −1.0 [−4.0, +2.0] |
-| GSM8K-500, DES M=32 | 500 | 10.46 | 676.2 | 132.0 | 89.0 | −1.2 [−3.6, +1.2] |
-| GSM8K-500, DES M=48 | 500 | 9.96 | 920.5 | 171.2 | 91.2 | +1.0 [−0.8, +3.0] |
-| MBPP, DES M=32 | 257 | 12.30 | 1129.6 | 217.3 | 65.0 | −0.4 [−5.8, +5.1] |
-| MBPP, DES M=48 | 257 | 12.09 | 1482.3 | 273.3 | 63.8 | −1.6 [−5.8, +3.1] |
-| MATH-500, DES M=48 **(partial)** | 158 | 8.58 | 703.9 | 132.7 | 72.8 | +0.6 [−5.1, +6.3] |
-
-There is no `+ drafter` column because there is no drafter. **This is the single
-strongest result in the repo**: on calibvalid, 654.9 expert-executions/token at
-93.0 accuracy — cheaper than *any* drafter-assisted arm's honest total — from a
-change to the router's dispatch alone.
-
-### 4.2 Under the trained judge
-
-| dataset | n | passes/blk | exp/token | + drafter | ms/token | acc % | Δacc vs stock [95% CI] |
-|---|---:|---:|---:|---:|---:|---:|---|
-| calibvalid, judge + DES32 | 100 | 6.67 | 463.9 | 587.8 | 100.9 | 88.0 | **−7.0 [−13.0, −1.0]** |
-| calibvalid, judge + DES48 | 100 | 6.09 | 612.7 | 735.5 | 124.0 | 94.0 | −1.0 [−4.0, +2.0] |
-| GSM8K-500, judge + DES32 | 500 | 7.24 | 491.9 | 614.3 | 105.6 | 88.0 | −2.2 [−4.8, +0.2] |
-| GSM8K-500, judge + DES48 | 500 | 6.76 | 667.7 | 790.0 | 133.7 | 87.8 | −2.4 [−5.0, +0.2] |
-| MATH-500, judge + DES32 **(partial)** | 227 | 6.90 | 406.5 | 515.0 | 89.8 | 65.2 | −6.2 [−10.6, −1.3] |
-| MATH-500, judge + DES48 | 500 | 6.39 | 549.5 | 658.1 | 111.1 | 69.2 | −3.2 [−6.6, +0.4] |
-| MBPP, judge + DES32 | 257 | 10.74 | 1006.5 | 1173.7 | 210.1 | 55.6 | −9.7 [−16.0, −3.5] |
-| MBPP, judge + DES48 | 257 | 10.77 | 1366.9 | 1534.0 | 272.2 | 53.7 | −11.7 [−18.3, −5.4] |
-| HumanEval, judge + DES48 | 164 | 5.15 | 533.6 | 657.5 | 107.6 | 62.2 | −15.9 [−22.6, −9.1] |
-| GPQA, judge + DES48 | 198 | 14.60 | 1120.0 | 1228.8 | 218.7 | 27.8 | −9.6 [−17.2, −2.0] |
-| AIME, judge + DES48 | 90 | 8.35 | 672.9 | 779.1 | 131.3 | 8.9 | +2.2 [−2.2, +6.7] |
-
-**AIME judge + DES48** is the only arm anywhere that gains accuracy: 6.7 → 8.9
-(+2.2) with 1.29x fewer passes and 1.28x less total compute. It is **not
-statistically significant** — the CI spans zero, and the paired lost/gain is 1/3,
-i.e. a net of **two items out of ninety**. Do not report it as a win.
-
-### 4.3 Why DES M=32 fails under the judge — the measurement
-
-100 paired calibvalid items, judge `full_c95` with and without the M=32 pool.
-Computed from the records' `committed_judge_per_block`,
-`full_commit_eq_draft_per_block` and `remask_per_block`
-(602 vs 597 blocks; "override" = a commit whose argmax differs from the draft):
-
-| per block | judge | judge + DES32 | judge + DES48 |
-|---|---:|---:|---:|
-| commits | 29.31 | **29.29** | 29.32 |
-| — of which confirm the draft (`argmax == D`) | 17.12 | 17.03 | 16.86 |
-| — of which **override** the draft | 12.19 | **12.26** | 12.46 |
-| **re-masks** | 45.34 | **50.80 (+12.0%)** | 46.16 |
-| tentative kept | 12.88 | 14.40 | 12.86 |
-| **accuracy** | **94.0** | **88.0** | **94.0** |
-
-The judge's *decisions* are unchanged: it commits the same number of slots and
-overrides the draft the same number of times. What changes is the **churn** — it
-re-masks 12% more slots, i.e. it keeps declaring itself unsure, on the same
-content. The pruned forward gives it a subtly different distribution and it has
-no way to know: **the judge cannot tell a pruned prediction from a clean one.**
-M=48 leaves enough of the router's mass intact that the churn (and the accuracy
-loss) does not appear.
-
-This is the mechanism to fix if anyone resumes this line — the judge needs the
-pool state as an input, or the pool needs to be held out of the judge forward.
-
-## 5. Distribution effect: accuracy tracks the training mix, speed does not
-
-Training-mix share is by **block** (the unit of a training example), from the
-four `build_summary.json` files under `logs/draftalign/trainset_union_r2/`.
-Accuracy delta is the trained judge (`full_c95`) vs stock, paired.
-
-| dataset | share of training blocks | Δaccuracy | speed-up (passes/blk) |
-|---|---:|---:|---:|
-| GSM8K | 41,093 / 65,521 = **62.7 %** | −1.4 | 1.52x |
-| MATH | 24,267 / 65,521 = **37.0 %** | −4.4 | 1.35x |
-| MBPP | 161 / 65,521 = **0.2 %** | −14.0 | 1.14x |
-| HumanEval | **0 %** (never in training) | −13.4 | **1.64x — the fastest** |
-| GPQA-Diamond | 0 % | −4.5 | 1.13x |
-| AIME | 0 % | −1.1 | 1.33x |
-
-Accuracy damage is monotone in training share across the three trained families
-(62.7 % → −1.4, 37.0 % → −4.4, 0.2 % → −14.0). **Speed is not**: HumanEval was
-never in the training mix and is the *fastest* arm of all six, while losing 13.4
-points. The adapter learned to commit aggressively as a general behaviour, and
-learned *where that is safe* only on the distributions it saw.
-
-By **item** rather than block the mix is 79.7 % / 19.5 % / 0.8 % — say which one
-you mean.
-
-## 6. The bottom line, in one comparison
-
-calibvalid, 100 items, **honest total compute** (experts/token with the drafter
-charged), best arm of each family:
-
-| approach | total exp/token | acc % | needs a drafter? | needs training? |
-|---|---:|---:|:--:|:--:|
-| stock block 32 | 1090.6 | 95.0 | no | no |
-| blind accept | 1085.9 | 95.0 | yes | no |
-| trained judge | 903.8 | 94.0 | yes | **yes** |
-| judge + DES M=48 | 735.5 | 94.0 | yes | **yes** |
-| **stock + DES M=32** | **654.9** | 93.0 | **no** | **no** |
-
-The cheapest arm in the table is the one that required no drafter and no
-training: expert pooling applied to the stock model.
-
-## 7. Provenance of every table
-
-| table | records | producer |
-|---|---|---|
-| §1 rows except GSM8K-500 | `logs/draftalign/da_decode/<ds>_B32_t95_stock/` | `run_da_decode.py --stock` |
-| §1 GSM8K-500 | `logs/research_v1/baselines_b32/gsm8k_B32_t95_stock.<split>.shard*of3.jsonl` | `run_research_baselines.py` |
-| §2 | `logs/draftalign/da_decode/<ds>_B32_t95_dv-s8_blind_q50/` | `run_da_decode.py --judge blind --tau-acc-q .50` |
-| §3 | `.../<ds>_B32_t95_dv-s8_full_c95_ad734af656/` | `run_da_decode.py --adapter ... --judge full` |
-| §4.1 | `.../<ds>_B32_t95_stock_p{32,48}desf/` | `run_da_decode.py --stock --pool M --pool-rule des --pool-flush` |
-| §4.2, §4.3 | `.../<ds>_B32_t95_dv-s8_full_c95_p{32,48}desf_ad734af656/` | as §3 plus the pool flags |
-| §5 shares | `logs/draftalign/trainset_union_r2/{gsm8k_a,gsm8k_b,math,mbpp}/build_summary.json` | `build_train_set.py` via `build_union_index.sh` |
-| adapter identity | `logs/draftalign/train/t2b_union_flag/step003057/adapter_config.json` + `.safetensors` | `train.py` |
-
-None of `logs/` is in this repository. `EXCLUDED.md` names the mirrors.
-
-## 8. Reading notes
-
-* **Every number in this file uses `model_key: "b32"`** — the block-32 SFT
-  checkpoint, pinned at revision `c351bbc37d240aa6871f167e8f92d694281b0c22`.
-  Each per-item record carries the field, so it is checkable.
-* **`--pool-rule des`** is the faithful per-forward expert re-vote. It is not a
-  static per-block coreset; the two are different algorithms and their numbers
-  are not interchangeable.
-* **`results/reports/EVAL_TABLE.md`** is regenerated by the hourly sync and was
-  slightly stale at snapshot time for the partial math500 cells. Its gsm8k500
-  `d_acc` column is *vs the free rule*, not vs stock. Its `splits` dict covers
-  only calibvalid / gsm8k500 / math500 / mbpp, so AIME, GPQA and HumanEval appear
-  in **no** generated report — §1–§4 above are the only written record of them.
+`python scripts/summarize.py <folder>` reproduces the per-benchmark rows from any of these folders.

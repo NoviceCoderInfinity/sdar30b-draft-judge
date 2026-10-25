@@ -31,3 +31,11 @@ __pycache__/
 # Claude Code session exports (local notes, not project files)
 export.txt
 export*.txt
+
+# sdar30b-draft-judge setup outputs (setup.sh, run.sh, scripts/fetch_data.sh)
+.setup/
+env.sh
+hf_home/
+weights/
+runs/
+data_hf/
