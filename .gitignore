@@ -1,0 +1,33 @@
+# Bulk artifacts: decode records, per-block traces, model weights, tarballs.
+# These live in the Hugging Face mirrors -- see EXCLUDED.md, not in git.
+logs/
+hf_cache/
+*.jsonl
+*.npz
+*.tar.gz
+
+# Secrets -- never commit
+.env
+*.env
+*.key
+*.pem
+credentials
+*credentials*
+.aws/
+
+# Experiment tracking (mirrored on wandb.ai)
+wandb/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.venv/
+
+# macOS
+.DS_Store
+
+# large local data and HF caches (backed up to Hugging Face, never to git)
+data/
+hf_home/

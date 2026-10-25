@@ -1,0 +1,2581 @@
+{
+  "seed": 0,
+  "created_utc": "2026-09-02T22:13:48.990722+00:00",
+  "sets": {
+    "gsm8k_train": {
+      "repo": "openai/gsm8k",
+      "revision": "740312add88f781978c0658806c59bc2815b9866",
+      "config": "main",
+      "split": "train",
+      "pool_size": 7473,
+      "excluded_overlapping_test": 0,
+      "excluded_exact_match": 0,
+      "eligible": 7473,
+      "n_selected": 200,
+      "items": [
+        {
+          "split_index": 9,
+          "text_sha256_16": "699ab79580f3d4e0"
+        },
+        {
+          "split_index": 115,
+          "text_sha256_16": "279f2da749bca30f"
+        },
+        {
+          "split_index": 132,
+          "text_sha256_16": "35475865d2a89416"
+        },
+        {
+          "split_index": 270,
+          "text_sha256_16": "9aa375de4489822f"
+        },
+        {
+          "split_index": 316,
+          "text_sha256_16": "238472361d7db59b"
+        },
+        {
+          "split_index": 331,
+          "text_sha256_16": "e94a3eb555650146"
+        },
+        {
+          "split_index": 370,
+          "text_sha256_16": "10b207e528269210"
+        },
+        {
+          "split_index": 509,
+          "text_sha256_16": "fccc5acfe15441f6"
+        },
+        {
+          "split_index": 510,
+          "text_sha256_16": "5d98d8833d1a2295"
+        },
+        {
+          "split_index": 515,
+          "text_sha256_16": "00afb9d4acb6ad5b"
+        },
+        {
+          "split_index": 565,
+          "text_sha256_16": "3681af60ed56195c"
+        },
+        {
+          "split_index": 604,
+          "text_sha256_16": "4be09f5208f1d766"
+        },
+        {
+          "split_index": 657,
+          "text_sha256_16": "6e7a1645b42e32b9"
+        },
+        {
+          "split_index": 659,
+          "text_sha256_16": "97e6c96c7b046fd1"
+        },
+        {
+          "split_index": 674,
+          "text_sha256_16": "b6c92d4a0f4f184e"
+        },
+        {
+          "split_index": 735,
+          "text_sha256_16": "3080dd84b095bf56"
+        },
+        {
+          "split_index": 747,
+          "text_sha256_16": "dc1958a43149115d"
+        },
+        {
+          "split_index": 750,
+          "text_sha256_16": "33f9a7f90bbdc08e"
+        },
+        {
+          "split_index": 764,
+          "text_sha256_16": "10c4383b144e2d8a"
+        },
+        {
+          "split_index": 776,
+          "text_sha256_16": "c22cabef064eeeca"
+        },
+        {
+          "split_index": 809,
+          "text_sha256_16": "a05aa319de0586ba"
+        },
+        {
+          "split_index": 824,
+          "text_sha256_16": "31b6078faf7e3065"
+        },
+        {
+          "split_index": 893,
+          "text_sha256_16": "75216dde50119697"
+        },
+        {
+          "split_index": 944,
+          "text_sha256_16": "3bf7e77a8966aa70"
+        },
+        {
+          "split_index": 959,
+          "text_sha256_16": "ad27a3e6400ceeb1"
+        },
+        {
+          "split_index": 1022,
+          "text_sha256_16": "e69344dcb4e753f6"
+        },
+        {
+          "split_index": 1066,
+          "text_sha256_16": "a57bbba90d7c550e"
+        },
+        {
+          "split_index": 1140,
+          "text_sha256_16": "350104c619869654"
+        },
+        {
+          "split_index": 1144,
+          "text_sha256_16": "3755351b6e0c0081"
+        },
+        {
+          "split_index": 1167,
+          "text_sha256_16": "30d6a56e1daade2e"
+        },
+        {
+          "split_index": 1198,
+          "text_sha256_16": "4ab0681695258638"
+        },
+        {
+          "split_index": 1203,
+          "text_sha256_16": "00f985f7164e66b5"
+        },
+        {
+          "split_index": 1225,
+          "text_sha256_16": "230e018e596a9355"
+        },
+        {
+          "split_index": 1396,
+          "text_sha256_16": "1be15b56da6cecbe"
+        },
+        {
+          "split_index": 1506,
+          "text_sha256_16": "02c6a6e3e1c65645"
+        },
+        {
+          "split_index": 1529,
+          "text_sha256_16": "a3a72cc07687a78c"
+        },
+        {
+          "split_index": 1551,
+          "text_sha256_16": "0a051a8c9bc5e93e"
+        },
+        {
+          "split_index": 1559,
+          "text_sha256_16": "6bc12a81e5f27786"
+        },
+        {
+          "split_index": 1565,
+          "text_sha256_16": "a696ee8569691171"
+        },
+        {
+          "split_index": 1664,
+          "text_sha256_16": "94788e63f8e1979e"
+        },
+        {
+          "split_index": 1675,
+          "text_sha256_16": "6013307d8bded0a9"
+        },
+        {
+          "split_index": 1762,
+          "text_sha256_16": "db7f8b1b293cdf67"
+        },
+        {
+          "split_index": 1789,
+          "text_sha256_16": "a222b310723ca339"
+        },
+        {
+          "split_index": 1792,
+          "text_sha256_16": "aefcf9c23df4ced0"
+        },
+        {
+          "split_index": 1806,
+          "text_sha256_16": "6255f79ca13814f1"
+        },
+        {
+          "split_index": 1816,
+          "text_sha256_16": "e1e1fdd87565cdf7"
+        },
+        {
+          "split_index": 1929,
+          "text_sha256_16": "6f784a42702f19a7"
+        },
+        {
+          "split_index": 1954,
+          "text_sha256_16": "955d6d7c692c86f7"
+        },
+        {
+          "split_index": 1983,
+          "text_sha256_16": "6228af899ccb38cc"
+        },
+        {
+          "split_index": 1990,
+          "text_sha256_16": "42cb7a14681d2817"
+        },
+        {
+          "split_index": 1998,
+          "text_sha256_16": "efe0935ae018f64d"
+        },
+        {
+          "split_index": 2052,
+          "text_sha256_16": "1e0e7b5697be6740"
+        },
+        {
+          "split_index": 2121,
+          "text_sha256_16": "a9150114804e6620"
+        },
+        {
+          "split_index": 2130,
+          "text_sha256_16": "3c1b292448c2523b"
+        },
+        {
+          "split_index": 2133,
+          "text_sha256_16": "d531cb7a018d6945"
+        },
+        {
+          "split_index": 2220,
+          "text_sha256_16": "b7bdad0da492e778"
+        },
+        {
+          "split_index": 2254,
+          "text_sha256_16": "b52f7abb47f20ccf"
+        },
+        {
+          "split_index": 2257,
+          "text_sha256_16": "ba6d9f25300493d4"
+        },
+        {
+          "split_index": 2308,
+          "text_sha256_16": "e65e0e27e32ed7db"
+        },
+        {
+          "split_index": 2356,
+          "text_sha256_16": "615745950743434f"
+        },
+        {
+          "split_index": 2378,
+          "text_sha256_16": "0d66a0dd76f38241"
+        },
+        {
+          "split_index": 2384,
+          "text_sha256_16": "10f979a01982ca40"
+        },
+        {
+          "split_index": 2469,
+          "text_sha256_16": "8a6abd4087fed8b0"
+        },
+        {
+          "split_index": 2484,
+          "text_sha256_16": "0e16c2f7251efd52"
+        },
+        {
+          "split_index": 2540,
+          "text_sha256_16": "270fdd6d11485eea"
+        },
+        {
+          "split_index": 2590,
+          "text_sha256_16": "efab47e83758263c"
+        },
+        {
+          "split_index": 2597,
+          "text_sha256_16": "24525a4b09b0b6eb"
+        },
+        {
+          "split_index": 2621,
+          "text_sha256_16": "881c1b74d6e37f7a"
+        },
+        {
+          "split_index": 2656,
+          "text_sha256_16": "b788a146e13c2d3b"
+        },
+        {
+          "split_index": 2664,
+          "text_sha256_16": "2716d264ed0b1d2a"
+        },
+        {
+          "split_index": 2704,
+          "text_sha256_16": "a86c1d52a62215c9"
+        },
+        {
+          "split_index": 2724,
+          "text_sha256_16": "5133220dc5ee81f0"
+        },
+        {
+          "split_index": 2725,
+          "text_sha256_16": "f4ee91919520e546"
+        },
+        {
+          "split_index": 2729,
+          "text_sha256_16": "666feec8c1e5bdb2"
+        },
+        {
+          "split_index": 2746,
+          "text_sha256_16": "e5be27e9e1c10fa8"
+        },
+        {
+          "split_index": 2898,
+          "text_sha256_16": "b4fde413a234a220"
+        },
+        {
+          "split_index": 2927,
+          "text_sha256_16": "87f420dd5fc8ea62"
+        },
+        {
+          "split_index": 2933,
+          "text_sha256_16": "f42ece0b8a9b9613"
+        },
+        {
+          "split_index": 3047,
+          "text_sha256_16": "8133290f7dd87e1e"
+        },
+        {
+          "split_index": 3153,
+          "text_sha256_16": "2a9f9fd05e5518be"
+        },
+        {
+          "split_index": 3155,
+          "text_sha256_16": "563ae181989ef306"
+        },
+        {
+          "split_index": 3205,
+          "text_sha256_16": "16351308fdc91725"
+        },
+        {
+          "split_index": 3267,
+          "text_sha256_16": "5186f9040c398f17"
+        },
+        {
+          "split_index": 3317,
+          "text_sha256_16": "4db06a928266ca31"
+        },
+        {
+          "split_index": 3435,
+          "text_sha256_16": "5aac146f66324612"
+        },
+        {
+          "split_index": 3445,
+          "text_sha256_16": "4eaadce5fe5884a4"
+        },
+        {
+          "split_index": 3490,
+          "text_sha256_16": "f8cab6e867c28db3"
+        },
+        {
+          "split_index": 3556,
+          "text_sha256_16": "e71f412f4404903e"
+        },
+        {
+          "split_index": 3626,
+          "text_sha256_16": "823f13f6f7b2b5af"
+        },
+        {
+          "split_index": 3645,
+          "text_sha256_16": "744ada6cb46a9ebe"
+        },
+        {
+          "split_index": 3669,
+          "text_sha256_16": "fd4cb4a65d82d760"
+        },
+        {
+          "split_index": 3691,
+          "text_sha256_16": "f59121f1e02a0407"
+        },
+        {
+          "split_index": 3867,
+          "text_sha256_16": "900110ed24fde47b"
+        },
+        {
+          "split_index": 3903,
+          "text_sha256_16": "98db9ccce6bdaf59"
+        },
+        {
+          "split_index": 3904,
+          "text_sha256_16": "4fd72df2cab70bb3"
+        },
+        {
+          "split_index": 3907,
+          "text_sha256_16": "d220ddc7a9d17e1d"
+        },
+        {
+          "split_index": 3980,
+          "text_sha256_16": "8265a249c672cca9"
+        },
+        {
+          "split_index": 3984,
+          "text_sha256_16": "68f9e83e2cdba180"
+        },
+        {
+          "split_index": 4008,
+          "text_sha256_16": "46c1cb8bfcdf6934"
+        },
+        {
+          "split_index": 4035,
+          "text_sha256_16": "2577f24c030cb109"
+        },
+        {
+          "split_index": 4043,
+          "text_sha256_16": "79fdea30351e9388"
+        },
+        {
+          "split_index": 4134,
+          "text_sha256_16": "8840cd6e2fe4578e"
+        },
+        {
+          "split_index": 4161,
+          "text_sha256_16": "db8e3cbcb517b9a0"
+        },
+        {
+          "split_index": 4188,
+          "text_sha256_16": "b3be1335673f6209"
+        },
+        {
+          "split_index": 4270,
+          "text_sha256_16": "819ac42ae440df87"
+        },
+        {
+          "split_index": 4274,
+          "text_sha256_16": "8282c947ebdb72c4"
+        },
+        {
+          "split_index": 4297,
+          "text_sha256_16": "5df30f58b8843eab"
+        },
+        {
+          "split_index": 4362,
+          "text_sha256_16": "3b6abf5a7c8fcf58"
+        },
+        {
+          "split_index": 4426,
+          "text_sha256_16": "ba48af22fb7ae928"
+        },
+        {
+          "split_index": 4428,
+          "text_sha256_16": "c69ee50f948cc4e8"
+        },
+        {
+          "split_index": 4448,
+          "text_sha256_16": "6a943bb781811b82"
+        },
+        {
+          "split_index": 4482,
+          "text_sha256_16": "2aba0273c43958fd"
+        },
+        {
+          "split_index": 4484,
+          "text_sha256_16": "84e5c2a43bf67db4"
+        },
+        {
+          "split_index": 4494,
+          "text_sha256_16": "66c24c652546626d"
+        },
+        {
+          "split_index": 4515,
+          "text_sha256_16": "6d98e0eeef96778e"
+        },
+        {
+          "split_index": 4526,
+          "text_sha256_16": "8818c0a1c3fc7478"
+        },
+        {
+          "split_index": 4585,
+          "text_sha256_16": "1961476ba3b35582"
+        },
+        {
+          "split_index": 4649,
+          "text_sha256_16": "5366a0cf826d9e7f"
+        },
+        {
+          "split_index": 4715,
+          "text_sha256_16": "43aee3d5001ee329"
+        },
+        {
+          "split_index": 4748,
+          "text_sha256_16": "4fd13bc716398703"
+        },
+        {
+          "split_index": 4779,
+          "text_sha256_16": "55db5eabd84ae24d"
+        },
+        {
+          "split_index": 4809,
+          "text_sha256_16": "6a98028e8e6932d8"
+        },
+        {
+          "split_index": 4813,
+          "text_sha256_16": "7eda04f3bdc3ed0e"
+        },
+        {
+          "split_index": 4831,
+          "text_sha256_16": "eb6c81d80daf714b"
+        },
+        {
+          "split_index": 4884,
+          "text_sha256_16": "f49dcbd542a80fed"
+        },
+        {
+          "split_index": 4930,
+          "text_sha256_16": "0820c423f85b6926"
+        },
+        {
+          "split_index": 4941,
+          "text_sha256_16": "3d33f7ba5e878c78"
+        },
+        {
+          "split_index": 5004,
+          "text_sha256_16": "49f2a3e3a0848b26"
+        },
+        {
+          "split_index": 5012,
+          "text_sha256_16": "c8ecc198fa28744b"
+        },
+        {
+          "split_index": 5019,
+          "text_sha256_16": "f87994eb8497a0c8"
+        },
+        {
+          "split_index": 5065,
+          "text_sha256_16": "caeabb0e9c0a3161"
+        },
+        {
+          "split_index": 5122,
+          "text_sha256_16": "6c15774a5988902a"
+        },
+        {
+          "split_index": 5162,
+          "text_sha256_16": "c5900d035b866a96"
+        },
+        {
+          "split_index": 5246,
+          "text_sha256_16": "c00f0ee25b7c53f7"
+        },
+        {
+          "split_index": 5252,
+          "text_sha256_16": "79d595fc1e1716ce"
+        },
+        {
+          "split_index": 5379,
+          "text_sha256_16": "715c10900ffe888c"
+        },
+        {
+          "split_index": 5408,
+          "text_sha256_16": "98078ed2910f5528"
+        },
+        {
+          "split_index": 5473,
+          "text_sha256_16": "06c94771beca3482"
+        },
+        {
+          "split_index": 5560,
+          "text_sha256_16": "3c00b603182cc330"
+        },
+        {
+          "split_index": 5566,
+          "text_sha256_16": "879c23cf92c1ba53"
+        },
+        {
+          "split_index": 5599,
+          "text_sha256_16": "1eaf009f26fddb12"
+        },
+        {
+          "split_index": 5603,
+          "text_sha256_16": "04ed140d5632f1d1"
+        },
+        {
+          "split_index": 5715,
+          "text_sha256_16": "cc767f6cf12cdd1b"
+        },
+        {
+          "split_index": 5728,
+          "text_sha256_16": "b83ebe34597382cc"
+        },
+        {
+          "split_index": 5736,
+          "text_sha256_16": "a3ab6342ecda5b44"
+        },
+        {
+          "split_index": 5764,
+          "text_sha256_16": "780da6f860d3db9c"
+        },
+        {
+          "split_index": 5776,
+          "text_sha256_16": "555f9f4a58a42360"
+        },
+        {
+          "split_index": 5777,
+          "text_sha256_16": "c9697e2d7e67e262"
+        },
+        {
+          "split_index": 5778,
+          "text_sha256_16": "41b14b3fc98674e1"
+        },
+        {
+          "split_index": 5788,
+          "text_sha256_16": "5a098e6918ceb1d2"
+        },
+        {
+          "split_index": 5818,
+          "text_sha256_16": "11015435dd6607c1"
+        },
+        {
+          "split_index": 5895,
+          "text_sha256_16": "3ce73ecce4621360"
+        },
+        {
+          "split_index": 5978,
+          "text_sha256_16": "b92a4daae77861b1"
+        },
+        {
+          "split_index": 5982,
+          "text_sha256_16": "5f85355ff53c1693"
+        },
+        {
+          "split_index": 5992,
+          "text_sha256_16": "062afef1343a46b0"
+        },
+        {
+          "split_index": 6191,
+          "text_sha256_16": "4fbc52aa9e40c94a"
+        },
+        {
+          "split_index": 6206,
+          "text_sha256_16": "9ff75ebf01056f90"
+        },
+        {
+          "split_index": 6209,
+          "text_sha256_16": "63627a07c39f7071"
+        },
+        {
+          "split_index": 6415,
+          "text_sha256_16": "03a116375e8b2314"
+        },
+        {
+          "split_index": 6420,
+          "text_sha256_16": "b6208442653d6509"
+        },
+        {
+          "split_index": 6431,
+          "text_sha256_16": "33baf323ea086403"
+        },
+        {
+          "split_index": 6498,
+          "text_sha256_16": "b268aeaed9104167"
+        },
+        {
+          "split_index": 6509,
+          "text_sha256_16": "38b486d1d7509603"
+        },
+        {
+          "split_index": 6536,
+          "text_sha256_16": "1d90b121eaa1ba27"
+        },
+        {
+          "split_index": 6548,
+          "text_sha256_16": "466107427e4ebdfe"
+        },
+        {
+          "split_index": 6579,
+          "text_sha256_16": "e00a6d8bee4919f0"
+        },
+        {
+          "split_index": 6581,
+          "text_sha256_16": "2b60d14d2a5d8aec"
+        },
+        {
+          "split_index": 6594,
+          "text_sha256_16": "232ca38755182de3"
+        },
+        {
+          "split_index": 6637,
+          "text_sha256_16": "355927271ac07dd1"
+        },
+        {
+          "split_index": 6648,
+          "text_sha256_16": "b731ea9f46eb6651"
+        },
+        {
+          "split_index": 6672,
+          "text_sha256_16": "92352f3662b174fc"
+        },
+        {
+          "split_index": 6683,
+          "text_sha256_16": "5f1a6df72e0df662"
+        },
+        {
+          "split_index": 6693,
+          "text_sha256_16": "ffc183cc53079fe7"
+        },
+        {
+          "split_index": 6729,
+          "text_sha256_16": "b340b666748e7eea"
+        },
+        {
+          "split_index": 6757,
+          "text_sha256_16": "ce216c2e50d634e5"
+        },
+        {
+          "split_index": 6760,
+          "text_sha256_16": "f70e9d26dee02c0c"
+        },
+        {
+          "split_index": 6783,
+          "text_sha256_16": "a9c6f03b26edcb3e"
+        },
+        {
+          "split_index": 6794,
+          "text_sha256_16": "766c9baf3a193bd2"
+        },
+        {
+          "split_index": 6798,
+          "text_sha256_16": "99be0e5a1301926a"
+        },
+        {
+          "split_index": 6863,
+          "text_sha256_16": "a143e76b40f4e7c7"
+        },
+        {
+          "split_index": 6882,
+          "text_sha256_16": "84ecba1bd514b786"
+        },
+        {
+          "split_index": 6901,
+          "text_sha256_16": "a84ac64b74d2beb2"
+        },
+        {
+          "split_index": 6917,
+          "text_sha256_16": "85c50283b7bfd1b9"
+        },
+        {
+          "split_index": 6922,
+          "text_sha256_16": "a411b117d2335288"
+        },
+        {
+          "split_index": 6958,
+          "text_sha256_16": "385ed6f7d06cbe37"
+        },
+        {
+          "split_index": 6967,
+          "text_sha256_16": "5f174bf5b36629cb"
+        },
+        {
+          "split_index": 7006,
+          "text_sha256_16": "aebe3ed7fa5ff2b1"
+        },
+        {
+          "split_index": 7088,
+          "text_sha256_16": "f117d0e69b3935cb"
+        },
+        {
+          "split_index": 7107,
+          "text_sha256_16": "e68038da5a1cbb72"
+        },
+        {
+          "split_index": 7130,
+          "text_sha256_16": "2d088024dc10f804"
+        },
+        {
+          "split_index": 7168,
+          "text_sha256_16": "ff298703daa1abd6"
+        },
+        {
+          "split_index": 7182,
+          "text_sha256_16": "445d153492ea0420"
+        },
+        {
+          "split_index": 7292,
+          "text_sha256_16": "8457969b93b68aed"
+        },
+        {
+          "split_index": 7304,
+          "text_sha256_16": "687829c9cf047a3e"
+        },
+        {
+          "split_index": 7332,
+          "text_sha256_16": "fcb9228672736f5e"
+        },
+        {
+          "split_index": 7357,
+          "text_sha256_16": "f9a8996145dbc064"
+        },
+        {
+          "split_index": 7363,
+          "text_sha256_16": "3f1b744ebaebfa92"
+        },
+        {
+          "split_index": 7390,
+          "text_sha256_16": "b20548ec6b0492f2"
+        },
+        {
+          "split_index": 7439,
+          "text_sha256_16": "7932e5ac64d7db02"
+        },
+        {
+          "split_index": 7452,
+          "text_sha256_16": "3e31c793dbf0e261"
+        }
+      ]
+    },
+    "mbpp_train": {
+      "repo": "google-research-datasets/mbpp",
+      "revision": "4bb6404fdc6cacfda99d4ac4205087b89d32030c",
+      "config": "sanitized",
+      "split": "train",
+      "pool_size": 120,
+      "excluded_overlapping_test": 0,
+      "eligible": 120,
+      "n_selected": 100,
+      "items": [
+        {
+          "split_index": 0,
+          "task_id": 602,
+          "text_sha256_16": "87a2c9186c8b79dc"
+        },
+        {
+          "split_index": 1,
+          "task_id": 603,
+          "text_sha256_16": "a5cc055c2d01e736"
+        },
+        {
+          "split_index": 4,
+          "task_id": 606,
+          "text_sha256_16": "a54e93b5c33e6511"
+        },
+        {
+          "split_index": 5,
+          "task_id": 607,
+          "text_sha256_16": "e70366ec45d055a6"
+        },
+        {
+          "split_index": 6,
+          "task_id": 608,
+          "text_sha256_16": "b3b32b9292a6c24d"
+        },
+        {
+          "split_index": 7,
+          "task_id": 610,
+          "text_sha256_16": "43285ba4baa29bba"
+        },
+        {
+          "split_index": 8,
+          "task_id": 611,
+          "text_sha256_16": "10a3a9238900dafd"
+        },
+        {
+          "split_index": 9,
+          "task_id": 612,
+          "text_sha256_16": "0ebddd508152d614"
+        },
+        {
+          "split_index": 10,
+          "task_id": 614,
+          "text_sha256_16": "6ffa4a5a2ff87906"
+        },
+        {
+          "split_index": 11,
+          "task_id": 615,
+          "text_sha256_16": "adfbe212c04b9224"
+        },
+        {
+          "split_index": 12,
+          "task_id": 616,
+          "text_sha256_16": "cd36beff9eae04cf"
+        },
+        {
+          "split_index": 13,
+          "task_id": 617,
+          "text_sha256_16": "18d9d603b406df88"
+        },
+        {
+          "split_index": 14,
+          "task_id": 618,
+          "text_sha256_16": "b97062b25c4d1d7b"
+        },
+        {
+          "split_index": 15,
+          "task_id": 619,
+          "text_sha256_16": "53d029c1bb02c623"
+        },
+        {
+          "split_index": 17,
+          "task_id": 622,
+          "text_sha256_16": "576d26fd94ee6d01"
+        },
+        {
+          "split_index": 18,
+          "task_id": 623,
+          "text_sha256_16": "f2cd321ffadd40ff"
+        },
+        {
+          "split_index": 19,
+          "task_id": 624,
+          "text_sha256_16": "0f69a5c6e67c8cce"
+        },
+        {
+          "split_index": 20,
+          "task_id": 625,
+          "text_sha256_16": "71327b66458888cd"
+        },
+        {
+          "split_index": 21,
+          "task_id": 626,
+          "text_sha256_16": "b620399dbcd30582"
+        },
+        {
+          "split_index": 24,
+          "task_id": 629,
+          "text_sha256_16": "f9b11d70266466e0"
+        },
+        {
+          "split_index": 26,
+          "task_id": 631,
+          "text_sha256_16": "7c90a032d2f0cf36"
+        },
+        {
+          "split_index": 27,
+          "task_id": 632,
+          "text_sha256_16": "9b6a3a4a00d14280"
+        },
+        {
+          "split_index": 28,
+          "task_id": 633,
+          "text_sha256_16": "f581e970bd9d5e96"
+        },
+        {
+          "split_index": 31,
+          "task_id": 638,
+          "text_sha256_16": "17741a02fd3be867"
+        },
+        {
+          "split_index": 32,
+          "task_id": 639,
+          "text_sha256_16": "533391e3d2efff24"
+        },
+        {
+          "split_index": 33,
+          "task_id": 640,
+          "text_sha256_16": "c7d9394bd5985332"
+        },
+        {
+          "split_index": 34,
+          "task_id": 641,
+          "text_sha256_16": "fddf92add206a101"
+        },
+        {
+          "split_index": 35,
+          "task_id": 643,
+          "text_sha256_16": "343cb7047782948c"
+        },
+        {
+          "split_index": 36,
+          "task_id": 644,
+          "text_sha256_16": "72488b460e825c79"
+        },
+        {
+          "split_index": 37,
+          "task_id": 720,
+          "text_sha256_16": "37f26281a0b2456d"
+        },
+        {
+          "split_index": 38,
+          "task_id": 721,
+          "text_sha256_16": "80c31d589b872d21"
+        },
+        {
+          "split_index": 39,
+          "task_id": 722,
+          "text_sha256_16": "0d648f35a3251903"
+        },
+        {
+          "split_index": 40,
+          "task_id": 723,
+          "text_sha256_16": "d1d2711d321b2e0e"
+        },
+        {
+          "split_index": 41,
+          "task_id": 724,
+          "text_sha256_16": "b715941e526c1294"
+        },
+        {
+          "split_index": 42,
+          "task_id": 725,
+          "text_sha256_16": "4ba86bb4633591a7"
+        },
+        {
+          "split_index": 43,
+          "task_id": 726,
+          "text_sha256_16": "47df0fd40ab92f00"
+        },
+        {
+          "split_index": 44,
+          "task_id": 728,
+          "text_sha256_16": "71f3a2e0eafdc3a3"
+        },
+        {
+          "split_index": 45,
+          "task_id": 730,
+          "text_sha256_16": "d6822eda19e67590"
+        },
+        {
+          "split_index": 46,
+          "task_id": 731,
+          "text_sha256_16": "cb9686c5cfef9c1d"
+        },
+        {
+          "split_index": 48,
+          "task_id": 733,
+          "text_sha256_16": "caa460cde0ac6e4f"
+        },
+        {
+          "split_index": 49,
+          "task_id": 734,
+          "text_sha256_16": "37df9bd100734cd1"
+        },
+        {
+          "split_index": 50,
+          "task_id": 735,
+          "text_sha256_16": "6dbeab64e9cc4c30"
+        },
+        {
+          "split_index": 51,
+          "task_id": 736,
+          "text_sha256_16": "73bcc4cf32f60b5e"
+        },
+        {
+          "split_index": 52,
+          "task_id": 737,
+          "text_sha256_16": "c8f91a016ffb9878"
+        },
+        {
+          "split_index": 53,
+          "task_id": 738,
+          "text_sha256_16": "c51a5e3dbdbf61e4"
+        },
+        {
+          "split_index": 54,
+          "task_id": 739,
+          "text_sha256_16": "d75ac9a87d6b1496"
+        },
+        {
+          "split_index": 55,
+          "task_id": 740,
+          "text_sha256_16": "f2a9a8bd2664d04c"
+        },
+        {
+          "split_index": 56,
+          "task_id": 741,
+          "text_sha256_16": "37a07c781e99bb01"
+        },
+        {
+          "split_index": 58,
+          "task_id": 743,
+          "text_sha256_16": "f761880eafd1d5f7"
+        },
+        {
+          "split_index": 60,
+          "task_id": 745,
+          "text_sha256_16": "3b0dd63d4c97b37b"
+        },
+        {
+          "split_index": 61,
+          "task_id": 746,
+          "text_sha256_16": "14592bb8dd893df3"
+        },
+        {
+          "split_index": 62,
+          "task_id": 747,
+          "text_sha256_16": "6a354ad1821cab74"
+        },
+        {
+          "split_index": 63,
+          "task_id": 748,
+          "text_sha256_16": "2bf096d257de0de7"
+        },
+        {
+          "split_index": 64,
+          "task_id": 749,
+          "text_sha256_16": "fe2c02937afb22ba"
+        },
+        {
+          "split_index": 65,
+          "task_id": 750,
+          "text_sha256_16": "24870955cadd8b4c"
+        },
+        {
+          "split_index": 66,
+          "task_id": 751,
+          "text_sha256_16": "4da53a3cd5c4fe68"
+        },
+        {
+          "split_index": 68,
+          "task_id": 753,
+          "text_sha256_16": "520d44ab97bcd16b"
+        },
+        {
+          "split_index": 70,
+          "task_id": 755,
+          "text_sha256_16": "1ece3b8109b26054"
+        },
+        {
+          "split_index": 71,
+          "task_id": 756,
+          "text_sha256_16": "6aa83955f627a73b"
+        },
+        {
+          "split_index": 72,
+          "task_id": 757,
+          "text_sha256_16": "248c1a320574eb95"
+        },
+        {
+          "split_index": 74,
+          "task_id": 759,
+          "text_sha256_16": "ae6ed85608a619a5"
+        },
+        {
+          "split_index": 77,
+          "task_id": 763,
+          "text_sha256_16": "dc05f4a4dd70bd75"
+        },
+        {
+          "split_index": 78,
+          "task_id": 764,
+          "text_sha256_16": "442a74abc582e0ed"
+        },
+        {
+          "split_index": 79,
+          "task_id": 765,
+          "text_sha256_16": "01f50ad4e14b8090"
+        },
+        {
+          "split_index": 80,
+          "task_id": 766,
+          "text_sha256_16": "6f9d70d7ca499ea6"
+        },
+        {
+          "split_index": 81,
+          "task_id": 767,
+          "text_sha256_16": "67e12b6a6f16bb28"
+        },
+        {
+          "split_index": 82,
+          "task_id": 769,
+          "text_sha256_16": "5655fe19c585f99f"
+        },
+        {
+          "split_index": 83,
+          "task_id": 770,
+          "text_sha256_16": "1eafc6bd23d3429e"
+        },
+        {
+          "split_index": 84,
+          "task_id": 771,
+          "text_sha256_16": "1714b63b70c69062"
+        },
+        {
+          "split_index": 86,
+          "task_id": 773,
+          "text_sha256_16": "7217228cdab70415"
+        },
+        {
+          "split_index": 87,
+          "task_id": 775,
+          "text_sha256_16": "540017f396db060b"
+        },
+        {
+          "split_index": 88,
+          "task_id": 776,
+          "text_sha256_16": "bdad7fa6fbae1b3d"
+        },
+        {
+          "split_index": 89,
+          "task_id": 777,
+          "text_sha256_16": "51b0286ca57a60ca"
+        },
+        {
+          "split_index": 90,
+          "task_id": 778,
+          "text_sha256_16": "60344a1dd742ef90"
+        },
+        {
+          "split_index": 91,
+          "task_id": 779,
+          "text_sha256_16": "02ed8166b62b7c5a"
+        },
+        {
+          "split_index": 92,
+          "task_id": 780,
+          "text_sha256_16": "bd577b99a0a206b6"
+        },
+        {
+          "split_index": 93,
+          "task_id": 781,
+          "text_sha256_16": "a59b4d134b78e840"
+        },
+        {
+          "split_index": 94,
+          "task_id": 782,
+          "text_sha256_16": "5125f5aa67610b10"
+        },
+        {
+          "split_index": 95,
+          "task_id": 783,
+          "text_sha256_16": "365de1e0a51c56e9"
+        },
+        {
+          "split_index": 96,
+          "task_id": 784,
+          "text_sha256_16": "6f2fd548e4bef270"
+        },
+        {
+          "split_index": 97,
+          "task_id": 785,
+          "text_sha256_16": "65ce7d7a175bd062"
+        },
+        {
+          "split_index": 98,
+          "task_id": 786,
+          "text_sha256_16": "704a3c9c7b129a6e"
+        },
+        {
+          "split_index": 100,
+          "task_id": 788,
+          "text_sha256_16": "39175dc719a5f11f"
+        },
+        {
+          "split_index": 101,
+          "task_id": 790,
+          "text_sha256_16": "8c61c64bcc0b43ae"
+        },
+        {
+          "split_index": 102,
+          "task_id": 791,
+          "text_sha256_16": "1726e7c79843a53a"
+        },
+        {
+          "split_index": 104,
+          "task_id": 793,
+          "text_sha256_16": "ecbba58548bfa3de"
+        },
+        {
+          "split_index": 105,
+          "task_id": 794,
+          "text_sha256_16": "c8354c06457db57e"
+        },
+        {
+          "split_index": 106,
+          "task_id": 796,
+          "text_sha256_16": "6c0d46565c9fbad4"
+        },
+        {
+          "split_index": 107,
+          "task_id": 797,
+          "text_sha256_16": "8dd4eeec63b53270"
+        },
+        {
+          "split_index": 108,
+          "task_id": 798,
+          "text_sha256_16": "6715cc2f7c862270"
+        },
+        {
+          "split_index": 109,
+          "task_id": 799,
+          "text_sha256_16": "daccbe8a2f5f9abc"
+        },
+        {
+          "split_index": 110,
+          "task_id": 800,
+          "text_sha256_16": "bff8e72cc42a788a"
+        },
+        {
+          "split_index": 112,
+          "task_id": 802,
+          "text_sha256_16": "bab79abbc872f434"
+        },
+        {
+          "split_index": 113,
+          "task_id": 803,
+          "text_sha256_16": "e75c4fc46dbf7916"
+        },
+        {
+          "split_index": 114,
+          "task_id": 804,
+          "text_sha256_16": "eb2fbb236d3d7d4a"
+        },
+        {
+          "split_index": 115,
+          "task_id": 805,
+          "text_sha256_16": "4ee95e6fbc01ca71"
+        },
+        {
+          "split_index": 116,
+          "task_id": 806,
+          "text_sha256_16": "ad0ff39ad0ac54f6"
+        },
+        {
+          "split_index": 117,
+          "task_id": 807,
+          "text_sha256_16": "b278c3cb88469ae2"
+        },
+        {
+          "split_index": 118,
+          "task_id": 808,
+          "text_sha256_16": "e29ed444dabd0154"
+        },
+        {
+          "split_index": 119,
+          "task_id": 809,
+          "text_sha256_16": "e84f024f5df0157e"
+        }
+      ]
+    },
+    "math_train": {
+      "repo": "EleutherAI/hendrycks_math",
+      "revision": "21a5633873b6a120296cce3e2df9d5550074f4a3",
+      "configs": [
+        "algebra",
+        "counting_and_probability",
+        "geometry",
+        "intermediate_algebra",
+        "number_theory",
+        "prealgebra",
+        "precalculus"
+      ],
+      "split": "train",
+      "concat_order": "MATH_SUBJECTS as listed; global index = position in that concatenation",
+      "pool_size": 7500,
+      "excluded_overlapping_math500": 0,
+      "excluded_exact_match": 0,
+      "eligible": 7500,
+      "n_selected": 200,
+      "items": [
+        {
+          "global_index": 9,
+          "subject": "algebra",
+          "subject_index": 9,
+          "text_sha256_16": "6941868b13f4c59c"
+        },
+        {
+          "global_index": 115,
+          "subject": "algebra",
+          "subject_index": 115,
+          "text_sha256_16": "7af4dda6b037c130"
+        },
+        {
+          "global_index": 132,
+          "subject": "algebra",
+          "subject_index": 132,
+          "text_sha256_16": "01bb3650d1490491"
+        },
+        {
+          "global_index": 270,
+          "subject": "algebra",
+          "subject_index": 270,
+          "text_sha256_16": "7268cf9720286ca7"
+        },
+        {
+          "global_index": 316,
+          "subject": "algebra",
+          "subject_index": 316,
+          "text_sha256_16": "b8b6d71d3d5cc066"
+        },
+        {
+          "global_index": 331,
+          "subject": "algebra",
+          "subject_index": 331,
+          "text_sha256_16": "376cee2e61010fbf"
+        },
+        {
+          "global_index": 370,
+          "subject": "algebra",
+          "subject_index": 370,
+          "text_sha256_16": "a5b457bb586db085"
+        },
+        {
+          "global_index": 509,
+          "subject": "algebra",
+          "subject_index": 509,
+          "text_sha256_16": "84fbfc3b18cc7287"
+        },
+        {
+          "global_index": 510,
+          "subject": "algebra",
+          "subject_index": 510,
+          "text_sha256_16": "d6a17ca44760b18e"
+        },
+        {
+          "global_index": 515,
+          "subject": "algebra",
+          "subject_index": 515,
+          "text_sha256_16": "1ce8d7d5e1e0b834"
+        },
+        {
+          "global_index": 565,
+          "subject": "algebra",
+          "subject_index": 565,
+          "text_sha256_16": "600ee0c7bf9f0380"
+        },
+        {
+          "global_index": 604,
+          "subject": "algebra",
+          "subject_index": 604,
+          "text_sha256_16": "c1821d8f59eaba69"
+        },
+        {
+          "global_index": 657,
+          "subject": "algebra",
+          "subject_index": 657,
+          "text_sha256_16": "752621bf03c06d97"
+        },
+        {
+          "global_index": 659,
+          "subject": "algebra",
+          "subject_index": 659,
+          "text_sha256_16": "3b797ab4f13bc3b7"
+        },
+        {
+          "global_index": 674,
+          "subject": "algebra",
+          "subject_index": 674,
+          "text_sha256_16": "47efb88e9ee88e3a"
+        },
+        {
+          "global_index": 735,
+          "subject": "algebra",
+          "subject_index": 735,
+          "text_sha256_16": "f9e5e924cd0cc0a6"
+        },
+        {
+          "global_index": 747,
+          "subject": "algebra",
+          "subject_index": 747,
+          "text_sha256_16": "611846b2d869c908"
+        },
+        {
+          "global_index": 750,
+          "subject": "algebra",
+          "subject_index": 750,
+          "text_sha256_16": "f76d1c37f491836f"
+        },
+        {
+          "global_index": 764,
+          "subject": "algebra",
+          "subject_index": 764,
+          "text_sha256_16": "cf377ed04e0f50a9"
+        },
+        {
+          "global_index": 776,
+          "subject": "algebra",
+          "subject_index": 776,
+          "text_sha256_16": "d771e65482c33048"
+        },
+        {
+          "global_index": 809,
+          "subject": "algebra",
+          "subject_index": 809,
+          "text_sha256_16": "92fd497415583f06"
+        },
+        {
+          "global_index": 824,
+          "subject": "algebra",
+          "subject_index": 824,
+          "text_sha256_16": "db7816fd89b78fe2"
+        },
+        {
+          "global_index": 893,
+          "subject": "algebra",
+          "subject_index": 893,
+          "text_sha256_16": "7c95aa4e07619f79"
+        },
+        {
+          "global_index": 944,
+          "subject": "algebra",
+          "subject_index": 944,
+          "text_sha256_16": "765391138324601e"
+        },
+        {
+          "global_index": 959,
+          "subject": "algebra",
+          "subject_index": 959,
+          "text_sha256_16": "7542316d6ee6ea7b"
+        },
+        {
+          "global_index": 1022,
+          "subject": "algebra",
+          "subject_index": 1022,
+          "text_sha256_16": "a84a57142b0a331d"
+        },
+        {
+          "global_index": 1066,
+          "subject": "algebra",
+          "subject_index": 1066,
+          "text_sha256_16": "76cf413a5163830f"
+        },
+        {
+          "global_index": 1140,
+          "subject": "algebra",
+          "subject_index": 1140,
+          "text_sha256_16": "c677098f3609fdb3"
+        },
+        {
+          "global_index": 1144,
+          "subject": "algebra",
+          "subject_index": 1144,
+          "text_sha256_16": "bfc1c368b081799b"
+        },
+        {
+          "global_index": 1167,
+          "subject": "algebra",
+          "subject_index": 1167,
+          "text_sha256_16": "a082a599d8c8cf51"
+        },
+        {
+          "global_index": 1198,
+          "subject": "algebra",
+          "subject_index": 1198,
+          "text_sha256_16": "a856b2d9d15da851"
+        },
+        {
+          "global_index": 1203,
+          "subject": "algebra",
+          "subject_index": 1203,
+          "text_sha256_16": "f90a46816e251acc"
+        },
+        {
+          "global_index": 1225,
+          "subject": "algebra",
+          "subject_index": 1225,
+          "text_sha256_16": "8c2aafce546bc69d"
+        },
+        {
+          "global_index": 1396,
+          "subject": "algebra",
+          "subject_index": 1396,
+          "text_sha256_16": "59b52ad9c363e36b"
+        },
+        {
+          "global_index": 1506,
+          "subject": "algebra",
+          "subject_index": 1506,
+          "text_sha256_16": "684a3273342d1cf0"
+        },
+        {
+          "global_index": 1529,
+          "subject": "algebra",
+          "subject_index": 1529,
+          "text_sha256_16": "7c529920430887c3"
+        },
+        {
+          "global_index": 1551,
+          "subject": "algebra",
+          "subject_index": 1551,
+          "text_sha256_16": "f1936a5ce12e66c8"
+        },
+        {
+          "global_index": 1559,
+          "subject": "algebra",
+          "subject_index": 1559,
+          "text_sha256_16": "6e61291ffeaba1ce"
+        },
+        {
+          "global_index": 1565,
+          "subject": "algebra",
+          "subject_index": 1565,
+          "text_sha256_16": "bd3e2ac561e7957e"
+        },
+        {
+          "global_index": 1664,
+          "subject": "algebra",
+          "subject_index": 1664,
+          "text_sha256_16": "d402927f37858741"
+        },
+        {
+          "global_index": 1675,
+          "subject": "algebra",
+          "subject_index": 1675,
+          "text_sha256_16": "5e303e2c0f7553ac"
+        },
+        {
+          "global_index": 1762,
+          "subject": "counting_and_probability",
+          "subject_index": 18,
+          "text_sha256_16": "ecab19e4c24dd9e7"
+        },
+        {
+          "global_index": 1789,
+          "subject": "counting_and_probability",
+          "subject_index": 45,
+          "text_sha256_16": "4220b5f69ab1e6eb"
+        },
+        {
+          "global_index": 1792,
+          "subject": "counting_and_probability",
+          "subject_index": 48,
+          "text_sha256_16": "4daab3aad6eed51a"
+        },
+        {
+          "global_index": 1806,
+          "subject": "counting_and_probability",
+          "subject_index": 62,
+          "text_sha256_16": "1d3e7a09acbcd041"
+        },
+        {
+          "global_index": 1816,
+          "subject": "counting_and_probability",
+          "subject_index": 72,
+          "text_sha256_16": "25ee3cc4b1946495"
+        },
+        {
+          "global_index": 1929,
+          "subject": "counting_and_probability",
+          "subject_index": 185,
+          "text_sha256_16": "aea7af6f31f4f294"
+        },
+        {
+          "global_index": 1954,
+          "subject": "counting_and_probability",
+          "subject_index": 210,
+          "text_sha256_16": "9b0c52cdc6557843"
+        },
+        {
+          "global_index": 1983,
+          "subject": "counting_and_probability",
+          "subject_index": 239,
+          "text_sha256_16": "bebb8e17bd53a3b2"
+        },
+        {
+          "global_index": 1990,
+          "subject": "counting_and_probability",
+          "subject_index": 246,
+          "text_sha256_16": "d98a33970e4dd127"
+        },
+        {
+          "global_index": 1998,
+          "subject": "counting_and_probability",
+          "subject_index": 254,
+          "text_sha256_16": "9930628e46bdf68b"
+        },
+        {
+          "global_index": 2052,
+          "subject": "counting_and_probability",
+          "subject_index": 308,
+          "text_sha256_16": "87ae104492c548e5"
+        },
+        {
+          "global_index": 2121,
+          "subject": "counting_and_probability",
+          "subject_index": 377,
+          "text_sha256_16": "b12863c90d589389"
+        },
+        {
+          "global_index": 2130,
+          "subject": "counting_and_probability",
+          "subject_index": 386,
+          "text_sha256_16": "900655601147c17e"
+        },
+        {
+          "global_index": 2133,
+          "subject": "counting_and_probability",
+          "subject_index": 389,
+          "text_sha256_16": "6762c669505c2b30"
+        },
+        {
+          "global_index": 2220,
+          "subject": "counting_and_probability",
+          "subject_index": 476,
+          "text_sha256_16": "60af17c6905d8ef0"
+        },
+        {
+          "global_index": 2254,
+          "subject": "counting_and_probability",
+          "subject_index": 510,
+          "text_sha256_16": "68eb2315ad2f4260"
+        },
+        {
+          "global_index": 2257,
+          "subject": "counting_and_probability",
+          "subject_index": 513,
+          "text_sha256_16": "cd3ca2cf9de5f237"
+        },
+        {
+          "global_index": 2308,
+          "subject": "counting_and_probability",
+          "subject_index": 564,
+          "text_sha256_16": "a3776f416e26e7ef"
+        },
+        {
+          "global_index": 2356,
+          "subject": "counting_and_probability",
+          "subject_index": 612,
+          "text_sha256_16": "a3d024ee82c1476a"
+        },
+        {
+          "global_index": 2378,
+          "subject": "counting_and_probability",
+          "subject_index": 634,
+          "text_sha256_16": "702bb96ce95b7f0d"
+        },
+        {
+          "global_index": 2384,
+          "subject": "counting_and_probability",
+          "subject_index": 640,
+          "text_sha256_16": "63d1331ea75b604c"
+        },
+        {
+          "global_index": 2469,
+          "subject": "counting_and_probability",
+          "subject_index": 725,
+          "text_sha256_16": "f8d11c2c5ab6a84e"
+        },
+        {
+          "global_index": 2484,
+          "subject": "counting_and_probability",
+          "subject_index": 740,
+          "text_sha256_16": "a75c1114943d3c03"
+        },
+        {
+          "global_index": 2540,
+          "subject": "geometry",
+          "subject_index": 25,
+          "text_sha256_16": "754c3979bef0f7cb"
+        },
+        {
+          "global_index": 2590,
+          "subject": "geometry",
+          "subject_index": 75,
+          "text_sha256_16": "d9f3307aab8463b0"
+        },
+        {
+          "global_index": 2597,
+          "subject": "geometry",
+          "subject_index": 82,
+          "text_sha256_16": "f200c9e597a943fd"
+        },
+        {
+          "global_index": 2621,
+          "subject": "geometry",
+          "subject_index": 106,
+          "text_sha256_16": "0e1906c4d558963e"
+        },
+        {
+          "global_index": 2656,
+          "subject": "geometry",
+          "subject_index": 141,
+          "text_sha256_16": "e1246f7d9f8c3a06"
+        },
+        {
+          "global_index": 2664,
+          "subject": "geometry",
+          "subject_index": 149,
+          "text_sha256_16": "6d386f879224acc3"
+        },
+        {
+          "global_index": 2704,
+          "subject": "geometry",
+          "subject_index": 189,
+          "text_sha256_16": "f67a9450fcb818b5"
+        },
+        {
+          "global_index": 2724,
+          "subject": "geometry",
+          "subject_index": 209,
+          "text_sha256_16": "6a34882944bca3ca"
+        },
+        {
+          "global_index": 2725,
+          "subject": "geometry",
+          "subject_index": 210,
+          "text_sha256_16": "23c1012d342448d0"
+        },
+        {
+          "global_index": 2729,
+          "subject": "geometry",
+          "subject_index": 214,
+          "text_sha256_16": "66bc559ae7767b47"
+        },
+        {
+          "global_index": 2746,
+          "subject": "geometry",
+          "subject_index": 231,
+          "text_sha256_16": "6955ef216b913aa6"
+        },
+        {
+          "global_index": 2898,
+          "subject": "geometry",
+          "subject_index": 383,
+          "text_sha256_16": "510e1cc3a3dcf003"
+        },
+        {
+          "global_index": 2927,
+          "subject": "geometry",
+          "subject_index": 412,
+          "text_sha256_16": "0a8c34131a8054e5"
+        },
+        {
+          "global_index": 2933,
+          "subject": "geometry",
+          "subject_index": 418,
+          "text_sha256_16": "c4c31535b0147778"
+        },
+        {
+          "global_index": 3047,
+          "subject": "geometry",
+          "subject_index": 532,
+          "text_sha256_16": "f0eb05799effd7e9"
+        },
+        {
+          "global_index": 3153,
+          "subject": "geometry",
+          "subject_index": 638,
+          "text_sha256_16": "073d5c78af404a63"
+        },
+        {
+          "global_index": 3155,
+          "subject": "geometry",
+          "subject_index": 640,
+          "text_sha256_16": "41d2d08fe1ab3883"
+        },
+        {
+          "global_index": 3205,
+          "subject": "geometry",
+          "subject_index": 690,
+          "text_sha256_16": "b74811f21a37c477"
+        },
+        {
+          "global_index": 3267,
+          "subject": "geometry",
+          "subject_index": 752,
+          "text_sha256_16": "b13293a2abf763ea"
+        },
+        {
+          "global_index": 3317,
+          "subject": "geometry",
+          "subject_index": 802,
+          "text_sha256_16": "b52dcbb701ae4ec4"
+        },
+        {
+          "global_index": 3435,
+          "subject": "intermediate_algebra",
+          "subject_index": 50,
+          "text_sha256_16": "3e670ab2b3a3f34b"
+        },
+        {
+          "global_index": 3445,
+          "subject": "intermediate_algebra",
+          "subject_index": 60,
+          "text_sha256_16": "90d62661a63353ee"
+        },
+        {
+          "global_index": 3490,
+          "subject": "intermediate_algebra",
+          "subject_index": 105,
+          "text_sha256_16": "769c1f63ab1cd9c1"
+        },
+        {
+          "global_index": 3556,
+          "subject": "intermediate_algebra",
+          "subject_index": 171,
+          "text_sha256_16": "cbadeb374b521e48"
+        },
+        {
+          "global_index": 3626,
+          "subject": "intermediate_algebra",
+          "subject_index": 241,
+          "text_sha256_16": "3b36dc4ddd7f8d99"
+        },
+        {
+          "global_index": 3645,
+          "subject": "intermediate_algebra",
+          "subject_index": 260,
+          "text_sha256_16": "921813b29283ece4"
+        },
+        {
+          "global_index": 3669,
+          "subject": "intermediate_algebra",
+          "subject_index": 284,
+          "text_sha256_16": "8f3763e92df4ccc3"
+        },
+        {
+          "global_index": 3691,
+          "subject": "intermediate_algebra",
+          "subject_index": 306,
+          "text_sha256_16": "586e05d3650a8580"
+        },
+        {
+          "global_index": 3867,
+          "subject": "intermediate_algebra",
+          "subject_index": 482,
+          "text_sha256_16": "0ea01078831c1e51"
+        },
+        {
+          "global_index": 3903,
+          "subject": "intermediate_algebra",
+          "subject_index": 518,
+          "text_sha256_16": "0dd62bf485155a3c"
+        },
+        {
+          "global_index": 3904,
+          "subject": "intermediate_algebra",
+          "subject_index": 519,
+          "text_sha256_16": "114e0dd3bb2d924d"
+        },
+        {
+          "global_index": 3907,
+          "subject": "intermediate_algebra",
+          "subject_index": 522,
+          "text_sha256_16": "d866bda6d4e17852"
+        },
+        {
+          "global_index": 3980,
+          "subject": "intermediate_algebra",
+          "subject_index": 595,
+          "text_sha256_16": "1eb1c9907042fb33"
+        },
+        {
+          "global_index": 3984,
+          "subject": "intermediate_algebra",
+          "subject_index": 599,
+          "text_sha256_16": "268dee57fda28981"
+        },
+        {
+          "global_index": 4008,
+          "subject": "intermediate_algebra",
+          "subject_index": 623,
+          "text_sha256_16": "804ff1c3818d64b5"
+        },
+        {
+          "global_index": 4035,
+          "subject": "intermediate_algebra",
+          "subject_index": 650,
+          "text_sha256_16": "ac927d5786206c90"
+        },
+        {
+          "global_index": 4043,
+          "subject": "intermediate_algebra",
+          "subject_index": 658,
+          "text_sha256_16": "b6da451e4d96a3dd"
+        },
+        {
+          "global_index": 4134,
+          "subject": "intermediate_algebra",
+          "subject_index": 749,
+          "text_sha256_16": "45343ed945a6365c"
+        },
+        {
+          "global_index": 4161,
+          "subject": "intermediate_algebra",
+          "subject_index": 776,
+          "text_sha256_16": "1f0529a7b1567b55"
+        },
+        {
+          "global_index": 4188,
+          "subject": "intermediate_algebra",
+          "subject_index": 803,
+          "text_sha256_16": "b01fff6f88191f57"
+        },
+        {
+          "global_index": 4270,
+          "subject": "intermediate_algebra",
+          "subject_index": 885,
+          "text_sha256_16": "8e544e251d124c51"
+        },
+        {
+          "global_index": 4274,
+          "subject": "intermediate_algebra",
+          "subject_index": 889,
+          "text_sha256_16": "fd5fa4a6207d5b0b"
+        },
+        {
+          "global_index": 4297,
+          "subject": "intermediate_algebra",
+          "subject_index": 912,
+          "text_sha256_16": "1046a48b4f903cf2"
+        },
+        {
+          "global_index": 4362,
+          "subject": "intermediate_algebra",
+          "subject_index": 977,
+          "text_sha256_16": "448d4c6814c5ba59"
+        },
+        {
+          "global_index": 4426,
+          "subject": "intermediate_algebra",
+          "subject_index": 1041,
+          "text_sha256_16": "54e86dd09a4a9ec4"
+        },
+        {
+          "global_index": 4428,
+          "subject": "intermediate_algebra",
+          "subject_index": 1043,
+          "text_sha256_16": "806cbef112cab3bc"
+        },
+        {
+          "global_index": 4448,
+          "subject": "intermediate_algebra",
+          "subject_index": 1063,
+          "text_sha256_16": "a8acaa43314a664b"
+        },
+        {
+          "global_index": 4482,
+          "subject": "intermediate_algebra",
+          "subject_index": 1097,
+          "text_sha256_16": "0ed998248a639dec"
+        },
+        {
+          "global_index": 4484,
+          "subject": "intermediate_algebra",
+          "subject_index": 1099,
+          "text_sha256_16": "40d4bbdd2324017c"
+        },
+        {
+          "global_index": 4494,
+          "subject": "intermediate_algebra",
+          "subject_index": 1109,
+          "text_sha256_16": "9405e0795691bce9"
+        },
+        {
+          "global_index": 4515,
+          "subject": "intermediate_algebra",
+          "subject_index": 1130,
+          "text_sha256_16": "b2f8e07ac8e4ef24"
+        },
+        {
+          "global_index": 4526,
+          "subject": "intermediate_algebra",
+          "subject_index": 1141,
+          "text_sha256_16": "8e09c77e91eef24d"
+        },
+        {
+          "global_index": 4585,
+          "subject": "intermediate_algebra",
+          "subject_index": 1200,
+          "text_sha256_16": "1c4cbee79749548d"
+        },
+        {
+          "global_index": 4649,
+          "subject": "intermediate_algebra",
+          "subject_index": 1264,
+          "text_sha256_16": "86f86139b987f21c"
+        },
+        {
+          "global_index": 4715,
+          "subject": "number_theory",
+          "subject_index": 35,
+          "text_sha256_16": "30a1fc520d352186"
+        },
+        {
+          "global_index": 4748,
+          "subject": "number_theory",
+          "subject_index": 68,
+          "text_sha256_16": "985fe542b7a6203a"
+        },
+        {
+          "global_index": 4779,
+          "subject": "number_theory",
+          "subject_index": 99,
+          "text_sha256_16": "ebefa5e7e8b2dbef"
+        },
+        {
+          "global_index": 4809,
+          "subject": "number_theory",
+          "subject_index": 129,
+          "text_sha256_16": "286b0b9cb54a9f34"
+        },
+        {
+          "global_index": 4813,
+          "subject": "number_theory",
+          "subject_index": 133,
+          "text_sha256_16": "ceee1cbee83dd9fc"
+        },
+        {
+          "global_index": 4831,
+          "subject": "number_theory",
+          "subject_index": 151,
+          "text_sha256_16": "43b6eff223d438b8"
+        },
+        {
+          "global_index": 4884,
+          "subject": "number_theory",
+          "subject_index": 204,
+          "text_sha256_16": "3bce2b7dc1a8eff8"
+        },
+        {
+          "global_index": 4930,
+          "subject": "number_theory",
+          "subject_index": 250,
+          "text_sha256_16": "f6e6ea8ea7147f6d"
+        },
+        {
+          "global_index": 4941,
+          "subject": "number_theory",
+          "subject_index": 261,
+          "text_sha256_16": "9cf3077ce4d66d27"
+        },
+        {
+          "global_index": 5004,
+          "subject": "number_theory",
+          "subject_index": 324,
+          "text_sha256_16": "16ae2bcd02310293"
+        },
+        {
+          "global_index": 5012,
+          "subject": "number_theory",
+          "subject_index": 332,
+          "text_sha256_16": "ed83c66be6482061"
+        },
+        {
+          "global_index": 5019,
+          "subject": "number_theory",
+          "subject_index": 339,
+          "text_sha256_16": "06f6969d3b0865af"
+        },
+        {
+          "global_index": 5065,
+          "subject": "number_theory",
+          "subject_index": 385,
+          "text_sha256_16": "ba08475a79697ef1"
+        },
+        {
+          "global_index": 5122,
+          "subject": "number_theory",
+          "subject_index": 442,
+          "text_sha256_16": "aa3cf42b8a47188e"
+        },
+        {
+          "global_index": 5162,
+          "subject": "number_theory",
+          "subject_index": 482,
+          "text_sha256_16": "4c28791738b978a1"
+        },
+        {
+          "global_index": 5246,
+          "subject": "number_theory",
+          "subject_index": 566,
+          "text_sha256_16": "dc8d6cd1f7e9947e"
+        },
+        {
+          "global_index": 5252,
+          "subject": "number_theory",
+          "subject_index": 572,
+          "text_sha256_16": "228b6807a7ab90e6"
+        },
+        {
+          "global_index": 5379,
+          "subject": "number_theory",
+          "subject_index": 699,
+          "text_sha256_16": "60058c34e3166a67"
+        },
+        {
+          "global_index": 5408,
+          "subject": "number_theory",
+          "subject_index": 728,
+          "text_sha256_16": "892b5cfff4c3e1f9"
+        },
+        {
+          "global_index": 5473,
+          "subject": "number_theory",
+          "subject_index": 793,
+          "text_sha256_16": "09c86cee688836b5"
+        },
+        {
+          "global_index": 5560,
+          "subject": "prealgebra",
+          "subject_index": 11,
+          "text_sha256_16": "766b798643055bda"
+        },
+        {
+          "global_index": 5566,
+          "subject": "prealgebra",
+          "subject_index": 17,
+          "text_sha256_16": "530d3b96ff0e11e8"
+        },
+        {
+          "global_index": 5599,
+          "subject": "prealgebra",
+          "subject_index": 50,
+          "text_sha256_16": "a6a465dea36fd9c9"
+        },
+        {
+          "global_index": 5603,
+          "subject": "prealgebra",
+          "subject_index": 54,
+          "text_sha256_16": "55c430de90458f5c"
+        },
+        {
+          "global_index": 5715,
+          "subject": "prealgebra",
+          "subject_index": 166,
+          "text_sha256_16": "2ad8951085b09323"
+        },
+        {
+          "global_index": 5728,
+          "subject": "prealgebra",
+          "subject_index": 179,
+          "text_sha256_16": "7611106464210a7a"
+        },
+        {
+          "global_index": 5736,
+          "subject": "prealgebra",
+          "subject_index": 187,
+          "text_sha256_16": "31122932c817cb43"
+        },
+        {
+          "global_index": 5764,
+          "subject": "prealgebra",
+          "subject_index": 215,
+          "text_sha256_16": "45874f97a87fc383"
+        },
+        {
+          "global_index": 5776,
+          "subject": "prealgebra",
+          "subject_index": 227,
+          "text_sha256_16": "2bdea785da2feb3d"
+        },
+        {
+          "global_index": 5777,
+          "subject": "prealgebra",
+          "subject_index": 228,
+          "text_sha256_16": "5f0870e8198e50ab"
+        },
+        {
+          "global_index": 5778,
+          "subject": "prealgebra",
+          "subject_index": 229,
+          "text_sha256_16": "dc2f6d69d59298f5"
+        },
+        {
+          "global_index": 5788,
+          "subject": "prealgebra",
+          "subject_index": 239,
+          "text_sha256_16": "6770c0695c4722e2"
+        },
+        {
+          "global_index": 5818,
+          "subject": "prealgebra",
+          "subject_index": 269,
+          "text_sha256_16": "dbb005df8e32b260"
+        },
+        {
+          "global_index": 5895,
+          "subject": "prealgebra",
+          "subject_index": 346,
+          "text_sha256_16": "ec7eaa35f16ee48c"
+        },
+        {
+          "global_index": 5978,
+          "subject": "prealgebra",
+          "subject_index": 429,
+          "text_sha256_16": "216fd001374d3b60"
+        },
+        {
+          "global_index": 5982,
+          "subject": "prealgebra",
+          "subject_index": 433,
+          "text_sha256_16": "d7b15c42de097d3d"
+        },
+        {
+          "global_index": 5992,
+          "subject": "prealgebra",
+          "subject_index": 443,
+          "text_sha256_16": "2080e8ebe467e856"
+        },
+        {
+          "global_index": 6191,
+          "subject": "prealgebra",
+          "subject_index": 642,
+          "text_sha256_16": "17f5042730745aad"
+        },
+        {
+          "global_index": 6206,
+          "subject": "prealgebra",
+          "subject_index": 657,
+          "text_sha256_16": "1184465e05036040"
+        },
+        {
+          "global_index": 6209,
+          "subject": "prealgebra",
+          "subject_index": 660,
+          "text_sha256_16": "cc99bcc02ef3a962"
+        },
+        {
+          "global_index": 6415,
+          "subject": "prealgebra",
+          "subject_index": 866,
+          "text_sha256_16": "4b39d9a7c182fd3e"
+        },
+        {
+          "global_index": 6420,
+          "subject": "prealgebra",
+          "subject_index": 871,
+          "text_sha256_16": "f72d74bae5b42942"
+        },
+        {
+          "global_index": 6431,
+          "subject": "prealgebra",
+          "subject_index": 882,
+          "text_sha256_16": "1c37f09b5bb0ed66"
+        },
+        {
+          "global_index": 6498,
+          "subject": "prealgebra",
+          "subject_index": 949,
+          "text_sha256_16": "6f0c64237570be40"
+        },
+        {
+          "global_index": 6509,
+          "subject": "prealgebra",
+          "subject_index": 960,
+          "text_sha256_16": "ee970274c0be3ead"
+        },
+        {
+          "global_index": 6536,
+          "subject": "prealgebra",
+          "subject_index": 987,
+          "text_sha256_16": "40b8be56282967f1"
+        },
+        {
+          "global_index": 6548,
+          "subject": "prealgebra",
+          "subject_index": 999,
+          "text_sha256_16": "c1ba348ae038593a"
+        },
+        {
+          "global_index": 6579,
+          "subject": "prealgebra",
+          "subject_index": 1030,
+          "text_sha256_16": "4a2b3d82991eb85d"
+        },
+        {
+          "global_index": 6581,
+          "subject": "prealgebra",
+          "subject_index": 1032,
+          "text_sha256_16": "60d5f87ee67745bf"
+        },
+        {
+          "global_index": 6594,
+          "subject": "prealgebra",
+          "subject_index": 1045,
+          "text_sha256_16": "384fdd49113f408a"
+        },
+        {
+          "global_index": 6637,
+          "subject": "prealgebra",
+          "subject_index": 1088,
+          "text_sha256_16": "c993ebf8f7047177"
+        },
+        {
+          "global_index": 6648,
+          "subject": "prealgebra",
+          "subject_index": 1099,
+          "text_sha256_16": "b778eb660f971e11"
+        },
+        {
+          "global_index": 6672,
+          "subject": "prealgebra",
+          "subject_index": 1123,
+          "text_sha256_16": "6a456194c301b19f"
+        },
+        {
+          "global_index": 6683,
+          "subject": "prealgebra",
+          "subject_index": 1134,
+          "text_sha256_16": "8addb96b8637dbcb"
+        },
+        {
+          "global_index": 6729,
+          "subject": "prealgebra",
+          "subject_index": 1180,
+          "text_sha256_16": "017d18a6bc9fd5d7"
+        },
+        {
+          "global_index": 6757,
+          "subject": "precalculus",
+          "subject_index": 3,
+          "text_sha256_16": "087638759a7c1121"
+        },
+        {
+          "global_index": 6760,
+          "subject": "precalculus",
+          "subject_index": 6,
+          "text_sha256_16": "762c0df09cc94acb"
+        },
+        {
+          "global_index": 6783,
+          "subject": "precalculus",
+          "subject_index": 29,
+          "text_sha256_16": "d29ba8fc6280f17e"
+        },
+        {
+          "global_index": 6794,
+          "subject": "precalculus",
+          "subject_index": 40,
+          "text_sha256_16": "d9df4893efdd70e1"
+        },
+        {
+          "global_index": 6798,
+          "subject": "precalculus",
+          "subject_index": 44,
+          "text_sha256_16": "8c51e2adb234a6bd"
+        },
+        {
+          "global_index": 6863,
+          "subject": "precalculus",
+          "subject_index": 109,
+          "text_sha256_16": "1da7c344a5c00cbe"
+        },
+        {
+          "global_index": 6882,
+          "subject": "precalculus",
+          "subject_index": 128,
+          "text_sha256_16": "dbccd53a20a07f2e"
+        },
+        {
+          "global_index": 6901,
+          "subject": "precalculus",
+          "subject_index": 147,
+          "text_sha256_16": "e23e6b3e7a68d37d"
+        },
+        {
+          "global_index": 6917,
+          "subject": "precalculus",
+          "subject_index": 163,
+          "text_sha256_16": "416ec5cf1a95cf38"
+        },
+        {
+          "global_index": 6922,
+          "subject": "precalculus",
+          "subject_index": 168,
+          "text_sha256_16": "8e6237be02d6e698"
+        },
+        {
+          "global_index": 6958,
+          "subject": "precalculus",
+          "subject_index": 204,
+          "text_sha256_16": "60cf6dc527fd0e73"
+        },
+        {
+          "global_index": 6967,
+          "subject": "precalculus",
+          "subject_index": 213,
+          "text_sha256_16": "45fbfa197f21903b"
+        },
+        {
+          "global_index": 7006,
+          "subject": "precalculus",
+          "subject_index": 252,
+          "text_sha256_16": "40460208d8bfff19"
+        },
+        {
+          "global_index": 7088,
+          "subject": "precalculus",
+          "subject_index": 334,
+          "text_sha256_16": "f55cbc38413c783f"
+        },
+        {
+          "global_index": 7107,
+          "subject": "precalculus",
+          "subject_index": 353,
+          "text_sha256_16": "221b78b3920c67b2"
+        },
+        {
+          "global_index": 7130,
+          "subject": "precalculus",
+          "subject_index": 376,
+          "text_sha256_16": "e4e7eb195a093948"
+        },
+        {
+          "global_index": 7168,
+          "subject": "precalculus",
+          "subject_index": 414,
+          "text_sha256_16": "c98933da514fb387"
+        },
+        {
+          "global_index": 7182,
+          "subject": "precalculus",
+          "subject_index": 428,
+          "text_sha256_16": "453b51644505297f"
+        },
+        {
+          "global_index": 7292,
+          "subject": "precalculus",
+          "subject_index": 538,
+          "text_sha256_16": "b10ee2f9b339ed18"
+        },
+        {
+          "global_index": 7304,
+          "subject": "precalculus",
+          "subject_index": 550,
+          "text_sha256_16": "d76e3e2e3656a56c"
+        },
+        {
+          "global_index": 7332,
+          "subject": "precalculus",
+          "subject_index": 578,
+          "text_sha256_16": "104f4493fb094c7c"
+        },
+        {
+          "global_index": 7357,
+          "subject": "precalculus",
+          "subject_index": 603,
+          "text_sha256_16": "44f5421a04f45627"
+        },
+        {
+          "global_index": 7363,
+          "subject": "precalculus",
+          "subject_index": 609,
+          "text_sha256_16": "5cc03310bb740b15"
+        },
+        {
+          "global_index": 7390,
+          "subject": "precalculus",
+          "subject_index": 636,
+          "text_sha256_16": "36ed31bfd014a755"
+        },
+        {
+          "global_index": 7439,
+          "subject": "precalculus",
+          "subject_index": 685,
+          "text_sha256_16": "b26735250615a35a"
+        },
+        {
+          "global_index": 7452,
+          "subject": "precalculus",
+          "subject_index": 698,
+          "text_sha256_16": "39aed5c0443573ed"
+        },
+        {
+          "global_index": 7479,
+          "subject": "precalculus",
+          "subject_index": 725,
+          "text_sha256_16": "d812945600d26ae2"
+        }
+      ]
+    }
+  },
+  "test_sets": {
+    "gsm8k": {
+      "repo": "openai/gsm8k",
+      "revision": "740312add88f781978c0658806c59bc2815b9866",
+      "config": "main",
+      "split": "test",
+      "n": 1319
+    },
+    "mbpp": {
+      "repo": "google-research-datasets/mbpp",
+      "revision": "4bb6404fdc6cacfda99d4ac4205087b89d32030c",
+      "config": "sanitized",
+      "split": "test",
+      "n": 257
+    },
+    "math500": {
+      "repo": "HuggingFaceH4/MATH-500",
+      "revision": "6e4ed1a2a79af7d8630a6b768ec859cb5af4d3be",
+      "split": "test",
+      "n": 500
+    }
+  },
+  "decontamination_validation": {
+    "method": "whitespace-normalised exact text match",
+    "math500_items_found_in_math_test_split": "500/500",
+    "gsm8k_test_self_match": "1319/1319",
+    "note": "Positive controls: both must be 100%. They confirm the matcher works, so the 0 train/test overlaps recorded above are genuine."
+  }
+}

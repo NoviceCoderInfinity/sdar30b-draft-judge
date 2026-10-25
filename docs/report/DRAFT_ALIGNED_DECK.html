@@ -1,0 +1,1577 @@
+<title>Draft-Aligned SDAR, from first principles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+  :root{
+    --paper:#DDE3E1; --stage:#F7F9F8; --ink:#16211F; --ink-2:#3A4744; --muted:#6E7B78;
+    --rule:#C9D2CF; --mask:#9FACA8; --draft:#B4762E; --draft-soft:#F1E2CC;
+    --commit:#1B6A60; --commit-soft:#D5E6E2; --wrong:#A33329; --wrong-soft:#F2DAD6;
+    --display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+    --body:"Source Serif 4",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#070C0B; --stage:#101A18; --ink:#E7EDEA; --ink-2:#BFCCC8; --muted:#8B9995;
+      --rule:#2C3B38; --mask:#54625E; --draft:#E2A664; --draft-soft:#3A2E1D;
+      --commit:#57B7A7; --commit-soft:#16332F; --wrong:#E4776B; --wrong-soft:#3A1F1C;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#070C0B; --stage:#101A18; --ink:#E7EDEA; --ink-2:#BFCCC8; --muted:#8B9995;
+    --rule:#2C3B38; --mask:#54625E; --draft:#E2A664; --draft-soft:#3A2E1D;
+    --commit:#57B7A7; --commit-soft:#16332F; --wrong:#E4776B; --wrong-soft:#3A1F1C;
+  }
+
+  html,body{height:100%;margin:0;overflow:hidden;}
+  body{background:var(--paper);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased;}
+
+  #stage{position:fixed;left:50%;top:50%;width:1280px;height:720px;transform-origin:center center;
+    background:var(--stage);box-shadow:0 24px 70px rgba(0,0,0,.22);overflow:hidden;
+    display:flex;flex-direction:column;}
+
+  .topbar{height:40px;flex:0 0 40px;border-bottom:1px solid var(--rule);
+    display:flex;align-items:center;gap:16px;padding:0 52px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);}
+  .topbar .brand{color:var(--ink);font-family:var(--display);font-weight:800;font-size:15px;
+    letter-spacing:-0.01em;text-transform:none;white-space:nowrap;}
+  .topbar .chapter{color:var(--commit);font-weight:600;font-size:10.5px;letter-spacing:.13em;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1 1 auto;}
+  .topbar .counter{font-family:var(--mono);font-size:11.5px;color:var(--ink);
+    font-variant-numeric:tabular-nums;letter-spacing:.08em;white-space:nowrap;}
+
+  .frames{position:relative;flex:1 1 auto;min-height:0;}
+  .slide{position:absolute;inset:0;padding:26px 60px 30px;overflow:hidden;
+    opacity:0;visibility:hidden;transition:opacity .24s ease;}
+  .slide.on{opacity:1;visibility:visible;}
+  .slide-inner{display:flex;flex-direction:column;gap:11px;width:100%;
+    justify-content:center;transform-origin:top left;}
+  .eyebrow{display:none;}
+  @media (prefers-reduced-motion: reduce){ .slide{transition:none;} }
+
+  h2{font-family:var(--display);font-weight:700;font-size:35px;line-height:1.04;margin:0;letter-spacing:-0.018em;}
+  h2.sm{font-size:32px;}
+  .lede{font-size:19.5px;line-height:1.42;color:var(--ink-2);margin:0;max-width:96ch;}
+  .kicker{font-size:17.5px;line-height:1.42;margin:0;max-width:104ch;}
+  .kicker.sm{font-size:16.5px;}
+  strong{font-weight:600;color:var(--ink);}
+  em{font-style:italic;}
+
+  .figbox{flex:0 1 auto;min-height:0;display:flex;align-items:center;justify-content:center;}
+  .figbox svg{width:100%;height:auto;max-height:100%;display:block;}
+
+  .cols{flex:0 1 auto;min-height:0;display:grid;grid-template-columns:560px 1fr;gap:28px;align-items:start;}
+  .cols.wide-left{grid-template-columns:640px 1fr;}
+  .stack{display:flex;flex-direction:column;gap:11px;min-width:0;}
+
+  ul.points{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;}
+  ul.points li{padding-left:20px;position:relative;font-size:16.5px;line-height:1.38;}
+  ul.points li::before{content:"";position:absolute;left:0;top:.66em;width:11px;height:1px;background:var(--commit);}
+
+  .num-strip{display:flex;border-top:1px solid var(--rule);border-left:1px solid var(--rule);flex:0 0 auto;}
+  .num-strip div{flex:1 1 0;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:8px 12px;}
+  .num-strip .v{font-family:var(--mono);font-weight:600;font-size:22px;font-variant-numeric:tabular-nums;
+    color:var(--ink);line-height:1.2;}
+  .num-strip .v small{font-size:13px;color:var(--muted);font-weight:400;}
+  .num-strip .k{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--muted);margin-top:4px;}
+
+  table{border-collapse:collapse;width:100%;font-size:15px;table-layout:auto;}
+  th,td{padding:6px 10px;text-align:right;border-bottom:1px solid var(--rule);
+    white-space:normal;overflow-wrap:anywhere;vertical-align:top;}
+  th:first-child,td:first-child{text-align:left;}
+  thead th{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--muted);font-weight:500;border-bottom:1px solid var(--ink);}
+  tbody td{font-family:var(--mono);font-variant-numeric:tabular-nums;}
+  tbody td:first-child{font-family:var(--body);font-size:16px;}
+  tr.hero td{background:var(--commit-soft);}
+  tr.dead td{color:var(--muted);}
+
+  .callout{border-left:3px solid var(--draft);background:var(--draft-soft);padding:10px 16px;
+    font-size:16.5px;line-height:1.4;color:var(--ink);flex:0 0 auto;}
+  .callout.good{border-left-color:var(--commit);background:var(--commit-soft);}
+  .callout.bad{border-left-color:var(--wrong);background:var(--wrong-soft);}
+  .callout b{font-family:var(--display);font-weight:700;}
+
+  .eq{font-family:var(--mono);font-size:15px;line-height:1.68;background:var(--paper);
+    border-left:3px solid var(--muted);padding:10px 16px;flex:0 0 auto;white-space:pre;
+    overflow-x:auto;max-width:100%;}
+  .lede,.kicker,ul.points li,.callout,figcaption{overflow-wrap:break-word;}
+  .stack,.cols,.figbox{min-width:0;}
+  .eq .c{color:var(--muted);}
+
+  figcaption{font-family:var(--mono);font-size:11.5px;color:var(--muted);line-height:1.5;flex:0 0 auto;}
+
+  .ticks{display:flex;gap:3px;align-items:center;flex:0 0 auto;}
+  .ticks button{appearance:none;border:none;background:var(--rule);padding:0;cursor:pointer;
+    width:14px;height:3px;transition:background .18s ease,height .18s ease;}
+  .ticks button:hover{background:var(--muted);}
+  .ticks button[aria-current="true"]{background:var(--commit);height:7px;}
+  .ticks button:focus-visible{outline:2px solid var(--commit);outline-offset:3px;}
+</style>
+
+<div id="stage">
+  <div class="topbar">
+    <span class="brand">Draft-Aligned SDAR</span>
+    <span class="chapter" id="chapter"></span>
+    <div class="ticks" id="ticks"></div>
+    <span class="counter" id="counter">01 / 35</span>
+  </div>
+  <div class="frames">
+<!-- 1 -->
+<section class="slide on">
+  <div class="eyebrow">Chapter I &middot; the machine</div>
+  <h2>A 30B model that writes 32 tokens at once, not one</h2>
+  <p class="lede">Everything in this deck follows from three facts about SDAR-30B-A3B. None of them hold for an ordinary autoregressive LLM, and every intuition you have from speculative decoding has to be rebuilt from here.</p>
+  <div class="figbox">
+    <svg viewBox="0 0 700 222" role="img" aria-label="One denoising pass: a block of 32 slots enters a 48-layer mixture-of-experts, each position picks 8 of 128 experts, and only slots above 0.95 confidence are filled.">
+      <defs><marker id="m1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><polygon points="0,0 10,5 0,10" fill="currentColor"/></marker></defs>
+      <text x="0" y="16" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">a block of 32 slots, all masked</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="12">
+        <rect x="0" y="26" width="180" height="34" fill="none" stroke="var(--mask)" stroke-dasharray="4 3"/>
+        <text x="90" y="49" text-anchor="middle" fill="var(--mask)">▒ ▒ ▒ ▒ … ▒ ▒  (32)</text>
+      </g>
+      <line x1="182" y1="43" x2="228" y2="43" stroke="currentColor" stroke-width="1.4" marker-end="url(#m1)"/>
+      <rect x="232" y="20" width="250" height="120" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text x="244" y="42" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="16" fill="currentColor">one forward pass</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--ink-2)">
+        <text x="244" y="66">48 layers</text>
+        <text x="244" y="86">128 experts per layer, top-8 per slot</text>
+        <text x="244" y="106">32 slots &times; 8 = 256 draws per layer</text>
+        <text x="244" y="128" fill="var(--wrong)">union actually loaded: 43&ndash;65 experts</text>
+      </g>
+      <line x1="484" y1="80" x2="530" y2="80" stroke="currentColor" stroke-width="1.4" marker-end="url(#m1)"/>
+      <text x="524" y="42" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">per slot: a distribution</text>
+      <text x="524" y="60" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">over 151,936 tokens</text>
+      <rect x="524" y="72" width="172" height="34" fill="var(--commit-soft)" stroke="var(--commit)"/>
+      <text x="610" y="94" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--commit)">fill if top-1 &gt; 0.95</text>
+      <text x="524" y="126" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">everything else stays ▒</text>
+      <path d="M 610 110 L 610 150 L 90 150 L 90 64" stroke="var(--muted)" stroke-width="1.3" fill="none" stroke-dasharray="5 3" marker-end="url(#m1)"/>
+      <text x="350" y="144" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">…and look again</text>
+      <text x="350" y="186" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--ink-2)">Each look is one full 30B forward. We call it a <tspan fill="var(--commit)" font-weight="600">pass</tspan>.</text>
+      <text x="350" y="212" text-anchor="middle" font-family="Source Serif 4, serif" font-size="14" fill="var(--muted)">At least one slot is forced to commit per pass, so the loop always terminates.</text>
+    </svg>
+  </div>
+  <div class="num-strip">
+    <div><div class="v">9.31</div><div class="k">passes per block · stock</div></div>
+    <div><div class="v">1,091</div><div class="k">expert-layer runs / token</div></div>
+    <div><div class="v">95.0%</div><div class="k">accuracy · the thing to protect</div></div>
+    <div><div class="v">187 <small>ms</small></div><div class="k">wall clock per token</div></div>
+  </div>
+  <p class="kicker sm">Baseline over 100 frozen GSM8K train prompts, 620 blocks. Every later number in this deck is <strong>paired item by item against this same run</strong>.</p>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <div class="eyebrow">Chapter I &middot; the machine</div>
+  <h2>What one pass actually costs, from memory traffic</h2>
+  <div class="cols">
+    <div class="stack">
+      <p class="lede" style="font-size:18px;">A mixture-of-experts layer only <em>runs</em> 8 experts per slot, but 32 slots choose independently, so the layer must <strong>fetch the weights of their union</strong>. That union, not the top-8, is the cost.</p>
+      <div class="eq">bytes per MoE forward
+  = 58 experts &times; 48 layers
+  &times; 3 matrices &times; 768 &times; 2048
+  &times; 2 bytes
+  <span class="c">&asymp; 26 GB</span>  + ~3 GB dense
+
+drafter 1.7B, bf16   <span class="c">= 3.4 GB</span>
+<span class="c">one drafter forward &asymp; 1/8.5 of a 30B pass</span></div>
+      <p class="kicker sm">So the honest unit is the <strong>expert-layer execution</strong>: one expert, at one layer, in one pass. Divide by tokens produced and you get a number that does not depend on our kernels.</p>
+    </div>
+    <div class="figbox">
+      <svg viewBox="0 0 620 300" role="img" aria-label="Unique experts loaded per layer-forward: 43.1 when the block is masked, 64.5 when it is filled with draft tokens, out of 128 available.">
+        <text x="0" y="18" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--muted)">unique experts loaded per layer, per pass &mdash; out of 128</text>
+        <g font-family="IBM Plex Mono, monospace" font-size="13">
+          <text x="0" y="56" fill="var(--ink-2)">block all masked</text>
+          <rect x="200" y="40" width="380" height="22" fill="none" stroke="var(--rule)"/>
+          <rect x="200" y="40" width="128" height="22" fill="var(--commit-soft)" stroke="var(--commit)"/>
+          <text x="340" y="57" fill="var(--commit)">43.1</text>
+          <text x="0" y="98" fill="var(--ink-2)">block filled with a draft</text>
+          <rect x="200" y="82" width="380" height="22" fill="none" stroke="var(--rule)"/>
+          <rect x="200" y="82" width="191" height="22" fill="var(--draft-soft)" stroke="var(--draft)"/>
+          <text x="403" y="99" fill="var(--draft)">64.5</text>
+          <text x="0" y="140" fill="var(--ink-2)">block filled with the answer</text>
+          <rect x="200" y="124" width="380" height="22" fill="none" stroke="var(--rule)"/>
+          <rect x="200" y="124" width="191" height="22" fill="none" stroke="var(--muted)"/>
+          <text x="403" y="141" fill="var(--muted)">64.4</text>
+          <text x="0" y="182" fill="var(--ink-2)">the 8 a single slot uses</text>
+          <rect x="200" y="166" width="380" height="22" fill="none" stroke="var(--rule)"/>
+          <rect x="200" y="166" width="24" height="22" fill="var(--wrong-soft)" stroke="var(--wrong)"/>
+          <text x="236" y="183" fill="var(--wrong)">8</text>
+        </g>
+        <line x1="200" y1="210" x2="580" y2="210" stroke="var(--rule)"/>
+        <text x="0" y="240" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">Two ways to spend less:</text>
+        <text x="0" y="264" font-family="Source Serif 4, serif" font-size="15" fill="var(--commit)">1. fewer passes  &larr; this project</text>
+        <text x="0" y="288" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">2. a smaller union per pass  &larr; TEAM, DES, dMoE</text>
+      </svg>
+    </div>
+  </div>
+  <figcaption>Probe, 87 items / 537 blocks. The two levers multiply, which is why a pass-count win composes with the published expert-pool work on this exact model instead of competing with it.</figcaption>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <div class="eyebrow">Chapter I &middot; the machine</div>
+  <h2>Why nine passes: a marginal is flat where a conditional is peaked</h2>
+  <p class="lede">The block does not take nine passes because the model is unsure what to say. It takes nine passes because of <em>which question</em> a masked slot is being asked.</p>
+  <div class="figbox">
+    <svg viewBox="0 0 700 250" role="img" aria-label="A masked slot asks what could go here and the probability splits across equally good paraphrases; filling the neighbours closes the question.">
+      <text x="0" y="18" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--muted)">pass 1 &mdash; only the prefix-forced slots clear 0.95</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="12">
+        <rect x="0" y="30" width="56" height="32" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="28" y="51" text-anchor="middle" fill="var(--commit)">10</text>
+        <rect x="60" y="30" width="56" height="32" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="88" y="51" text-anchor="middle" fill="var(--commit)">&times;</text>
+        <rect x="120" y="30" width="56" height="32" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="148" y="51" text-anchor="middle" fill="var(--commit)">2</text>
+        <rect x="180" y="30" width="56" height="32" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="208" y="51" text-anchor="middle" fill="var(--commit)">=</text>
+        <rect x="240" y="30" width="56" height="32" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="268" y="51" text-anchor="middle" fill="var(--commit)">20</text>
+        <rect x="300" y="30" width="56" height="32" fill="none" stroke="var(--mask)" stroke-dasharray="3 3"/><text x="328" y="52" text-anchor="middle" fill="var(--mask)">▒</text>
+        <rect x="360" y="30" width="56" height="32" fill="none" stroke="var(--mask)" stroke-dasharray="3 3"/><text x="388" y="52" text-anchor="middle" fill="var(--mask)">▒</text>
+        <rect x="420" y="30" width="56" height="32" fill="none" stroke="var(--mask)" stroke-dasharray="3 3"/><text x="448" y="52" text-anchor="middle" fill="var(--mask)">▒</text>
+        <rect x="480" y="30" width="56" height="32" fill="none" stroke="var(--mask)" stroke-dasharray="3 3"/><text x="508" y="52" text-anchor="middle" fill="var(--mask)">▒</text>
+        <rect x="540" y="30" width="56" height="32" fill="none" stroke="var(--mask)" stroke-dasharray="3 3"/><text x="568" y="52" text-anchor="middle" fill="var(--mask)">▒</text>
+      </g>
+      <text x="606" y="52" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">…</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="12.5">
+        <rect x="248" y="86" width="230" height="82" fill="var(--draft-soft)" stroke="var(--draft)"/>
+        <text x="262" y="106" fill="var(--draft)">this slot's distribution</text>
+        <text x="262" y="126" fill="var(--ink)">" So"        0.40</text>
+        <text x="262" y="144" fill="var(--ink)">" Therefore" 0.35</text>
+        <text x="262" y="162" fill="var(--ink)">" The"       0.25</text>
+      </g>
+      <line x1="328" y1="64" x2="328" y2="84" stroke="var(--draft)" stroke-width="1.4"/>
+      <text x="492" y="112" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">All three are correct.</text>
+      <text x="492" y="134" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">So none reaches 0.95,</text>
+      <text x="492" y="156" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">and nothing commits.</text>
+      <text x="0" y="206" font-family="IBM Plex Mono, monospace" font-size="13.5" fill="var(--ink)">p(x&#7522; | committed) = &Sigma;&#8331;&#8337;&#8339;&#8348; p(x&#7522;, rest | committed)</text>
+      <text x="420" y="206" font-family="IBM Plex Mono, monospace" font-size="13" fill="var(--muted)">&larr; MARGINAL. flat by construction.</text>
+      <text x="0" y="234" font-family="IBM Plex Mono, monospace" font-size="13.5" fill="var(--commit)">p(x&#7522; | committed, rest = D)</text>
+      <text x="420" y="234" font-family="IBM Plex Mono, monospace" font-size="13" fill="var(--commit)">&larr; CONDITIONAL. one thing to judge.</text>
+    </svg>
+  </div>
+  <p class="kicker">A slot whose token is <em>forced</em> by the prefix &mdash; the second digit of <span style="font-family:var(--mono)">10 &times; 2 = 20</span> &mdash; gets 0.99 and commits at once. Everything phrasable stalls. Each commit forces about three more slots, which commit next pass, which force three more. <strong>That chain is the nine passes.</strong></p>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <div class="eyebrow">Chapter I &middot; the machine</div>
+  <h2>The waste is measurable, and it is a third of the block</h2>
+  <div class="cols wide-left">
+    <div class="figbox">
+      <svg viewBox="0 0 640 300" role="img" aria-label="Of 29.4 generated slots per block, 7.5 commit at pass 1, another 9.8 are already right but too flat to commit, and 12.1 are genuinely not yet decided.">
+        <text x="0" y="18" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--muted)">the 29.4 generated slots of an average block, at pass 1</text>
+        <rect x="0"   y="34" width="163" height="54" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width="1.6"/>
+        <rect x="163" y="34" width="213" height="54" fill="var(--draft-soft)" stroke="var(--draft)" stroke-width="1.6"/>
+        <rect x="376" y="34" width="264" height="54" fill="none" stroke="var(--mask)" stroke-dasharray="4 3"/>
+        <text x="81"  y="60" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="17" font-weight="600" fill="var(--commit)">7.5</text>
+        <text x="81"  y="78" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--commit)">committed</text>
+        <text x="269" y="60" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="17" font-weight="600" fill="var(--draft)">9.8</text>
+        <text x="269" y="78" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--draft)">already right, not confident</text>
+        <text x="508" y="60" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="17" font-weight="600" fill="var(--mask)">12.1</text>
+        <text x="508" y="78" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--mask)">genuinely undecided</text>
+        <path d="M 163 96 L 163 116 L 376 116 L 376 96" stroke="var(--draft)" stroke-width="1.3" fill="none"/>
+        <text x="269" y="136" text-anchor="middle" font-family="Source Serif 4, serif" font-size="15.5" fill="var(--draft)">33.6% of every block: right at pass 1,</text>
+        <text x="269" y="156" text-anchor="middle" font-family="Source Serif 4, serif" font-size="15.5" fill="var(--draft)">paid for again over eight more passes</text>
+        <line x1="0" y1="186" x2="640" y2="186" stroke="var(--rule)"/>
+        <text x="0" y="214" font-family="IBM Plex Mono, monospace" font-size="13" fill="var(--ink-2)">pass-1 argmax already equals the final token</text>
+        <text x="470" y="214" font-family="IBM Plex Mono, monospace" font-size="15" font-weight="600" fill="var(--ink)">58.4%</text>
+        <text x="0" y="242" font-family="IBM Plex Mono, monospace" font-size="13" fill="var(--ink-2)">pass-1 slots that actually commit</text>
+        <text x="470" y="242" font-family="IBM Plex Mono, monospace" font-size="15" font-weight="600" fill="var(--ink)">25.6%</text>
+        <text x="0" y="270" font-family="IBM Plex Mono, monospace" font-size="13" fill="var(--ink-2)">median confidence of the stalled-but-right slots</text>
+        <text x="470" y="270" font-family="IBM Plex Mono, monospace" font-size="15" font-weight="600" fill="var(--ink)">0.59</text>
+      </svg>
+    </div>
+    <div class="stack">
+      <p class="lede" style="font-size:18px;">The model is not wrong at those slots. It is <strong>insufficiently sure of something it already has right</strong>, because the marginal is spread over paraphrases.</p>
+      <div class="callout good"><b>The whole opportunity in one sentence.</b> If something supplies one concrete completion, a third of the block turns from "flat and stalled" into "peaked and committable" without the model changing its mind about anything.</div>
+      <p class="kicker sm">Recomputed on CPU from the recorded stock traces (620 blocks, 100 prompts). Earlier drafts of this deck said 7.7&nbsp;of&nbsp;29 and 60%; the correct figures are <strong>7.5 of 29.4</strong> and <strong>58.4%</strong>.</p>
+    </div>
+  </div>
+</section>
+<!-- 5 -->
+<section class="slide">
+  <div class="eyebrow">Chapter II &middot; the idea</div>
+  <h2>Choosing is flat. Judging is peaked.</h2>
+  <p class="lede">A 1.7B model of the same family writes all 32 slots in 8 of its own cheap steps. Its guess <em>D</em> is the concrete completion the big model gets to condition on. The 30B stops inventing and starts judging.</p>
+  <div class="figbox">
+    <svg viewBox="0 0 700 210" role="img" aria-label="The 1.7B drafter writes a whole coherent block in 8 steps costing 0.4 of one 30B pass; the 30B then answers keep-or-replace at each slot.">
+      <defs><marker id="m5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><polygon points="0,0 10,5 0,10" fill="currentColor"/></marker></defs>
+      <rect x="0" y="30" width="160" height="72" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <text x="80" y="56" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="16" fill="currentColor">drafter 1.7B</text>
+      <text x="80" y="76" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">8 steps &middot; 18 ms each</text>
+      <text x="80" y="93" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--commit)">= 0.4 of one 30B pass</text>
+      <line x1="162" y1="66" x2="204" y2="66" stroke="currentColor" stroke-width="1.4" marker-end="url(#m5)"/>
+      <g font-family="IBM Plex Mono, monospace" font-size="12">
+        <rect x="208" y="34" width="52" height="32" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="234" y="55" text-anchor="middle" fill="var(--draft)">This</text>
+        <rect x="262" y="34" width="52" height="32" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="288" y="55" text-anchor="middle" fill="var(--draft)">means</text>
+        <rect x="316" y="34" width="52" height="32" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="342" y="55" text-anchor="middle" fill="var(--draft)">her</text>
+        <rect x="370" y="34" width="52" height="32" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="396" y="55" text-anchor="middle" fill="var(--draft)">rate</text>
+        <rect x="424" y="34" width="52" height="32" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="450" y="55" text-anchor="middle" fill="var(--draft)">is</text>
+        <rect x="478" y="34" width="52" height="32" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="504" y="55" text-anchor="middle" fill="var(--draft)">$</text>
+        <rect x="532" y="34" width="52" height="32" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="558" y="55" text-anchor="middle" fill="var(--draft)">1</text>
+        <rect x="586" y="34" width="52" height="32" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="612" y="55" text-anchor="middle" fill="var(--draft)">8</text>
+      </g>
+      <text x="646" y="55" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">…</text>
+      <text x="208" y="86" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">a whole coherent block, guessed in one shot</text>
+      <text x="208" y="103" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--commit)">right on 55.8% of slots</text>
+      <line x1="420" y1="112" x2="420" y2="136" stroke="currentColor" stroke-width="1.4" marker-end="url(#m5)"/>
+      <rect x="208" y="140" width="430" height="56" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <text x="222" y="162" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="16" fill="currentColor">30B model, one pass</text>
+      <text x="222" y="184" font-family="Source Serif 4, serif" font-size="14" fill="var(--ink-2)">per slot: keep this token or replace it. A verdict, not an invention.</text>
+      <text x="0" y="150" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--commit)">the whole bet:</text>
+      <text x="0" y="170" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">one pass can now</text>
+      <text x="0" y="187" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">settle many slots</text>
+    </svg>
+  </div>
+  <div class="num-strip">
+    <div><div class="v">0.558</div><div class="k">drafter agreement · 8 steps</div></div>
+    <div><div class="v">0.497 <small>/ 0.586</small></div><div class="k">at 4 steps / dynamic .90</div></div>
+    <div><div class="v">18 <small>ms</small></div><div class="k">per drafter forward</div></div>
+    <div><div class="v">369 <small>ms</small></div><div class="k">per 30B forward, empty block</div></div>
+  </div>
+  <p class="kicker sm"><strong>Agreement 0.558</strong> = for a random slot, the 1.7B's token is the token the 30B eventually writes there. It is also the hard ceiling on everything that follows. Eight drafter steps cost 144&nbsp;ms against 369&nbsp;ms for one 30B pass, so the draft pays if it removes more than half a pass out of 9.31. The target was five or six.</p>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <div class="eyebrow">Chapter II &middot; the idea</div>
+  <h2>Per slot, not per prefix</h2>
+  <div class="figbox">
+    <svg viewBox="0 0 700 252" role="img" aria-label="A causal verifier must discard every drafted token after the first rejection; a bidirectional block judge accepts any subset of slots.">
+      <text x="0" y="18" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="15" fill="var(--muted)">CLASSIC SPECULATIVE DECODING &mdash; autoregressive verifier</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="12">
+        <rect x="0"   y="30" width="64" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="32"  y="50" text-anchor="middle" fill="var(--commit)">✓</text>
+        <rect x="68"  y="30" width="64" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="100" y="50" text-anchor="middle" fill="var(--commit)">✓</text>
+        <rect x="136" y="30" width="64" height="30" fill="var(--wrong-soft)" stroke="var(--wrong)"/><text x="168" y="50" text-anchor="middle" fill="var(--wrong)">✗</text>
+        <rect x="204" y="30" width="64" height="30" fill="none" stroke="var(--rule)"/><text x="236" y="50" text-anchor="middle" fill="var(--muted)">—</text>
+        <rect x="272" y="30" width="64" height="30" fill="none" stroke="var(--rule)"/><text x="304" y="50" text-anchor="middle" fill="var(--muted)">—</text>
+        <rect x="340" y="30" width="64" height="30" fill="none" stroke="var(--rule)"/><text x="372" y="50" text-anchor="middle" fill="var(--muted)">—</text>
+        <rect x="408" y="30" width="64" height="30" fill="none" stroke="var(--rule)"/><text x="440" y="50" text-anchor="middle" fill="var(--muted)">—</text>
+      </g>
+      <text x="476" y="50" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">everything after the first</text>
+      <text x="476" y="70" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">rejection assumed it. Discarded.</text>
+      <text x="0" y="82" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--wrong)">acceptance is a PREFIX &rarr; the run stops at the first miss</text>
+      <line x1="0" y1="102" x2="700" y2="102" stroke="var(--rule)"/>
+      <text x="0" y="130" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="15" fill="var(--commit)">BLOCK DIFFUSION &mdash; bidirectional judge</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="12">
+        <rect x="0"   y="142" width="64" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="32"  y="162" text-anchor="middle" fill="var(--commit)">✓</text>
+        <rect x="68"  y="142" width="64" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="100" y="162" text-anchor="middle" fill="var(--commit)">✓</text>
+        <rect x="136" y="142" width="64" height="30" fill="var(--wrong-soft)" stroke="var(--wrong)"/><text x="168" y="162" text-anchor="middle" fill="var(--wrong)">✗</text>
+        <rect x="204" y="142" width="64" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="236" y="162" text-anchor="middle" fill="var(--commit)">✓</text>
+        <rect x="272" y="142" width="64" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="304" y="162" text-anchor="middle" fill="var(--commit)">✓</text>
+        <rect x="340" y="142" width="64" height="30" fill="var(--wrong-soft)" stroke="var(--wrong)"/><text x="372" y="162" text-anchor="middle" fill="var(--wrong)">✗</text>
+        <rect x="408" y="142" width="64" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="440" y="162" text-anchor="middle" fill="var(--commit)">✓</text>
+      </g>
+      <text x="476" y="162" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">slot 20's verdict stands even</text>
+      <text x="476" y="182" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">when slot 17 was wrong.</text>
+      <text x="0" y="194" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--commit)">acceptance is PER SLOT &rarr; every agreeing slot counts, wherever it sits</text>
+      <text x="0" y="222" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">Rejected slots are not discarded. They go back to being questions, with</text>
+      <text x="0" y="242" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">everything the pass <tspan font-style="italic">did</tspan> settle now available as context.</text>
+    </svg>
+  </div>
+  <p class="kicker sm"><strong>Be careful with the size of this advantage.</strong> Textbook speculative decoding assumes each slot is an independent coin, which at 56% gives an accepted prefix of about 2 tokens. Measured here it is not: agreement is one shared trajectory, and the run of identical tokens from the start of a block averages <strong>13.1 slots</strong> (median 9). So per-slot buys roughly <strong>18 of 32 against ~13</strong>, not against 2. The real edge is that it also takes the correct slots scattered <em>after</em> a divergence, which a prefix scheme cannot reach at any agreement rate.</p>
+  <p class="kicker sm">The price of that freedom: a causal verifier is <strong>free and exact</strong>, because the big model's output at position <em>i</em> is already a judgement of <em>i+1</em> made without seeing it. A bidirectional block model has no such position. <strong>There is no free verifier here.</strong></p>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <div class="eyebrow">Chapter II &middot; the idea</div>
+  <h2>The same block, marginal against conditional</h2>
+  <p class="lede">One real block: GSM8K item 9, block 3 &mdash; <span style="font-family:var(--mono);font-size:16px">"This means her overtime rate is $18 + ($18/2) …"</span>. The drafter is right on 18 of the 32 slots. Pale bars: the stock model's own probability for the drafter's token, block empty. Solid bars: the trained judge, block draft-filled.</p>
+  <div class="figbox">
+    <svg viewBox="0 0 700 240" role="img" aria-label="Slot by slot, the stock marginal sits near 0.2 where the draft is right while the trained judge reaches 0.5 to 0.99 at the same slots.">
+      <line x1="34" y1="176" x2="690" y2="176" stroke="currentColor" stroke-width="1"/>
+      <line x1="34" y1="26" x2="34" y2="176" stroke="currentColor" stroke-width="1"/>
+      <line x1="34" y1="33.5" x2="690" y2="33.5" stroke="var(--commit)" stroke-dasharray="4 3" stroke-width="1"/>
+      <text x="694" y="30" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--commit)" text-anchor="end">0.95 commit line</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)" text-anchor="end">
+        <text x="30" y="30">1.0</text><text x="30" y="105">0.5</text><text x="30" y="180">0</text>
+      </g>
+      <!-- generated from the trace: pale = q_stock, solid = p_judge -->
+      <g>
+        <rect x="40" y="26" width="8" height="150" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="49" y="26" width="8" height="150" fill="var(--commit)"/>
+        <rect x="60" y="26" width="8" height="150" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="69" y="26" width="8" height="150" fill="var(--commit)"/>
+        <rect x="80" y="26" width="8" height="150" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="89" y="26" width="8" height="150" fill="var(--commit)"/>
+        <rect x="100" y="33" width="8" height="143" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="109" y="27" width="8" height="149" fill="var(--commit)"/>
+        <rect x="120" y="29" width="8" height="147" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="129" y="27" width="8" height="149" fill="var(--commit)"/>
+        <rect x="140" y="28" width="8" height="148" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="149" y="26" width="8" height="150" fill="var(--commit)"/>
+        <rect x="160" y="38" width="8" height="138" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="169" y="26" width="8" height="150" fill="var(--commit)"/>
+        <rect x="180" y="145" width="8" height="31" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="189" y="75" width="8" height="101" fill="var(--commit)"/>
+        <rect x="200" y="140" width="8" height="36" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="209" y="102" width="8" height="74" fill="var(--commit)"/>
+        <rect x="220" y="146" width="8" height="30" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="229" y="100" width="8" height="76" fill="var(--commit)"/>
+        <rect x="240" y="149" width="8" height="27" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="249" y="90" width="8" height="86" fill="var(--commit)"/>
+        <rect x="260" y="150" width="8" height="26" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="269" y="54" width="8" height="122" fill="var(--commit)"/>
+        <rect x="280" y="140" width="8" height="36" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="289" y="34" width="8" height="142" fill="var(--commit)"/>
+        <rect x="300" y="145" width="8" height="31" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="309" y="43" width="8" height="133" fill="var(--commit)"/>
+        <rect x="320" y="139" width="8" height="37" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="329" y="37" width="8" height="139" fill="var(--commit)"/>
+        <rect x="340" y="137" width="8" height="39" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="349" y="30" width="8" height="146" fill="var(--commit)"/>
+        <rect x="360" y="152" width="8" height="24" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="369" y="43" width="8" height="133" fill="var(--commit)"/>
+        <rect x="380" y="160" width="8" height="16" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="389" y="92" width="8" height="84" fill="var(--wrong)"/>
+        <rect x="400" y="148" width="8" height="28" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="409" y="116" width="8" height="60" fill="var(--wrong)"/>
+        <rect x="420" y="157" width="8" height="19" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="429" y="125" width="8" height="51" fill="var(--commit)"/>
+        <rect x="440" y="172" width="8" height="4" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="449" y="124" width="8" height="52" fill="var(--wrong)"/>
+        <rect x="460" y="162" width="8" height="14" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="469" y="150" width="8" height="26" fill="var(--wrong)"/>
+        <rect x="480" y="160" width="8" height="16" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="489" y="147" width="8" height="29" fill="var(--wrong)"/>
+        <rect x="500" y="159" width="8" height="17" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="509" y="147" width="8" height="29" fill="var(--wrong)"/>
+        <rect x="520" y="166" width="8" height="10" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="529" y="145" width="8" height="31" fill="var(--wrong)"/>
+        <rect x="540" y="175" width="8" height="1" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="549" y="139" width="8" height="37" fill="var(--wrong)"/>
+        <rect x="560" y="174" width="8" height="2" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="569" y="134" width="8" height="42" fill="var(--wrong)"/>
+        <rect x="580" y="175" width="8" height="1" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="589" y="139" width="8" height="37" fill="var(--wrong)"/>
+        <rect x="600" y="175" width="8" height="1" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="609" y="150" width="8" height="26" fill="var(--wrong)"/>
+        <rect x="620" y="174" width="8" height="2" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="629" y="146" width="8" height="30" fill="var(--wrong)"/>
+        <rect x="640" y="167" width="8" height="9" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="649" y="150" width="8" height="26" fill="var(--wrong)"/>
+        <rect x="660" y="168" width="8" height="8" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="669" y="139" width="8" height="37" fill="var(--wrong)"/>
+      </g>
+      <text x="44" y="192" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)">slot 0</text>
+      <text x="360" y="192" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)">16</text>
+      <text x="660" y="192" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)">31</text>
+      <path d="M 40 204 L 177 204" stroke="var(--muted)" stroke-width="1.6"/>
+      <path d="M 180 204 L 377 204" stroke="var(--commit)" stroke-width="1.6"/>
+      <path d="M 380 204 L 677 204" stroke="var(--wrong)" stroke-width="1.6"/>
+      <text x="108" y="224" text-anchor="middle" font-family="Source Serif 4, serif" font-size="12.5" fill="var(--muted)">prefix-forced</text>
+      <text x="278" y="224" text-anchor="middle" font-family="Source Serif 4, serif" font-size="12.5" fill="var(--commit)">draft right at all 10</text>
+      <text x="528" y="224" text-anchor="middle" font-family="Source Serif 4, serif" font-size="12.5" fill="var(--wrong)">draft wrong at 14 of 15</text>
+    </svg>
+  </div>
+  <p class="kicker sm">The mechanism, working, on real data. <strong>Slots 7&ndash;16</strong>, where the draft is right at all ten: the stock marginal averages <strong>0.21</strong> and commits nothing; the trained judge averages <strong>0.77</strong> and clears 0.95 at several. <strong>Slots 17&ndash;31</strong>, where the draft is wrong at fourteen of fifteen: the judge stays unconfident, which is the correct behaviour. This block took 17 stock passes.</p>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <div class="eyebrow">Chapter III &middot; the obstacle</div>
+  <h2>The stock model physically cannot read a filled slot</h2>
+  <div class="cols">
+    <div class="stack">
+      <p class="lede" style="font-size:18px;">SDAR's training loss is computed <strong>only at masked slots</strong> &mdash; that is what masked diffusion means. The output logits at a slot that already holds a token were never touched by a single gradient step.</p>
+      <p class="kicker">So what answers there? The base model underneath is <strong>Qwen3</strong>, an ordinary next-token predictor, and that behaviour survives untouched at exactly the positions diffusion training never visited.</p>
+      <div class="callout bad"><b>Reading a filled slot returns a shifted copy of the input.</b> Not a weak judgement, not a noisy one. A different function entirely. This one fact explains every earlier attempt on this branch to "show the model the draft and ask what it thinks".</div>
+    </div>
+    <div class="figbox">
+      <svg viewBox="0 0 640 250" role="img" aria-label="With the block filled, the model's output at slot i is the token belonging to slot i plus one: a shifted copy, not a judgement.">
+        <defs><marker id="m8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><polygon points="0,0 10,5 0,10" fill="var(--wrong)"/></marker></defs>
+        <text x="0" y="20" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">INPUT &mdash; block filled with the model's own answer</text>
+        <g font-family="IBM Plex Mono, monospace" font-size="13">
+          <rect x="0"   y="32" width="104" height="34" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="52"  y="54" text-anchor="middle" fill="var(--draft)">her</text>
+          <rect x="112" y="32" width="104" height="34" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="164" y="54" text-anchor="middle" fill="var(--draft)">rate</text>
+          <rect x="224" y="32" width="104" height="34" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="276" y="54" text-anchor="middle" fill="var(--draft)">is</text>
+          <rect x="336" y="32" width="104" height="34" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="388" y="54" text-anchor="middle" fill="var(--draft)">$</text>
+          <rect x="448" y="32" width="104" height="34" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="500" y="54" text-anchor="middle" fill="var(--draft)">18</text>
+        </g>
+        <g stroke="var(--wrong)" stroke-width="1.4" fill="none">
+          <path d="M 164 70 C 164 100, 52 100, 52 132" marker-end="url(#m8)"/>
+          <path d="M 276 70 C 276 100, 164 100, 164 132" marker-end="url(#m8)"/>
+          <path d="M 388 70 C 388 100, 276 100, 276 132" marker-end="url(#m8)"/>
+          <path d="M 500 70 C 500 100, 388 100, 388 132" marker-end="url(#m8)"/>
+        </g>
+        <text x="0" y="152" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">OUTPUT &mdash; what it says at each slot</text>
+        <g font-family="IBM Plex Mono, monospace" font-size="13">
+          <rect x="0"   y="160" width="104" height="34" fill="var(--wrong-soft)" stroke="var(--wrong)"/><text x="52"  y="182" text-anchor="middle" fill="var(--wrong)">rate</text>
+          <rect x="112" y="160" width="104" height="34" fill="var(--wrong-soft)" stroke="var(--wrong)"/><text x="164" y="182" text-anchor="middle" fill="var(--wrong)">is</text>
+          <rect x="224" y="160" width="104" height="34" fill="var(--wrong-soft)" stroke="var(--wrong)"/><text x="276" y="182" text-anchor="middle" fill="var(--wrong)">$</text>
+          <rect x="336" y="160" width="104" height="34" fill="var(--wrong-soft)" stroke="var(--wrong)"/><text x="388" y="182" text-anchor="middle" fill="var(--wrong)">18</text>
+          <rect x="448" y="160" width="104" height="34" fill="none" stroke="var(--rule)" stroke-dasharray="3 3"/><text x="500" y="182" text-anchor="middle" fill="var(--muted)">…</text>
+        </g>
+        <text x="514" y="52" font-family="Source Serif 4, serif" font-size="14" fill="var(--ink-2)">it returns its</text>
+        <text x="514" y="70" font-family="Source Serif 4, serif" font-size="14" fill="var(--ink-2)">neighbour's token</text>
+        <text x="514" y="178" font-family="IBM Plex Mono, monospace" font-size="24" font-weight="600" fill="var(--wrong)">93.6%</text>
+        <text x="514" y="196" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)">of slots, measured</text>
+        <line x1="0" y1="212" x2="640" y2="212" stroke="var(--rule)"/>
+        <text x="0" y="234" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink-2)">its own slot's token: 10.0%   ·   draft-filled instead of final: 87.8%</text>
+      </svg>
+    </div>
+  </div>
+  <figcaption>Probe over 87 items / 15,782 slots. The 93.6% counts the slots that have a successor inside the block; the figure quoted earlier as 90.4% is the same measurement with each block's last slot, which has no successor, counted as a miss.</figcaption>
+</section>
+<!-- 9 -->
+<section class="slide">
+  <div class="eyebrow">Chapter III &middot; the obstacle</div>
+  <h2>Where the draft tokens actually go</h2>
+  <p class="lede">Not just before the judged slot, and not everywhere. <strong>It alternates.</strong></p>
+  <div class="figbox">
+    <svg viewBox="0 0 700 235" role="img" aria-label="Two forwards per block: the first masks the even slots and fills the odd ones with draft tokens, the second swaps them, and every slot is read from the forward in which it was masked.">
+      <text x="0" y="14" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">FORWARD A &mdash; mask even, fill odd with the draft</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="11">
+        <rect x="0"   y="24" width="46" height="30" fill="none" stroke="var(--mask)" stroke-width="2" stroke-dasharray="3 2"/><text x="23"  y="44" text-anchor="middle" fill="var(--mask)">▒</text>
+        <rect x="50"  y="24" width="46" height="30" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="73"  y="44" text-anchor="middle" fill="var(--draft)">rate</text>
+        <rect x="100" y="24" width="46" height="30" fill="none" stroke="var(--mask)" stroke-width="2" stroke-dasharray="3 2"/><text x="123" y="44" text-anchor="middle" fill="var(--mask)">▒</text>
+        <rect x="150" y="24" width="46" height="30" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="173" y="44" text-anchor="middle" fill="var(--draft)">$</text>
+        <rect x="200" y="24" width="46" height="30" fill="none" stroke="var(--mask)" stroke-width="2" stroke-dasharray="3 2"/><text x="223" y="44" text-anchor="middle" fill="var(--mask)">▒</text>
+        <rect x="250" y="24" width="46" height="30" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="273" y="44" text-anchor="middle" fill="var(--draft)">8</text>
+        <rect x="300" y="24" width="46" height="30" fill="none" stroke="var(--mask)" stroke-width="2" stroke-dasharray="3 2"/><text x="323" y="44" text-anchor="middle" fill="var(--mask)">▒</text>
+        <rect x="350" y="24" width="46" height="30" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="373" y="44" text-anchor="middle" fill="var(--draft)">=</text>
+        <text x="404" y="44" fill="var(--muted)">…</text>
+      </g>
+      <text x="0" y="74" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--commit)">&rarr; read the 16 EVEN slots from this forward</text>
+
+      <text x="0" y="106" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">FORWARD B &mdash; the halves swapped</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="11">
+        <rect x="0"   y="116" width="46" height="30" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="23"  y="136" text-anchor="middle" fill="var(--draft)">her</text>
+        <rect x="50"  y="116" width="46" height="30" fill="none" stroke="var(--mask)" stroke-width="2" stroke-dasharray="3 2"/><text x="73"  y="136" text-anchor="middle" fill="var(--mask)">▒</text>
+        <rect x="100" y="116" width="46" height="30" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="123" y="136" text-anchor="middle" fill="var(--draft)">is</text>
+        <rect x="150" y="116" width="46" height="30" fill="none" stroke="var(--mask)" stroke-width="2" stroke-dasharray="3 2"/><text x="173" y="136" text-anchor="middle" fill="var(--mask)">▒</text>
+        <rect x="200" y="116" width="46" height="30" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="223" y="136" text-anchor="middle" fill="var(--draft)">1</text>
+        <rect x="250" y="116" width="46" height="30" fill="none" stroke="var(--mask)" stroke-width="2" stroke-dasharray="3 2"/><text x="273" y="136" text-anchor="middle" fill="var(--mask)">▒</text>
+        <rect x="300" y="116" width="46" height="30" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="323" y="136" text-anchor="middle" fill="var(--draft)">+</text>
+        <rect x="350" y="116" width="46" height="30" fill="none" stroke="var(--mask)" stroke-width="2" stroke-dasharray="3 2"/><text x="373" y="136" text-anchor="middle" fill="var(--mask)">▒</text>
+        <text x="404" y="136" fill="var(--muted)">…</text>
+      </g>
+      <text x="0" y="166" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--commit)">&rarr; read the 16 ODD slots from this forward</text>
+
+      <line x1="428" y1="6" x2="428" y2="172" stroke="var(--rule)"/>
+      <g font-family="Source Serif 4, serif" font-size="13.5" fill="var(--ink-2)">
+        <text x="446" y="28">Attention inside a block is</text>
+        <text x="446" y="46">bidirectional, so a masked slot</text>
+        <text x="446" y="64">sees every other position at once.</text>
+        <text x="446" y="98">Each judged slot therefore sees</text>
+        <text x="446" y="116">about 16 draft tokens, interleaved</text>
+        <text x="446" y="134">with about 15 other masks.</text>
+        <text x="446" y="164" fill="var(--commit)">Two forwards cover all 32 slots.</text>
+      </g>
+
+      <line x1="0" y1="184" x2="700" y2="184" stroke="var(--rule)"/>
+      <text x="0" y="203" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)">the probability at a judged slot i</text>
+      <text x="0" y="220" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)">logits[i] over 151,936 tokens &rarr; fp32 &rarr; set the [MASK] column to &minus;&infin; &rarr; softmax</text>
+      <text x="0" y="234" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)">p = top-1 probability &nbsp;&middot;&nbsp; a = argmax &nbsp;&middot;&nbsp; q = the probability at the drafter's token</text>
+    </svg>
+  </div>
+  <p class="kicker sm">Every slot is masked in exactly one of the two forwards, and read there. <strong>Why not fill all 31 neighbours instead?</strong> That would give each judged slot the full draft as context, but at <strong>32 forwards per block</strong> rather than 2. The price of the cheap version is that a judged slot only ever sees half the draft.</p>
+</section>
+
+<!-- 10 -->
+<section class="slide">
+  <div class="eyebrow">Chapter III &middot; the obstacle</div>
+  <h2>What that layout scores, against every alternative</h2>
+  <p class="lede">Same 15,782 slots, same model, <strong>one forward pass each</strong>. Only the block's contents differ.</p>
+  <table>
+    <thead><tr><th>what the block holds around the judged slot</th><th>would commit<br><span style="font-weight:400;text-transform:none">top-1 &gt; 0.95</span></th><th>verdict is the<br>final token</th><th>confirms a<br>wrong fill</th><th>corrects a<br>wrong fill</th></tr></thead>
+    <tbody>
+      <tr><td>nothing &mdash; empty block, the pass it runs anyway</td><td>0.256</td><td>0.591</td><td>&mdash;</td><td>0.143</td></tr>
+      <tr class="hero"><td><strong>the draft, alternating</strong> &mdash; the layout on the previous slide</td><td>0.897</td><td>0.559</td><td>0.334</td><td>0.012</td></tr>
+      <tr><td>the model's own incoherent pass-1 guesses</td><td>0.635</td><td>0.565</td><td>0.066</td><td>0.062</td></tr>
+      <tr class="dead"><td>the finished answer &mdash; oracle upper bound</td><td>0.973</td><td>0.997</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr class="dead"><td>reference: no model at all, just copy the draft</td><td>&mdash;</td><td>0.558</td><td>&mdash;</td><td>&mdash;</td></tr>
+    </tbody>
+  </table>
+  <figcaption>Per-slot rates inside ONE forward, not answer accuracy. Row 1 is the stock decode's pass 1 (it reproduces the recorded pass-1 argmax at 15,782 of 15,782 slots). "Verdict is the final token" compares that pass's argmax against the token the slot held after the full 9.3-pass decode.</figcaption>
+  <div class="callout bad"><b>The worst judge on the board.</b> It commits 3.5&times; more often than an empty block and is <em>less</em> accurate doing it, 0.559 against 0.591 &mdash; and 0.559 is what copying the draft scores with no model at all. The oracle row shows the layout is sound; it is the draft's <em>coherence</em> that fools it. Decoding end to end: <strong>67.0% of answers correct, against 95.0%.</strong></div>
+</section>
+
+<!-- 10 -->
+<section class="slide">
+  <div class="eyebrow">Chapter III &middot; the obstacle</div>
+  <h2>Three ways to ask. One survives.</h2>
+  <div class="cols" style="grid-template-columns:1fr;">
+    <div class="stack">
+      <table>
+        <thead><tr><th>how you show the model the draft</th><th>what comes back</th><th>measured</th><th>usable?</th></tr></thead>
+        <tbody>
+          <tr class="dead"><td><strong>A.</strong> draft in the slot you are judging</td><td>the token belonging to the <em>next</em> slot</td><td>93.6% next-token</td><td>no &mdash; wrong function</td></tr>
+          <tr class="dead"><td><strong>B.</strong> slot masked, draft at its neighbours</td><td>agreement with whatever is coherent</td><td>76% of wrong drafts confirmed</td><td>no &mdash; sycophant</td></tr>
+          <tr class="hero"><td><strong>C.</strong> never show it the draft; read its own empty-block pass</td><td>an uncontaminated probability for the drafter's token</td><td>0.91 precision at &gamma;&nbsp;.50</td><td>yes &mdash; and free</td></tr>
+        </tbody>
+      </table>
+      <div class="callout"><b>But C is exactly the flat marginal from chapter I.</b> It never sees the draft, so it stays blurred wherever phrasing is free. It is honest and weak <em>by construction</em> &mdash; there is a hard ceiling on it that no threshold can lift.</div>
+      <p class="kicker">Which leaves the conclusion the whole project rests on: <strong>the ability "judge whether this token belongs in this slot, given its neighbours" does not exist anywhere in the frozen model.</strong> There is nothing to extract, so no threshold, vote or prompt can extract it. If we want it, we put it there.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="slide">
+  <div class="eyebrow">Chapter IV &middot; the free baseline</div>
+  <h2>Blind acceptance: 16% fewer passes for nothing</h2>
+  <p class="lede">The 30B's very first pass on a block runs anyway, with the block empty. From those same logits read <em>q</em> = the probability it assigns to the drafter's token. Above &gamma;, take the drafter's token even though the model was not confident enough to pick it alone. <strong>Zero extra passes.</strong></p>
+  <div class="figbox">
+    <svg viewBox="0 0 700 190" role="img" aria-label="For five slots of a real block, the 30B's own pass-1 probability for the drafter's token decides acceptance at gamma 0.5.">
+      <text x="0" y="14" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">slot</text>
+      <text x="58" y="14" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--draft)">drafter says</text>
+      <text x="200" y="14" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">q = the 30B's own probability for that token, empty block, pass 1</text>
+      <text x="618" y="14" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">verdict</text>
+      <line x1="410" y1="22" x2="410" y2="168" stroke="var(--commit)" stroke-width="1" stroke-dasharray="4 3"/>
+      <text x="414" y="182" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--commit)">&gamma; = 0.50</text>
+      <text x="200" y="182" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)">0.0</text>
+      <text x="588" y="182" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)">1.0</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="13">
+        <text x="0" y="42" fill="var(--muted)">11</text><text x="58" y="42" fill="var(--draft)">" rate"</text>
+        <rect x="200" y="30" width="290" height="16" fill="none" stroke="var(--rule)"/>
+        <rect x="200" y="30" width="255" height="16" fill="var(--commit-soft)" stroke="var(--commit)"/>
+        <text x="502" y="43" fill="var(--commit)">0.88</text><text x="618" y="43" fill="var(--commit)">accept</text>
+        <text x="0" y="70" fill="var(--muted)">12</text><text x="58" y="70" fill="var(--draft)">" is"</text>
+        <rect x="200" y="58" width="290" height="16" fill="none" stroke="var(--rule)"/>
+        <rect x="200" y="58" width="180" height="16" fill="var(--draft-soft)" stroke="var(--draft)"/>
+        <text x="502" y="71" fill="var(--draft)">0.62</text><text x="618" y="71" fill="var(--commit)">accept</text>
+        <text x="0" y="98" fill="var(--muted)">17</text><text x="58" y="98" fill="var(--draft)">" $"</text>
+        <rect x="200" y="86" width="290" height="16" fill="none" stroke="var(--rule)"/>
+        <rect x="200" y="86" width="52" height="16" fill="var(--wrong-soft)" stroke="var(--wrong)"/>
+        <text x="502" y="99" fill="var(--wrong)">0.18</text><text x="618" y="99" fill="var(--muted)">re-mask</text>
+        <text x="0" y="126" fill="var(--muted)">18</text><text x="58" y="126" fill="var(--draft)">"0"</text>
+        <rect x="200" y="114" width="290" height="16" fill="none" stroke="var(--rule)"/>
+        <rect x="200" y="114" width="12" height="16" fill="var(--wrong-soft)" stroke="var(--wrong)"/>
+        <text x="502" y="127" fill="var(--wrong)">0.04</text><text x="618" y="127" fill="var(--muted)">re-mask</text>
+        <text x="0" y="154" fill="var(--muted)">20</text><text x="58" y="154" fill="var(--draft)">" ="</text>
+        <rect x="200" y="142" width="290" height="16" fill="none" stroke="var(--rule)"/>
+        <rect x="200" y="142" width="26" height="16" fill="var(--wrong-soft)" stroke="var(--wrong)"/>
+        <text x="502" y="155" fill="var(--wrong)">0.09</text><text x="618" y="155" fill="var(--muted)">re-mask</text>
+      </g>
+    </svg>
+  </div>
+  <div class="num-strip">
+    <div><div class="v">90.4 <small>vs 90.2</small></div><div class="k">accuracy, frozen GSM8K-500</div></div>
+    <div><div class="v">8.49 <small>vs 10.06</small></div><div class="k">passes per block &minus;16%</div></div>
+    <div><div class="v">1,017 <small>vs 1,164</small></div><div class="k">expert-layer runs/token &minus;13%</div></div>
+    <div><div class="v">4.7</div><div class="k">draft slots taken per block</div></div>
+  </div>
+  <p class="kicker sm">Paired interval on 500 held-out items: <strong>+0.2 [&minus;1.4, +1.8]</strong> points. Of the slots it takes, 0.908 are right; the 0.43 wrong ones per block are usually re-derived by later passes, which is why the loss is nil. <span style="color:var(--muted)">(Earlier docs quoted 0.963 here &mdash; that is the precision of the whole pass-1 committed set, not of the accepted slots.)</span></p>
+</section>
+
+<!-- 12a: what one row is -->
+<section class="slide">
+  <div class="eyebrow">Chapter IV &middot; the dataset</div>
+  <h2>One row = one 32-token block, and everything both models did to it</h2>
+  <p class="lede">The answer text is written by the <strong>30B itself</strong>, not by a human. The targets are the model's own words.</p>
+  <table>
+    <thead><tr><th>column</th><th>shape</th><th>what it holds</th><th>what it is for</th></tr></thead>
+    <tbody>
+      <tr class="hero"><td><code>tokens</code> &mdash; FINAL</td><td>[blocks, 32]</td><td>the 32 tokens the big model ended up writing in this block</td><td><strong>the target.</strong> What the judge must output, and what the drafter must learn to write</td></tr>
+      <tr><td><code>draft_tokens</code> &mdash; DRAFT</td><td>[blocks, 32]</td><td>the 32 tokens the 1.7B proposed for the same prefix</td><td><strong>the noisy input.</strong> Never a target. Its mistakes are the corruption the judge learns to catch</td></tr>
+      <tr><td><code>committed</code></td><td>[blocks, passes, 32]</td><td>which slots the stock rule filled at each pass</td><td>the <strong>state history</strong>: lets training sample a real half-finished block instead of inventing one</td></tr>
+      <tr><td><code>accepted</code></td><td>[blocks, 32]</td><td>which draft tokens the free rule took, i.e. blind probability above 0.5</td><td>marks slots the big model already endorsed, so they count as settled context</td></tr>
+      <tr><td><code>judge_q</code></td><td>[blocks, 32]</td><td>that blind probability itself, per slot</td><td>the training-free signal, and the number every acceptance threshold is swept over</td></tr>
+      <tr><td><code>valid</code></td><td>[blocks, 32]</td><td>which of the 32 slots are generated answer text</td><td>the prompt tail sits inside the first block and must never carry a loss</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 12b: how a row is made -->
+<section class="slide">
+  <div class="eyebrow">Chapter IV &middot; the dataset</div>
+  <h2>How a row is made, and one real one</h2>
+  <div class="figbox">
+    <svg viewBox="0 0 700 296" role="img" aria-label="A problem is decoded block by block under the free rule, the answer is checked against gold and dropped if wrong, and each block is stored as final tokens, draft tokens, the commit history and the accepted set.">
+      <defs><marker id="m12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><polygon points="0,0 10,5 0,10" fill="currentColor"/></marker></defs>
+      <rect x="0" y="10" width="96" height="44" fill="none" stroke="currentColor"/>
+      <text x="48" y="37" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="14" fill="currentColor">problem</text>
+      <line x1="98" y1="32" x2="132" y2="32" stroke="currentColor" stroke-width="1.4" marker-end="url(#m12)"/>
+      <rect x="136" y="10" width="330" height="44" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width="1.6"/>
+      <text x="150" y="30" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="14" fill="var(--commit)">decode with the free rule, block by block</text>
+      <text x="150" y="47" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-2)">draft → one look at the empty block → commit + accept → stock passes</text>
+      <line x1="468" y1="32" x2="502" y2="32" stroke="currentColor" stroke-width="1.4" marker-end="url(#m12)"/>
+      <rect x="506" y="10" width="194" height="44" fill="none" stroke="var(--wrong)"/>
+      <text x="518" y="30" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="14" fill="var(--wrong)">check against gold</text>
+      <text x="518" y="47" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)">wrong answers dropped</text>
+      <text x="0" y="76" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">kept per block:  FINAL | DRAFT | committed-per-pass | accepted | judge_q | prefix</text>
+      <line x1="0" y1="90" x2="700" y2="90" stroke="var(--rule)"/>
+      <text x="0" y="112" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="1" fill="var(--muted)">ONE REAL ROW &mdash; GSM8K train item 9, block 3, drafter agreed on 18 of 32</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="12">
+        <text x="0" y="136" fill="var(--muted)">slot</text><text x="70" y="136" fill="var(--commit)">FINAL</text><text x="330" y="136" fill="var(--draft)">DRAFT</text><text x="560" y="136" fill="var(--muted)">committed at</text>
+        <text x="0" y="158" fill="var(--muted)">0-5</text><text x="70" y="158" fill="var(--commit)">1 / 2 her hourly wage</text><text x="330" y="158" fill="var(--draft)">same</text><text x="560" y="158" fill="var(--ink-2)">pass 0</text>
+        <text x="0" y="178" fill="var(--muted)">6</text><text x="70" y="178" fill="var(--commit)">.</text><text x="330" y="178" fill="var(--draft)">same</text><text x="560" y="178" fill="var(--commit)">free rule, q = 0.92</text>
+        <text x="0" y="198" fill="var(--muted)">7-16</text><text x="70" y="198" fill="var(--commit)">This means her overtime rate is $18 +</text><text x="330" y="198" fill="var(--draft)"> </text><text x="560" y="198" fill="var(--ink-2)">passes 1-15</text>
+        <text x="0" y="218" fill="var(--muted)">17</text><text x="70" y="218" fill="var(--commit)">($</text><text x="330" y="218" fill="var(--wrong)">$      WRONG</text><text x="560" y="218" fill="var(--ink-2)">pass 10</text>
+        <text x="0" y="238" fill="var(--muted)">18</text><text x="70" y="238" fill="var(--commit)">1</text><text x="330" y="238" fill="var(--wrong)">0      WRONG</text><text x="560" y="238" fill="var(--ink-2)">pass 8</text>
+        <text x="0" y="258" fill="var(--muted)">20-31</text><text x="70" y="258" fill="var(--commit)">/ 2 ) = $18 + $9 = $</text><text x="330" y="258" fill="var(--wrong)">= $22. hour. If she</text><text x="560" y="258" fill="var(--ink-2)">passes 11-15</text>
+      </g>
+      <text x="0" y="288" font-family="Source Serif 4, serif" font-size="14" fill="var(--ink-2)">The drafter tracks the big model for 17 slots, then writes a different sentence.</text>
+    </svg>
+  </div>
+  <div class="callout"><b>Why decode with the free rule rather than plain stock?</b> Its answers are stock-accurate (95.0 against 95.0 on the validation prompts, 90.4 against 90.2 on the frozen test) <em>and</em> they already contain the draft tokens the big model found acceptable. A judge trained on them learns to <strong>accept</strong> rather than to rewrite.</div>
+</section>
+
+<!-- 12c: sizes and exclusions -->
+<section class="slide">
+  <div class="eyebrow">Chapter IV &middot; the dataset</div>
+  <h2>How big it is, and what can never be in it</h2>
+  <table>
+    <thead><tr><th>source</th><th>problems in pool</th><th>decoded</th><th>kept (answer correct)</th><th>blocks</th><th>blocks per answer</th></tr></thead>
+    <tbody>
+      <tr class="hero"><td>GSM8K train, first 3,000 &mdash; <em>round 1 used only this</em></td><td>3,000</td><td>3,000</td><td>2,843 &nbsp;95%</td><td>16,905</td><td>5.9</td></tr>
+      <tr><td>GSM8K train, the remaining 4,273</td><td>4,273</td><td>3,210 &nbsp;75%</td><td>3,033 &nbsp;94%</td><td>17,970</td><td>5.9</td></tr>
+      <tr><td>MATH train, every 3rd of 7,500</td><td>2,500</td><td>1,416 &nbsp;57%</td><td>1,012 &nbsp;71%</td><td>14,294</td><td>14.1</td></tr>
+      <tr><td>MBPP train, sanitized</td><td>120</td><td>120</td><td>69 &nbsp;58%</td><td>164</td><td>2.4</td></tr>
+      <tr class="dead"><td><strong>projected when generation finishes, about 21:00 IST</strong></td><td>9,893</td><td>9,893</td><td>~8,700</td><td>~66,000</td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="cols" style="grid-template-columns:1fr 1fr;">
+    <div class="stack">
+      <div class="callout good"><b>Round 2 is 3.9&times; round 1</b>, and MATH supplies the most blocks despite the fewest problems, because a MATH answer runs about 14 blocks against GSM8K's 6. MBPP is negligible at 164 blocks and is in the mix for breadth, not weight.</div>
+    </div>
+    <div class="stack">
+      <div class="callout bad"><b>Excluded by construction.</b> Every test set (GSM8K-500, MATH-500, MBPP test) is never decoded for training. So are the 200 frozen train prompts, including the 100 every paired comparison uses. So are wrong answers, and answers longer than 1,200 tokens.</div>
+    </div>
+  </div>
+</section>
+<!-- 13 -->
+<section class="slide">
+  <div class="eyebrow">Chapter V &middot; the method</div>
+  <h2>Tell it which slots are guesses, and edit it only there</h2>
+  <p class="lede">Round 1 trained a plain adapter at every position and collapsed to 38%. Two structural causes, both fixed by round 2a &mdash; the mechanism now in the model.</p>
+  <div class="figbox">
+    <svg viewBox="0 0 700 225" role="img" aria-label="Round 1 applies one adapter everywhere and hides which slots are drafts; round 2a adds a draft-flag vector and applies the adapter only at flagged slots.">
+      <defs><marker id="m13" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><polygon points="0,0 10,5 0,10" fill="var(--draft)"/></marker></defs>
+      <text x="0" y="16" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="15" fill="var(--wrong)">ROUND 1 &mdash; failed</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="12">
+        <rect x="0"   y="28" width="66" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="33"  y="48" text-anchor="middle" fill="var(--commit)">10</text>
+        <rect x="70"  y="28" width="66" height="30" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="103" y="48" text-anchor="middle" fill="var(--draft)">rate</text>
+        <rect x="140" y="28" width="66" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="173" y="48" text-anchor="middle" fill="var(--commit)">is</text>
+        <rect x="210" y="28" width="66" height="30" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="243" y="48" text-anchor="middle" fill="var(--draft)">$</text>
+        <rect x="280" y="28" width="66" height="30" fill="none" stroke="var(--mask)" stroke-dasharray="3 3"/><text x="313" y="49" text-anchor="middle" fill="var(--mask)">▒</text>
+      </g>
+      <rect x="0" y="64" width="346" height="22" fill="none" stroke="var(--wrong)" stroke-dasharray="4 3"/>
+      <text x="173" y="79" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--wrong)">one LoRA delta, applied at every position</text>
+      <text x="356" y="42" font-family="Source Serif 4, serif" font-size="14" fill="var(--ink-2)"><tspan font-weight="600">1.</tspan> a guess and a settled token look identical,</text>
+      <text x="356" y="62" font-family="Source Serif 4, serif" font-size="14" fill="var(--ink-2)">     so it must first infer what it is being asked</text>
+      <text x="356" y="84" font-family="Source Serif 4, serif" font-size="14" fill="var(--ink-2)"><tspan font-weight="600">2.</tspan> the edit bleeds into masked decoding</text>
+      <line x1="0" y1="104" x2="700" y2="104" stroke="var(--rule)"/>
+      <text x="0" y="128" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="15" fill="var(--commit)">ROUND 2a &mdash; the current mechanism</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="12">
+        <rect x="0"   y="140" width="66" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="33"  y="160" text-anchor="middle" fill="var(--commit)">10</text>
+        <rect x="70"  y="140" width="66" height="30" fill="var(--draft-soft)" stroke="var(--draft)" stroke-width="2.4"/><text x="103" y="160" text-anchor="middle" fill="var(--draft)">rate</text>
+        <rect x="140" y="140" width="66" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="173" y="160" text-anchor="middle" fill="var(--commit)">is</text>
+        <rect x="210" y="140" width="66" height="30" fill="var(--draft-soft)" stroke="var(--draft)" stroke-width="2.4"/><text x="243" y="160" text-anchor="middle" fill="var(--draft)">$</text>
+        <rect x="280" y="140" width="66" height="30" fill="none" stroke="var(--mask)" stroke-dasharray="3 3"/><text x="313" y="161" text-anchor="middle" fill="var(--mask)">▒</text>
+      </g>
+      <line x1="103" y1="186" x2="103" y2="172" stroke="var(--draft)" stroke-width="1.5" marker-end="url(#m13)"/>
+      <line x1="243" y1="186" x2="243" y2="172" stroke="var(--draft)" stroke-width="1.5" marker-end="url(#m13)"/>
+      <text x="103" y="200" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--draft)">+ flag</text>
+      <text x="243" y="200" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--draft)">+ flag</text>
+      <text x="173" y="218" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--commit)">LoRA runs ONLY here; every other position is stock</text>
+      <text x="356" y="150" font-family="Source Serif 4, serif" font-size="14" fill="var(--ink-2)">a learned 2,048-number vector added to the input</text>
+      <text x="356" y="170" font-family="Source Serif 4, serif" font-size="14" fill="var(--ink-2)">embedding of every tentative slot</text>
+      <text x="356" y="194" font-family="Source Serif 4, serif" font-size="14" fill="var(--ink-2)">the same 0/1 flag gates the delta on q, k, v, o</text>
+      <text x="356" y="214" font-family="Source Serif 4, serif" font-size="14" fill="var(--ink-2)">of all 48 layers. At flag 0, max |&Delta;logit| = 0.0</text>
+    </svg>
+  </div>
+  <div class="num-strip">
+    <div><div class="v">26,738,688</div><div class="k">LoRA params · r 32, &alpha; 64</div></div>
+    <div><div class="v">2,048</div><div class="k">the draft-flag vector</div></div>
+    <div><div class="v">0.09%</div><div class="k">of the 30.5 B model</div></div>
+    <div><div class="v">frozen</div><div class="k">experts · embeddings · head · drafter</div></div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="slide">
+  <div class="eyebrow">Chapter V &middot; the method</div>
+  <h2>Why attention is the right thing to edit</h2>
+  <div class="cols">
+    <div class="stack">
+      <p class="lede" style="font-size:18px;">Both behaviours the judge needs <strong>already exist in the network</strong>. Nothing new has to be learned from scratch.</p>
+      <ul class="points">
+        <li><strong>"Copy the token at my own slot"</strong> is an identity attention pattern &mdash; that is what fires at filled slots today.</li>
+        <li><strong>"Infer a slot from its neighbours"</strong> is the masked-slot machinery SDAR spent 50 B tokens training.</li>
+        <li>The adapter's whole job is to make the <em>second</em> fire where the <em>first</em> currently does. That is a change in <strong>where attention looks</strong> &mdash; exactly what a low-rank update to q, k, v, o expresses.</li>
+      </ul>
+      <div class="callout good"><b>This is why 27 M parameters is a plausible budget</b> for undoing a habit inherited from trillions of pretraining tokens. We are not teaching a new skill; we are re-routing between two the model already has.</div>
+    </div>
+    <div class="figbox">
+      <svg viewBox="0 0 560 300" role="img" aria-label="At a flagged slot the input embedding gains the draft vector and the LoRA delta applies; at committed and masked slots neither happens, so the computation is the frozen model exactly.">
+        <g font-family="IBM Plex Mono, monospace" font-size="12">
+          <text x="90" y="18" text-anchor="middle" font-size="13" font-weight="600" fill="var(--commit)">committed</text>
+          <text x="280" y="18" text-anchor="middle" font-size="13" font-weight="600" fill="var(--draft)">tentative draft</text>
+          <text x="470" y="18" text-anchor="middle" font-size="13" font-weight="600" fill="var(--mask)">masked</text>
+          <rect x="40" y="30" width="100" height="26" fill="none" stroke="var(--commit)"/><text x="90" y="48" text-anchor="middle" fill="var(--ink-2)">g = 0</text>
+          <rect x="230" y="30" width="100" height="26" fill="none" stroke="var(--draft)" stroke-width="2.4"/><text x="280" y="48" text-anchor="middle" fill="var(--draft)">g = 1</text>
+          <rect x="420" y="30" width="100" height="26" fill="none" stroke="var(--mask)"/><text x="470" y="48" text-anchor="middle" fill="var(--ink-2)">g = 0</text>
+        </g>
+        <g font-family="IBM Plex Mono, monospace" font-size="12">
+          <rect x="10" y="76" width="160" height="38" fill="none" stroke="var(--rule)"/>
+          <text x="90" y="100" text-anchor="middle" fill="var(--muted)">e = embed(x)</text>
+          <rect x="200" y="76" width="160" height="38" fill="var(--draft-soft)" stroke="var(--draft)" stroke-width="1.8"/>
+          <text x="280" y="100" text-anchor="middle" fill="var(--draft)">e = embed(x) + v</text>
+          <rect x="390" y="76" width="160" height="38" fill="none" stroke="var(--rule)"/>
+          <text x="470" y="100" text-anchor="middle" fill="var(--muted)">e = embed(x)</text>
+        </g>
+        <g font-family="IBM Plex Mono, monospace" font-size="12">
+          <rect x="10" y="134" width="160" height="44" fill="none" stroke="var(--rule)"/>
+          <text x="90" y="152" text-anchor="middle" fill="var(--muted)">y = W x</text>
+          <text x="90" y="169" text-anchor="middle" font-size="10.5" fill="var(--muted)">frozen weight only</text>
+          <rect x="200" y="134" width="160" height="44" fill="var(--draft-soft)" stroke="var(--draft)" stroke-width="1.8"/>
+          <text x="280" y="152" text-anchor="middle" fill="var(--draft)">y = W x + &sup2;BAx</text>
+          <text x="280" y="169" text-anchor="middle" font-size="10.5" fill="var(--draft)">rank-32 delta applies</text>
+          <rect x="390" y="134" width="160" height="44" fill="none" stroke="var(--rule)"/>
+          <text x="470" y="152" text-anchor="middle" fill="var(--muted)">y = W x</text>
+          <text x="470" y="169" text-anchor="middle" font-size="10.5" fill="var(--muted)">frozen weight only</text>
+        </g>
+        <rect x="10" y="196" width="540" height="34" fill="none" stroke="var(--rule)" stroke-dasharray="5 3"/>
+        <text x="280" y="218" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--muted)">router + 128 experts, top-8 &mdash; entirely frozen</text>
+        <text x="280" y="258" text-anchor="middle" font-family="Source Serif 4, serif" font-size="15" fill="var(--commit)">Ordinary masked decoding cannot drift, by construction.</text>
+        <text x="280" y="280" text-anchor="middle" font-family="Source Serif 4, serif" font-size="15" fill="var(--muted)">Round 1 had no such guarantee, and duly drifted.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="slide">
+  <div class="eyebrow">Chapter V &middot; the method</div>
+  <h2>One training example: the drafter's own mistakes as the corruption</h2>
+  <div class="cols wide-left">
+    <div class="stack">
+      <p class="lede" style="font-size:18px;">An example is one (item, block) pair, and its state is <strong>re-randomised every time it is drawn</strong>, so the model meets the whole trajectory rather than one snapshot of it.</p>
+      <div class="eq">with prob 0.4  nothing committed <span class="c">(pass-1 state)</span>
+else           a recorded pass's committed set
+
+each open slot then holds
+  the draft token  w.p. 1 &minus; m
+  [MASK]           w.p. m,   m ~ U(0,1)
+
+with prob 0.3  m = 0 exactly
+               <span class="c">(the literal pass-1 inference state)</span></div>
+      <div class="callout"><b>The corruption is the real drafter's errors.</b> Published work on correcting filled tokens corrupts with uniform or self-sampled noise. Here the wrong tokens the judge learns to catch are precisely the wrong tokens it will meet at inference.</div>
+    </div>
+    <div class="figbox">
+      <svg viewBox="0 0 560 300" role="img" aria-label="A sampled training state: committed slots carry the truth as context, draft slots carry the drafter's guess, masked slots are empty, and the loss is computed only at the open slots.">
+        <text x="0" y="18" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">INPUT to the model</text>
+        <g font-family="IBM Plex Mono, monospace" font-size="12">
+          <rect x="0"   y="30" width="44" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="22"  y="50" text-anchor="middle" fill="var(--commit)">C</text>
+          <rect x="48"  y="30" width="44" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="70"  y="50" text-anchor="middle" fill="var(--commit)">C</text>
+          <rect x="96"  y="30" width="44" height="30" fill="var(--draft-soft)" stroke="var(--draft)" stroke-width="2"/><text x="118" y="50" text-anchor="middle" fill="var(--draft)">D</text>
+          <rect x="144" y="30" width="44" height="30" fill="none" stroke="var(--mask)" stroke-dasharray="3 3"/><text x="166" y="51" text-anchor="middle" fill="var(--mask)">▒</text>
+          <rect x="192" y="30" width="44" height="30" fill="var(--draft-soft)" stroke="var(--draft)" stroke-width="2"/><text x="214" y="50" text-anchor="middle" fill="var(--draft)">D</text>
+          <rect x="240" y="30" width="44" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="262" y="50" text-anchor="middle" fill="var(--commit)">C</text>
+          <rect x="288" y="30" width="44" height="30" fill="var(--draft-soft)" stroke="var(--draft)" stroke-width="2"/><text x="310" y="50" text-anchor="middle" fill="var(--draft)">D</text>
+          <rect x="336" y="30" width="44" height="30" fill="none" stroke="var(--mask)" stroke-dasharray="3 3"/><text x="358" y="51" text-anchor="middle" fill="var(--mask)">▒</text>
+          <rect x="384" y="30" width="44" height="30" fill="var(--draft-soft)" stroke="var(--draft)" stroke-width="2"/><text x="406" y="50" text-anchor="middle" fill="var(--draft)">D</text>
+          <rect x="432" y="30" width="44" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="454" y="50" text-anchor="middle" fill="var(--commit)">C</text>
+        </g>
+        <text x="0" y="86" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">LOSS is computed at</text>
+        <g font-family="IBM Plex Mono, monospace" font-size="12">
+          <rect x="0"   y="98" width="44" height="26" fill="none" stroke="var(--rule)"/><text x="22"  y="116" text-anchor="middle" fill="var(--muted)">—</text>
+          <rect x="48"  y="98" width="44" height="26" fill="none" stroke="var(--rule)"/><text x="70"  y="116" text-anchor="middle" fill="var(--muted)">—</text>
+          <rect x="96"  y="98" width="44" height="26" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="118" y="116" text-anchor="middle" fill="var(--commit)">✓</text>
+          <rect x="144" y="98" width="44" height="26" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="166" y="116" text-anchor="middle" fill="var(--commit)">✓</text>
+          <rect x="192" y="98" width="44" height="26" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="214" y="116" text-anchor="middle" fill="var(--commit)">✓</text>
+          <rect x="240" y="98" width="44" height="26" fill="none" stroke="var(--rule)"/><text x="262" y="116" text-anchor="middle" fill="var(--muted)">—</text>
+          <rect x="288" y="98" width="44" height="26" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="310" y="116" text-anchor="middle" fill="var(--commit)">✓</text>
+          <rect x="336" y="98" width="44" height="26" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="358" y="116" text-anchor="middle" fill="var(--commit)">✓</text>
+          <rect x="384" y="98" width="44" height="26" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="406" y="116" text-anchor="middle" fill="var(--commit)">✓</text>
+          <rect x="432" y="98" width="44" height="26" fill="none" stroke="var(--rule)"/><text x="454" y="116" text-anchor="middle" fill="var(--muted)">—</text>
+        </g>
+        <line x1="0" y1="146" x2="540" y2="146" stroke="var(--rule)"/>
+        <g font-family="Source Serif 4, serif" font-size="14.5" fill="var(--ink-2)">
+          <text x="0" y="172"><tspan font-family="IBM Plex Mono, monospace" fill="var(--commit)">C</tspan>  committed &mdash; context only, never a loss row</text>
+          <text x="0" y="196"><tspan font-family="IBM Plex Mono, monospace" fill="var(--draft)">D</tspan>  the drafter's token &mdash; <strong>input only, never a target</strong></text>
+          <text x="0" y="220"><tspan font-family="IBM Plex Mono, monospace" fill="var(--mask)">▒</tspan>  [MASK] &mdash; the ordinary diffusion regime, kept in the mix</text>
+        </g>
+        <text x="0" y="256" font-family="Source Serif 4, serif" font-size="14.5" fill="var(--ink)">The target at every open slot is the token that block <em>ended up with</em>.</text>
+        <text x="0" y="280" font-family="Source Serif 4, serif" font-size="14.5" fill="var(--ink)">Draft right &rarr; a confirmation. Draft wrong &rarr; an override.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="slide">
+  <div class="eyebrow">Chapter V &middot; the method</div>
+  <h2>The loss: say the right token, and be sure about it</h2>
+  <div class="cols" style="grid-template-columns:600px 1fr;">
+    <div class="stack">
+      <div class="eq">L = mean&#8342; &isin; &#8338; [ &minus;log p&#7522;(T&#7522;) ]
+      <span class="c">cross-entropy, every open slot</span>
+
+  + &beta; &middot; mean&#8342; &isin; &#8450; H( softmax(z&#7522; / &tau;) )
+      <span class="c">sharpen, ONLY where already right</span>
+
+&#8450; = { i &isin; &#8338; : argmax p&#7522; = T&#7522; }
+&beta; = 2.0   &tau; = 0.5   [MASK] column removed</div>
+      <p class="kicker sm">AdamW, lr 2e&minus;5, cosine, global batch 32 states, <strong>1,057 steps</strong> = two epochs over 16,905 blocks. 5.3 s per step on 8 GPUs.</p>
+    </div>
+    <div class="stack">
+      <ul class="points">
+        <li><strong>Term one teaches what to say.</strong> Cross-entropy against the block's final tokens.</li>
+        <li><strong>Term two attacks the bottleneck.</strong> A third of slots are right but under 0.95. Where the top guess is <em>already</em> the target, push it toward 1 so the slot clears the threshold in one pass instead of three.</li>
+        <li><strong>Never applied to a wrong slot.</strong> It sharpens a correct distribution; it cannot entrench a wrong one.</li>
+        <li><strong>[MASK] is deleted before the entropy.</strong> Otherwise entropy could be minimised by piling probability on a token that is never a legal output.</li>
+      </ul>
+      <div class="callout"><b>Honest about scale.</b> ~600,000 supervised slots, <strong>7 to 15&times; less</strong> than dParallel used for a comparable behaviour change. Under-confidence was flagged in advance as the likeliest failure. It is exactly what happened.</div>
+    </div>
+  </div>
+</section>
+<!-- 17 -->
+<section class="slide">
+  <div class="eyebrow">Chapter VI &middot; results</div>
+  <h2>Round 1 lost to a policy with no parameters at all</h2>
+  <p class="lede">The diagnostic is one comparison. There is a trivial policy available to any judge: <em>just copy whatever token is already in the slot.</em> It scores 0.556, because that is the drafter's agreement rate. Round 1 scored 0.393.</p>
+  <div class="figbox">
+    <svg viewBox="0 0 700 220" role="img" aria-label="Held-out accuracy at draft slots: round 1 reaches 0.393, below the copy baseline of 0.556; round 2a reaches 0.579, above it.">
+      <text x="0" y="18" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--muted)">held-out accuracy at draft-filled slots</text>
+      <line x1="340" y1="30" x2="340" y2="168" stroke="var(--draft)" stroke-width="1.6" stroke-dasharray="5 3"/>
+      <text x="346" y="44" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--draft)">0.556 &mdash; "just copy the draft", zero parameters</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="13">
+        <text x="0" y="76" fill="var(--ink-2)">round 1, step 600</text>
+        <rect x="160" y="60" width="420" height="24" fill="none" stroke="var(--rule)"/>
+        <rect x="160" y="60" width="165" height="24" fill="var(--wrong-soft)" stroke="var(--wrong)"/>
+        <text x="592" y="78" fill="var(--wrong)">0.393</text>
+        <text x="0" y="122" fill="var(--ink-2)">round 2a, step 1,057</text>
+        <rect x="160" y="106" width="420" height="24" fill="none" stroke="var(--rule)"/>
+        <rect x="160" y="106" width="243" height="24" fill="var(--commit-soft)" stroke="var(--commit)"/>
+        <text x="592" y="124" fill="var(--commit)">0.579</text>
+        <text x="0" y="164" fill="var(--muted)">the judge's argmax on pass-1 states</text>
+        <rect x="160" y="148" width="420" height="20" fill="none" stroke="var(--rule)"/>
+        <rect x="160" y="148" width="265" height="20" fill="none" stroke="var(--commit)" stroke-dasharray="3 2"/>
+        <text x="592" y="164" fill="var(--muted)">0.630</text>
+      </g>
+      <text x="0" y="198" font-family="Source Serif 4, serif" font-size="15.5" fill="var(--ink-2)"><tspan font-weight="600">Cause 1.</tspan> It could not tell a guess from a fact &mdash; both are just tokens in the input.</text>
+      <text x="0" y="218" font-family="Source Serif 4, serif" font-size="15.5" fill="var(--ink-2)"><tspan font-weight="600">Cause 2.</tspan> One delta everywhere let the judging task bleed into ordinary decoding.</text>
+    </svg>
+  </div>
+  <div class="callout bad"><b>The part that stings.</b> At inference we <em>know</em> which slots are drafts &mdash; the decoder just placed them there. Every speculative-decoding verifier is told which tokens are speculative; every diffusion model is told its noise level. Round 1 withheld free information and then asked the model to infer it from tokens designed to look plausible.</div>
+</section>
+
+<!-- 18 -->
+<section class="slide">
+  <div class="eyebrow">Chapter VI &middot; results</div>
+  <h2>Round 2a: same data, same 1,057 steps, the flag added</h2>
+  <div class="cols">
+    <div class="figbox">
+      <svg viewBox="0 0 620 300" role="img" aria-label="Held-out curves: round 2a's draft-slot accuracy rises past the copy baseline while round 1 stalls below it, and round 2a's all-mask accuracy stays pinned to the stock value.">
+        <line x1="46" y1="30" x2="46" y2="200" stroke="currentColor"/><line x1="46" y1="200" x2="590" y2="200" stroke="currentColor"/>
+        <g font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)" text-anchor="end">
+          <text x="42" y="34">0.6</text><text x="42" y="90">0.45</text><text x="42" y="147">0.3</text><text x="42" y="204">0.15</text>
+        </g>
+        <g font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)" text-anchor="middle">
+          <text x="46" y="218">0</text><text x="318" y="218">500</text><text x="590" y="218">1000</text>
+        </g>
+        <text x="318" y="236" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">optimiser step</text>
+        <line x1="46" y1="45" x2="590" y2="45" stroke="var(--draft)" stroke-width="1.3" stroke-dasharray="5 3"/>
+        <text x="586" y="41" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--draft)">copy baseline 0.556</text>
+        <polyline points="100,181 154,151 209,121 263,109 318,106 372,89" fill="none" stroke="var(--wrong)" stroke-width="2.2"/>
+        <text x="380" y="86" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--wrong)">round 1 &mdash; stopped at 600</text>
+        <polyline points="100,182 154,50 209,33 263,30 318,28 372,28 427,27 481,24 536,18 590,14" fill="none" stroke="var(--commit)" stroke-width="2.4"/>
+        <text x="512" y="8" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--commit)">round 2a &mdash; 0.579 and still rising</text>
+        <line x1="46" y1="60" x2="590" y2="60" stroke="var(--muted)" stroke-width="1.2" stroke-dasharray="2 3"/>
+        <text x="50" y="74" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)">all-mask decoding, round 2a: pinned at the stock 0.532 at every single eval</text>
+        <line x1="46" y1="252" x2="590" y2="252" stroke="var(--rule)"/>
+        <text x="46" y="274" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink-2)">confident commits right:  round 1  77%   &rarr;   round 2a  96%</text>
+        <text x="46" y="294" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink-2)">confident share of slots:  0.18  &rarr;  0.39, still climbing when the LR ran out</text>
+      </svg>
+    </div>
+    <div class="stack">
+      <p class="lede" style="font-size:18px;">The repair is unambiguous <em>at the level of the mechanism</em>. Same corpus, same budget, trained from scratch &mdash; so the gain belongs to the flag and the gate, not to more compute.</p>
+      <ul class="points">
+        <li><strong>0.393 &rarr; 0.579</strong> at draft slots, finally above the copy baseline.</li>
+        <li><strong>77% &rarr; 96%</strong> precision on confident verdicts.</li>
+        <li><strong>All-mask decoding never moved.</strong> Pinned at the stock 0.532 at all ten evaluations &mdash; the gate makes that a theorem, not a hope.</li>
+        <li><strong>End to end: 38% &rarr; 94%.</strong></li>
+      </ul>
+      <div class="callout"><b>And the tell for what is still missing.</b> The judge is right when it is confident, but it is only confident at 39% of slots &mdash; and that share was <em>still rising</em> when the cosine schedule decayed to zero. It is under-trained, exactly as the data-budget arithmetic predicted.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 19 -->
+<section class="slide">
+  <div class="eyebrow">Chapter VI &middot; results</div>
+  <h2>The decode loop: commit, keep, or re-mask</h2>
+  <div class="cols">
+    <div class="stack">
+      <p class="lede" style="font-size:18px;">One 30B pass per round, with every open slot holding the draft and the flag armed there. Then a three-way verdict per slot, and repeat.</p>
+      <ul class="points">
+        <li><strong>Commit</strong> to the judge's argmax if it beats &tau;. Never revisited.</li>
+        <li><strong>Keep tentative</strong> &mdash; leave the draft token in place as context &mdash; if the judge's argmax agrees with it but is not confident enough.</li>
+        <li><strong>Re-mask</strong> if the judge's argmax disagrees.</li>
+      </ul>
+      <div class="callout good"><b>The middle branch is the contribution.</b> A stock decoder has no such state: an uncommitted slot is blank. Here a slot the model half-believes stays readable to its neighbours, so the next pass conditions on it instead of on nothing.</div>
+    </div>
+    <div class="figbox">
+      <svg viewBox="0 0 620 300" role="img" aria-label="The round-2a judge's real first-pass verdict on one block: eight slots commit, ten stay tentative, fourteen are re-masked.">
+        <text x="0" y="16" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">real pass-1 verdict &mdash; GSM8K item 9, block 3, &tau; = 0.95</text>
+        <g font-family="IBM Plex Mono, monospace" font-size="10">
+          <rect x="0" y="28" width="17" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="8" y="48" text-anchor="middle" fill="var(--commit)">C</text>
+          <rect x="19" y="28" width="17" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="27" y="48" text-anchor="middle" fill="var(--commit)">C</text>
+          <rect x="38" y="28" width="17" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="46" y="48" text-anchor="middle" fill="var(--commit)">C</text>
+          <rect x="57" y="28" width="17" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="65" y="48" text-anchor="middle" fill="var(--commit)">C</text>
+          <rect x="76" y="28" width="17" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="84" y="48" text-anchor="middle" fill="var(--commit)">C</text>
+          <rect x="95" y="28" width="17" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="103" y="48" text-anchor="middle" fill="var(--commit)">C</text>
+          <rect x="114" y="28" width="17" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="122" y="48" text-anchor="middle" fill="var(--commit)">C</text>
+          <rect x="133" y="28" width="17" height="30" fill="none" stroke="var(--mask)" stroke-dasharray="2 2"/><text x="141" y="49" text-anchor="middle" fill="var(--mask)">M</text>
+          <rect x="152" y="28" width="17" height="30" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="160" y="48" text-anchor="middle" fill="var(--draft)">T</text>
+          <rect x="171" y="28" width="17" height="30" fill="none" stroke="var(--mask)" stroke-dasharray="2 2"/><text x="179" y="49" text-anchor="middle" fill="var(--mask)">M</text>
+          <rect x="190" y="28" width="17" height="30" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="198" y="48" text-anchor="middle" fill="var(--draft)">T</text>
+          <rect x="209" y="28" width="17" height="30" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="217" y="48" text-anchor="middle" fill="var(--draft)">T</text>
+          <rect x="228" y="28" width="17" height="30" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="236" y="48" text-anchor="middle" fill="var(--draft)">T</text>
+          <rect x="247" y="28" width="17" height="30" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="255" y="48" text-anchor="middle" fill="var(--draft)">T</text>
+          <rect x="266" y="28" width="17" height="30" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="274" y="48" text-anchor="middle" fill="var(--draft)">T</text>
+          <rect x="285" y="28" width="17" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="293" y="48" text-anchor="middle" fill="var(--commit)">C</text>
+          <rect x="304" y="28" width="17" height="30" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="312" y="48" text-anchor="middle" fill="var(--draft)">T</text>
+          <rect x="323" y="28" width="17" height="30" fill="none" stroke="var(--mask)" stroke-dasharray="2 2"/><text x="331" y="49" text-anchor="middle" fill="var(--mask)">M</text>
+          <rect x="342" y="28" width="17" height="30" fill="none" stroke="var(--mask)" stroke-dasharray="2 2"/><text x="350" y="49" text-anchor="middle" fill="var(--mask)">M</text>
+          <rect x="361" y="28" width="17" height="30" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="369" y="48" text-anchor="middle" fill="var(--draft)">T</text>
+          <rect x="380" y="28" width="17" height="30" fill="none" stroke="var(--mask)" stroke-dasharray="2 2"/><text x="388" y="49" text-anchor="middle" fill="var(--mask)">M</text>
+          <rect x="399" y="28" width="17" height="30" fill="none" stroke="var(--mask)" stroke-dasharray="2 2"/><text x="407" y="49" text-anchor="middle" fill="var(--mask)">M</text>
+          <rect x="418" y="28" width="17" height="30" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="426" y="48" text-anchor="middle" fill="var(--draft)">T</text>
+          <rect x="437" y="28" width="17" height="30" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="445" y="48" text-anchor="middle" fill="var(--draft)">T</text>
+          <rect x="456" y="28" width="17" height="30" fill="none" stroke="var(--mask)" stroke-dasharray="2 2"/><text x="464" y="49" text-anchor="middle" fill="var(--mask)">M</text>
+          <rect x="475" y="28" width="17" height="30" fill="none" stroke="var(--mask)" stroke-dasharray="2 2"/><text x="483" y="49" text-anchor="middle" fill="var(--mask)">M</text>
+          <rect x="494" y="28" width="17" height="30" fill="none" stroke="var(--mask)" stroke-dasharray="2 2"/><text x="502" y="49" text-anchor="middle" fill="var(--mask)">M</text>
+          <rect x="513" y="28" width="17" height="30" fill="none" stroke="var(--mask)" stroke-dasharray="2 2"/><text x="521" y="49" text-anchor="middle" fill="var(--mask)">M</text>
+          <rect x="532" y="28" width="17" height="30" fill="none" stroke="var(--mask)" stroke-dasharray="2 2"/><text x="540" y="49" text-anchor="middle" fill="var(--mask)">M</text>
+          <rect x="551" y="28" width="17" height="30" fill="none" stroke="var(--mask)" stroke-dasharray="2 2"/><text x="559" y="49" text-anchor="middle" fill="var(--mask)">M</text>
+          <rect x="570" y="28" width="17" height="30" fill="none" stroke="var(--mask)" stroke-dasharray="2 2"/><text x="578" y="49" text-anchor="middle" fill="var(--mask)">M</text>
+          <rect x="589" y="28" width="17" height="30" fill="none" stroke="var(--mask)" stroke-dasharray="2 2"/><text x="597" y="49" text-anchor="middle" fill="var(--mask)">M</text>
+        </g>
+        <g font-family="IBM Plex Mono, monospace" font-size="12.5">
+          <text x="0" y="86" fill="var(--commit)">C  commit &mdash; 8 slots</text>
+          <text x="0" y="108" fill="var(--draft)">T  tentative, draft kept as context &mdash; 10 slots</text>
+          <text x="0" y="130" fill="var(--mask)">M  re-masked &mdash; 14 slots</text>
+        </g>
+        <line x1="0" y1="150" x2="606" y2="150" stroke="var(--rule)"/>
+        <text x="0" y="176" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">per block, averaged over the 100 prompts at &tau; = .95</text>
+        <g font-family="IBM Plex Mono, monospace" font-size="12.5">
+          <text x="0" y="202" fill="var(--ink-2)">commits that keep the draft token</text><text x="470" y="202" font-size="15" font-weight="600" fill="var(--ink)">17.0</text>
+          <text x="0" y="226" fill="var(--ink-2)">slots kept tentative</text><text x="470" y="226" font-size="15" font-weight="600" fill="var(--ink)">15.3</text>
+          <text x="0" y="250" fill="var(--ink-2)">re-masks (a slot can be re-masked twice)</text><text x="470" y="250" font-size="15" font-weight="600" fill="var(--ink)">56.2</text>
+          <text x="0" y="274" fill="var(--ink-2)">blocks needing the forced single commit</text><text x="470" y="274" font-size="15" font-weight="600" fill="var(--wrong)">66.6%</text>
+        </g>
+        <text x="0" y="296" font-family="Source Serif 4, serif" font-size="14" fill="var(--muted)">That last line is the under-confidence, visible in the decoder.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+<!-- 20 -->
+<section class="slide">
+  <div class="eyebrow">Chapter VII &middot; where we stand</div>
+  <h2>The judge ties the free rule. It does not yet beat it.</h2>
+  <div class="cols" style="grid-template-columns:610px 1fr;">
+    <div class="stack">
+      <table>
+        <thead><tr><th>decode &middot; 100 frozen prompts, paired</th><th>acc</th><th>&Delta; [95% CI]</th><th>passes</th><th>exec/tok</th></tr></thead>
+        <tbody>
+          <tr><td>stock SDAR-30B</td><td>95.0</td><td>&mdash;</td><td>9.31</td><td>1,091</td></tr>
+          <tr class="hero"><td>free rule &gamma; .50 &mdash; <em>untrained</em></td><td>95.0</td><td>0 [0, 0]</td><td>7.93</td><td>963</td></tr>
+          <tr class="dead"><td>round 1 judge</td><td>38.0</td><td>&minus;57 [&minus;67,&minus;47]</td><td>19.57</td><td>1,909</td></tr>
+          <tr><td>2a &middot; commit .95</td><td>91.0</td><td>&minus;4 [&minus;9, 0]</td><td>6.90</td><td>878</td></tr>
+          <tr><td>2a &middot; commit .90</td><td>89.0</td><td>&minus;6 [&minus;12,&minus;1]</td><td>5.75</td><td>747</td></tr>
+          <tr class="hero"><td>2a &middot; confirm .90 / override .99 &mdash; <em>best</em></td><td>94.0</td><td>&minus;1 [&minus;5, +2]</td><td>7.93</td><td>995</td></tr>
+        </tbody>
+      </table>
+      <p class="kicker sm">Read the two highlighted rows against each other. <strong>The best trained setting lands on exactly the free rule's 7.93 passes, one point lower in accuracy, using 3% more expert work.</strong></p>
+    </div>
+    <div class="figbox">
+      <svg viewBox="0 0 620 300" role="img" aria-label="Accuracy against passes per block: the round-2a judge slides along the free rule's frontier instead of moving it, and the target zone at five passes and 93.5 percent accuracy is empty.">
+        <line x1="70" y1="30" x2="70" y2="240" stroke="currentColor"/><line x1="70" y1="240" x2="600" y2="240" stroke="currentColor"/>
+        <rect x="70" y="30" width="86" height="62" fill="var(--commit-soft)" stroke="var(--commit)" stroke-dasharray="4 3"/>
+        <text x="78" y="48" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--commit)">target zone</text>
+        <text x="78" y="64" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--commit)">&le;5 passes</text>
+        <text x="78" y="80" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--commit)">&ge;93.5% acc</text>
+        <text x="78" y="105" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--wrong)">still empty</text>
+        <g font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)" text-anchor="end">
+          <text x="64" y="34">96</text><text x="64" y="86">94</text><text x="64" y="138">92</text><text x="64" y="190">90</text><text x="64" y="243">88</text>
+        </g>
+        <text x="16" y="20" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">accuracy %</text>
+        <g font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)" text-anchor="middle">
+          <text x="70" y="258">4</text><text x="156" y="258">5</text><text x="242" y="258">6</text><text x="328" y="258">7</text><text x="414" y="258">8</text><text x="500" y="258">9</text><text x="586" y="258">10</text>
+        </g>
+        <text x="335" y="278" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">30B passes per block  &rarr;  cheaper this way</text>
+        <polyline points="326,190 349,112 411,60 525,60" fill="none" stroke="var(--draft)" stroke-width="1.6" opacity=".55"/>
+        <circle cx="525" cy="60" r="6" fill="var(--stage)" stroke="currentColor" stroke-width="2"/>
+        <text x="538" y="57" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor">stock</text>
+        <text x="538" y="72" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)">95.0 / 9.31</text>
+        <circle cx="411" cy="60" r="6" fill="var(--draft)" stroke="var(--draft)" stroke-width="2"/>
+        <text x="411" y="48" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--draft)">free rule &gamma;.5 &mdash; 95.0 / 7.93</text>
+        <circle cx="411" cy="86" r="6" fill="var(--commit)" stroke="var(--commit)" stroke-width="2"/>
+        <text x="398" y="103" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--commit)">judge, strict overrides &mdash; 94.0</text>
+        <circle cx="380" cy="112" r="5" fill="var(--commit)" stroke="var(--commit)"/>
+        <circle cx="319" cy="138" r="6" fill="var(--commit)" stroke="var(--commit)" stroke-width="2"/>
+        <text x="332" y="142" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--commit)">judge, commit .95 &mdash; 91.0</text>
+        <circle cx="220" cy="190" r="6" fill="var(--commit)" stroke="var(--commit)" stroke-width="2"/>
+        <text x="233" y="194" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--commit)">judge, commit .90 &mdash; 89.0</text>
+        <text x="78" y="228" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--wrong)">round 1 is off this chart: 38.0 at 19.6 passes</text>
+      </svg>
+    </div>
+  </div>
+  <figcaption>It slides <em>along</em> the free rule's frontier rather than moving it. At 100 items a 1-point and a 4-point deficit are not distinguishable.</figcaption>
+</section>
+
+<!-- 21 -->
+<section class="slide">
+  <div class="eyebrow">Chapter VII &middot; where we stand</div>
+  <h2>One level down: it has two kinds of decision, and only one is safe</h2>
+  <p class="lede">Split every confident commit in two. A <strong>confirmation</strong> agrees with the drafter. An <strong>override</strong> overrules it. On 8,687 held-out pass-1 slots the two behave nothing alike.</p>
+  <div class="figbox">
+    <svg viewBox="0 0 700 215" role="img" aria-label="Confirmations are 99.1 percent precise at 34.7 percent of slots; overrides are 82.5 percent precise at 7.2 percent of slots, and need a 0.99 threshold to become reliable.">
+      <text x="0" y="16" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--muted)">at the standard threshold &tau; = 0.95</text>
+      <rect x="0" y="28" width="330" height="86" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width="1.6"/>
+      <text x="16" y="50" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="16" fill="var(--commit)">CONFIRMATION &mdash; it agrees</text>
+      <text x="16" y="76" font-family="IBM Plex Mono, monospace" font-size="24" font-weight="600" fill="var(--commit)">99.1%</text>
+      <text x="120" y="76" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--ink-2)">right, at 34.7% of open slots</text>
+      <text x="16" y="102" font-family="Source Serif 4, serif" font-size="14.5" fill="var(--ink-2)">Safe &mdash; but capped by the drafter's 55.5%.</text>
+      <rect x="356" y="28" width="330" height="86" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width="1.6"/>
+      <text x="372" y="50" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="16" fill="var(--wrong)">OVERRIDE &mdash; it overrules</text>
+      <text x="372" y="76" font-family="IBM Plex Mono, monospace" font-size="24" font-weight="600" fill="var(--wrong)">82.5%</text>
+      <text x="476" y="76" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--ink-2)">right, at 7.2% of open slots</text>
+      <text x="372" y="102" font-family="Source Serif 4, serif" font-size="14.5" fill="var(--ink-2)">The only decisions that beat the cap.</text>
+      <line x1="0" y1="132" x2="700" y2="132" stroke="var(--rule)"/>
+      <text x="0" y="156" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--muted)">raise ONLY the override threshold &mdash; expected wrong commits per 29-slot block</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="13">
+        <text x="0" y="182" fill="var(--ink-2)">one threshold at .95</text>
+        <rect x="230" y="170" width="360" height="16" fill="none" stroke="var(--rule)"/>
+        <rect x="230" y="170" width="360" height="16" fill="var(--wrong-soft)" stroke="var(--wrong)"/>
+        <text x="602" y="183" fill="var(--wrong)">0.46</text>
+        <text x="0" y="208" fill="var(--ink-2)">confirm .95 / override .99</text>
+        <rect x="230" y="196" width="360" height="16" fill="none" stroke="var(--rule)"/>
+        <rect x="230" y="196" width="110" height="16" fill="var(--commit-soft)" stroke="var(--commit)"/>
+        <text x="602" y="209" fill="var(--commit)">0.14</text>
+      </g>
+    </svg>
+  </div>
+  <div class="callout bad"><b>Why it ties.</b> Confirmations cannot exceed the drafter's 55.5%, and the judge is confident on only 62% of the correct drafts it sees. The decisions that <em>would</em> break that ceiling are the overrides, the 17%-wrong ones. <strong>Two caps, and the model is pinned between them.</strong></div>
+</section>
+
+<!-- 22 -->
+<section class="slide">
+  <div class="eyebrow">Chapter VII &middot; where we stand</div>
+  <h2>The errors are single tokens in the answer wrapper</h2>
+  <div class="cols">
+    <div class="stack">
+      <p class="lede" style="font-size:18px;">The judge's prose is indistinguishable from the stock model's &mdash; the same reasoning steps, occasionally a different word. The failures are not sloppy thinking. They are one bad override in the last few tokens.</p>
+      <div class="eq" style="font-size:15px;">stock  &rarr;  <span class="c">\boxed{180}$.</span>
+judge  &rarr;  <span style="color:var(--wrong)">\boxed{180$.</span>   <span class="c">missing brace</span>
+
+stock  &rarr;  <span class="c">$\boxed{64}$</span>
+judge  &rarr;  <span style="color:var(--wrong)">boxed{64}$</span>    <span class="c">missing backslash</span></div>
+      <p class="kicker">Correct reasoning, correct number, wrong wrapper, marked wrong. At &tau;&nbsp;=&nbsp;.95, <strong>2 or 3 of the 9 wrong answers are this</strong>. Under confirm .90 / override .99 they vanish entirely.</p>
+    </div>
+    <div class="stack">
+      <div class="callout good"><b>Encouraging, not damning.</b> A model that broke the <em>reasoning</em> would have broken judgement. A model that breaks a brace has broken <em>calibration</em> at a handful of high-stakes slots. That is a threshold and data problem.</div>
+      <p class="kicker sm">On a task where one token flips the score, override precision matters far more than average token accuracy. The asymmetric rule exists because of this.</p>
+      <div class="callout"><b>Stock and the free rule never break the format.</b> They only fill slots the big model was already sure of. The judge is the first decoder that <em>replaces</em> a token, and replacement is where the risk lives.</div>
+    </div>
+  </div>
+</section>
+<!-- 23 -->
+<section class="slide">
+  <div class="eyebrow">Chapter VIII &middot; what happens next</div>
+  <h2>The hypothesis: it is under-trained, not wrong</h2>
+  <p class="lede">"Train it more" is usually a bad answer. Here there is specific evidence for it, and it is worth being precise about what that evidence is and what it is not.</p>
+  <div class="cols" style="grid-template-columns:600px 1fr;">
+    <div class="figbox">
+      <svg viewBox="0 0 600 285" role="img" aria-label="Held-out confident share and precision both still rising at the end of round 2a training, with a linear extrapolation over round 2b's extra two thousand steps.">
+        <line x1="52" y1="24" x2="52" y2="180" stroke="currentColor"/><line x1="52" y1="180" x2="560" y2="180" stroke="currentColor"/>
+        <g font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)" text-anchor="end">
+          <text x="48" y="28">0.60</text><text x="48" y="79">0.50</text><text x="48" y="130">0.40</text><text x="48" y="184">0.30</text>
+        </g>
+        <g font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)" text-anchor="middle">
+          <text x="52" y="196">0</text><text x="187" y="196">1057</text><text x="322" y="196">2000</text><text x="518" y="196">3057</text>
+        </g>
+        <text x="300" y="212" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)">optimiser step &mdash; round 2a ended at 1,057; round 2b adds 2,000</text>
+        <line x1="187" y1="24" x2="187" y2="180" stroke="var(--rule)" stroke-width="1.2"/>
+        <text x="192" y="34" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)">2a ends</text>
+        <line x1="52" y1="52" x2="560" y2="52" stroke="var(--draft)" stroke-width="1.4" stroke-dasharray="5 3"/>
+        <text x="556" y="48" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--draft)">0.555 &mdash; the drafter's ceiling on confirmations</text>
+        <polyline points="103,163 116,145 129,139 142,134 155,131 168,130 181,126" fill="none" stroke="var(--commit)" stroke-width="2.4"/>
+        <polyline points="181,126 322,102 518,75" fill="none" stroke="var(--commit)" stroke-width="2" stroke-dasharray="6 4" opacity=".75"/>
+        <circle cx="181" cy="126" r="3.5" fill="var(--commit)"/>
+        <text x="196" y="122" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--commit)">0.392 measured</text>
+        <circle cx="518" cy="75" r="3.5" fill="var(--commit)" opacity=".75"/>
+        <text x="514" y="70" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--commit)">~0.52 if the trend holds</text>
+        <text x="60" y="152" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--commit)">share of slots the judge is confident about</text>
+        <line x1="52" y1="234" x2="560" y2="234" stroke="var(--rule)"/>
+        <g font-family="IBM Plex Mono, monospace" font-size="11.5">
+          <text x="0" y="228" fill="var(--muted)">over the LAST 300 steps of round 2a, per 100 steps:</text>
+          <text x="0" y="254" fill="var(--ink-2)">draft-slot accuracy</text><text x="330" y="254" fill="var(--commit)">+0.011</text><text x="400" y="254" fill="var(--muted)">and accelerating</text>
+          <text x="0" y="274" fill="var(--ink-2)">confident share</text><text x="330" y="274" fill="var(--commit)">+0.006</text><text x="400" y="274" fill="var(--muted)">at half the peak LR</text>
+        </g>
+      </svg>
+    </div>
+    <div class="stack">
+      <div style="font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--commit);font-weight:600;">the case for</div>
+      <ul class="points">
+        <li><strong>Nothing had plateaued.</strong> Accuracy, confident share and precision were all still climbing at step 1,057, and accuracy was <em>accelerating</em>.</li>
+        <li><strong>Not a learning-rate artefact.</strong> The schedule only decayed to half of peak, so it was still learning when the run ended.</li>
+        <li><strong>The corpus was known to be too small beforehand.</strong> ~600,000 supervised slots against dParallel's 4&ndash;9 million. Round 2b takes it to ~2.3&times;.</li>
+        <li><strong>The bottleneck is recall, not correctness.</strong> Confirmations are already 99% precise. The judge is simply not <em>sure</em> often enough.</li>
+      </ul>
+      <div class="callout"><b>What that buys.</b> Confident slots 0.39 &rarr; ~0.52 lifts confirmations from 35% to ~43% of open slots: capturing <strong>78%</strong> of the available correct drafts instead of <strong>62%</strong>. About 3 more commits per pass, at 99% precision.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 24 -->
+<section class="slide">
+  <div class="eyebrow">Chapter VIII &middot; what happens next</div>
+  <h2>Three levers, and the honest case against each</h2>
+  <div class="cols" style="grid-template-columns:1fr;">
+    <div class="stack">
+      <table>
+        <thead><tr><th>lever</th><th>which cap it attacks</th><th>why it should work</th><th>why it might not</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1. Confirmation recall</strong><br><span style="color:var(--muted);font-size:14px">round 2b: +2,000 steps, 2.3&times; data</span></td><td>confident on only 62% of correct drafts</td><td>curve still rising, and confirmations are already 99% precise, so more of them cost no accuracy</td><td>extrapolating a decelerating curve is optimistic; may land at 0.45</td></tr>
+          <tr><td><strong>2. Override precision</strong><br><span style="color:var(--muted);font-size:14px">same training run</span></td><td>0.825 at &tau;&nbsp;.95, needs ~0.95</td><td>the only decisions that beat the drafter's ceiling; more data is the standard fix for a miscalibrated tail</td><td>these are the <em>hard</em> slots by definition</td></tr>
+          <tr><td><strong>3. Fine-tune the drafter</strong><br><span style="color:var(--muted);font-size:14px">round 3: 1.7B, one GPU</span></td><td>the 55.5% agreement itself</td><td>best-precedented step here: EAGLE, Medusa and Spec-AUF all train drafters on the target's outputs</td><td>raises the ceiling, not the judge's reach; and it invalidates the judge's corpus</td></tr>
+        </tbody>
+      </table>
+      <div class="callout"><b>The lever nobody has pulled.</b> A top-32 expert pool voted from a <em>draft-filled</em> block covers 0.754 of the final tokens' expert picks against 0.511 from masks (+0.242 [+0.233, +0.252]). It attacks cost <em>per pass</em>, so it multiplies with everything above. Measured, never yet decoded with.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 25 -->
+<section class="slide">
+  <div class="eyebrow">Chapter VIII &middot; what happens next &middot; 7 Sep 2026, 14:45 IST</div>
+  <h2>All 8 GPUs are building the round-2 corpus right now</h2>
+  <div class="figbox">
+    <svg viewBox="0 0 700 252" role="img" aria-label="Pipeline: data generation now, then drafter training on GPU 0 alongside judge round 2b on GPUs 1 to 7, then a four-way evaluation, with a timeline from 14:45 IST to 8 September.">
+      <defs><marker id="m24" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><polygon points="0,0 10,5 0,10" fill="currentColor"/></marker></defs>
+      <rect x="0" y="10" width="208" height="118" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width="1.8"/>
+      <text x="14" y="30" font-family="IBM Plex Mono, monospace" font-size="10.5" letter-spacing="1" fill="var(--commit)">NOW &middot; 8 GPUs</text>
+      <text x="14" y="52" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="16" fill="currentColor">round-2 data</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink-2)">
+        <text x="14" y="74">GSM8K 3k&ndash;7.3k   71%</text>
+        <text x="14" y="92">MATH  every 3rd   26%</text>
+        <text x="14" y="110">MBPP              done</text>
+      </g>
+      <line x1="210" y1="66" x2="248" y2="66" stroke="currentColor" stroke-width="1.4" marker-end="url(#m24)"/>
+      <rect x="252" y="10" width="200" height="52" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <text x="264" y="30" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="15" fill="currentColor">drafter fine-tune</text>
+      <text x="264" y="48" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">GPU 0 &middot; lifts the 55.5% cap</text>
+      <rect x="252" y="76" width="200" height="52" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <text x="264" y="96" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="15" fill="currentColor">judge round 2b</text>
+      <text x="264" y="114" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">GPUs 1&ndash;7 &middot; +2,000 steps</text>
+      <text x="352" y="146" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">both launch automatically, in parallel, no human in the loop</text>
+      <line x1="454" y1="66" x2="492" y2="66" stroke="currentColor" stroke-width="1.4" marker-end="url(#m24)"/>
+      <rect x="496" y="10" width="204" height="118" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <text x="508" y="30" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="15" fill="currentColor">four-way decode</text>
+      <text x="508" y="50" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">commit .95 / .90</text>
+      <text x="508" y="66" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">&times; override .95 / .99</text>
+      <text x="508" y="90" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">paired against stock and</text>
+      <text x="508" y="106" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">the free rule, frozen items</text>
+      <line x1="0" y1="172" x2="700" y2="172" stroke="var(--rule)"/>
+      <g font-family="IBM Plex Mono, monospace" font-size="11">
+        <line x1="8" y1="166" x2="8" y2="178" stroke="var(--commit)" stroke-width="2.5"/>
+        <text x="8" y="196" fill="var(--commit)">14:45 IST</text><text x="8" y="212" fill="var(--muted)">you are here</text>
+        <line x1="250" y1="166" x2="250" y2="178" stroke="currentColor"/>
+        <text x="250" y="196" text-anchor="middle" fill="currentColor">~19:45 IST</text><text x="250" y="212" text-anchor="middle" fill="var(--muted)">training data complete</text>
+        <line x1="450" y1="166" x2="450" y2="178" stroke="currentColor"/>
+        <text x="450" y="196" text-anchor="middle" fill="currentColor">late tonight</text><text x="450" y="212" text-anchor="middle" fill="var(--muted)">queue drains, trainings start</text>
+        <line x1="690" y1="166" x2="690" y2="178" stroke="currentColor"/>
+        <text x="690" y="196" text-anchor="end" fill="currentColor">8 Sep, midday</text><text x="690" y="212" text-anchor="end" fill="var(--muted)">round-2b verdict</text>
+      </g>
+      <text x="0" y="232" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)">ETA measured live from shard throughput. It is a queue: one slow shard shifts</text>
+      <text x="0" y="246" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)">everything to the right.</text>
+    </svg>
+  </div>
+  <p class="kicker sm">Snapshot: <strong>38,600 usable blocks</strong>, about 2.3&times; round 2a's corpus. Behind it in the queue sit the frozen test cells, including the GSM8K-500 evaluation of the current judge.</p>
+</section>
+
+<!-- 26 -->
+<section class="slide">
+  <div class="eyebrow">Chapter VIII &middot; how good a bet is this</div>
+  <h2>My odds, written down before the run</h2>
+  <p class="lede">Stated in advance so they can be scored later. These are judgements, not measurements, and the reasoning behind each is on the previous three slides.</p>
+  <div class="cols" style="grid-template-columns:1fr;">
+    <div class="stack">
+      <table>
+        <thead><tr><th>outcome of round 2b + round 3</th><th>odds</th><th>the reasoning in one line</th></tr></thead>
+        <tbody>
+          <tr class="hero"><td>held-out judge metrics improve measurably</td><td>~80%</td><td>every curve was still rising, the intervention is aimed at the measured bottleneck</td></tr>
+          <tr><td>the drafter fine-tune lifts agreement by 8 points or more</td><td>~70%</td><td>the best-precedented step in the plan; standard practice for speculative drafters</td></tr>
+          <tr><td>the judge lands strictly inside the free rule's frontier on the 100 train prompts</td><td>~40%</td><td>round 2a converted large metric gains into a disappointing decode; that conversion is the weak link</td></tr>
+          <tr><td>that win survives the frozen GSM8K-500 at within 1.5 points</td><td>~25%</td><td>a 100-item win of 1&ndash;2 points is inside the noise it was measured in</td></tr>
+          <tr class="dead"><td>the full pre-registered gate: &le;5 passes AND within 1.5 points AND &le;582 exec/token</td><td>~10%</td><td>needs roughly a halving of passes; best trained point today is 7.93</td></tr>
+        </tbody>
+      </table>
+      <div class="callout"><b>Why the bet is worth taking.</b> A day of already-allocated GPU time, no human in the loop, and <strong>a bounded downside</strong>: the mechanism findings and the free rule are results whatever happens. A 1-in-4 shot at the headline claim with a guaranteed consolation paper is a good trade.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 27 -->
+<section class="slide">
+  <div class="eyebrow">Chapter VIII &middot; how good a bet is this</div>
+  <h2>The two things that would most change my mind</h2>
+  <div class="cols">
+    <div class="stack">
+      <div style="font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--wrong);font-weight:600;">what is missing, and it is our fault</div>
+      <ul class="points">
+        <li><strong>The no-draft control has never run.</strong> Same recipe, draft disabled, certainty forcing alone. If it matches the draft arm, the draft adds nothing. <em>We cannot rule that out today.</em></li>
+        <li><strong>The trained judge has never seen 500 items.</strong> Every trained number here carries a ±5-point interval. The frozen cell is queued but has not run.</li>
+      </ul>
+      <div class="callout bad"><b>Bluntly.</b> The strongest supportable claim today: a 27 M-parameter adapter teaches a diffusion LLM to read its own filled slots, 38% &rarr; 94% end to end, landing level with a rule that costs nothing. Everything past that is a hypothesis with a schedule attached.</div>
+    </div>
+    <div class="stack">
+      <div style="font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--commit);font-weight:600;">what would make me raise the odds</div>
+      <ul class="points">
+        <li><strong>Confident share past 0.45 by step 2,000</strong> with precision holding above 0.96. That is on-trend and would mean the recall lever is real rather than extrapolated.</li>
+        <li><strong>Override precision above 0.90 at &tau; = 0.95.</strong> That single number is what currently forces the strict threshold that gives the pass savings back.</li>
+        <li><strong>Drafter agreement past 0.65.</strong> It raises the confirmation ceiling for free and makes every later judge round easier.</li>
+      </ul>
+      <div class="callout good"><b>One cheap thing worth doing regardless.</b> Deploy the draft-informed expert pool. It attacks cost <em>per pass</em>, so it can rescue a partial result: if passes stall at 7 but each touches 32 experts instead of 58, the cost-per-token claim survives on its own.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 28 -->
+<section class="slide">
+  <div class="eyebrow">Chapter VIII &middot; the honest position</div>
+  <h2>What is settled, what is not, and what the paper is either way</h2>
+  <div class="cols" style="grid-template-columns:1fr 1fr;">
+    <div class="stack">
+      <div style="font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--commit);font-weight:600;">settled</div>
+      <ul class="points">
+        <li><strong>The mechanism findings.</strong> Filled slots return the next input token. Draft context makes the model sycophantic. The empty-block marginal is the only honest free signal.</li>
+        <li><strong>The free rule is held out.</strong> +0.2 [&minus;1.4, +1.8] points, 16% fewer passes, 500 unseen items.</li>
+        <li><strong>Flag-and-gate is the right fix.</strong> 0.393 &rarr; 0.579 and 38% &rarr; 94%, at identical data and budget.</li>
+      </ul>
+    </div>
+    <div class="stack">
+      <div style="font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--wrong);font-weight:600;">not settled</div>
+      <ul class="points">
+        <li><strong>Whether the judge can beat the free rule at all.</strong> On today's evidence it ties.</li>
+        <li><strong>Whether anything survives 500 items.</strong> These are 100-item numbers, ±5-point intervals.</li>
+        <li><strong>The pre-registered gates are not met.</strong> Target 1.5 points at &le;5 passes and &le;582 runs. Best: 1 point at 7.93 and 995.</li>
+        <li><strong>The no-draft control never ran.</strong> So we cannot separate "the draft helps" from "certainty forcing helps".</li>
+      </ul>
+    </div>
+  </div>
+  <table style="margin-top:4px;">
+    <thead><tr><th>if round 2b&hellip;</th><th>then the contribution is</th></tr></thead>
+    <tbody>
+      <tr><td>clears the free rule's frontier</td><td>per-slot acceptance of an external draft on a block-diffusion MoE. The intended result.</td></tr>
+      <tr><td>only matches a no-draft control</td><td>certainty forcing replicated on an MoE block-diffusion model. Not the drafter claim.</td></tr>
+      <tr class="hero"><td>neither &mdash; today's position</td><td>the mechanism analysis itself, plus a training-free rule that is free and accuracy-neutral. A weaker paper, but an honest one.</td></tr>
+    </tbody>
+  </table>
+</section>
+<!-- 30 -->
+<section class="slide">
+  <div class="eyebrow">Chapter IX &middot; round 3, the drafter</div>
+  <h2>Same objective it was born with. Different teacher.</h2>
+  <p class="lede">The drafter is itself a block-diffusion model, built from Qwen3-1.7B with 50 B tokens of continued pretraining and 4 B tokens of supervised fine-tuning, both under the objective below. We do not invent a new one. We change <em>y</em>.</p>
+  <div class="figbox">
+    <svg viewBox="0 0 700 266" role="img" aria-label="The block-diffusion objective is unchanged; only the target text y changes, from SDAR's own SFT answers to the 30B teacher's answer to the same problem.">
+      <defs><marker id="m30" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><polygon points="0,0 10,5 0,10" fill="currentColor"/></marker></defs>
+      <rect x="0" y="8" width="700" height="76" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="16" y="32" font-family="IBM Plex Mono, monospace" font-size="13" fill="var(--ink)">for each 32-token block of y:  mask a random fraction m ~ U(0,1) of its tokens</text>
+      <text x="16" y="58" font-family="IBM Plex Mono, monospace" font-size="13" fill="var(--ink)">loss = mean over masked slots of  &minus;log q&#966;( y&#7522; | masked block, clean prefix )</text>
+      <text x="16" y="76" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)">identical to SDAR's own training. Not modified, not reweighted, no extra term.</text>
+      <text x="350" y="106" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="15" fill="var(--draft)">the only thing that changes is y</text>
+      <line x1="240" y1="114" x2="150" y2="140" stroke="var(--muted)" stroke-width="1.3" marker-end="url(#m30)"/>
+      <line x1="460" y1="114" x2="550" y2="140" stroke="var(--commit)" stroke-width="1.6" marker-end="url(#m30)"/>
+      <rect x="0" y="146" width="330" height="70" fill="none" stroke="var(--muted)"/>
+      <text x="16" y="168" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="1" fill="var(--muted)">BEFORE</text>
+      <text x="16" y="190" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">y = whatever answer SDAR's own</text>
+      <text x="16" y="209" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">supervised set happened to contain</text>
+      <rect x="370" y="146" width="330" height="70" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width="1.6"/>
+      <text x="386" y="168" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="1" fill="var(--commit)">AFTER</text>
+      <text x="386" y="190" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink)">y = the 30B's <strong>own answer</strong> to the</text>
+      <text x="386" y="209" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink)">same problem, kept only when correct</text>
+      <text x="0" y="236" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">Hard-label sequence distillation: the student trains on the teacher's own samples</text>
+      <text x="0" y="256" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">(Kim &amp; Rush 2016). All 1.7 B parameters move.</text>
+    </svg>
+  </div>
+  <div class="callout"><b>Why this is the standard move.</b> Speculative decoding always trains its drafter on the target model's outputs. What is unusual here is only that the target is a diffusion model, so the objective the drafter already has happens to be exactly the right one to reuse.</div>
+</section>
+
+<!-- 31 -->
+<section class="slide">
+  <div class="eyebrow">Chapter IX &middot; round 3, the drafter</div>
+  <h2>A very light touch, aimed at style rather than ability</h2>
+  <div class="cols" style="grid-template-columns:1fr;">
+    <div class="stack">
+      <div class="figbox">
+        <svg viewBox="0 0 700 168" role="img" aria-label="On a log scale, the fine-tune's 3.7 million tokens sit far below the drafter's own 4 billion token supervised set and 50 billion token continued pretraining.">
+          <text x="0" y="14" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">tokens the drafter has been trained on &mdash; log scale</text>
+          <g font-family="IBM Plex Mono, monospace" font-size="13">
+            <text x="0" y="44" fill="var(--ink-2)">continued pretraining</text>
+            <rect x="200" y="30" width="440" height="20" fill="none" stroke="var(--rule)"/>
+            <rect x="200" y="30" width="440" height="20" fill="var(--paper)" stroke="var(--muted)"/>
+            <text x="652" y="45" fill="var(--muted)">50 B</text>
+            <text x="0" y="80" fill="var(--ink-2)">its own supervised set</text>
+            <rect x="200" y="66" width="440" height="20" fill="none" stroke="var(--rule)"/>
+            <rect x="200" y="66" width="337" height="20" fill="var(--paper)" stroke="var(--muted)"/>
+            <text x="652" y="81" fill="var(--muted)">4 B</text>
+            <text x="0" y="116" fill="var(--commit)">this fine-tune</text>
+            <rect x="200" y="102" width="440" height="20" fill="none" stroke="var(--rule)"/>
+            <rect x="200" y="102" width="54" height="20" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width="1.6"/>
+            <text x="652" y="117" fill="var(--commit)">3.7 M</text>
+          </g>
+          <text x="0" y="146" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">about <tspan font-weight="600">0.09%</tspan> of its own supervised set &mdash; and only about half of</text>
+          <text x="0" y="164" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">those tokens carry a loss, since the mask ratio is uniform on [0, 1]</text>
+        </svg>
+      </div>
+      <div class="num-strip">
+        <div><div class="v">8,757</div><div class="k">problems, teacher answer correct</div></div>
+        <div><div class="v">212 <small>tok</small></div><div class="k">mean answer length</div></div>
+        <div><div class="v">2</div><div class="k">epochs</div></div>
+        <div><div class="v">1,095</div><div class="k">optimiser steps, batch 16</div></div>
+      </div>
+      <div class="callout"><b>Enough for what, exactly.</b> Enough to move <em>style</em>: which of several fine phrasings to prefer, how to lay an equation out. That is a low-information change and it is precisely what raises token-level agreement. <strong>Not</strong> enough to teach new mathematical ability &mdash; and it does not need to, because the judge supplies the correctness.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 32 -->
+<section class="slide">
+  <div class="eyebrow">Chapter IX &middot; round 3, the drafter</div>
+  <h2>What could break, and the two gates that would catch it</h2>
+  <table>
+    <thead><tr><th>failure</th><th>risk</th><th>reasoning</th></tr></thead>
+    <tbody>
+      <tr><td>forgets how to decode blocks at all</td><td>low</td><td>the objective is the one that gave it the ability; lr 1e-5 is far below pretraining rates; the run is ~1,100 steps</td></tr>
+      <tr><td>loses general ability outside GSM8K, MATH, MBPP</td><td>likely, and out of scope</td><td>the claim is measured on these three families. If a general drafter is wanted later, mix in general data or switch to LoRA</td></tr>
+      <tr class="hero"><td><strong>drifts toward the teacher on average while getting worse at the slots the judge needs</strong></td><td>the one that would actually hurt</td><td>training loss would look fine while agreement stalls, so the loss cannot be the acceptance criterion</td></tr>
+    </tbody>
+  </table>
+  <div class="cols" style="grid-template-columns:1fr 1fr;">
+    <div class="stack">
+      <div class="callout good"><b>Gate 1 &mdash; paired agreement.</b> Replay the teacher's blocks on 100 held-out problems, count slot agreement, fine-tuned against stock, bootstrap interval on the per-item difference. Stock is <strong>0.558</strong>. If agreement does not rise, the fine-tune is discarded.</div>
+    </div>
+    <div class="stack">
+      <div class="callout"><b>Gate 2 &mdash; the drafter's own accuracy.</b> Decode GSM8K with the 1.7B alone, before and after. If that falls by more than a few points while agreement rises, it is copying surface form and losing competence, and we switch to LoRA at a lower rate. <em>This gate is not built yet.</em></div>
+    </div>
+  </div>
+</section>
+
+<!-- 33 -->
+<section class="slide">
+  <div class="eyebrow">Chapter IX &middot; round 3, the drafter</div>
+  <h2>A better drafter also raises the bar it has to clear</h2>
+  <div class="figbox">
+    <svg viewBox="0 0 700 226" role="img" aria-label="A new drafter invalidates the judge's training data, so the data is regenerated and the judge retrained; and the training-free rule improves with the same drafter, so the comparison bar moves up too.">
+      <defs><marker id="m33" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><polygon points="0,0 10,5 0,10" fill="currentColor"/></marker></defs>
+      <rect x="0" y="20" width="150" height="56" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width="1.6"/>
+      <text x="75" y="44" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="14" fill="var(--commit)">new drafter</text>
+      <text x="75" y="64" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-2)">agreement &gt; 0.558</text>
+      <line x1="152" y1="48" x2="196" y2="48" stroke="currentColor" stroke-width="1.4" marker-end="url(#m33)"/>
+      <rect x="200" y="20" width="160" height="56" fill="none" stroke="currentColor"/>
+      <text x="280" y="44" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="14" fill="currentColor">regenerate data</text>
+      <text x="280" y="64" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)">its drafts, not the old ones</text>
+      <line x1="362" y1="48" x2="406" y2="48" stroke="currentColor" stroke-width="1.4" marker-end="url(#m33)"/>
+      <rect x="410" y="20" width="160" height="56" fill="none" stroke="currentColor"/>
+      <text x="490" y="44" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="14" fill="currentColor">retrain the judge</text>
+      <text x="490" y="64" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)">on the new error profile</text>
+      <path d="M 490 78 C 490 106, 75 106, 75 80" stroke="var(--muted)" stroke-width="1.2" fill="none" stroke-dasharray="5 3"/>
+      <text x="350" y="102" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)">the judge's corruption process IS the drafter's errors, so a new drafter stales the corpus</text>
+      <line x1="0" y1="126" x2="700" y2="126" stroke="var(--rule)"/>
+      <text x="0" y="150" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="15" fill="var(--wrong)">and the baseline moves with it</text>
+      <text x="0" y="176" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">The training-free rule uses the same drafter. Give it a better one and it accepts more too,</text>
+      <text x="0" y="196" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">so the 95.0% at 7.93 passes that the judge has to beat gets cheaper on its own.</text>
+      <text x="0" y="220" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--commit)">every comparison is judge vs free rule USING THE SAME DRAFTER. Never across drafters.</text>
+    </svg>
+  </div>
+  <div class="callout bad"><b>Which is why round 3 is not a free win.</b> It lifts the ceiling on confirmations and it lifts the baseline at the same time. The question it answers is not "is the drafter better" but "does the judge extract more from a better drafter than the free rule does".</div>
+</section>
+  </div>
+</div>
+<script>
+(function () {
+  var stage   = document.getElementById('stage');
+  var slides  = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var ticks   = document.getElementById('ticks');
+  var counter = document.getElementById('counter');
+  var chapter = document.getElementById('chapter');
+  var last    = slides.length - 1;
+  var i = 0;
+
+  // the chapter label lives once in the top bar instead of on every slide
+  var chapters = slides.map(function (s) {
+    var e = s.querySelector('.eyebrow');
+    return e ? e.textContent.trim() : '';
+  });
+
+  function fitStage() {
+    var k = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    stage.style.transform = 'translate(-50%, -50%) scale(' + k + ')';
+  }
+
+  // one wrapper per slide so its content can be measured and, if it is taller
+  // than the frame, scaled to fit. Nothing can overrun the bottom edge.
+  var inners = slides.map(function (s) {
+    var w = document.createElement('div');
+    w.className = 'slide-inner';
+    while (s.firstChild) { w.appendChild(s.firstChild); }
+    s.appendChild(w);
+    return w;
+  });
+
+  var MIN_SCALE = 0.60;
+  function fitSlides() {
+    slides.forEach(function (s, n) {
+      var w = inners[n];
+      w.style.transform = 'none';
+      w.style.width = '100%';
+      w.style.height = 'auto';
+      var natural = w.scrollHeight, avail = s.clientHeight;
+      if (!avail) { return; }
+      if (natural <= avail + 1) {
+        w.style.height = avail + 'px';      // centred, so the slack is equal top and bottom
+        return;
+      }
+      // never clip: shrink until it fits, keeping a little breathing room
+      var k = Math.max(MIN_SCALE, (avail - 2) / natural);
+      w.style.transform = 'scale(' + k + ')';
+      w.style.width = (100 / k) + '%';
+      w.style.height = (avail / k) + 'px';
+    });
+  }
+
+  function fit() { fitStage(); fitSlides(); }
+  window.addEventListener('resize', fit);
+  window.addEventListener('orientationchange', fit);
+  fit();
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(fit); }
+  window.addEventListener('load', fit);
+
+  slides.forEach(function (s, n) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('aria-label', 'Slide ' + (n + 1));
+    b.addEventListener('click', function (e) { e.stopPropagation(); show(n); });
+    ticks.appendChild(b);
+  });
+  var dots = Array.prototype.slice.call(ticks.children);
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+  // a line, not a loop: nothing before slide 1, nothing after the last
+  function show(n) {
+    i = n < 0 ? 0 : (n > last ? last : n);
+    slides.forEach(function (s, m) {
+      s.classList.toggle('on', m === i);
+      s.setAttribute('aria-hidden', m === i ? 'false' : 'true');
+    });
+    dots.forEach(function (d, m) {
+      if (m === i) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current');
+    });
+    counter.textContent = pad(i + 1) + ' / ' + slides.length;
+    chapter.textContent = chapters[i];
+  }
+
+  function toggleFullscreen() {
+    var el = document.documentElement;
+    if (!document.fullscreenElement) {
+      if (el.requestFullscreen) el.requestFullscreen().catch(function () {});
+    } else if (document.exitFullscreen) { document.exitFullscreen().catch(function () {}); }
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    var t = e.target;
+    if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+    var k = e.key;
+    if (k === 'ArrowRight' || k === 'ArrowDown' || k === 'PageDown' || k === ' ' || k === 'Enter') {
+      e.preventDefault(); if (i < last) show(i + 1);
+    } else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp' || k === 'Backspace') {
+      e.preventDefault(); if (i > 0) show(i - 1);
+    } else if (k === 'Home') { e.preventDefault(); show(0);
+    } else if (k === 'End')  { e.preventDefault(); show(last);
+    } else if (k === 'f' || k === 'F') { e.preventDefault(); toggleFullscreen(); }
+  });
+
+  document.querySelector('.frames').addEventListener('click', function (e) {
+    var r = this.getBoundingClientRect();
+    var fwd = (e.clientX - r.left) > r.width / 2;
+    if (fwd && i < last) show(i + 1); else if (!fwd && i > 0) show(i - 1);
+  });
+
+  var x0 = null;
+  document.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', function (e) {
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 48) { if (dx < 0 && i < last) show(i + 1); else if (dx > 0 && i > 0) show(i - 1); }
+    x0 = null;
+  }, { passive: true });
+
+  show(0);
+})();
+</script>

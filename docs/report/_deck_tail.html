@@ -1,0 +1,124 @@
+  </div>
+</div>
+<script>
+(function () {
+  var stage   = document.getElementById('stage');
+  var slides  = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var ticks   = document.getElementById('ticks');
+  var counter = document.getElementById('counter');
+  var chapter = document.getElementById('chapter');
+  var last    = slides.length - 1;
+  var i = 0;
+
+  // the chapter label lives once in the top bar instead of on every slide
+  var chapters = slides.map(function (s) {
+    var e = s.querySelector('.eyebrow');
+    return e ? e.textContent.trim() : '';
+  });
+
+  function fitStage() {
+    var k = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    stage.style.transform = 'translate(-50%, -50%) scale(' + k + ')';
+  }
+
+  // one wrapper per slide so its content can be measured and, if it is taller
+  // than the frame, scaled to fit. Nothing can overrun the bottom edge.
+  var inners = slides.map(function (s) {
+    var w = document.createElement('div');
+    w.className = 'slide-inner';
+    while (s.firstChild) { w.appendChild(s.firstChild); }
+    s.appendChild(w);
+    return w;
+  });
+
+  var MIN_SCALE = 0.60;
+  function fitSlides() {
+    slides.forEach(function (s, n) {
+      var w = inners[n];
+      w.style.transform = 'none';
+      w.style.width = '100%';
+      w.style.height = 'auto';
+      var natural = w.scrollHeight, avail = s.clientHeight;
+      if (!avail) { return; }
+      if (natural <= avail + 1) {
+        w.style.height = avail + 'px';      // centred, so the slack is equal top and bottom
+        return;
+      }
+      // never clip: shrink until it fits, keeping a little breathing room
+      var k = Math.max(MIN_SCALE, (avail - 2) / natural);
+      w.style.transform = 'scale(' + k + ')';
+      w.style.width = (100 / k) + '%';
+      w.style.height = (avail / k) + 'px';
+    });
+  }
+
+  function fit() { fitStage(); fitSlides(); }
+  window.addEventListener('resize', fit);
+  window.addEventListener('orientationchange', fit);
+  fit();
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(fit); }
+  window.addEventListener('load', fit);
+
+  slides.forEach(function (s, n) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('aria-label', 'Slide ' + (n + 1));
+    b.addEventListener('click', function (e) { e.stopPropagation(); show(n); });
+    ticks.appendChild(b);
+  });
+  var dots = Array.prototype.slice.call(ticks.children);
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+  // a line, not a loop: nothing before slide 1, nothing after the last
+  function show(n) {
+    i = n < 0 ? 0 : (n > last ? last : n);
+    slides.forEach(function (s, m) {
+      s.classList.toggle('on', m === i);
+      s.setAttribute('aria-hidden', m === i ? 'false' : 'true');
+    });
+    dots.forEach(function (d, m) {
+      if (m === i) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current');
+    });
+    counter.textContent = pad(i + 1) + ' / ' + slides.length;
+    chapter.textContent = chapters[i];
+  }
+
+  function toggleFullscreen() {
+    var el = document.documentElement;
+    if (!document.fullscreenElement) {
+      if (el.requestFullscreen) el.requestFullscreen().catch(function () {});
+    } else if (document.exitFullscreen) { document.exitFullscreen().catch(function () {}); }
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    var t = e.target;
+    if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+    var k = e.key;
+    if (k === 'ArrowRight' || k === 'ArrowDown' || k === 'PageDown' || k === ' ' || k === 'Enter') {
+      e.preventDefault(); if (i < last) show(i + 1);
+    } else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp' || k === 'Backspace') {
+      e.preventDefault(); if (i > 0) show(i - 1);
+    } else if (k === 'Home') { e.preventDefault(); show(0);
+    } else if (k === 'End')  { e.preventDefault(); show(last);
+    } else if (k === 'f' || k === 'F') { e.preventDefault(); toggleFullscreen(); }
+  });
+
+  document.querySelector('.frames').addEventListener('click', function (e) {
+    var r = this.getBoundingClientRect();
+    var fwd = (e.clientX - r.left) > r.width / 2;
+    if (fwd && i < last) show(i + 1); else if (!fwd && i > 0) show(i - 1);
+  });
+
+  var x0 = null;
+  document.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', function (e) {
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 48) { if (dx < 0 && i < last) show(i + 1); else if (dx > 0 && i > 0) show(i - 1); }
+    x0 = null;
+  }, { passive: true });
+
+  show(0);
+})();
+</script>

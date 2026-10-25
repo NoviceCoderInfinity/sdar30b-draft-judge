@@ -1,0 +1,94 @@
+<figure>
+<svg class="dia" viewBox="0 0 880 400" role="img" xmlns="http://www.w3.org/2000/svg"
+     aria-label="The round-2a adapter: a learned draft vector is added to the input embedding of tentative draft slots only, and the same zero-one flag gates the LoRA delta on the four attention projections, so committed, masked and prefix positions compute exactly as the frozen model.">
+  <defs>
+    <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <text x="0" y="14" font-size="12.5" fill="currentColor" opacity=".65">
+    one position, one decoder layer &mdash; what the adapter does depends on what the slot holds</text>
+
+  <!-- column headers -->
+  <g font-size="12.5" font-weight="600">
+    <text x="120" y="48" text-anchor="middle" fill="#00806A">committed slot</text>
+    <text x="440" y="48" text-anchor="middle" fill="#B84A00">tentative draft slot</text>
+    <text x="760" y="48" text-anchor="middle" fill="#2C7FB8">masked slot</text>
+  </g>
+  <g font-size="11" fill="currentColor" opacity=".6">
+    <text x="120" y="64" text-anchor="middle">already decided</text>
+    <text x="440" y="64" text-anchor="middle">holds D&#8202;&#8339;, still open</text>
+    <text x="760" y="64" text-anchor="middle">holds [MASK]</text>
+  </g>
+
+  <!-- the flag row -->
+  <g font-family="monospace" font-size="12">
+    <rect x="70" y="78" width="100" height="26" rx="2" fill="none" stroke="#00806A" stroke-width="1.4"/>
+    <rect x="390" y="78" width="100" height="26" rx="2" fill="none" stroke="#B84A00" stroke-width="2.2"/>
+    <rect x="710" y="78" width="100" height="26" rx="2" fill="none" stroke="#2C7FB8" stroke-width="1.4"/>
+    <text x="120" y="96" text-anchor="middle" fill="currentColor">g = 0</text>
+    <text x="440" y="96" text-anchor="middle" fill="#B84A00">g = 1</text>
+    <text x="760" y="96" text-anchor="middle" fill="currentColor">g = 0</text>
+  </g>
+  <text x="440" y="120" font-size="11" text-anchor="middle" fill="currentColor" opacity=".6">
+    the draft flag: known for free at inference</text>
+
+  <!-- embedding stage -->
+  <line x1="120" y1="104" x2="120" y2="140" stroke="currentColor" stroke-width="1.2" marker-end="url(#a2)"/>
+  <line x1="440" y1="104" x2="440" y2="140" stroke="#B84A00" stroke-width="1.6" marker-end="url(#a2)"/>
+  <line x1="760" y1="104" x2="760" y2="140" stroke="currentColor" stroke-width="1.2" marker-end="url(#a2)"/>
+
+  <g font-size="11.5" font-family="monospace">
+    <rect x="20" y="146" width="200" height="40" rx="3" fill="none" stroke="currentColor" opacity=".45"/>
+    <rect x="340" y="146" width="200" height="40" rx="3" fill="none" stroke="#B84A00" stroke-width="1.8"/>
+    <rect x="660" y="146" width="200" height="40" rx="3" fill="none" stroke="currentColor" opacity=".45"/>
+    <text x="120" y="171" text-anchor="middle" fill="currentColor">e = embed(x)</text>
+    <text x="440" y="171" text-anchor="middle" fill="#B84A00">e = embed(x) + v_draft</text>
+    <text x="760" y="171" text-anchor="middle" fill="currentColor">e = embed(x)</text>
+  </g>
+  <text x="440" y="202" font-size="11" text-anchor="middle" fill="currentColor" opacity=".6">
+    v_draft: one trainable vector, 2,048 numbers, zero-initialised</text>
+
+  <!-- attention stage -->
+  <line x1="120" y1="186" x2="120" y2="222" stroke="currentColor" stroke-width="1.2" marker-end="url(#a2)"/>
+  <line x1="440" y1="212" x2="440" y2="234" stroke="#B84A00" stroke-width="1.6" marker-end="url(#a2)"/>
+  <line x1="760" y1="186" x2="760" y2="222" stroke="currentColor" stroke-width="1.2" marker-end="url(#a2)"/>
+
+  <g font-size="11.5" font-family="monospace">
+    <rect x="20" y="240" width="200" height="46" rx="3" fill="none" stroke="currentColor" opacity=".45"/>
+    <rect x="340" y="240" width="200" height="46" rx="3" fill="none" stroke="#B84A00" stroke-width="1.8"/>
+    <rect x="660" y="240" width="200" height="46" rx="3" fill="none" stroke="currentColor" opacity=".45"/>
+    <text x="120" y="262" text-anchor="middle" fill="currentColor">y = W x</text>
+    <text x="120" y="278" text-anchor="middle" fill="currentColor" opacity=".55" font-size="10.5">frozen weight only</text>
+    <text x="440" y="262" text-anchor="middle" fill="#B84A00">y = W x + (&#945;/r)&#8201;B A x</text>
+    <text x="440" y="278" text-anchor="middle" fill="#B84A00" opacity=".8" font-size="10.5">rank-32 delta, applied here</text>
+    <text x="760" y="262" text-anchor="middle" fill="currentColor">y = W x</text>
+    <text x="760" y="278" text-anchor="middle" fill="currentColor" opacity=".55" font-size="10.5">frozen weight only</text>
+  </g>
+  <text x="440" y="304" font-size="11" text-anchor="middle" fill="currentColor" opacity=".6">
+    on q, k, v and o of all 48 layers &mdash; 26.7 M trainable parameters</text>
+
+  <!-- MoE stage -->
+  <line x1="120" y1="286" x2="120" y2="322" stroke="currentColor" stroke-width="1.2" marker-end="url(#a2)"/>
+  <line x1="440" y1="314" x2="440" y2="334" stroke="currentColor" stroke-width="1.2" marker-end="url(#a2)"/>
+  <line x1="760" y1="286" x2="760" y2="322" stroke="currentColor" stroke-width="1.2" marker-end="url(#a2)"/>
+
+  <rect x="20" y="340" width="840" height="36" rx="3" fill="none" stroke="currentColor"
+        stroke-width="1.2" stroke-dasharray="5 3" opacity=".55"/>
+  <text x="440" y="363" font-size="12" text-anchor="middle" fill="currentColor">
+    router + 128 experts, top-8 &mdash; entirely frozen in round 2a</text>
+
+  <!-- the identity claim -->
+  <text x="20" y="396" font-size="11.5" font-weight="600" fill="#00806A">
+    At g = 0 nothing is added and the delta is skipped entirely: the arithmetic is bit-identical to the
+    stock model, verified to max |&#916;logit| = 0.0.</text>
+</svg>
+<figcaption><b>Round 2a's mechanism, and the one thing round 1 got wrong.</b> A single learned vector marks
+which slots are tentative guesses, and the same 0/1 flag confines the low-rank update to those slots.
+Committed slots, masked slots and the entire prompt compute exactly as the frozen model does, by
+construction rather than by hope &mdash; which is why the all-mask held-out score stayed pinned at the
+stock value 0.532 through all 1,057 training steps. Round 1 had neither the flag nor the gate: the model
+could not tell a tentative token from a settled one, and the adapter's learning bled into normal
+decoding.</figcaption>
+</figure>

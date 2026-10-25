@@ -1,0 +1,11 @@
+# /venv/sgl extras, on top of `pip install "sglang[all]==0.5.10.post1"`: what gen_sglang.py's checkers import
+# (IF checker, vendored OpenCompass scorers) and the data tools.
+nltk==3.9.2
+langdetect==1.0.9
+immutabledict==1.2.0
+absl-py==2.5.0
+regex
+sympy
+pyarrow
+pyyaml
+datasketch

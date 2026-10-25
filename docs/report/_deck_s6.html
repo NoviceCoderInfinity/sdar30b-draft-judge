@@ -1,0 +1,111 @@
+<!-- 20 -->
+<section class="slide">
+  <div class="eyebrow">Chapter VII &middot; where we stand</div>
+  <h2>The judge ties the free rule. It does not yet beat it.</h2>
+  <div class="cols" style="grid-template-columns:610px 1fr;">
+    <div class="stack">
+      <table>
+        <thead><tr><th>decode &middot; 100 frozen prompts, paired</th><th>acc</th><th>&Delta; [95% CI]</th><th>passes</th><th>exec/tok</th></tr></thead>
+        <tbody>
+          <tr><td>stock SDAR-30B</td><td>95.0</td><td>&mdash;</td><td>9.31</td><td>1,091</td></tr>
+          <tr class="hero"><td>free rule &gamma; .50 &mdash; <em>untrained</em></td><td>95.0</td><td>0 [0, 0]</td><td>7.93</td><td>963</td></tr>
+          <tr class="dead"><td>round 1 judge</td><td>38.0</td><td>&minus;57 [&minus;67,&minus;47]</td><td>19.57</td><td>1,909</td></tr>
+          <tr><td>2a &middot; commit .95</td><td>91.0</td><td>&minus;4 [&minus;9, 0]</td><td>6.90</td><td>878</td></tr>
+          <tr><td>2a &middot; commit .90</td><td>89.0</td><td>&minus;6 [&minus;12,&minus;1]</td><td>5.75</td><td>747</td></tr>
+          <tr class="hero"><td>2a &middot; confirm .90 / override .99 &mdash; <em>best</em></td><td>94.0</td><td>&minus;1 [&minus;5, +2]</td><td>7.93</td><td>995</td></tr>
+        </tbody>
+      </table>
+      <p class="kicker sm">Read the two highlighted rows against each other. <strong>The best trained setting lands on exactly the free rule's 7.93 passes, one point lower in accuracy, using 3% more expert work.</strong></p>
+    </div>
+    <div class="figbox">
+      <svg viewBox="0 0 620 300" role="img" aria-label="Accuracy against passes per block: the round-2a judge slides along the free rule's frontier instead of moving it, and the target zone at five passes and 93.5 percent accuracy is empty.">
+        <line x1="70" y1="30" x2="70" y2="240" stroke="currentColor"/><line x1="70" y1="240" x2="600" y2="240" stroke="currentColor"/>
+        <rect x="70" y="30" width="86" height="62" fill="var(--commit-soft)" stroke="var(--commit)" stroke-dasharray="4 3"/>
+        <text x="78" y="48" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--commit)">target zone</text>
+        <text x="78" y="64" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--commit)">&le;5 passes</text>
+        <text x="78" y="80" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--commit)">&ge;93.5% acc</text>
+        <text x="78" y="105" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--wrong)">still empty</text>
+        <g font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)" text-anchor="end">
+          <text x="64" y="34">96</text><text x="64" y="86">94</text><text x="64" y="138">92</text><text x="64" y="190">90</text><text x="64" y="243">88</text>
+        </g>
+        <text x="16" y="20" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">accuracy %</text>
+        <g font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)" text-anchor="middle">
+          <text x="70" y="258">4</text><text x="156" y="258">5</text><text x="242" y="258">6</text><text x="328" y="258">7</text><text x="414" y="258">8</text><text x="500" y="258">9</text><text x="586" y="258">10</text>
+        </g>
+        <text x="335" y="278" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">30B passes per block  &rarr;  cheaper this way</text>
+        <polyline points="326,190 349,112 411,60 525,60" fill="none" stroke="var(--draft)" stroke-width="1.6" opacity=".55"/>
+        <circle cx="525" cy="60" r="6" fill="var(--stage)" stroke="currentColor" stroke-width="2"/>
+        <text x="538" y="57" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor">stock</text>
+        <text x="538" y="72" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)">95.0 / 9.31</text>
+        <circle cx="411" cy="60" r="6" fill="var(--draft)" stroke="var(--draft)" stroke-width="2"/>
+        <text x="411" y="48" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--draft)">free rule &gamma;.5 &mdash; 95.0 / 7.93</text>
+        <circle cx="411" cy="86" r="6" fill="var(--commit)" stroke="var(--commit)" stroke-width="2"/>
+        <text x="398" y="103" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--commit)">judge, strict overrides &mdash; 94.0</text>
+        <circle cx="380" cy="112" r="5" fill="var(--commit)" stroke="var(--commit)"/>
+        <circle cx="319" cy="138" r="6" fill="var(--commit)" stroke="var(--commit)" stroke-width="2"/>
+        <text x="332" y="142" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--commit)">judge, commit .95 &mdash; 91.0</text>
+        <circle cx="220" cy="190" r="6" fill="var(--commit)" stroke="var(--commit)" stroke-width="2"/>
+        <text x="233" y="194" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--commit)">judge, commit .90 &mdash; 89.0</text>
+        <text x="78" y="228" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--wrong)">round 1 is off this chart: 38.0 at 19.6 passes</text>
+      </svg>
+    </div>
+  </div>
+  <figcaption>It slides <em>along</em> the free rule's frontier rather than moving it. At 100 items a 1-point and a 4-point deficit are not distinguishable.</figcaption>
+</section>
+
+<!-- 21 -->
+<section class="slide">
+  <div class="eyebrow">Chapter VII &middot; where we stand</div>
+  <h2>One level down: it has two kinds of decision, and only one is safe</h2>
+  <p class="lede">Split every confident commit in two. A <strong>confirmation</strong> agrees with the drafter. An <strong>override</strong> overrules it. On 8,687 held-out pass-1 slots the two behave nothing alike.</p>
+  <div class="figbox">
+    <svg viewBox="0 0 700 215" role="img" aria-label="Confirmations are 99.1 percent precise at 34.7 percent of slots; overrides are 82.5 percent precise at 7.2 percent of slots, and need a 0.99 threshold to become reliable.">
+      <text x="0" y="16" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--muted)">at the standard threshold &tau; = 0.95</text>
+      <rect x="0" y="28" width="330" height="86" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width="1.6"/>
+      <text x="16" y="50" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="16" fill="var(--commit)">CONFIRMATION &mdash; it agrees</text>
+      <text x="16" y="76" font-family="IBM Plex Mono, monospace" font-size="24" font-weight="600" fill="var(--commit)">99.1%</text>
+      <text x="120" y="76" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--ink-2)">right, at 34.7% of open slots</text>
+      <text x="16" y="102" font-family="Source Serif 4, serif" font-size="14.5" fill="var(--ink-2)">Safe &mdash; but capped by the drafter's 55.5%.</text>
+      <rect x="356" y="28" width="330" height="86" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width="1.6"/>
+      <text x="372" y="50" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="16" fill="var(--wrong)">OVERRIDE &mdash; it overrules</text>
+      <text x="372" y="76" font-family="IBM Plex Mono, monospace" font-size="24" font-weight="600" fill="var(--wrong)">82.5%</text>
+      <text x="476" y="76" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--ink-2)">right, at 7.2% of open slots</text>
+      <text x="372" y="102" font-family="Source Serif 4, serif" font-size="14.5" fill="var(--ink-2)">The only decisions that beat the cap.</text>
+      <line x1="0" y1="132" x2="700" y2="132" stroke="var(--rule)"/>
+      <text x="0" y="156" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--muted)">raise ONLY the override threshold &mdash; expected wrong commits per 29-slot block</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="13">
+        <text x="0" y="182" fill="var(--ink-2)">one threshold at .95</text>
+        <rect x="230" y="170" width="360" height="16" fill="none" stroke="var(--rule)"/>
+        <rect x="230" y="170" width="360" height="16" fill="var(--wrong-soft)" stroke="var(--wrong)"/>
+        <text x="602" y="183" fill="var(--wrong)">0.46</text>
+        <text x="0" y="208" fill="var(--ink-2)">confirm .95 / override .99</text>
+        <rect x="230" y="196" width="360" height="16" fill="none" stroke="var(--rule)"/>
+        <rect x="230" y="196" width="110" height="16" fill="var(--commit-soft)" stroke="var(--commit)"/>
+        <text x="602" y="209" fill="var(--commit)">0.14</text>
+      </g>
+    </svg>
+  </div>
+  <div class="callout bad"><b>Why it ties.</b> Confirmations cannot exceed the drafter's 55.5%, and the judge is confident on only 62% of the correct drafts it sees. The decisions that <em>would</em> break that ceiling are the overrides, the 17%-wrong ones. <strong>Two caps, and the model is pinned between them.</strong></div>
+</section>
+
+<!-- 22 -->
+<section class="slide">
+  <div class="eyebrow">Chapter VII &middot; where we stand</div>
+  <h2>The errors are single tokens in the answer wrapper</h2>
+  <div class="cols">
+    <div class="stack">
+      <p class="lede" style="font-size:18px;">The judge's prose is indistinguishable from the stock model's &mdash; the same reasoning steps, occasionally a different word. The failures are not sloppy thinking. They are one bad override in the last few tokens.</p>
+      <div class="eq" style="font-size:15px;">stock  &rarr;  <span class="c">\boxed{180}$.</span>
+judge  &rarr;  <span style="color:var(--wrong)">\boxed{180$.</span>   <span class="c">missing brace</span>
+
+stock  &rarr;  <span class="c">$\boxed{64}$</span>
+judge  &rarr;  <span style="color:var(--wrong)">boxed{64}$</span>    <span class="c">missing backslash</span></div>
+      <p class="kicker">Correct reasoning, correct number, wrong wrapper, marked wrong. At &tau;&nbsp;=&nbsp;.95, <strong>2 or 3 of the 9 wrong answers are this</strong>. Under confirm .90 / override .99 they vanish entirely.</p>
+    </div>
+    <div class="stack">
+      <div class="callout good"><b>Encouraging, not damning.</b> A model that broke the <em>reasoning</em> would have broken judgement. A model that breaks a brace has broken <em>calibration</em> at a handful of high-stakes slots. That is a threshold and data problem.</div>
+      <p class="kicker sm">On a task where one token flips the score, override precision matters far more than average token accuracy. The asymmetric rule exists because of this.</p>
+      <div class="callout"><b>Stock and the free rule never break the format.</b> They only fill slots the big model was already sure of. The judge is the first decoder that <em>replaces</em> a token, and replacement is where the risk lives.</div>
+    </div>
+  </div>
+</section>

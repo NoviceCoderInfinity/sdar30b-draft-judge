@@ -1,0 +1,76 @@
+[state] item 3645 block 15 S=640 open 32 draft-filled 14
+🚨 `store_kv` is part of SDARMoeModel.forward's signature, but not documented. Make sure to add it to the docstring of the function in /workspace/dlm-exp1-voting/hf_cache/modules/transformers_modules/JetLM/SDAR-30B-A3B-Chat-b32/c351bbc37d240aa6871f167e8f92d694281b0c22/modeling_sdar_moe.py.
+Loading checkpoint shards:   0%|          | 0/49 [00:00<?, ?it/s]Loading checkpoint shards:   2%|▏         | 1/49 [00:00<00:41,  1.15it/s]Loading checkpoint shards:   4%|▍         | 2/49 [00:01<00:25,  1.88it/s]Loading checkpoint shards:   6%|▌         | 3/49 [00:01<00:19,  2.36it/s]Loading checkpoint shards:   8%|▊         | 4/49 [00:01<00:17,  2.64it/s]Loading checkpoint shards:  10%|█         | 5/49 [00:02<00:15,  2.87it/s]Loading checkpoint shards:  12%|█▏        | 6/49 [00:02<00:14,  3.03it/s]Loading checkpoint shards:  14%|█▍        | 7/49 [00:02<00:13,  3.08it/s]Loading checkpoint shards:  16%|█▋        | 8/49 [00:02<00:12,  3.17it/s]Loading checkpoint shards:  18%|█▊        | 9/49 [00:03<00:11,  3.35it/s]Loading checkpoint shards:  20%|██        | 10/49 [00:03<00:11,  3.52it/s]Loading checkpoint shards:  22%|██▏       | 11/49 [00:03<00:10,  3.64it/s]Loading checkpoint shards:  24%|██▍       | 12/49 [00:03<00:09,  3.74it/s]Loading checkpoint shards:  27%|██▋       | 13/49 [00:04<00:09,  3.75it/s]Loading checkpoint shards:  29%|██▊       | 14/49 [00:04<00:09,  3.74it/s]Loading checkpoint shards:  31%|███       | 15/49 [00:04<00:09,  3.74it/s]Loading checkpoint shards:  33%|███▎      | 16/49 [00:05<00:08,  3.69it/s]Loading checkpoint shards:  35%|███▍      | 17/49 [00:05<00:08,  3.72it/s]Loading checkpoint shards:  37%|███▋      | 18/49 [00:05<00:08,  3.74it/s]Loading checkpoint shards:  39%|███▉      | 19/49 [00:05<00:08,  3.61it/s]Loading checkpoint shards:  41%|████      | 20/49 [00:06<00:08,  3.37it/s]Loading checkpoint shards:  43%|████▎     | 21/49 [00:06<00:08,  3.48it/s]Loading checkpoint shards:  45%|████▍     | 22/49 [00:06<00:07,  3.41it/s]Loading checkpoint shards:  47%|████▋     | 23/49 [00:07<00:07,  3.54it/s]Loading checkpoint shards:  49%|████▉     | 24/49 [00:07<00:07,  3.56it/s]Loading checkpoint shards:  51%|█████     | 25/49 [00:07<00:06,  3.50it/s]Loading checkpoint shards:  53%|█████▎    | 26/49 [00:07<00:06,  3.42it/s]Loading checkpoint shards:  55%|█████▌    | 27/49 [00:08<00:06,  3.37it/s]Loading checkpoint shards:  57%|█████▋    | 28/49 [00:08<00:06,  3.33it/s]Loading checkpoint shards:  59%|█████▉    | 29/49 [00:08<00:05,  3.36it/s]Loading checkpoint shards:  61%|██████    | 30/49 [00:09<00:05,  3.26it/s]Loading checkpoint shards:  63%|██████▎   | 31/49 [00:09<00:05,  3.28it/s]Loading checkpoint shards:  65%|██████▌   | 32/49 [00:09<00:05,  3.38it/s]Loading checkpoint shards:  67%|██████▋   | 33/49 [00:10<00:04,  3.30it/s]Loading checkpoint shards:  69%|██████▉   | 34/49 [00:10<00:04,  3.40it/s]Loading checkpoint shards:  71%|███████▏  | 35/49 [00:10<00:04,  3.47it/s]Loading checkpoint shards:  73%|███████▎  | 36/49 [00:10<00:03,  3.41it/s]Loading checkpoint shards:  76%|███████▌  | 37/49 [00:11<00:03,  3.35it/s]Loading checkpoint shards:  78%|███████▊  | 38/49 [00:11<00:03,  3.26it/s]Loading checkpoint shards:  80%|███████▉  | 39/49 [00:11<00:03,  3.22it/s]Loading checkpoint shards:  82%|████████▏ | 40/49 [00:12<00:02,  3.15it/s]Loading checkpoint shards:  84%|████████▎ | 41/49 [00:12<00:02,  3.16it/s]Loading checkpoint shards:  86%|████████▌ | 42/49 [00:12<00:02,  3.16it/s]Loading checkpoint shards:  88%|████████▊ | 43/49 [00:13<00:01,  3.14it/s]Loading checkpoint shards:  90%|████████▉ | 44/49 [00:13<00:01,  3.26it/s]Loading checkpoint shards:  92%|█████████▏| 45/49 [00:13<00:01,  3.32it/s]Loading checkpoint shards:  94%|█████████▍| 46/49 [00:14<00:00,  3.38it/s]Loading checkpoint shards:  96%|█████████▌| 47/49 [00:14<00:00,  3.48it/s]Loading checkpoint shards:  98%|█████████▊| 48/49 [00:14<00:00,  3.53it/s]Loading checkpoint shards: 100%|██████████| 49/49 [00:14<00:00,  3.72it/s]Loading checkpoint shards: 100%|██████████| 49/49 [00:14<00:00,  3.31it/s]
+[parity no-ckpt] {"checkpoint": false, "seq_len": 640, "max_abs_diff_all_rows": 0.0, "max_abs_diff_loss_rows": 0.0, "argmax_equal_all_rows": true, "n_rows": 32}
+[parity ckpt] {"checkpoint": true, "seq_len": 640, "max_abs_diff_all_rows": 0.0, "max_abs_diff_loss_rows": 0.0, "argmax_equal_all_rows": true, "n_rows": 32}
+/workspace/dlm-exp1-voting/code/draftalign/sanity_check.py:148: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  rep["step"] = {"loss": float(loss), "finite": bool(torch.isfinite(loss)),
+[step] {"loss": 1.3890202045440674, "finite": true, "ce": 1.3807607889175415, "cert": 0.004129694774746895, "acc": 0.78125, "grad_norm": 16.397804260253906, "n_trainable_tensors": 432, "n_moved_adapter": 240, "n_base_tensors": 18819, "n_base_sampled": 256, "base_changed": [], "base_with_grad": [], "seconds": 5.308, "peak_mem_gib": 57.67, "must_move_not_moved": []}
+{
+  "state": {
+    "item": 47,
+    "block": 15,
+    "idx": 3645,
+    "split": "train",
+    "example": 304,
+    "epoch": 0,
+    "regime": "sample",
+    "pass": 0,
+    "m": 0.5342329144477844,
+    "allmask": false,
+    "has_draft": true,
+    "n_open": 32,
+    "n_draft_filled": 14,
+    "seq_len": 640,
+    "correct": 0
+  },
+  "trainable": {
+    "lora": 26738688,
+    "gate": 12582912,
+    "total": 39321600
+  },
+  "parity_nockpt": {
+    "checkpoint": false,
+    "seq_len": 640,
+    "max_abs_diff_all_rows": 0.0,
+    "max_abs_diff_loss_rows": 0.0,
+    "argmax_equal_all_rows": true,
+    "n_rows": 32
+  },
+  "parity_ckpt": {
+    "checkpoint": true,
+    "seq_len": 640,
+    "max_abs_diff_all_rows": 0.0,
+    "max_abs_diff_loss_rows": 0.0,
+    "argmax_equal_all_rows": true,
+    "n_rows": 32
+  },
+  "pool": {
+    "M": 32,
+    "max_unique_active": 32,
+    "mean_unique_active": 30.5,
+    "pool_sizes": [
+      32
+    ],
+    "mean_unique_active_pool_off": 67.70833587646484
+  },
+  "step": {
+    "loss": 1.3890202045440674,
+    "finite": true,
+    "ce": 1.3807607889175415,
+    "cert": 0.004129694774746895,
+    "acc": 0.78125,
+    "grad_norm": 16.397804260253906,
+    "n_trainable_tensors": 432,
+    "n_moved_adapter": 240,
+    "n_base_tensors": 18819,
+    "n_base_sampled": 256,
+    "base_changed": [],
+    "base_with_grad": [],
+    "seconds": 5.308,
+    "peak_mem_gib": 57.67,
+    "must_move_not_moved": []
+  }
+}
+[ok] all gates passed -> /workspace/dlm-exp1-voting/results/audits/draftalign/sanity_2026-09-06.json

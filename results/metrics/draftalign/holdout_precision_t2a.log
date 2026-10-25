@@ -1,0 +1,188 @@
+🚨 `store_kv` is part of SDARMoeModel.forward's signature, but not documented. Make sure to add it to the docstring of the function in /workspace/dlm-exp1-voting/hf_cache/modules/transformers_modules/JetLM/SDAR-30B-A3B-Chat-b32/c351bbc37d240aa6871f167e8f92d694281b0c22/modeling_sdar_moe.py.
+Loading checkpoint shards:   0%|          | 0/49 [00:00<?, ?it/s]Loading checkpoint shards:   2%|▏         | 1/49 [00:01<00:58,  1.21s/it]Loading checkpoint shards:   4%|▍         | 2/49 [00:01<00:31,  1.48it/s]Loading checkpoint shards:   6%|▌         | 3/49 [00:01<00:23,  1.99it/s]Loading checkpoint shards:   8%|▊         | 4/49 [00:02<00:19,  2.35it/s]Loading checkpoint shards:  10%|█         | 5/49 [00:02<00:16,  2.64it/s]Loading checkpoint shards:  12%|█▏        | 6/49 [00:02<00:15,  2.85it/s]Loading checkpoint shards:  14%|█▍        | 7/49 [00:03<00:14,  2.96it/s]Loading checkpoint shards:  16%|█▋        | 8/49 [00:03<00:13,  3.07it/s]Loading checkpoint shards:  18%|█▊        | 9/49 [00:03<00:12,  3.27it/s]Loading checkpoint shards:  20%|██        | 10/49 [00:03<00:11,  3.44it/s]Loading checkpoint shards:  22%|██▏       | 11/49 [00:04<00:10,  3.58it/s]Loading checkpoint shards:  24%|██▍       | 12/49 [00:04<00:10,  3.68it/s]Loading checkpoint shards:  27%|██▋       | 13/49 [00:04<00:09,  3.71it/s]Loading checkpoint shards:  29%|██▊       | 14/49 [00:04<00:09,  3.70it/s]Loading checkpoint shards:  31%|███       | 15/49 [00:05<00:09,  3.70it/s]Loading checkpoint shards:  33%|███▎      | 16/49 [00:05<00:09,  3.65it/s]Loading checkpoint shards:  35%|███▍      | 17/49 [00:05<00:08,  3.67it/s]Loading checkpoint shards:  37%|███▋      | 18/49 [00:05<00:08,  3.68it/s]Loading checkpoint shards:  39%|███▉      | 19/49 [00:06<00:08,  3.58it/s]Loading checkpoint shards:  41%|████      | 20/49 [00:06<00:08,  3.34it/s]Loading checkpoint shards:  43%|████▎     | 21/49 [00:06<00:08,  3.44it/s]Loading checkpoint shards:  45%|████▍     | 22/49 [00:07<00:07,  3.38it/s]Loading checkpoint shards:  47%|████▋     | 23/49 [00:07<00:07,  3.50it/s]Loading checkpoint shards:  49%|████▉     | 24/49 [00:07<00:07,  3.53it/s]Loading checkpoint shards:  51%|█████     | 25/49 [00:08<00:06,  3.47it/s]Loading checkpoint shards:  53%|█████▎    | 26/49 [00:08<00:06,  3.39it/s]Loading checkpoint shards:  55%|█████▌    | 27/49 [00:08<00:06,  3.34it/s]Loading checkpoint shards:  57%|█████▋    | 28/49 [00:08<00:06,  3.27it/s]Loading checkpoint shards:  59%|█████▉    | 29/49 [00:09<00:06,  3.31it/s]Loading checkpoint shards:  61%|██████    | 30/49 [00:09<00:05,  3.23it/s]Loading checkpoint shards:  63%|██████▎   | 31/49 [00:09<00:05,  3.23it/s]Loading checkpoint shards:  65%|██████▌   | 32/49 [00:10<00:05,  3.33it/s]Loading checkpoint shards:  67%|██████▋   | 33/49 [00:10<00:04,  3.26it/s]Loading checkpoint shards:  69%|██████▉   | 34/49 [00:10<00:04,  3.35it/s]Loading checkpoint shards:  71%|███████▏  | 35/49 [00:11<00:04,  3.43it/s]Loading checkpoint shards:  73%|███████▎  | 36/49 [00:11<00:03,  3.37it/s]Loading checkpoint shards:  76%|███████▌  | 37/49 [00:11<00:03,  3.32it/s]Loading checkpoint shards:  78%|███████▊  | 38/49 [00:12<00:03,  3.23it/s]Loading checkpoint shards:  80%|███████▉  | 39/49 [00:12<00:03,  3.18it/s]Loading checkpoint shards:  82%|████████▏ | 40/49 [00:12<00:02,  3.11it/s]Loading checkpoint shards:  84%|████████▎ | 41/49 [00:12<00:02,  3.13it/s]Loading checkpoint shards:  86%|████████▌ | 42/49 [00:13<00:02,  3.12it/s]Loading checkpoint shards:  88%|████████▊ | 43/49 [00:13<00:01,  3.11it/s]Loading checkpoint shards:  90%|████████▉ | 44/49 [00:13<00:01,  3.24it/s]Loading checkpoint shards:  92%|█████████▏| 45/49 [00:14<00:01,  3.31it/s]Loading checkpoint shards:  94%|█████████▍| 46/49 [00:14<00:00,  3.37it/s]Loading checkpoint shards:  96%|█████████▌| 47/49 [00:14<00:00,  3.46it/s]Loading checkpoint shards:  98%|█████████▊| 48/49 [00:15<00:00,  3.52it/s]Loading checkpoint shards: 100%|██████████| 49/49 [00:15<00:00,  3.69it/s]Loading checkpoint shards: 100%|██████████| 49/49 [00:15<00:00,  3.21it/s]
+{
+ "adapter": "logs/draftalign/train/t2a_gsm8k_flag/step001057",
+ "n_states": 300,
+ "regimes": {
+  "draft_pass1": {
+   "open_slots": 8687,
+   "draft_slots": 8687,
+   "draft_correct_rate": 0.5553125143051147,
+   "argmax_acc_all": 0.6296765208244324,
+   "argmax_acc_draft_slots": 0.6296765208244324,
+   "argmax_acc_masked_slots": null,
+   "by_tau": {
+    "0.9": {
+     "commit_share": 0.4753079414367676,
+     "precision": 0.9392104744911194,
+     "confirm": {
+      "share_of_open": 0.37723034620285034,
+      "precision": 0.9871833920478821
+     },
+     "override": {
+      "share_of_open": 0.09807758778333664,
+      "precision": 0.7546948194503784
+     },
+     "masked": {
+      "share_of_open": 0.0,
+      "precision": null
+     }
+    },
+    "0.95": {
+     "commit_share": 0.418671578168869,
+     "precision": 0.9626065492630005,
+     "confirm": {
+      "share_of_open": 0.34695520997047424,
+      "precision": 0.9910417795181274
+     },
+     "override": {
+      "share_of_open": 0.07171636074781418,
+      "precision": 0.8250401020050049
+     },
+     "masked": {
+      "share_of_open": 0.0,
+      "precision": null
+     }
+    },
+    "0.98": {
+     "commit_share": 0.3672153651714325,
+     "precision": 0.9840125441551208,
+     "confirm": {
+      "share_of_open": 0.31737077236175537,
+      "precision": 0.9970982670783997
+     },
+     "override": {
+      "share_of_open": 0.04984459653496742,
+      "precision": 0.9006928205490112
+     },
+     "masked": {
+      "share_of_open": 0.0,
+      "precision": null
+     }
+    },
+    "0.99": {
+     "commit_share": 0.32692527770996094,
+     "precision": 0.9933098554611206,
+     "confirm": {
+      "share_of_open": 0.28997352719306946,
+      "precision": 0.9984120726585388
+     },
+     "override": {
+      "share_of_open": 0.03695176541805267,
+      "precision": 0.9532710313796997
+     },
+     "masked": {
+      "share_of_open": 0.0,
+      "precision": null
+     }
+    },
+    "0.995": {
+     "commit_share": 0.29411765933036804,
+     "precision": 0.9976516366004944,
+     "confirm": {
+      "share_of_open": 0.26672038435935974,
+      "precision": 0.9991368055343628
+     },
+     "override": {
+      "share_of_open": 0.027397260069847107,
+      "precision": 0.9831932783126831
+     },
+     "masked": {
+      "share_of_open": 0.0,
+      "precision": null
+     }
+    }
+   }
+  },
+  "sample": {
+   "open_slots": 5711,
+   "draft_slots": 3728,
+   "draft_correct_rate": 0.48310086131095886,
+   "argmax_acc_all": 0.6482227444648743,
+   "argmax_acc_draft_slots": 0.6488733887672424,
+   "argmax_acc_masked_slots": 0.6469994783401489,
+   "by_tau": {
+    "0.9": {
+     "commit_share": 0.45508667826652527,
+     "precision": 0.9580608010292053,
+     "confirm": {
+      "share_of_open": 0.22377867996692657,
+      "precision": 0.9851329922676086
+     },
+     "override": {
+      "share_of_open": 0.09665557742118835,
+      "precision": 0.885869562625885
+     },
+     "masked": {
+      "share_of_open": 0.13465242087841034,
+      "precision": 0.9648894667625427
+     }
+    },
+    "0.95": {
+     "commit_share": 0.4027315676212311,
+     "precision": 0.980434775352478,
+     "confirm": {
+      "share_of_open": 0.20504289865493774,
+      "precision": 0.9948761463165283
+     },
+     "override": {
+      "share_of_open": 0.07791980355978012,
+      "precision": 0.9370786547660828
+     },
+     "masked": {
+      "share_of_open": 0.11976886540651321,
+      "precision": 0.9839181303977966
+     }
+    },
+    "0.98": {
+     "commit_share": 0.3544037938117981,
+     "precision": 0.9901185631752014,
+     "confirm": {
+      "share_of_open": 0.1894589364528656,
+      "precision": 0.9981516003608704
+     },
+     "override": {
+      "share_of_open": 0.06286114454269409,
+      "precision": 0.9665738344192505
+     },
+     "masked": {
+      "share_of_open": 0.10208369791507721,
+      "precision": 0.989708423614502
+     }
+    },
+    "0.99": {
+     "commit_share": 0.3223603665828705,
+     "precision": 0.9967408776283264,
+     "confirm": {
+      "share_of_open": 0.17755208909511566,
+      "precision": 0.9990137815475464
+     },
+     "override": {
+      "share_of_open": 0.0527053065598011,
+      "precision": 0.9833887219429016
+     },
+     "masked": {
+      "share_of_open": 0.09210295975208282,
+      "precision": 1.0
+     }
+    },
+    "0.995": {
+     "commit_share": 0.2883908152580261,
+     "precision": 0.9993928074836731,
+     "confirm": {
+      "share_of_open": 0.16389423608779907,
+      "precision": 0.9989316463470459
+     },
+     "override": {
+      "share_of_open": 0.04254946485161781,
+      "precision": 1.0
+     },
+     "masked": {
+      "share_of_open": 0.08194711804389954,
+      "precision": 1.0
+     }
+    }
+   }
+  }
+ }
+}

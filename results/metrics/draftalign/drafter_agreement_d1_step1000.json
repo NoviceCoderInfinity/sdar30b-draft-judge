@@ -1,0 +1,3876 @@
+{
+  "config": {
+    "index": "logs/draftalign/drafterset_union/index.jsonl",
+    "ckpt": "logs/draftalign/train_drafter/d1/step001000",
+    "baseline": "d32",
+    "out": "results/metrics/draftalign/drafter_agreement_d1_step1000.json",
+    "setting": "s8",
+    "n_items": 100,
+    "holdout_items": 100,
+    "seed": 0,
+    "max_seq": 1200,
+    "min_blocks": 2,
+    "only_correct": true,
+    "all_items": false,
+    "device": "cuda:0"
+  },
+  "config_hash": "c90f3d087f92d558",
+  "setting": "s8",
+  "utc": "2026-09-08T07:49:33Z",
+  "ckpt_info": {
+    "kind": "checkpoint",
+    "spec": "/workspace/dlm-exp1-voting/logs/draftalign/train_drafter/d1/step001000",
+    "step": 1000
+  },
+  "ckpt": {
+    "items": [
+      {
+        "idx": 147,
+        "n_blocks": 7,
+        "slots": 220,
+        "agree": 140,
+        "agreement": 0.6363636363636364,
+        "per_block": [
+          0.8928571428571429,
+          0.96875,
+          0.9375,
+          0.5,
+          0.40625,
+          0.3125,
+          0.46875
+        ],
+        "drafter_forwards": 56,
+        "split": "train_pool"
+      },
+      {
+        "idx": 935,
+        "n_blocks": 5,
+        "slots": 136,
+        "agree": 69,
+        "agreement": 0.5073529411764706,
+        "per_block": [
+          1.0,
+          0.3125,
+          0.34375,
+          0.96875,
+          0.28125
+        ],
+        "drafter_forwards": 40,
+        "split": "train_pool"
+      },
+      {
+        "idx": 2027,
+        "n_blocks": 7,
+        "slots": 205,
+        "agree": 184,
+        "agreement": 0.8975609756097561,
+        "per_block": [
+          0.8461538461538461,
+          1.0,
+          0.8125,
+          1.0,
+          0.625,
+          0.96875,
+          1.0
+        ],
+        "drafter_forwards": 56,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3030,
+        "n_blocks": 5,
+        "slots": 160,
+        "agree": 90,
+        "agreement": 0.5625,
+        "per_block": [
+          0.09375,
+          0.375,
+          1.0,
+          1.0,
+          0.34375
+        ],
+        "drafter_forwards": 40,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1558,
+        "n_blocks": 9,
+        "slots": 259,
+        "agree": 100,
+        "agreement": 0.3861003861003861,
+        "per_block": [
+          0.3333333333333333,
+          0.25,
+          0.09375,
+          0.3125,
+          1.0,
+          0.15625,
+          0.09375,
+          0.96875,
+          0.21875
+        ],
+        "drafter_forwards": 67,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1608,
+        "n_blocks": 7,
+        "slots": 210,
+        "agree": 193,
+        "agreement": 0.919047619047619,
+        "per_block": [
+          1.0,
+          0.625,
+          1.0,
+          0.875,
+          0.96875,
+          1.0,
+          1.0
+        ],
+        "drafter_forwards": 56,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1609,
+        "n_blocks": 5,
+        "slots": 137,
+        "agree": 101,
+        "agreement": 0.7372262773722628,
+        "per_block": [
+          1.0,
+          0.6875,
+          0.9375,
+          0.28125,
+          0.96875
+        ],
+        "drafter_forwards": 40,
+        "split": "train_pool"
+      },
+      {
+        "idx": 426,
+        "n_blocks": 9,
+        "slots": 277,
+        "agree": 173,
+        "agreement": 0.6245487364620939,
+        "per_block": [
+          1.0,
+          0.15625,
+          0.28125,
+          0.71875,
+          0.5625,
+          1.0,
+          0.75,
+          0.71875,
+          0.5625
+        ],
+        "drafter_forwards": 72,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1429,
+        "n_blocks": 5,
+        "slots": 135,
+        "agree": 84,
+        "agreement": 0.6222222222222222,
+        "per_block": [
+          1.0,
+          0.625,
+          0.78125,
+          0.03125,
+          0.96875
+        ],
+        "drafter_forwards": 39,
+        "split": "train_pool"
+      },
+      {
+        "idx": 2202,
+        "n_blocks": 4,
+        "slots": 101,
+        "agree": 43,
+        "agreement": 0.42574257425742573,
+        "per_block": [
+          0.0,
+          0.03125,
+          0.8125,
+          0.5
+        ],
+        "drafter_forwards": 29,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3074,
+        "n_blocks": 7,
+        "slots": 218,
+        "agree": 70,
+        "agreement": 0.3211009174311927,
+        "per_block": [
+          0.5769230769230769,
+          0.3125,
+          0.25,
+          0.34375,
+          0.3125,
+          0.4375,
+          0.0625
+        ],
+        "drafter_forwards": 56,
+        "split": "train_pool"
+      },
+      {
+        "idx": 199,
+        "n_blocks": 7,
+        "slots": 220,
+        "agree": 128,
+        "agreement": 0.5818181818181818,
+        "per_block": [
+          0.32142857142857145,
+          0.46875,
+          0.8125,
+          0.84375,
+          0.0625,
+          0.75,
+          0.78125
+        ],
+        "drafter_forwards": 56,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1145,
+        "n_blocks": 3,
+        "slots": 83,
+        "agree": 48,
+        "agreement": 0.5783132530120482,
+        "per_block": [
+          0.47368421052631576,
+          1.0,
+          0.21875
+        ],
+        "drafter_forwards": 24,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1603,
+        "n_blocks": 5,
+        "slots": 136,
+        "agree": 58,
+        "agreement": 0.4264705882352941,
+        "per_block": [
+          1.0,
+          0.1875,
+          0.90625,
+          0.4375,
+          0.03125
+        ],
+        "drafter_forwards": 40,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1890,
+        "n_blocks": 30,
+        "slots": 952,
+        "agree": 501,
+        "agreement": 0.5262605042016807,
+        "per_block": [
+          0.9166666666666666,
+          0.1875,
+          1.0,
+          1.0,
+          0.875,
+          0.03125,
+          0.125,
+          0.3125,
+          0.1875,
+          0.1875,
+          0.03125,
+          0.09375,
+          0.125,
+          0.0625,
+          0.90625,
+          0.6875,
+          0.96875,
+          0.96875,
+          1.0,
+          0.875,
+          1.0,
+          0.875,
+          0.8125,
+          0.0625,
+          0.125,
+          0.71875,
+          0.375,
+          0.46875,
+          0.1875,
+          0.71875
+        ],
+        "drafter_forwards": 240,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1989,
+        "n_blocks": 20,
+        "slots": 612,
+        "agree": 337,
+        "agreement": 0.5506535947712419,
+        "per_block": [
+          1.0,
+          0.21875,
+          0.0625,
+          0.25,
+          0.3125,
+          0.125,
+          0.34375,
+          0.25,
+          0.21875,
+          1.0,
+          0.375,
+          1.0,
+          1.0,
+          0.90625,
+          1.0,
+          1.0,
+          1.0,
+          0.1875,
+          0.875,
+          0.28125
+        ],
+        "drafter_forwards": 156,
+        "split": "train_pool"
+      },
+      {
+        "idx": 2666,
+        "n_blocks": 6,
+        "slots": 186,
+        "agree": 106,
+        "agreement": 0.5698924731182796,
+        "per_block": [
+          0.38461538461538464,
+          0.84375,
+          0.0625,
+          0.96875,
+          0.125,
+          1.0
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 2783,
+        "n_blocks": 8,
+        "slots": 234,
+        "agree": 103,
+        "agreement": 0.44017094017094016,
+        "per_block": [
+          0.0,
+          0.5,
+          0.34375,
+          0.90625,
+          0.375,
+          0.0625,
+          1.0,
+          0.03125
+        ],
+        "drafter_forwards": 64,
+        "split": "train_pool"
+      },
+      {
+        "idx": 176,
+        "n_blocks": 4,
+        "slots": 108,
+        "agree": 59,
+        "agreement": 0.5462962962962963,
+        "per_block": [
+          0.0,
+          0.75,
+          1.0,
+          0.09375
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 2888,
+        "n_blocks": 9,
+        "slots": 271,
+        "agree": 166,
+        "agreement": 0.6125461254612546,
+        "per_block": [
+          1.0,
+          0.09375,
+          0.78125,
+          1.0,
+          1.0,
+          1.0,
+          0.03125,
+          0.46875,
+          0.34375
+        ],
+        "drafter_forwards": 72,
+        "split": "train_pool"
+      },
+      {
+        "idx": 71,
+        "n_blocks": 4,
+        "slots": 101,
+        "agree": 32,
+        "agreement": 0.31683168316831684,
+        "per_block": [
+          1.0,
+          0.4375,
+          0.25,
+          0.15625
+        ],
+        "drafter_forwards": 29,
+        "split": "train_pool"
+      },
+      {
+        "idx": 314,
+        "n_blocks": 8,
+        "slots": 236,
+        "agree": 158,
+        "agreement": 0.6694915254237288,
+        "per_block": [
+          0.0,
+          0.03125,
+          0.6875,
+          0.75,
+          1.0,
+          0.59375,
+          1.0,
+          0.875
+        ],
+        "drafter_forwards": 64,
+        "split": "train_pool"
+      },
+      {
+        "idx": 485,
+        "n_blocks": 4,
+        "slots": 122,
+        "agree": 81,
+        "agreement": 0.6639344262295082,
+        "per_block": [
+          0.6923076923076923,
+          0.75,
+          0.78125,
+          0.4375
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1958,
+        "n_blocks": 5,
+        "slots": 154,
+        "agree": 68,
+        "agreement": 0.44155844155844154,
+        "per_block": [
+          1.0,
+          0.09375,
+          0.0625,
+          1.0,
+          0.15625
+        ],
+        "drafter_forwards": 40,
+        "split": "train_pool"
+      },
+      {
+        "idx": 2452,
+        "n_blocks": 5,
+        "slots": 145,
+        "agree": 121,
+        "agreement": 0.8344827586206897,
+        "per_block": [
+          0.8823529411764706,
+          1.0,
+          0.3125,
+          1.0,
+          1.0
+        ],
+        "drafter_forwards": 40,
+        "split": "train_pool"
+      },
+      {
+        "idx": 2583,
+        "n_blocks": 19,
+        "slots": 585,
+        "agree": 367,
+        "agreement": 0.6273504273504273,
+        "per_block": [
+          1.0,
+          0.1875,
+          0.21875,
+          0.09375,
+          0.1875,
+          0.125,
+          0.96875,
+          0.34375,
+          0.375,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.90625,
+          0.625,
+          1.0,
+          0.875,
+          0.28125,
+          1.0
+        ],
+        "drafter_forwards": 152,
+        "split": "train_pool"
+      },
+      {
+        "idx": 2849,
+        "n_blocks": 5,
+        "slots": 135,
+        "agree": 98,
+        "agreement": 0.725925925925926,
+        "per_block": [
+          0.0,
+          0.0625,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "drafter_forwards": 39,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1197,
+        "n_blocks": 9,
+        "slots": 266,
+        "agree": 111,
+        "agreement": 0.41729323308270677,
+        "per_block": [
+          0.2,
+          0.78125,
+          0.25,
+          0.0,
+          0.3125,
+          0.59375,
+          0.125,
+          0.8125,
+          0.53125
+        ],
+        "drafter_forwards": 72,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1497,
+        "n_blocks": 4,
+        "slots": 113,
+        "agree": 46,
+        "agreement": 0.40707964601769914,
+        "per_block": [
+          0.9411764705882353,
+          0.09375,
+          0.09375,
+          0.75
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 2067,
+        "n_blocks": 12,
+        "slots": 367,
+        "agree": 125,
+        "agreement": 0.3405994550408719,
+        "per_block": [
+          0.2,
+          0.4375,
+          0.1875,
+          0.09375,
+          0.21875,
+          0.3125,
+          0.09375,
+          0.0625,
+          0.59375,
+          0.3125,
+          1.0,
+          0.5
+        ],
+        "drafter_forwards": 96,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3535,
+        "n_blocks": 4,
+        "slots": 114,
+        "agree": 55,
+        "agreement": 0.4824561403508772,
+        "per_block": [
+          1.0,
+          0.375,
+          0.09375,
+          0.6875
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 4355,
+        "n_blocks": 6,
+        "slots": 175,
+        "agree": 111,
+        "agreement": 0.6342857142857142,
+        "per_block": [
+          0.7333333333333333,
+          0.1875,
+          1.0,
+          1.0,
+          0.21875,
+          0.71875
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5359,
+        "n_blocks": 5,
+        "slots": 129,
+        "agree": 75,
+        "agreement": 0.5813953488372093,
+        "per_block": [
+          0.0,
+          0.375,
+          0.6875,
+          0.9375,
+          0.34375
+        ],
+        "drafter_forwards": 33,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5761,
+        "n_blocks": 4,
+        "slots": 105,
+        "agree": 25,
+        "agreement": 0.23809523809523808,
+        "per_block": [
+          0.0,
+          0.0625,
+          0.5625,
+          0.15625
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 7430,
+        "n_blocks": 2,
+        "slots": 48,
+        "agree": 22,
+        "agreement": 0.4583333333333333,
+        "per_block": [
+          0.625,
+          0.375
+        ],
+        "drafter_forwards": 16,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5230,
+        "n_blocks": 4,
+        "slots": 113,
+        "agree": 33,
+        "agreement": 0.2920353982300885,
+        "per_block": [
+          0.35294117647058826,
+          0.09375,
+          0.125,
+          0.625
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5564,
+        "n_blocks": 7,
+        "slots": 206,
+        "agree": 124,
+        "agreement": 0.6019417475728155,
+        "per_block": [
+          0.9285714285714286,
+          0.09375,
+          1.0,
+          0.28125,
+          1.0,
+          0.09375,
+          1.0
+        ],
+        "drafter_forwards": 56,
+        "split": "train_pool"
+      },
+      {
+        "idx": 7249,
+        "n_blocks": 4,
+        "slots": 115,
+        "agree": 67,
+        "agreement": 0.5826086956521739,
+        "per_block": [
+          0.9473684210526315,
+          0.03125,
+          0.5,
+          1.0
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3228,
+        "n_blocks": 14,
+        "slots": 437,
+        "agree": 256,
+        "agreement": 0.585812356979405,
+        "per_block": [
+          0.047619047619047616,
+          0.1875,
+          0.96875,
+          0.3125,
+          1.0,
+          0.65625,
+          0.03125,
+          0.21875,
+          1.0,
+          0.96875,
+          1.0,
+          0.15625,
+          1.0,
+          0.46875
+        ],
+        "drafter_forwards": 112,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3301,
+        "n_blocks": 3,
+        "slots": 69,
+        "agree": 69,
+        "agreement": 1.0,
+        "per_block": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "drafter_forwards": 21,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3422,
+        "n_blocks": 3,
+        "slots": 88,
+        "agree": 73,
+        "agreement": 0.8295454545454546,
+        "per_block": [
+          0.875,
+          0.75,
+          0.875
+        ],
+        "drafter_forwards": 24,
+        "split": "train_pool"
+      },
+      {
+        "idx": 4491,
+        "n_blocks": 15,
+        "slots": 450,
+        "agree": 235,
+        "agreement": 0.5222222222222223,
+        "per_block": [
+          1.0,
+          0.53125,
+          0.96875,
+          0.59375,
+          0.125,
+          0.1875,
+          0.875,
+          0.9375,
+          0.375,
+          0.34375,
+          0.09375,
+          0.0625,
+          0.21875,
+          1.0,
+          0.96875
+        ],
+        "drafter_forwards": 114,
+        "split": "train_pool"
+      },
+      {
+        "idx": 4787,
+        "n_blocks": 8,
+        "slots": 235,
+        "agree": 62,
+        "agreement": 0.26382978723404255,
+        "per_block": [
+          0.18181818181818182,
+          0.0625,
+          0.3125,
+          0.125,
+          0.1875,
+          0.125,
+          0.375,
+          0.6875
+        ],
+        "drafter_forwards": 64,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5508,
+        "n_blocks": 19,
+        "slots": 597,
+        "agree": 295,
+        "agreement": 0.49413735343383586,
+        "per_block": [
+          0.09523809523809523,
+          0.28125,
+          0.15625,
+          1.0,
+          0.9375,
+          1.0,
+          0.40625,
+          0.28125,
+          1.0,
+          0.46875,
+          0.34375,
+          0.0625,
+          1.0,
+          0.5625,
+          0.46875,
+          0.5625,
+          0.34375,
+          0.25,
+          0.03125
+        ],
+        "drafter_forwards": 152,
+        "split": "train_pool"
+      },
+      {
+        "idx": 7045,
+        "n_blocks": 4,
+        "slots": 120,
+        "agree": 86,
+        "agreement": 0.7166666666666667,
+        "per_block": [
+          0.375,
+          0.625,
+          0.875,
+          0.90625
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3727,
+        "n_blocks": 3,
+        "slots": 68,
+        "agree": 38,
+        "agreement": 0.5588235294117647,
+        "per_block": [
+          1.0,
+          0.5,
+          0.5625
+        ],
+        "drafter_forwards": 20,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3989,
+        "n_blocks": 6,
+        "slots": 184,
+        "agree": 100,
+        "agreement": 0.5434782608695652,
+        "per_block": [
+          0.3333333333333333,
+          0.53125,
+          0.53125,
+          0.90625,
+          0.4375,
+          0.46875
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 4178,
+        "n_blocks": 6,
+        "slots": 161,
+        "agree": 83,
+        "agreement": 0.515527950310559,
+        "per_block": [
+          1.0,
+          0.125,
+          0.25,
+          1.0,
+          0.28125,
+          0.90625
+        ],
+        "drafter_forwards": 41,
+        "split": "train_pool"
+      },
+      {
+        "idx": 4433,
+        "n_blocks": 6,
+        "slots": 180,
+        "agree": 73,
+        "agreement": 0.40555555555555556,
+        "per_block": [
+          0.15,
+          0.3125,
+          0.15625,
+          1.0,
+          0.5625,
+          0.15625
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5127,
+        "n_blocks": 5,
+        "slots": 131,
+        "agree": 25,
+        "agreement": 0.19083969465648856,
+        "per_block": [
+          1.0,
+          0.40625,
+          0.0,
+          0.0625,
+          0.21875
+        ],
+        "drafter_forwards": 35,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5176,
+        "n_blocks": 4,
+        "slots": 110,
+        "agree": 46,
+        "agreement": 0.41818181818181815,
+        "per_block": [
+          0.42857142857142855,
+          0.40625,
+          0.1875,
+          0.65625
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5403,
+        "n_blocks": 4,
+        "slots": 109,
+        "agree": 51,
+        "agreement": 0.46788990825688076,
+        "per_block": [
+          0.5384615384615384,
+          0.46875,
+          0.25,
+          0.65625
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5931,
+        "n_blocks": 5,
+        "slots": 135,
+        "agree": 61,
+        "agreement": 0.45185185185185184,
+        "per_block": [
+          0.0,
+          0.0625,
+          0.6875,
+          0.28125,
+          0.875
+        ],
+        "drafter_forwards": 39,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5989,
+        "n_blocks": 4,
+        "slots": 120,
+        "agree": 77,
+        "agreement": 0.6416666666666667,
+        "per_block": [
+          1.0,
+          0.40625,
+          0.90625,
+          0.34375
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 6006,
+        "n_blocks": 8,
+        "slots": 251,
+        "agree": 192,
+        "agreement": 0.7649402390438247,
+        "per_block": [
+          0.3333333333333333,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.625,
+          0.96875,
+          0.125
+        ],
+        "drafter_forwards": 64,
+        "split": "train_pool"
+      },
+      {
+        "idx": 6062,
+        "n_blocks": 4,
+        "slots": 106,
+        "agree": 63,
+        "agreement": 0.5943396226415094,
+        "per_block": [
+          1.0,
+          0.125,
+          0.96875,
+          0.5625
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 7309,
+        "n_blocks": 7,
+        "slots": 199,
+        "agree": 145,
+        "agreement": 0.7286432160804021,
+        "per_block": [
+          1.0,
+          0.84375,
+          1.0,
+          1.0,
+          1.0,
+          0.15625,
+          0.3125
+        ],
+        "drafter_forwards": 55,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5714,
+        "n_blocks": 7,
+        "slots": 195,
+        "agree": 93,
+        "agreement": 0.47692307692307695,
+        "per_block": [
+          1.0,
+          0.125,
+          1.0,
+          0.125,
+          0.875,
+          0.5,
+          0.1875
+        ],
+        "drafter_forwards": 51,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5900,
+        "n_blocks": 2,
+        "slots": 64,
+        "agree": 10,
+        "agreement": 0.15625,
+        "per_block": [
+          0.09375,
+          0.21875
+        ],
+        "drafter_forwards": 16,
+        "split": "train_pool"
+      },
+      {
+        "idx": 6071,
+        "n_blocks": 3,
+        "slots": 72,
+        "agree": 17,
+        "agreement": 0.2361111111111111,
+        "per_block": [
+          1.0,
+          0.09375,
+          0.1875
+        ],
+        "drafter_forwards": 24,
+        "split": "train_pool"
+      },
+      {
+        "idx": 7343,
+        "n_blocks": 3,
+        "slots": 86,
+        "agree": 30,
+        "agreement": 0.3488372093023256,
+        "per_block": [
+          0.8181818181818182,
+          0.21875,
+          0.15625
+        ],
+        "drafter_forwards": 24,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3124,
+        "n_blocks": 6,
+        "slots": 168,
+        "agree": 127,
+        "agreement": 0.7559523809523809,
+        "per_block": [
+          1.0,
+          1.0,
+          0.875,
+          0.40625,
+          0.71875,
+          0.71875
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3613,
+        "n_blocks": 6,
+        "slots": 180,
+        "agree": 88,
+        "agreement": 0.4888888888888889,
+        "per_block": [
+          0.2,
+          0.1875,
+          0.65625,
+          0.6875,
+          0.21875,
+          0.875
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3769,
+        "n_blocks": 8,
+        "slots": 232,
+        "agree": 159,
+        "agreement": 0.6853448275862069,
+        "per_block": [
+          0.5,
+          0.5,
+          0.0625,
+          1.0,
+          1.0,
+          0.6875,
+          0.625,
+          0.96875
+        ],
+        "drafter_forwards": 64,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3941,
+        "n_blocks": 5,
+        "slots": 151,
+        "agree": 84,
+        "agreement": 0.5562913907284768,
+        "per_block": [
+          0.391304347826087,
+          0.09375,
+          0.78125,
+          0.53125,
+          0.9375
+        ],
+        "drafter_forwards": 40,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5569,
+        "n_blocks": 5,
+        "slots": 147,
+        "agree": 31,
+        "agreement": 0.2108843537414966,
+        "per_block": [
+          0.0,
+          0.21875,
+          0.21875,
+          0.5,
+          0.03125
+        ],
+        "drafter_forwards": 40,
+        "split": "train_pool"
+      },
+      {
+        "idx": 6347,
+        "n_blocks": 7,
+        "slots": 219,
+        "agree": 90,
+        "agreement": 0.410958904109589,
+        "per_block": [
+          0.037037037037037035,
+          0.09375,
+          1.0,
+          0.5625,
+          0.28125,
+          0.3125,
+          0.53125
+        ],
+        "drafter_forwards": 56,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3614,
+        "n_blocks": 4,
+        "slots": 101,
+        "agree": 24,
+        "agreement": 0.2376237623762376,
+        "per_block": [
+          0.2,
+          0.15625,
+          0.09375,
+          0.46875
+        ],
+        "drafter_forwards": 29,
+        "split": "train_pool"
+      },
+      {
+        "idx": 4140,
+        "n_blocks": 23,
+        "slots": 729,
+        "agree": 436,
+        "agreement": 0.598079561042524,
+        "per_block": [
+          0.28,
+          0.625,
+          0.21875,
+          0.34375,
+          0.90625,
+          1.0,
+          0.34375,
+          0.90625,
+          0.71875,
+          0.34375,
+          0.96875,
+          0.6875,
+          1.0,
+          0.9375,
+          0.8125,
+          0.21875,
+          0.84375,
+          1.0,
+          0.21875,
+          0.03125,
+          0.71875,
+          0.1875,
+          0.375
+        ],
+        "drafter_forwards": 184,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5211,
+        "n_blocks": 8,
+        "slots": 252,
+        "agree": 56,
+        "agreement": 0.2222222222222222,
+        "per_block": [
+          0.03571428571428571,
+          0.125,
+          0.46875,
+          0.90625,
+          0.09375,
+          0.0,
+          0.125,
+          0.0
+        ],
+        "drafter_forwards": 64,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5480,
+        "n_blocks": 7,
+        "slots": 198,
+        "agree": 57,
+        "agreement": 0.2878787878787879,
+        "per_block": [
+          0.0,
+          0.09375,
+          0.03125,
+          0.34375,
+          0.125,
+          0.1875,
+          1.0
+        ],
+        "drafter_forwards": 54,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5796,
+        "n_blocks": 6,
+        "slots": 191,
+        "agree": 111,
+        "agreement": 0.581151832460733,
+        "per_block": [
+          0.12903225806451613,
+          0.3125,
+          0.375,
+          0.9375,
+          0.71875,
+          1.0
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5804,
+        "n_blocks": 7,
+        "slots": 224,
+        "agree": 59,
+        "agreement": 0.26339285714285715,
+        "per_block": [
+          0.125,
+          0.3125,
+          0.15625,
+          0.375,
+          0.03125,
+          0.3125,
+          0.53125
+        ],
+        "drafter_forwards": 56,
+        "split": "train_pool"
+      },
+      {
+        "idx": 6049,
+        "n_blocks": 6,
+        "slots": 185,
+        "agree": 133,
+        "agreement": 0.7189189189189189,
+        "per_block": [
+          0.04,
+          1.0,
+          1.0,
+          0.21875,
+          1.0,
+          0.90625
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 6121,
+        "n_blocks": 9,
+        "slots": 266,
+        "agree": 169,
+        "agreement": 0.6353383458646616,
+        "per_block": [
+          0.0,
+          0.5625,
+          0.125,
+          0.125,
+          1.0,
+          1.0,
+          0.71875,
+          0.75,
+          1.0
+        ],
+        "drafter_forwards": 72,
+        "split": "train_pool"
+      },
+      {
+        "idx": 6236,
+        "n_blocks": 4,
+        "slots": 111,
+        "agree": 42,
+        "agreement": 0.3783783783783784,
+        "per_block": [
+          0.13333333333333333,
+          0.0625,
+          0.34375,
+          0.84375
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3967,
+        "n_blocks": 6,
+        "slots": 173,
+        "agree": 120,
+        "agreement": 0.6936416184971098,
+        "per_block": [
+          1.0,
+          0.375,
+          0.59375,
+          0.6875,
+          0.96875,
+          0.71875
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5278,
+        "n_blocks": 4,
+        "slots": 110,
+        "agree": 52,
+        "agreement": 0.4727272727272727,
+        "per_block": [
+          0.7142857142857143,
+          0.78125,
+          0.1875,
+          0.34375
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 6381,
+        "n_blocks": 5,
+        "slots": 147,
+        "agree": 126,
+        "agreement": 0.8571428571428571,
+        "per_block": [
+          1.0,
+          0.34375,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "drafter_forwards": 40,
+        "split": "train_pool"
+      },
+      {
+        "idx": 7231,
+        "n_blocks": 4,
+        "slots": 102,
+        "agree": 72,
+        "agreement": 0.7058823529411765,
+        "per_block": [
+          1.0,
+          1.0,
+          0.96875,
+          0.09375
+        ],
+        "drafter_forwards": 30,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5112,
+        "n_blocks": 14,
+        "slots": 446,
+        "agree": 276,
+        "agreement": 0.6188340807174888,
+        "per_block": [
+          0.4,
+          1.0,
+          0.9375,
+          1.0,
+          0.5,
+          0.90625,
+          0.09375,
+          0.59375,
+          0.25,
+          0.40625,
+          0.625,
+          0.40625,
+          0.53125,
+          1.0
+        ],
+        "drafter_forwards": 112,
+        "split": "train_pool"
+      },
+      {
+        "idx": 6240,
+        "n_blocks": 23,
+        "slots": 723,
+        "agree": 533,
+        "agreement": 0.7372060857538036,
+        "per_block": [
+          1.0,
+          0.3125,
+          0.1875,
+          0.125,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.75,
+          0.21875,
+          0.03125,
+          0.1875,
+          1.0,
+          1.0,
+          1.0,
+          0.25,
+          1.0
+        ],
+        "drafter_forwards": 184,
+        "split": "train_pool"
+      },
+      {
+        "idx": 627,
+        "n_blocks": 6,
+        "slots": 173,
+        "agree": 89,
+        "agreement": 0.5144508670520231,
+        "per_block": [
+          1.0,
+          0.21875,
+          0.59375,
+          0.25,
+          0.3125,
+          1.0
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 819,
+        "n_blocks": 6,
+        "slots": 174,
+        "agree": 96,
+        "agreement": 0.5517241379310345,
+        "per_block": [
+          0.14285714285714285,
+          0.53125,
+          0.3125,
+          0.84375,
+          0.25,
+          1.0
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3147,
+        "n_blocks": 25,
+        "slots": 792,
+        "agree": 543,
+        "agreement": 0.6856060606060606,
+        "per_block": [
+          1.0,
+          0.34375,
+          0.25,
+          0.6875,
+          0.5625,
+          0.90625,
+          1.0,
+          0.34375,
+          0.96875,
+          0.3125,
+          1.0,
+          1.0,
+          0.28125,
+          1.0,
+          1.0,
+          0.40625,
+          1.0,
+          0.03125,
+          0.625,
+          0.125,
+          0.75,
+          1.0,
+          1.0,
+          0.625,
+          1.0
+        ],
+        "drafter_forwards": 200,
+        "split": "train_pool"
+      },
+      {
+        "idx": 2286,
+        "n_blocks": 20,
+        "slots": 612,
+        "agree": 339,
+        "agreement": 0.553921568627451,
+        "per_block": [
+          0.25,
+          0.8125,
+          0.0625,
+          0.125,
+          0.84375,
+          0.71875,
+          0.125,
+          0.03125,
+          0.21875,
+          0.9375,
+          1.0,
+          0.90625,
+          0.15625,
+          1.0,
+          0.65625,
+          0.96875,
+          0.375,
+          0.71875,
+          0.375,
+          0.53125
+        ],
+        "drafter_forwards": 156,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3150,
+        "n_blocks": 21,
+        "slots": 649,
+        "agree": 373,
+        "agreement": 0.5747303543913713,
+        "per_block": [
+          1.0,
+          0.3125,
+          0.5625,
+          0.78125,
+          0.15625,
+          0.21875,
+          0.34375,
+          0.59375,
+          0.15625,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.59375,
+          0.09375,
+          0.375,
+          0.1875,
+          0.9375,
+          0.8125,
+          0.25,
+          1.0
+        ],
+        "drafter_forwards": 168,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3558,
+        "n_blocks": 18,
+        "slots": 547,
+        "agree": 334,
+        "agreement": 0.6106032906764168,
+        "per_block": [
+          1.0,
+          1.0,
+          0.5,
+          0.96875,
+          0.125,
+          1.0,
+          0.09375,
+          0.1875,
+          0.5,
+          0.90625,
+          1.0,
+          0.28125,
+          0.28125,
+          1.0,
+          0.34375,
+          0.1875,
+          1.0,
+          0.96875
+        ],
+        "drafter_forwards": 139,
+        "split": "train_pool"
+      },
+      {
+        "idx": 6150,
+        "n_blocks": 6,
+        "slots": 173,
+        "agree": 67,
+        "agreement": 0.3872832369942196,
+        "per_block": [
+          0.8461538461538461,
+          0.375,
+          0.96875,
+          0.03125,
+          0.15625,
+          0.21875
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1497,
+        "n_blocks": 4,
+        "slots": 113,
+        "agree": 46,
+        "agreement": 0.40707964601769914,
+        "per_block": [
+          0.9411764705882353,
+          0.09375,
+          0.09375,
+          0.75
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1833,
+        "n_blocks": 15,
+        "slots": 478,
+        "agree": 318,
+        "agreement": 0.6652719665271967,
+        "per_block": [
+          0.3,
+          0.9375,
+          0.1875,
+          0.40625,
+          1.0,
+          0.28125,
+          0.8125,
+          1.0,
+          0.46875,
+          0.78125,
+          1.0,
+          1.0,
+          0.5,
+          0.875,
+          0.40625
+        ],
+        "drafter_forwards": 120,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3873,
+        "n_blocks": 21,
+        "slots": 649,
+        "agree": 429,
+        "agreement": 0.6610169491525424,
+        "per_block": [
+          1.0,
+          0.28125,
+          0.96875,
+          1.0,
+          0.25,
+          1.0,
+          0.34375,
+          1.0,
+          0.46875,
+          0.375,
+          0.9375,
+          0.96875,
+          0.40625,
+          0.15625,
+          0.59375,
+          0.875,
+          1.0,
+          0.59375,
+          0.6875,
+          1.0,
+          0.21875
+        ],
+        "drafter_forwards": 168,
+        "split": "train_pool"
+      },
+      {
+        "idx": 252,
+        "n_blocks": 6,
+        "slots": 183,
+        "agree": 81,
+        "agreement": 0.4426229508196721,
+        "per_block": [
+          0.34782608695652173,
+          0.09375,
+          0.625,
+          0.03125,
+          0.9375,
+          0.59375
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1668,
+        "n_blocks": 6,
+        "slots": 173,
+        "agree": 111,
+        "agreement": 0.6416184971098265,
+        "per_block": [
+          1.0,
+          0.84375,
+          0.0625,
+          1.0,
+          0.15625,
+          1.0
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3111,
+        "n_blocks": 18,
+        "slots": 571,
+        "agree": 299,
+        "agreement": 0.5236427320490368,
+        "per_block": [
+          0.7037037037037037,
+          1.0,
+          0.40625,
+          0.21875,
+          0.96875,
+          0.125,
+          0.21875,
+          0.125,
+          0.25,
+          0.46875,
+          0.875,
+          0.21875,
+          0.4375,
+          0.625,
+          0.21875,
+          1.0,
+          0.59375,
+          1.0
+        ],
+        "drafter_forwards": 144,
+        "split": "train_pool"
+      },
+      {
+        "idx": 6591,
+        "n_blocks": 9,
+        "slots": 263,
+        "agree": 134,
+        "agreement": 0.5095057034220533,
+        "per_block": [
+          0.8571428571428571,
+          0.03125,
+          0.0,
+          0.4375,
+          0.25,
+          0.78125,
+          0.6875,
+          0.8125,
+          1.0
+        ],
+        "drafter_forwards": 71,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1842,
+        "n_blocks": 19,
+        "slots": 584,
+        "agree": 403,
+        "agreement": 0.690068493150685,
+        "per_block": [
+          0.125,
+          0.40625,
+          0.3125,
+          0.0,
+          0.25,
+          0.4375,
+          0.84375,
+          1.0,
+          1.0,
+          1.0,
+          0.65625,
+          0.21875,
+          1.0,
+          1.0,
+          0.59375,
+          1.0,
+          1.0,
+          0.84375,
+          1.0
+        ],
+        "drafter_forwards": 152,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1938,
+        "n_blocks": 10,
+        "slots": 297,
+        "agree": 145,
+        "agreement": 0.4882154882154882,
+        "per_block": [
+          1.0,
+          0.125,
+          0.0,
+          0.09375,
+          0.53125,
+          0.90625,
+          0.9375,
+          0.71875,
+          0.28125,
+          0.65625
+        ],
+        "drafter_forwards": 80,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1677,
+        "n_blocks": 6,
+        "slots": 188,
+        "agree": 92,
+        "agreement": 0.48936170212765956,
+        "per_block": [
+          0.35714285714285715,
+          0.09375,
+          0.0625,
+          1.0,
+          1.0,
+          0.40625
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3597,
+        "n_blocks": 7,
+        "slots": 200,
+        "agree": 133,
+        "agreement": 0.665,
+        "per_block": [
+          1.0,
+          1.0,
+          0.15625,
+          0.90625,
+          0.71875,
+          0.125,
+          1.0
+        ],
+        "drafter_forwards": 56,
+        "split": "train_pool"
+      }
+    ],
+    "n_items": 100,
+    "slots": 24130,
+    "agreement": 0.5606713634479901,
+    "item_mean_agreement": 0.5387842425879158,
+    "blocks": 806,
+    "seconds": 136.0
+  },
+  "baseline_info": {
+    "kind": "stock",
+    "spec": "d32",
+    "revision": "2c83c05d84be90a01c72443b2123ebf0376f6fd4"
+  },
+  "baseline": {
+    "items": [
+      {
+        "idx": 147,
+        "n_blocks": 7,
+        "slots": 220,
+        "agree": 136,
+        "agreement": 0.6181818181818182,
+        "per_block": [
+          0.9642857142857143,
+          0.65625,
+          0.96875,
+          0.6875,
+          0.6875,
+          0.28125,
+          0.125
+        ],
+        "drafter_forwards": 56,
+        "split": "train_pool"
+      },
+      {
+        "idx": 935,
+        "n_blocks": 5,
+        "slots": 136,
+        "agree": 77,
+        "agreement": 0.5661764705882353,
+        "per_block": [
+          0.0,
+          0.90625,
+          0.3125,
+          0.8125,
+          0.375
+        ],
+        "drafter_forwards": 40,
+        "split": "train_pool"
+      },
+      {
+        "idx": 2027,
+        "n_blocks": 7,
+        "slots": 205,
+        "agree": 158,
+        "agreement": 0.7707317073170732,
+        "per_block": [
+          0.0,
+          1.0,
+          0.9375,
+          1.0,
+          0.53125,
+          0.46875,
+          1.0
+        ],
+        "drafter_forwards": 56,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3030,
+        "n_blocks": 5,
+        "slots": 160,
+        "agree": 98,
+        "agreement": 0.6125,
+        "per_block": [
+          0.34375,
+          0.375,
+          1.0,
+          1.0,
+          0.34375
+        ],
+        "drafter_forwards": 40,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1558,
+        "n_blocks": 9,
+        "slots": 259,
+        "agree": 121,
+        "agreement": 0.4671814671814672,
+        "per_block": [
+          0.0,
+          0.28125,
+          0.125,
+          0.8125,
+          0.46875,
+          0.5,
+          0.03125,
+          1.0,
+          0.5625
+        ],
+        "drafter_forwards": 67,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1608,
+        "n_blocks": 7,
+        "slots": 210,
+        "agree": 197,
+        "agreement": 0.9380952380952381,
+        "per_block": [
+          1.0,
+          0.59375,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "drafter_forwards": 56,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1609,
+        "n_blocks": 5,
+        "slots": 137,
+        "agree": 60,
+        "agreement": 0.43795620437956206,
+        "per_block": [
+          0.0,
+          0.21875,
+          0.4375,
+          0.375,
+          0.84375
+        ],
+        "drafter_forwards": 40,
+        "split": "train_pool"
+      },
+      {
+        "idx": 426,
+        "n_blocks": 9,
+        "slots": 277,
+        "agree": 172,
+        "agreement": 0.6209386281588448,
+        "per_block": [
+          0.7619047619047619,
+          0.15625,
+          0.3125,
+          0.625,
+          0.53125,
+          1.0,
+          0.9375,
+          0.71875,
+          0.59375
+        ],
+        "drafter_forwards": 72,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1429,
+        "n_blocks": 5,
+        "slots": 135,
+        "agree": 92,
+        "agreement": 0.6814814814814815,
+        "per_block": [
+          0.0,
+          0.96875,
+          0.90625,
+          0.03125,
+          0.96875
+        ],
+        "drafter_forwards": 39,
+        "split": "train_pool"
+      },
+      {
+        "idx": 2202,
+        "n_blocks": 4,
+        "slots": 101,
+        "agree": 36,
+        "agreement": 0.3564356435643564,
+        "per_block": [
+          0.0,
+          0.03125,
+          1.0,
+          0.09375
+        ],
+        "drafter_forwards": 29,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3074,
+        "n_blocks": 7,
+        "slots": 218,
+        "agree": 51,
+        "agreement": 0.23394495412844038,
+        "per_block": [
+          0.0,
+          0.34375,
+          0.15625,
+          0.34375,
+          0.34375,
+          0.34375,
+          0.0625
+        ],
+        "drafter_forwards": 56,
+        "split": "train_pool"
+      },
+      {
+        "idx": 199,
+        "n_blocks": 7,
+        "slots": 220,
+        "agree": 119,
+        "agreement": 0.5409090909090909,
+        "per_block": [
+          0.14285714285714285,
+          0.875,
+          0.25,
+          0.875,
+          0.09375,
+          0.78125,
+          0.71875
+        ],
+        "drafter_forwards": 56,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1145,
+        "n_blocks": 3,
+        "slots": 83,
+        "agree": 47,
+        "agreement": 0.5662650602409639,
+        "per_block": [
+          0.42105263157894735,
+          1.0,
+          0.21875
+        ],
+        "drafter_forwards": 24,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1603,
+        "n_blocks": 5,
+        "slots": 136,
+        "agree": 44,
+        "agreement": 0.3235294117647059,
+        "per_block": [
+          0.0,
+          0.28125,
+          0.9375,
+          0.15625,
+          0.0
+        ],
+        "drafter_forwards": 40,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1890,
+        "n_blocks": 30,
+        "slots": 952,
+        "agree": 496,
+        "agreement": 0.5210084033613446,
+        "per_block": [
+          0.9583333333333334,
+          0.0625,
+          1.0,
+          1.0,
+          0.65625,
+          0.0,
+          0.03125,
+          0.25,
+          0.09375,
+          0.15625,
+          0.21875,
+          0.21875,
+          0.0625,
+          0.28125,
+          0.96875,
+          1.0,
+          0.96875,
+          0.96875,
+          1.0,
+          0.875,
+          1.0,
+          0.875,
+          0.65625,
+          0.0625,
+          0.21875,
+          0.4375,
+          0.375,
+          0.46875,
+          0.15625,
+          0.71875
+        ],
+        "drafter_forwards": 240,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1989,
+        "n_blocks": 20,
+        "slots": 612,
+        "agree": 364,
+        "agreement": 0.5947712418300654,
+        "per_block": [
+          1.0,
+          0.25,
+          0.09375,
+          0.84375,
+          0.25,
+          0.03125,
+          0.34375,
+          0.71875,
+          0.34375,
+          1.0,
+          0.3125,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.34375,
+          0.53125,
+          0.1875
+        ],
+        "drafter_forwards": 156,
+        "split": "train_pool"
+      },
+      {
+        "idx": 2666,
+        "n_blocks": 6,
+        "slots": 186,
+        "agree": 102,
+        "agreement": 0.5483870967741935,
+        "per_block": [
+          0.11538461538461539,
+          0.96875,
+          0.0625,
+          0.96875,
+          0.125,
+          0.96875
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 2783,
+        "n_blocks": 8,
+        "slots": 234,
+        "agree": 111,
+        "agreement": 0.47435897435897434,
+        "per_block": [
+          0.0,
+          0.5625,
+          0.40625,
+          0.34375,
+          0.46875,
+          0.53125,
+          1.0,
+          0.15625
+        ],
+        "drafter_forwards": 64,
+        "split": "train_pool"
+      },
+      {
+        "idx": 176,
+        "n_blocks": 4,
+        "slots": 108,
+        "agree": 54,
+        "agreement": 0.5,
+        "per_block": [
+          0.0,
+          0.8125,
+          0.78125,
+          0.09375
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 2888,
+        "n_blocks": 9,
+        "slots": 271,
+        "agree": 183,
+        "agreement": 0.6752767527675276,
+        "per_block": [
+          0.0,
+          0.625,
+          0.8125,
+          1.0,
+          1.0,
+          1.0,
+          0.5,
+          0.4375,
+          0.34375
+        ],
+        "drafter_forwards": 72,
+        "split": "train_pool"
+      },
+      {
+        "idx": 71,
+        "n_blocks": 4,
+        "slots": 101,
+        "agree": 29,
+        "agreement": 0.2871287128712871,
+        "per_block": [
+          0.0,
+          0.375,
+          0.25,
+          0.28125
+        ],
+        "drafter_forwards": 29,
+        "split": "train_pool"
+      },
+      {
+        "idx": 314,
+        "n_blocks": 8,
+        "slots": 236,
+        "agree": 163,
+        "agreement": 0.690677966101695,
+        "per_block": [
+          0.8333333333333334,
+          0.0625,
+          0.8125,
+          0.9375,
+          1.0,
+          0.09375,
+          0.9375,
+          0.9375
+        ],
+        "drafter_forwards": 64,
+        "split": "train_pool"
+      },
+      {
+        "idx": 485,
+        "n_blocks": 4,
+        "slots": 122,
+        "agree": 52,
+        "agreement": 0.4262295081967213,
+        "per_block": [
+          0.0,
+          0.03125,
+          0.625,
+          0.96875
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1958,
+        "n_blocks": 5,
+        "slots": 154,
+        "agree": 48,
+        "agreement": 0.3116883116883117,
+        "per_block": [
+          0.11538461538461539,
+          0.09375,
+          0.125,
+          1.0,
+          0.1875
+        ],
+        "drafter_forwards": 40,
+        "split": "train_pool"
+      },
+      {
+        "idx": 2452,
+        "n_blocks": 5,
+        "slots": 145,
+        "agree": 129,
+        "agreement": 0.8896551724137931,
+        "per_block": [
+          0.7647058823529411,
+          1.0,
+          0.8125,
+          0.8125,
+          1.0
+        ],
+        "drafter_forwards": 40,
+        "split": "train_pool"
+      },
+      {
+        "idx": 2583,
+        "n_blocks": 19,
+        "slots": 585,
+        "agree": 400,
+        "agreement": 0.6837606837606838,
+        "per_block": [
+          1.0,
+          0.90625,
+          0.34375,
+          0.125,
+          0.15625,
+          0.15625,
+          0.96875,
+          1.0,
+          0.59375,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.90625,
+          0.625,
+          0.21875,
+          1.0,
+          0.21875,
+          1.0
+        ],
+        "drafter_forwards": 152,
+        "split": "train_pool"
+      },
+      {
+        "idx": 2849,
+        "n_blocks": 5,
+        "slots": 135,
+        "agree": 97,
+        "agreement": 0.7185185185185186,
+        "per_block": [
+          0.5714285714285714,
+          0.09375,
+          0.96875,
+          1.0,
+          0.84375
+        ],
+        "drafter_forwards": 39,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1197,
+        "n_blocks": 9,
+        "slots": 266,
+        "agree": 133,
+        "agreement": 0.5,
+        "per_block": [
+          0.2,
+          0.6875,
+          0.25,
+          0.21875,
+          0.25,
+          0.59375,
+          0.34375,
+          0.78125,
+          0.96875
+        ],
+        "drafter_forwards": 72,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1497,
+        "n_blocks": 4,
+        "slots": 113,
+        "agree": 45,
+        "agreement": 0.39823008849557523,
+        "per_block": [
+          0.6470588235294118,
+          0.375,
+          0.09375,
+          0.59375
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 2067,
+        "n_blocks": 12,
+        "slots": 367,
+        "agree": 83,
+        "agreement": 0.22615803814713897,
+        "per_block": [
+          0.5333333333333333,
+          0.5625,
+          0.25,
+          0.125,
+          0.21875,
+          0.15625,
+          0.0,
+          0.0625,
+          0.09375,
+          0.3125,
+          0.09375,
+          0.46875
+        ],
+        "drafter_forwards": 96,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3535,
+        "n_blocks": 4,
+        "slots": 114,
+        "agree": 72,
+        "agreement": 0.631578947368421,
+        "per_block": [
+          0.9444444444444444,
+          0.4375,
+          0.5625,
+          0.71875
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 4355,
+        "n_blocks": 6,
+        "slots": 175,
+        "agree": 120,
+        "agreement": 0.6857142857142857,
+        "per_block": [
+          0.0,
+          0.9375,
+          1.0,
+          1.0,
+          0.15625,
+          0.65625
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5359,
+        "n_blocks": 5,
+        "slots": 129,
+        "agree": 79,
+        "agreement": 0.6124031007751938,
+        "per_block": [
+          0.0,
+          0.34375,
+          0.8125,
+          0.90625,
+          0.40625
+        ],
+        "drafter_forwards": 33,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5761,
+        "n_blocks": 4,
+        "slots": 105,
+        "agree": 54,
+        "agreement": 0.5142857142857142,
+        "per_block": [
+          0.0,
+          0.21875,
+          1.0,
+          0.46875
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 7430,
+        "n_blocks": 2,
+        "slots": 48,
+        "agree": 15,
+        "agreement": 0.3125,
+        "per_block": [
+          0.0625,
+          0.4375
+        ],
+        "drafter_forwards": 16,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5230,
+        "n_blocks": 4,
+        "slots": 113,
+        "agree": 35,
+        "agreement": 0.30973451327433627,
+        "per_block": [
+          0.0,
+          0.09375,
+          0.21875,
+          0.78125
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5564,
+        "n_blocks": 7,
+        "slots": 206,
+        "agree": 166,
+        "agreement": 0.8058252427184466,
+        "per_block": [
+          0.07142857142857142,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.15625,
+          1.0
+        ],
+        "drafter_forwards": 56,
+        "split": "train_pool"
+      },
+      {
+        "idx": 7249,
+        "n_blocks": 4,
+        "slots": 115,
+        "agree": 67,
+        "agreement": 0.5826086956521739,
+        "per_block": [
+          0.0,
+          0.53125,
+          0.65625,
+          0.90625
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3228,
+        "n_blocks": 14,
+        "slots": 437,
+        "agree": 277,
+        "agreement": 0.6338672768878718,
+        "per_block": [
+          0.23809523809523808,
+          0.4375,
+          0.96875,
+          0.84375,
+          1.0,
+          0.40625,
+          0.09375,
+          0.0625,
+          1.0,
+          0.9375,
+          1.0,
+          0.28125,
+          1.0,
+          0.46875
+        ],
+        "drafter_forwards": 112,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3301,
+        "n_blocks": 3,
+        "slots": 69,
+        "agree": 62,
+        "agreement": 0.8985507246376812,
+        "per_block": [
+          0.0,
+          1.0,
+          0.9375
+        ],
+        "drafter_forwards": 21,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3422,
+        "n_blocks": 3,
+        "slots": 88,
+        "agree": 75,
+        "agreement": 0.8522727272727273,
+        "per_block": [
+          0.875,
+          0.78125,
+          0.90625
+        ],
+        "drafter_forwards": 24,
+        "split": "train_pool"
+      },
+      {
+        "idx": 4491,
+        "n_blocks": 15,
+        "slots": 450,
+        "agree": 243,
+        "agreement": 0.54,
+        "per_block": [
+          1.0,
+          1.0,
+          0.96875,
+          0.5625,
+          0.40625,
+          0.25,
+          0.3125,
+          0.90625,
+          0.34375,
+          0.875,
+          0.09375,
+          0.0625,
+          0.21875,
+          0.53125,
+          1.0
+        ],
+        "drafter_forwards": 114,
+        "split": "train_pool"
+      },
+      {
+        "idx": 4787,
+        "n_blocks": 8,
+        "slots": 235,
+        "agree": 58,
+        "agreement": 0.24680851063829787,
+        "per_block": [
+          0.0,
+          0.03125,
+          0.03125,
+          0.1875,
+          0.25,
+          0.21875,
+          0.46875,
+          0.625
+        ],
+        "drafter_forwards": 64,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5508,
+        "n_blocks": 19,
+        "slots": 597,
+        "agree": 364,
+        "agreement": 0.609715242881072,
+        "per_block": [
+          0.7619047619047619,
+          0.15625,
+          0.375,
+          0.96875,
+          0.59375,
+          1.0,
+          1.0,
+          0.59375,
+          1.0,
+          0.40625,
+          0.90625,
+          0.0625,
+          1.0,
+          1.0,
+          0.46875,
+          0.59375,
+          0.3125,
+          0.28125,
+          0.15625
+        ],
+        "drafter_forwards": 152,
+        "split": "train_pool"
+      },
+      {
+        "idx": 7045,
+        "n_blocks": 4,
+        "slots": 120,
+        "agree": 97,
+        "agreement": 0.8083333333333333,
+        "per_block": [
+          0.4583333333333333,
+          0.90625,
+          0.875,
+          0.90625
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3727,
+        "n_blocks": 3,
+        "slots": 68,
+        "agree": 37,
+        "agreement": 0.5441176470588235,
+        "per_block": [
+          0.0,
+          0.59375,
+          0.5625
+        ],
+        "drafter_forwards": 20,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3989,
+        "n_blocks": 6,
+        "slots": 184,
+        "agree": 91,
+        "agreement": 0.4945652173913043,
+        "per_block": [
+          0.25,
+          0.34375,
+          0.65625,
+          0.71875,
+          0.46875,
+          0.46875
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 4178,
+        "n_blocks": 6,
+        "slots": 161,
+        "agree": 95,
+        "agreement": 0.5900621118012422,
+        "per_block": [
+          0.0,
+          0.625,
+          0.25,
+          0.75,
+          1.0,
+          0.34375
+        ],
+        "drafter_forwards": 41,
+        "split": "train_pool"
+      },
+      {
+        "idx": 4433,
+        "n_blocks": 6,
+        "slots": 180,
+        "agree": 91,
+        "agreement": 0.5055555555555555,
+        "per_block": [
+          0.05,
+          0.90625,
+          0.03125,
+          1.0,
+          0.59375,
+          0.28125
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5127,
+        "n_blocks": 5,
+        "slots": 131,
+        "agree": 27,
+        "agreement": 0.20610687022900764,
+        "per_block": [
+          0.0,
+          0.375,
+          0.15625,
+          0.09375,
+          0.21875
+        ],
+        "drafter_forwards": 35,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5176,
+        "n_blocks": 4,
+        "slots": 110,
+        "agree": 23,
+        "agreement": 0.20909090909090908,
+        "per_block": [
+          0.0,
+          0.59375,
+          0.03125,
+          0.09375
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5403,
+        "n_blocks": 4,
+        "slots": 109,
+        "agree": 46,
+        "agreement": 0.42201834862385323,
+        "per_block": [
+          0.0,
+          0.46875,
+          0.25,
+          0.71875
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5931,
+        "n_blocks": 5,
+        "slots": 135,
+        "agree": 58,
+        "agreement": 0.42962962962962964,
+        "per_block": [
+          0.0,
+          0.03125,
+          0.5625,
+          0.875,
+          0.34375
+        ],
+        "drafter_forwards": 39,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5989,
+        "n_blocks": 4,
+        "slots": 120,
+        "agree": 48,
+        "agreement": 0.4,
+        "per_block": [
+          0.0,
+          0.28125,
+          0.875,
+          0.34375
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 6006,
+        "n_blocks": 8,
+        "slots": 251,
+        "agree": 140,
+        "agreement": 0.5577689243027888,
+        "per_block": [
+          0.18518518518518517,
+          0.34375,
+          0.15625,
+          1.0,
+          1.0,
+          0.625,
+          0.96875,
+          0.125
+        ],
+        "drafter_forwards": 64,
+        "split": "train_pool"
+      },
+      {
+        "idx": 6062,
+        "n_blocks": 4,
+        "slots": 106,
+        "agree": 53,
+        "agreement": 0.5,
+        "per_block": [
+          0.0,
+          0.09375,
+          1.0,
+          0.5625
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 7309,
+        "n_blocks": 7,
+        "slots": 199,
+        "agree": 152,
+        "agreement": 0.7638190954773869,
+        "per_block": [
+          0.0,
+          0.90625,
+          1.0,
+          1.0,
+          1.0,
+          0.0625,
+          0.78125
+        ],
+        "drafter_forwards": 55,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5714,
+        "n_blocks": 7,
+        "slots": 195,
+        "agree": 104,
+        "agreement": 0.5333333333333333,
+        "per_block": [
+          0.0,
+          0.09375,
+          0.96875,
+          0.09375,
+          0.375,
+          1.0,
+          0.71875
+        ],
+        "drafter_forwards": 51,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5900,
+        "n_blocks": 2,
+        "slots": 64,
+        "agree": 15,
+        "agreement": 0.234375,
+        "per_block": [
+          0.03125,
+          0.4375
+        ],
+        "drafter_forwards": 16,
+        "split": "train_pool"
+      },
+      {
+        "idx": 6071,
+        "n_blocks": 3,
+        "slots": 72,
+        "agree": 17,
+        "agreement": 0.2361111111111111,
+        "per_block": [
+          0.875,
+          0.125,
+          0.1875
+        ],
+        "drafter_forwards": 24,
+        "split": "train_pool"
+      },
+      {
+        "idx": 7343,
+        "n_blocks": 3,
+        "slots": 86,
+        "agree": 57,
+        "agreement": 0.6627906976744186,
+        "per_block": [
+          0.09090909090909091,
+          0.71875,
+          1.0
+        ],
+        "drafter_forwards": 24,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3124,
+        "n_blocks": 6,
+        "slots": 168,
+        "agree": 78,
+        "agreement": 0.4642857142857143,
+        "per_block": [
+          0.0,
+          1.0,
+          0.96875,
+          0.25,
+          0.125,
+          0.09375
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3613,
+        "n_blocks": 6,
+        "slots": 180,
+        "agree": 119,
+        "agreement": 0.6611111111111111,
+        "per_block": [
+          0.15,
+          0.46875,
+          0.65625,
+          0.625,
+          1.0,
+          0.875
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3769,
+        "n_blocks": 8,
+        "slots": 232,
+        "agree": 180,
+        "agreement": 0.7758620689655172,
+        "per_block": [
+          0.0,
+          0.875,
+          0.25,
+          1.0,
+          1.0,
+          0.59375,
+          0.90625,
+          1.0
+        ],
+        "drafter_forwards": 64,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3941,
+        "n_blocks": 5,
+        "slots": 151,
+        "agree": 56,
+        "agreement": 0.3708609271523179,
+        "per_block": [
+          0.0,
+          0.125,
+          0.34375,
+          0.3125,
+          0.96875
+        ],
+        "drafter_forwards": 40,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5569,
+        "n_blocks": 5,
+        "slots": 147,
+        "agree": 34,
+        "agreement": 0.23129251700680273,
+        "per_block": [
+          0.05263157894736842,
+          0.09375,
+          0.6875,
+          0.125,
+          0.125
+        ],
+        "drafter_forwards": 40,
+        "split": "train_pool"
+      },
+      {
+        "idx": 6347,
+        "n_blocks": 7,
+        "slots": 219,
+        "agree": 141,
+        "agreement": 0.6438356164383562,
+        "per_block": [
+          0.0,
+          0.1875,
+          1.0,
+          0.96875,
+          0.96875,
+          0.6875,
+          0.59375
+        ],
+        "drafter_forwards": 56,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3614,
+        "n_blocks": 4,
+        "slots": 101,
+        "agree": 29,
+        "agreement": 0.2871287128712871,
+        "per_block": [
+          0.0,
+          0.0625,
+          0.03125,
+          0.8125
+        ],
+        "drafter_forwards": 29,
+        "split": "train_pool"
+      },
+      {
+        "idx": 4140,
+        "n_blocks": 23,
+        "slots": 729,
+        "agree": 465,
+        "agreement": 0.6378600823045267,
+        "per_block": [
+          0.24,
+          0.6875,
+          0.625,
+          0.4375,
+          0.90625,
+          1.0,
+          0.8125,
+          0.96875,
+          0.96875,
+          0.875,
+          0.71875,
+          0.09375,
+          1.0,
+          0.78125,
+          0.8125,
+          0.125,
+          0.84375,
+          1.0,
+          0.1875,
+          0.03125,
+          0.875,
+          0.1875,
+          0.40625
+        ],
+        "drafter_forwards": 184,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5211,
+        "n_blocks": 8,
+        "slots": 252,
+        "agree": 99,
+        "agreement": 0.39285714285714285,
+        "per_block": [
+          0.75,
+          0.09375,
+          0.59375,
+          0.84375,
+          0.09375,
+          0.03125,
+          0.4375,
+          0.34375
+        ],
+        "drafter_forwards": 64,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5480,
+        "n_blocks": 7,
+        "slots": 198,
+        "agree": 56,
+        "agreement": 0.2828282828282828,
+        "per_block": [
+          0.0,
+          0.125,
+          0.09375,
+          0.34375,
+          0.09375,
+          0.1875,
+          0.90625
+        ],
+        "drafter_forwards": 54,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5796,
+        "n_blocks": 6,
+        "slots": 191,
+        "agree": 111,
+        "agreement": 0.581151832460733,
+        "per_block": [
+          0.0,
+          0.3125,
+          0.4375,
+          1.0,
+          0.71875,
+          1.0
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5804,
+        "n_blocks": 7,
+        "slots": 224,
+        "agree": 107,
+        "agreement": 0.47767857142857145,
+        "per_block": [
+          0.84375,
+          1.0,
+          0.15625,
+          0.25,
+          0.0625,
+          0.3125,
+          0.71875
+        ],
+        "drafter_forwards": 56,
+        "split": "train_pool"
+      },
+      {
+        "idx": 6049,
+        "n_blocks": 6,
+        "slots": 185,
+        "agree": 136,
+        "agreement": 0.7351351351351352,
+        "per_block": [
+          0.0,
+          1.0,
+          0.96875,
+          0.71875,
+          1.0,
+          0.5625
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 6121,
+        "n_blocks": 9,
+        "slots": 266,
+        "agree": 165,
+        "agreement": 0.6203007518796992,
+        "per_block": [
+          0.0,
+          0.0625,
+          0.3125,
+          0.96875,
+          1.0,
+          1.0,
+          0.75,
+          0.4375,
+          0.625
+        ],
+        "drafter_forwards": 72,
+        "split": "train_pool"
+      },
+      {
+        "idx": 6236,
+        "n_blocks": 4,
+        "slots": 111,
+        "agree": 59,
+        "agreement": 0.5315315315315315,
+        "per_block": [
+          0.0,
+          0.03125,
+          1.0,
+          0.8125
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3967,
+        "n_blocks": 6,
+        "slots": 173,
+        "agree": 129,
+        "agreement": 0.7456647398843931,
+        "per_block": [
+          0.07692307692307693,
+          0.84375,
+          0.71875,
+          0.59375,
+          1.0,
+          0.84375
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5278,
+        "n_blocks": 4,
+        "slots": 110,
+        "agree": 58,
+        "agreement": 0.5272727272727272,
+        "per_block": [
+          0.0,
+          0.90625,
+          0.15625,
+          0.75
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 6381,
+        "n_blocks": 5,
+        "slots": 147,
+        "agree": 87,
+        "agreement": 0.5918367346938775,
+        "per_block": [
+          0.0,
+          0.53125,
+          0.1875,
+          1.0,
+          1.0
+        ],
+        "drafter_forwards": 40,
+        "split": "train_pool"
+      },
+      {
+        "idx": 7231,
+        "n_blocks": 4,
+        "slots": 102,
+        "agree": 66,
+        "agreement": 0.6470588235294118,
+        "per_block": [
+          0.0,
+          1.0,
+          0.96875,
+          0.09375
+        ],
+        "drafter_forwards": 30,
+        "split": "train_pool"
+      },
+      {
+        "idx": 5112,
+        "n_blocks": 14,
+        "slots": 446,
+        "agree": 335,
+        "agreement": 0.7511210762331838,
+        "per_block": [
+          0.8333333333333334,
+          1.0,
+          0.21875,
+          1.0,
+          0.96875,
+          0.9375,
+          0.84375,
+          0.28125,
+          0.28125,
+          0.5,
+          1.0,
+          0.65625,
+          1.0,
+          1.0
+        ],
+        "drafter_forwards": 112,
+        "split": "train_pool"
+      },
+      {
+        "idx": 6240,
+        "n_blocks": 23,
+        "slots": 723,
+        "agree": 537,
+        "agreement": 0.7427385892116183,
+        "per_block": [
+          1.0,
+          0.34375,
+          0.375,
+          0.21875,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.96875,
+          0.78125,
+          0.09375,
+          0.0625,
+          0.125,
+          1.0,
+          1.0,
+          1.0,
+          0.21875,
+          1.0
+        ],
+        "drafter_forwards": 184,
+        "split": "train_pool"
+      },
+      {
+        "idx": 627,
+        "n_blocks": 6,
+        "slots": 173,
+        "agree": 116,
+        "agreement": 0.6705202312138728,
+        "per_block": [
+          1.0,
+          0.5625,
+          0.78125,
+          0.75,
+          0.375,
+          0.75
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 819,
+        "n_blocks": 6,
+        "slots": 174,
+        "agree": 108,
+        "agreement": 0.6206896551724138,
+        "per_block": [
+          0.07142857142857142,
+          0.5,
+          0.3125,
+          0.84375,
+          0.6875,
+          1.0
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3147,
+        "n_blocks": 25,
+        "slots": 792,
+        "agree": 595,
+        "agreement": 0.7512626262626263,
+        "per_block": [
+          1.0,
+          0.25,
+          0.1875,
+          0.5,
+          0.46875,
+          0.34375,
+          1.0,
+          0.34375,
+          0.96875,
+          1.0,
+          1.0,
+          1.0,
+          0.9375,
+          1.0,
+          1.0,
+          0.6875,
+          1.0,
+          0.09375,
+          0.9375,
+          0.125,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "drafter_forwards": 200,
+        "split": "train_pool"
+      },
+      {
+        "idx": 2286,
+        "n_blocks": 20,
+        "slots": 612,
+        "agree": 355,
+        "agreement": 0.5800653594771242,
+        "per_block": [
+          0.25,
+          0.75,
+          0.03125,
+          0.125,
+          0.84375,
+          0.71875,
+          0.03125,
+          0.03125,
+          0.1875,
+          0.9375,
+          1.0,
+          0.875,
+          0.28125,
+          1.0,
+          0.65625,
+          0.96875,
+          0.40625,
+          0.875,
+          0.40625,
+          0.9375
+        ],
+        "drafter_forwards": 156,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3150,
+        "n_blocks": 21,
+        "slots": 649,
+        "agree": 401,
+        "agreement": 0.6178736517719569,
+        "per_block": [
+          1.0,
+          0.5,
+          0.5625,
+          1.0,
+          0.1875,
+          0.5,
+          0.34375,
+          0.59375,
+          0.375,
+          1.0,
+          0.71875,
+          1.0,
+          1.0,
+          0.78125,
+          0.0625,
+          0.59375,
+          0.1875,
+          1.0,
+          0.71875,
+          0.125,
+          1.0
+        ],
+        "drafter_forwards": 168,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3558,
+        "n_blocks": 18,
+        "slots": 547,
+        "agree": 354,
+        "agreement": 0.6471663619744058,
+        "per_block": [
+          1.0,
+          1.0,
+          0.40625,
+          0.46875,
+          0.59375,
+          0.21875,
+          0.75,
+          0.15625,
+          0.3125,
+          0.40625,
+          1.0,
+          0.28125,
+          0.40625,
+          0.96875,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "drafter_forwards": 139,
+        "split": "train_pool"
+      },
+      {
+        "idx": 6150,
+        "n_blocks": 6,
+        "slots": 173,
+        "agree": 37,
+        "agreement": 0.2138728323699422,
+        "per_block": [
+          0.15384615384615385,
+          0.40625,
+          0.28125,
+          0.03125,
+          0.125,
+          0.25
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1497,
+        "n_blocks": 4,
+        "slots": 113,
+        "agree": 45,
+        "agreement": 0.39823008849557523,
+        "per_block": [
+          0.6470588235294118,
+          0.375,
+          0.09375,
+          0.59375
+        ],
+        "drafter_forwards": 32,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1833,
+        "n_blocks": 15,
+        "slots": 478,
+        "agree": 345,
+        "agreement": 0.7217573221757322,
+        "per_block": [
+          0.3,
+          0.84375,
+          0.3125,
+          0.40625,
+          1.0,
+          0.15625,
+          0.8125,
+          1.0,
+          1.0,
+          0.78125,
+          0.96875,
+          0.96875,
+          1.0,
+          0.875,
+          0.375
+        ],
+        "drafter_forwards": 120,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3873,
+        "n_blocks": 21,
+        "slots": 649,
+        "agree": 442,
+        "agreement": 0.6810477657935285,
+        "per_block": [
+          0.8888888888888888,
+          0.28125,
+          0.90625,
+          0.21875,
+          0.21875,
+          1.0,
+          0.34375,
+          1.0,
+          0.59375,
+          1.0,
+          1.0,
+          0.96875,
+          0.3125,
+          0.0625,
+          0.59375,
+          0.90625,
+          1.0,
+          0.6875,
+          1.0,
+          1.0,
+          0.46875
+        ],
+        "drafter_forwards": 168,
+        "split": "train_pool"
+      },
+      {
+        "idx": 252,
+        "n_blocks": 6,
+        "slots": 183,
+        "agree": 75,
+        "agreement": 0.4098360655737705,
+        "per_block": [
+          0.782608695652174,
+          0.09375,
+          0.5625,
+          0.03125,
+          0.09375,
+          1.0
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1668,
+        "n_blocks": 6,
+        "slots": 173,
+        "agree": 121,
+        "agreement": 0.6994219653179191,
+        "per_block": [
+          1.0,
+          0.78125,
+          0.0625,
+          1.0,
+          0.6875,
+          0.84375
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3111,
+        "n_blocks": 18,
+        "slots": 571,
+        "agree": 235,
+        "agreement": 0.4115586690017513,
+        "per_block": [
+          0.14814814814814814,
+          1.0,
+          0.375,
+          0.0625,
+          0.8125,
+          0.21875,
+          0.1875,
+          0.1875,
+          0.09375,
+          0.40625,
+          0.9375,
+          0.1875,
+          0.4375,
+          0.625,
+          0.21875,
+          0.21875,
+          0.25,
+          1.0
+        ],
+        "drafter_forwards": 144,
+        "split": "train_pool"
+      },
+      {
+        "idx": 6591,
+        "n_blocks": 9,
+        "slots": 263,
+        "agree": 144,
+        "agreement": 0.5475285171102662,
+        "per_block": [
+          1.0,
+          0.0625,
+          0.0,
+          0.375,
+          1.0,
+          0.65625,
+          1.0,
+          0.71875,
+          0.46875
+        ],
+        "drafter_forwards": 71,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1842,
+        "n_blocks": 19,
+        "slots": 584,
+        "agree": 381,
+        "agreement": 0.6523972602739726,
+        "per_block": [
+          0.125,
+          0.40625,
+          0.5625,
+          0.03125,
+          0.5,
+          0.40625,
+          0.34375,
+          1.0,
+          1.0,
+          1.0,
+          0.71875,
+          0.25,
+          1.0,
+          1.0,
+          0.59375,
+          1.0,
+          1.0,
+          0.0625,
+          1.0
+        ],
+        "drafter_forwards": 152,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1938,
+        "n_blocks": 10,
+        "slots": 297,
+        "agree": 170,
+        "agreement": 0.5723905723905723,
+        "per_block": [
+          1.0,
+          0.34375,
+          0.125,
+          0.09375,
+          0.4375,
+          1.0,
+          0.96875,
+          0.8125,
+          0.25,
+          1.0
+        ],
+        "drafter_forwards": 80,
+        "split": "train_pool"
+      },
+      {
+        "idx": 1677,
+        "n_blocks": 6,
+        "slots": 188,
+        "agree": 99,
+        "agreement": 0.526595744680851,
+        "per_block": [
+          0.07142857142857142,
+          0.125,
+          0.0625,
+          1.0,
+          1.0,
+          0.84375
+        ],
+        "drafter_forwards": 48,
+        "split": "train_pool"
+      },
+      {
+        "idx": 3597,
+        "n_blocks": 7,
+        "slots": 200,
+        "agree": 139,
+        "agreement": 0.695,
+        "per_block": [
+          0.125,
+          1.0,
+          0.21875,
+          0.84375,
+          1.0,
+          0.5625,
+          0.6875
+        ],
+        "drafter_forwards": 56,
+        "split": "train_pool"
+      }
+    ],
+    "n_items": 100,
+    "slots": 24130,
+    "agreement": 0.5778698715292168,
+    "item_mean_agreement": 0.5463034679013425,
+    "blocks": 806,
+    "seconds": 134.7
+  },
+  "paired": {
+    "n_paired": 99,
+    "mean_item_delta": -0.007684566554189814,
+    "ci95": [
+      -0.029780992912402913,
+      0.014667807321846792
+    ],
+    "items_better": 39,
+    "items_worse": 57,
+    "items_equal": 3,
+    "slot_agreement_ckpt": 0.5613940125744264,
+    "slot_agreement_baseline": 0.5787150768205854,
+    "slot_delta": -0.01732106424615898
+  }
+}

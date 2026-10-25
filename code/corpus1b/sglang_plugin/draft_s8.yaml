@@ -1,0 +1,4 @@
+# SGLang dLLM config for the 1.7B's teacher-forced drafts (code/corpus1b/draft_sglang.py).
+# Round-3 drafter setting s8: min(8, n_open) static steps, top-k by fp32 confidence, [MASK] suppressed.
+block_size: 32
+steps: 8

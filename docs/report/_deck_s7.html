@@ -1,0 +1,194 @@
+<!-- 23 -->
+<section class="slide">
+  <div class="eyebrow">Chapter VIII &middot; what happens next</div>
+  <h2>The hypothesis: it is under-trained, not wrong</h2>
+  <p class="lede">"Train it more" is usually a bad answer. Here there is specific evidence for it, and it is worth being precise about what that evidence is and what it is not.</p>
+  <div class="cols" style="grid-template-columns:600px 1fr;">
+    <div class="figbox">
+      <svg viewBox="0 0 600 285" role="img" aria-label="Held-out confident share and precision both still rising at the end of round 2a training, with a linear extrapolation over round 2b's extra two thousand steps.">
+        <line x1="52" y1="24" x2="52" y2="180" stroke="currentColor"/><line x1="52" y1="180" x2="560" y2="180" stroke="currentColor"/>
+        <g font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)" text-anchor="end">
+          <text x="48" y="28">0.60</text><text x="48" y="79">0.50</text><text x="48" y="130">0.40</text><text x="48" y="184">0.30</text>
+        </g>
+        <g font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)" text-anchor="middle">
+          <text x="52" y="196">0</text><text x="187" y="196">1057</text><text x="322" y="196">2000</text><text x="518" y="196">3057</text>
+        </g>
+        <text x="300" y="212" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)">optimiser step &mdash; round 2a ended at 1,057; round 2b adds 2,000</text>
+        <line x1="187" y1="24" x2="187" y2="180" stroke="var(--rule)" stroke-width="1.2"/>
+        <text x="192" y="34" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)">2a ends</text>
+        <line x1="52" y1="52" x2="560" y2="52" stroke="var(--draft)" stroke-width="1.4" stroke-dasharray="5 3"/>
+        <text x="556" y="48" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--draft)">0.555 &mdash; the drafter's ceiling on confirmations</text>
+        <polyline points="103,163 116,145 129,139 142,134 155,131 168,130 181,126" fill="none" stroke="var(--commit)" stroke-width="2.4"/>
+        <polyline points="181,126 322,102 518,75" fill="none" stroke="var(--commit)" stroke-width="2" stroke-dasharray="6 4" opacity=".75"/>
+        <circle cx="181" cy="126" r="3.5" fill="var(--commit)"/>
+        <text x="196" y="122" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--commit)">0.392 measured</text>
+        <circle cx="518" cy="75" r="3.5" fill="var(--commit)" opacity=".75"/>
+        <text x="514" y="70" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--commit)">~0.52 if the trend holds</text>
+        <text x="60" y="152" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--commit)">share of slots the judge is confident about</text>
+        <line x1="52" y1="234" x2="560" y2="234" stroke="var(--rule)"/>
+        <g font-family="IBM Plex Mono, monospace" font-size="11.5">
+          <text x="0" y="228" fill="var(--muted)">over the LAST 300 steps of round 2a, per 100 steps:</text>
+          <text x="0" y="254" fill="var(--ink-2)">draft-slot accuracy</text><text x="330" y="254" fill="var(--commit)">+0.011</text><text x="400" y="254" fill="var(--muted)">and accelerating</text>
+          <text x="0" y="274" fill="var(--ink-2)">confident share</text><text x="330" y="274" fill="var(--commit)">+0.006</text><text x="400" y="274" fill="var(--muted)">at half the peak LR</text>
+        </g>
+      </svg>
+    </div>
+    <div class="stack">
+      <div style="font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--commit);font-weight:600;">the case for</div>
+      <ul class="points">
+        <li><strong>Nothing had plateaued.</strong> Accuracy, confident share and precision were all still climbing at step 1,057, and accuracy was <em>accelerating</em>.</li>
+        <li><strong>Not a learning-rate artefact.</strong> The schedule only decayed to half of peak, so it was still learning when the run ended.</li>
+        <li><strong>The corpus was known to be too small beforehand.</strong> ~600,000 supervised slots against dParallel's 4&ndash;9 million. Round 2b takes it to ~2.3&times;.</li>
+        <li><strong>The bottleneck is recall, not correctness.</strong> Confirmations are already 99% precise. The judge is simply not <em>sure</em> often enough.</li>
+      </ul>
+      <div class="callout"><b>What that buys.</b> Confident slots 0.39 &rarr; ~0.52 lifts confirmations from 35% to ~43% of open slots: capturing <strong>78%</strong> of the available correct drafts instead of <strong>62%</strong>. About 3 more commits per pass, at 99% precision.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 24 -->
+<section class="slide">
+  <div class="eyebrow">Chapter VIII &middot; what happens next</div>
+  <h2>Three levers, and the honest case against each</h2>
+  <div class="cols" style="grid-template-columns:1fr;">
+    <div class="stack">
+      <table>
+        <thead><tr><th>lever</th><th>which cap it attacks</th><th>why it should work</th><th>why it might not</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1. Confirmation recall</strong><br><span style="color:var(--muted);font-size:14px">round 2b: +2,000 steps, 2.3&times; data</span></td><td>confident on only 62% of correct drafts</td><td>curve still rising, and confirmations are already 99% precise, so more of them cost no accuracy</td><td>extrapolating a decelerating curve is optimistic; may land at 0.45</td></tr>
+          <tr><td><strong>2. Override precision</strong><br><span style="color:var(--muted);font-size:14px">same training run</span></td><td>0.825 at &tau;&nbsp;.95, needs ~0.95</td><td>the only decisions that beat the drafter's ceiling; more data is the standard fix for a miscalibrated tail</td><td>these are the <em>hard</em> slots by definition</td></tr>
+          <tr><td><strong>3. Fine-tune the drafter</strong><br><span style="color:var(--muted);font-size:14px">round 3: 1.7B, one GPU</span></td><td>the 55.5% agreement itself</td><td>best-precedented step here: EAGLE, Medusa and Spec-AUF all train drafters on the target's outputs</td><td>raises the ceiling, not the judge's reach; and it invalidates the judge's corpus</td></tr>
+        </tbody>
+      </table>
+      <div class="callout"><b>The lever nobody has pulled.</b> A top-32 expert pool voted from a <em>draft-filled</em> block covers 0.754 of the final tokens' expert picks against 0.511 from masks (+0.242 [+0.233, +0.252]). It attacks cost <em>per pass</em>, so it multiplies with everything above. Measured, never yet decoded with.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 25 -->
+<section class="slide">
+  <div class="eyebrow">Chapter VIII &middot; what happens next &middot; 7 Sep 2026, 14:45 IST</div>
+  <h2>All 8 GPUs are building the round-2 corpus right now</h2>
+  <div class="figbox">
+    <svg viewBox="0 0 700 252" role="img" aria-label="Pipeline: data generation now, then drafter training on GPU 0 alongside judge round 2b on GPUs 1 to 7, then a four-way evaluation, with a timeline from 14:45 IST to 8 September.">
+      <defs><marker id="m24" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><polygon points="0,0 10,5 0,10" fill="currentColor"/></marker></defs>
+      <rect x="0" y="10" width="208" height="118" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width="1.8"/>
+      <text x="14" y="30" font-family="IBM Plex Mono, monospace" font-size="10.5" letter-spacing="1" fill="var(--commit)">NOW &middot; 8 GPUs</text>
+      <text x="14" y="52" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="16" fill="currentColor">round-2 data</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink-2)">
+        <text x="14" y="74">GSM8K 3k&ndash;7.3k   71%</text>
+        <text x="14" y="92">MATH  every 3rd   26%</text>
+        <text x="14" y="110">MBPP              done</text>
+      </g>
+      <line x1="210" y1="66" x2="248" y2="66" stroke="currentColor" stroke-width="1.4" marker-end="url(#m24)"/>
+      <rect x="252" y="10" width="200" height="52" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <text x="264" y="30" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="15" fill="currentColor">drafter fine-tune</text>
+      <text x="264" y="48" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">GPU 0 &middot; lifts the 55.5% cap</text>
+      <rect x="252" y="76" width="200" height="52" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <text x="264" y="96" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="15" fill="currentColor">judge round 2b</text>
+      <text x="264" y="114" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">GPUs 1&ndash;7 &middot; +2,000 steps</text>
+      <text x="352" y="146" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">both launch automatically, in parallel, no human in the loop</text>
+      <line x1="454" y1="66" x2="492" y2="66" stroke="currentColor" stroke-width="1.4" marker-end="url(#m24)"/>
+      <rect x="496" y="10" width="204" height="118" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <text x="508" y="30" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="15" fill="currentColor">four-way decode</text>
+      <text x="508" y="50" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">commit .95 / .90</text>
+      <text x="508" y="66" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">&times; override .95 / .99</text>
+      <text x="508" y="90" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">paired against stock and</text>
+      <text x="508" y="106" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">the free rule, frozen items</text>
+      <line x1="0" y1="172" x2="700" y2="172" stroke="var(--rule)"/>
+      <g font-family="IBM Plex Mono, monospace" font-size="11">
+        <line x1="8" y1="166" x2="8" y2="178" stroke="var(--commit)" stroke-width="2.5"/>
+        <text x="8" y="196" fill="var(--commit)">14:45 IST</text><text x="8" y="212" fill="var(--muted)">you are here</text>
+        <line x1="250" y1="166" x2="250" y2="178" stroke="currentColor"/>
+        <text x="250" y="196" text-anchor="middle" fill="currentColor">~19:45 IST</text><text x="250" y="212" text-anchor="middle" fill="var(--muted)">training data complete</text>
+        <line x1="450" y1="166" x2="450" y2="178" stroke="currentColor"/>
+        <text x="450" y="196" text-anchor="middle" fill="currentColor">late tonight</text><text x="450" y="212" text-anchor="middle" fill="var(--muted)">queue drains, trainings start</text>
+        <line x1="690" y1="166" x2="690" y2="178" stroke="currentColor"/>
+        <text x="690" y="196" text-anchor="end" fill="currentColor">8 Sep, midday</text><text x="690" y="212" text-anchor="end" fill="var(--muted)">round-2b verdict</text>
+      </g>
+      <text x="0" y="232" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)">ETA measured live from shard throughput. It is a queue: one slow shard shifts</text>
+      <text x="0" y="246" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)">everything to the right.</text>
+    </svg>
+  </div>
+  <p class="kicker sm">Snapshot: <strong>38,600 usable blocks</strong>, about 2.3&times; round 2a's corpus. Behind it in the queue sit the frozen test cells, including the GSM8K-500 evaluation of the current judge.</p>
+</section>
+
+<!-- 26 -->
+<section class="slide">
+  <div class="eyebrow">Chapter VIII &middot; how good a bet is this</div>
+  <h2>My odds, written down before the run</h2>
+  <p class="lede">Stated in advance so they can be scored later. These are judgements, not measurements, and the reasoning behind each is on the previous three slides.</p>
+  <div class="cols" style="grid-template-columns:1fr;">
+    <div class="stack">
+      <table>
+        <thead><tr><th>outcome of round 2b + round 3</th><th>odds</th><th>the reasoning in one line</th></tr></thead>
+        <tbody>
+          <tr class="hero"><td>held-out judge metrics improve measurably</td><td>~80%</td><td>every curve was still rising, the intervention is aimed at the measured bottleneck</td></tr>
+          <tr><td>the drafter fine-tune lifts agreement by 8 points or more</td><td>~70%</td><td>the best-precedented step in the plan; standard practice for speculative drafters</td></tr>
+          <tr><td>the judge lands strictly inside the free rule's frontier on the 100 train prompts</td><td>~40%</td><td>round 2a converted large metric gains into a disappointing decode; that conversion is the weak link</td></tr>
+          <tr><td>that win survives the frozen GSM8K-500 at within 1.5 points</td><td>~25%</td><td>a 100-item win of 1&ndash;2 points is inside the noise it was measured in</td></tr>
+          <tr class="dead"><td>the full pre-registered gate: &le;5 passes AND within 1.5 points AND &le;582 exec/token</td><td>~10%</td><td>needs roughly a halving of passes; best trained point today is 7.93</td></tr>
+        </tbody>
+      </table>
+      <div class="callout"><b>Why the bet is worth taking.</b> A day of already-allocated GPU time, no human in the loop, and <strong>a bounded downside</strong>: the mechanism findings and the free rule are results whatever happens. A 1-in-4 shot at the headline claim with a guaranteed consolation paper is a good trade.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 27 -->
+<section class="slide">
+  <div class="eyebrow">Chapter VIII &middot; how good a bet is this</div>
+  <h2>The two things that would most change my mind</h2>
+  <div class="cols">
+    <div class="stack">
+      <div style="font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--wrong);font-weight:600;">what is missing, and it is our fault</div>
+      <ul class="points">
+        <li><strong>The no-draft control has never run.</strong> Same recipe, draft disabled, certainty forcing alone. If it matches the draft arm, the draft adds nothing. <em>We cannot rule that out today.</em></li>
+        <li><strong>The trained judge has never seen 500 items.</strong> Every trained number here carries a ±5-point interval. The frozen cell is queued but has not run.</li>
+      </ul>
+      <div class="callout bad"><b>Bluntly.</b> The strongest supportable claim today: a 27 M-parameter adapter teaches a diffusion LLM to read its own filled slots, 38% &rarr; 94% end to end, landing level with a rule that costs nothing. Everything past that is a hypothesis with a schedule attached.</div>
+    </div>
+    <div class="stack">
+      <div style="font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--commit);font-weight:600;">what would make me raise the odds</div>
+      <ul class="points">
+        <li><strong>Confident share past 0.45 by step 2,000</strong> with precision holding above 0.96. That is on-trend and would mean the recall lever is real rather than extrapolated.</li>
+        <li><strong>Override precision above 0.90 at &tau; = 0.95.</strong> That single number is what currently forces the strict threshold that gives the pass savings back.</li>
+        <li><strong>Drafter agreement past 0.65.</strong> It raises the confirmation ceiling for free and makes every later judge round easier.</li>
+      </ul>
+      <div class="callout good"><b>One cheap thing worth doing regardless.</b> Deploy the draft-informed expert pool. It attacks cost <em>per pass</em>, so it can rescue a partial result: if passes stall at 7 but each touches 32 experts instead of 58, the cost-per-token claim survives on its own.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 28 -->
+<section class="slide">
+  <div class="eyebrow">Chapter VIII &middot; the honest position</div>
+  <h2>What is settled, what is not, and what the paper is either way</h2>
+  <div class="cols" style="grid-template-columns:1fr 1fr;">
+    <div class="stack">
+      <div style="font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--commit);font-weight:600;">settled</div>
+      <ul class="points">
+        <li><strong>The mechanism findings.</strong> Filled slots return the next input token. Draft context makes the model sycophantic. The empty-block marginal is the only honest free signal.</li>
+        <li><strong>The free rule is held out.</strong> +0.2 [&minus;1.4, +1.8] points, 16% fewer passes, 500 unseen items.</li>
+        <li><strong>Flag-and-gate is the right fix.</strong> 0.393 &rarr; 0.579 and 38% &rarr; 94%, at identical data and budget.</li>
+      </ul>
+    </div>
+    <div class="stack">
+      <div style="font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--wrong);font-weight:600;">not settled</div>
+      <ul class="points">
+        <li><strong>Whether the judge can beat the free rule at all.</strong> On today's evidence it ties.</li>
+        <li><strong>Whether anything survives 500 items.</strong> These are 100-item numbers, ±5-point intervals.</li>
+        <li><strong>The pre-registered gates are not met.</strong> Target 1.5 points at &le;5 passes and &le;582 runs. Best: 1 point at 7.93 and 995.</li>
+        <li><strong>The no-draft control never ran.</strong> So we cannot separate "the draft helps" from "certainty forcing helps".</li>
+      </ul>
+    </div>
+  </div>
+  <table style="margin-top:4px;">
+    <thead><tr><th>if round 2b&hellip;</th><th>then the contribution is</th></tr></thead>
+    <tbody>
+      <tr><td>clears the free rule's frontier</td><td>per-slot acceptance of an external draft on a block-diffusion MoE. The intended result.</td></tr>
+      <tr><td>only matches a no-draft control</td><td>certainty forcing replicated on an MoE block-diffusion model. Not the drafter claim.</td></tr>
+      <tr class="hero"><td>neither &mdash; today's position</td><td>the mechanism analysis itself, plus a training-free rule that is free and accuracy-neutral. A weaker paper, but an honest one.</td></tr>
+    </tbody>
+  </table>
+</section>

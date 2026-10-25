@@ -1,0 +1,168 @@
+<!-- 1 -->
+<section class="slide on">
+  <div class="eyebrow">Chapter I &middot; the machine</div>
+  <h2>A 30B model that writes 32 tokens at once, not one</h2>
+  <p class="lede">Everything in this deck follows from three facts about SDAR-30B-A3B. None of them hold for an ordinary autoregressive LLM, and every intuition you have from speculative decoding has to be rebuilt from here.</p>
+  <div class="figbox">
+    <svg viewBox="0 0 700 222" role="img" aria-label="One denoising pass: a block of 32 slots enters a 48-layer mixture-of-experts, each position picks 8 of 128 experts, and only slots above 0.95 confidence are filled.">
+      <defs><marker id="m1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><polygon points="0,0 10,5 0,10" fill="currentColor"/></marker></defs>
+      <text x="0" y="16" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">a block of 32 slots, all masked</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="12">
+        <rect x="0" y="26" width="180" height="34" fill="none" stroke="var(--mask)" stroke-dasharray="4 3"/>
+        <text x="90" y="49" text-anchor="middle" fill="var(--mask)">▒ ▒ ▒ ▒ … ▒ ▒  (32)</text>
+      </g>
+      <line x1="182" y1="43" x2="228" y2="43" stroke="currentColor" stroke-width="1.4" marker-end="url(#m1)"/>
+      <rect x="232" y="20" width="250" height="120" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text x="244" y="42" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="16" fill="currentColor">one forward pass</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--ink-2)">
+        <text x="244" y="66">48 layers</text>
+        <text x="244" y="86">128 experts per layer, top-8 per slot</text>
+        <text x="244" y="106">32 slots &times; 8 = 256 draws per layer</text>
+        <text x="244" y="128" fill="var(--wrong)">union actually loaded: 43&ndash;65 experts</text>
+      </g>
+      <line x1="484" y1="80" x2="530" y2="80" stroke="currentColor" stroke-width="1.4" marker-end="url(#m1)"/>
+      <text x="524" y="42" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">per slot: a distribution</text>
+      <text x="524" y="60" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">over 151,936 tokens</text>
+      <rect x="524" y="72" width="172" height="34" fill="var(--commit-soft)" stroke="var(--commit)"/>
+      <text x="610" y="94" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--commit)">fill if top-1 &gt; 0.95</text>
+      <text x="524" y="126" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">everything else stays ▒</text>
+      <path d="M 610 110 L 610 150 L 90 150 L 90 64" stroke="var(--muted)" stroke-width="1.3" fill="none" stroke-dasharray="5 3" marker-end="url(#m1)"/>
+      <text x="350" y="144" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">…and look again</text>
+      <text x="350" y="186" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--ink-2)">Each look is one full 30B forward. We call it a <tspan fill="var(--commit)" font-weight="600">pass</tspan>.</text>
+      <text x="350" y="212" text-anchor="middle" font-family="Source Serif 4, serif" font-size="14" fill="var(--muted)">At least one slot is forced to commit per pass, so the loop always terminates.</text>
+    </svg>
+  </div>
+  <div class="num-strip">
+    <div><div class="v">9.31</div><div class="k">passes per block · stock</div></div>
+    <div><div class="v">1,091</div><div class="k">expert-layer runs / token</div></div>
+    <div><div class="v">95.0%</div><div class="k">accuracy · the thing to protect</div></div>
+    <div><div class="v">187 <small>ms</small></div><div class="k">wall clock per token</div></div>
+  </div>
+  <p class="kicker sm">Baseline over 100 frozen GSM8K train prompts, 620 blocks. Every later number in this deck is <strong>paired item by item against this same run</strong>.</p>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <div class="eyebrow">Chapter I &middot; the machine</div>
+  <h2>What one pass actually costs, from memory traffic</h2>
+  <div class="cols">
+    <div class="stack">
+      <p class="lede" style="font-size:18px;">A mixture-of-experts layer only <em>runs</em> 8 experts per slot, but 32 slots choose independently, so the layer must <strong>fetch the weights of their union</strong>. That union, not the top-8, is the cost.</p>
+      <div class="eq">bytes per MoE forward
+  = 58 experts &times; 48 layers
+  &times; 3 matrices &times; 768 &times; 2048
+  &times; 2 bytes
+  <span class="c">&asymp; 26 GB</span>  + ~3 GB dense
+
+drafter 1.7B, bf16   <span class="c">= 3.4 GB</span>
+<span class="c">one drafter forward &asymp; 1/8.5 of a 30B pass</span></div>
+      <p class="kicker sm">So the honest unit is the <strong>expert-layer execution</strong>: one expert, at one layer, in one pass. Divide by tokens produced and you get a number that does not depend on our kernels.</p>
+    </div>
+    <div class="figbox">
+      <svg viewBox="0 0 620 300" role="img" aria-label="Unique experts loaded per layer-forward: 43.1 when the block is masked, 64.5 when it is filled with draft tokens, out of 128 available.">
+        <text x="0" y="18" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--muted)">unique experts loaded per layer, per pass &mdash; out of 128</text>
+        <g font-family="IBM Plex Mono, monospace" font-size="13">
+          <text x="0" y="56" fill="var(--ink-2)">block all masked</text>
+          <rect x="200" y="40" width="380" height="22" fill="none" stroke="var(--rule)"/>
+          <rect x="200" y="40" width="128" height="22" fill="var(--commit-soft)" stroke="var(--commit)"/>
+          <text x="340" y="57" fill="var(--commit)">43.1</text>
+          <text x="0" y="98" fill="var(--ink-2)">block filled with a draft</text>
+          <rect x="200" y="82" width="380" height="22" fill="none" stroke="var(--rule)"/>
+          <rect x="200" y="82" width="191" height="22" fill="var(--draft-soft)" stroke="var(--draft)"/>
+          <text x="403" y="99" fill="var(--draft)">64.5</text>
+          <text x="0" y="140" fill="var(--ink-2)">block filled with the answer</text>
+          <rect x="200" y="124" width="380" height="22" fill="none" stroke="var(--rule)"/>
+          <rect x="200" y="124" width="191" height="22" fill="none" stroke="var(--muted)"/>
+          <text x="403" y="141" fill="var(--muted)">64.4</text>
+          <text x="0" y="182" fill="var(--ink-2)">the 8 a single slot uses</text>
+          <rect x="200" y="166" width="380" height="22" fill="none" stroke="var(--rule)"/>
+          <rect x="200" y="166" width="24" height="22" fill="var(--wrong-soft)" stroke="var(--wrong)"/>
+          <text x="236" y="183" fill="var(--wrong)">8</text>
+        </g>
+        <line x1="200" y1="210" x2="580" y2="210" stroke="var(--rule)"/>
+        <text x="0" y="240" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">Two ways to spend less:</text>
+        <text x="0" y="264" font-family="Source Serif 4, serif" font-size="15" fill="var(--commit)">1. fewer passes  &larr; this project</text>
+        <text x="0" y="288" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">2. a smaller union per pass  &larr; TEAM, DES, dMoE</text>
+      </svg>
+    </div>
+  </div>
+  <figcaption>Probe, 87 items / 537 blocks. The two levers multiply, which is why a pass-count win composes with the published expert-pool work on this exact model instead of competing with it.</figcaption>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <div class="eyebrow">Chapter I &middot; the machine</div>
+  <h2>Why nine passes: a marginal is flat where a conditional is peaked</h2>
+  <p class="lede">The block does not take nine passes because the model is unsure what to say. It takes nine passes because of <em>which question</em> a masked slot is being asked.</p>
+  <div class="figbox">
+    <svg viewBox="0 0 700 250" role="img" aria-label="A masked slot asks what could go here and the probability splits across equally good paraphrases; filling the neighbours closes the question.">
+      <text x="0" y="18" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--muted)">pass 1 &mdash; only the prefix-forced slots clear 0.95</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="12">
+        <rect x="0" y="30" width="56" height="32" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="28" y="51" text-anchor="middle" fill="var(--commit)">10</text>
+        <rect x="60" y="30" width="56" height="32" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="88" y="51" text-anchor="middle" fill="var(--commit)">&times;</text>
+        <rect x="120" y="30" width="56" height="32" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="148" y="51" text-anchor="middle" fill="var(--commit)">2</text>
+        <rect x="180" y="30" width="56" height="32" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="208" y="51" text-anchor="middle" fill="var(--commit)">=</text>
+        <rect x="240" y="30" width="56" height="32" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="268" y="51" text-anchor="middle" fill="var(--commit)">20</text>
+        <rect x="300" y="30" width="56" height="32" fill="none" stroke="var(--mask)" stroke-dasharray="3 3"/><text x="328" y="52" text-anchor="middle" fill="var(--mask)">▒</text>
+        <rect x="360" y="30" width="56" height="32" fill="none" stroke="var(--mask)" stroke-dasharray="3 3"/><text x="388" y="52" text-anchor="middle" fill="var(--mask)">▒</text>
+        <rect x="420" y="30" width="56" height="32" fill="none" stroke="var(--mask)" stroke-dasharray="3 3"/><text x="448" y="52" text-anchor="middle" fill="var(--mask)">▒</text>
+        <rect x="480" y="30" width="56" height="32" fill="none" stroke="var(--mask)" stroke-dasharray="3 3"/><text x="508" y="52" text-anchor="middle" fill="var(--mask)">▒</text>
+        <rect x="540" y="30" width="56" height="32" fill="none" stroke="var(--mask)" stroke-dasharray="3 3"/><text x="568" y="52" text-anchor="middle" fill="var(--mask)">▒</text>
+      </g>
+      <text x="606" y="52" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">…</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="12.5">
+        <rect x="248" y="86" width="230" height="82" fill="var(--draft-soft)" stroke="var(--draft)"/>
+        <text x="262" y="106" fill="var(--draft)">this slot's distribution</text>
+        <text x="262" y="126" fill="var(--ink)">" So"        0.40</text>
+        <text x="262" y="144" fill="var(--ink)">" Therefore" 0.35</text>
+        <text x="262" y="162" fill="var(--ink)">" The"       0.25</text>
+      </g>
+      <line x1="328" y1="64" x2="328" y2="84" stroke="var(--draft)" stroke-width="1.4"/>
+      <text x="492" y="112" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">All three are correct.</text>
+      <text x="492" y="134" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">So none reaches 0.95,</text>
+      <text x="492" y="156" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">and nothing commits.</text>
+      <text x="0" y="206" font-family="IBM Plex Mono, monospace" font-size="13.5" fill="var(--ink)">p(x&#7522; | committed) = &Sigma;&#8331;&#8337;&#8339;&#8348; p(x&#7522;, rest | committed)</text>
+      <text x="420" y="206" font-family="IBM Plex Mono, monospace" font-size="13" fill="var(--muted)">&larr; MARGINAL. flat by construction.</text>
+      <text x="0" y="234" font-family="IBM Plex Mono, monospace" font-size="13.5" fill="var(--commit)">p(x&#7522; | committed, rest = D)</text>
+      <text x="420" y="234" font-family="IBM Plex Mono, monospace" font-size="13" fill="var(--commit)">&larr; CONDITIONAL. one thing to judge.</text>
+    </svg>
+  </div>
+  <p class="kicker">A slot whose token is <em>forced</em> by the prefix &mdash; the second digit of <span style="font-family:var(--mono)">10 &times; 2 = 20</span> &mdash; gets 0.99 and commits at once. Everything phrasable stalls. Each commit forces about three more slots, which commit next pass, which force three more. <strong>That chain is the nine passes.</strong></p>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <div class="eyebrow">Chapter I &middot; the machine</div>
+  <h2>The waste is measurable, and it is a third of the block</h2>
+  <div class="cols wide-left">
+    <div class="figbox">
+      <svg viewBox="0 0 640 300" role="img" aria-label="Of 29.4 generated slots per block, 7.5 commit at pass 1, another 9.8 are already right but too flat to commit, and 12.1 are genuinely not yet decided.">
+        <text x="0" y="18" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--muted)">the 29.4 generated slots of an average block, at pass 1</text>
+        <rect x="0"   y="34" width="163" height="54" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width="1.6"/>
+        <rect x="163" y="34" width="213" height="54" fill="var(--draft-soft)" stroke="var(--draft)" stroke-width="1.6"/>
+        <rect x="376" y="34" width="264" height="54" fill="none" stroke="var(--mask)" stroke-dasharray="4 3"/>
+        <text x="81"  y="60" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="17" font-weight="600" fill="var(--commit)">7.5</text>
+        <text x="81"  y="78" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--commit)">committed</text>
+        <text x="269" y="60" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="17" font-weight="600" fill="var(--draft)">9.8</text>
+        <text x="269" y="78" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--draft)">already right, not confident</text>
+        <text x="508" y="60" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="17" font-weight="600" fill="var(--mask)">12.1</text>
+        <text x="508" y="78" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--mask)">genuinely undecided</text>
+        <path d="M 163 96 L 163 116 L 376 116 L 376 96" stroke="var(--draft)" stroke-width="1.3" fill="none"/>
+        <text x="269" y="136" text-anchor="middle" font-family="Source Serif 4, serif" font-size="15.5" fill="var(--draft)">33.6% of every block: right at pass 1,</text>
+        <text x="269" y="156" text-anchor="middle" font-family="Source Serif 4, serif" font-size="15.5" fill="var(--draft)">paid for again over eight more passes</text>
+        <line x1="0" y1="186" x2="640" y2="186" stroke="var(--rule)"/>
+        <text x="0" y="214" font-family="IBM Plex Mono, monospace" font-size="13" fill="var(--ink-2)">pass-1 argmax already equals the final token</text>
+        <text x="470" y="214" font-family="IBM Plex Mono, monospace" font-size="15" font-weight="600" fill="var(--ink)">58.4%</text>
+        <text x="0" y="242" font-family="IBM Plex Mono, monospace" font-size="13" fill="var(--ink-2)">pass-1 slots that actually commit</text>
+        <text x="470" y="242" font-family="IBM Plex Mono, monospace" font-size="15" font-weight="600" fill="var(--ink)">25.6%</text>
+        <text x="0" y="270" font-family="IBM Plex Mono, monospace" font-size="13" fill="var(--ink-2)">median confidence of the stalled-but-right slots</text>
+        <text x="470" y="270" font-family="IBM Plex Mono, monospace" font-size="15" font-weight="600" fill="var(--ink)">0.59</text>
+      </svg>
+    </div>
+    <div class="stack">
+      <p class="lede" style="font-size:18px;">The model is not wrong at those slots. It is <strong>insufficiently sure of something it already has right</strong>, because the marginal is spread over paraphrases.</p>
+      <div class="callout good"><b>The whole opportunity in one sentence.</b> If something supplies one concrete completion, a third of the block turns from "flat and stalled" into "peaked and committable" without the model changing its mind about anything.</div>
+      <p class="kicker sm">Recomputed on CPU from the recorded stock traces (620 blocks, 100 prompts). Earlier drafts of this deck said 7.7&nbsp;of&nbsp;29 and 60%; the correct figures are <strong>7.5 of 29.4</strong> and <strong>58.4%</strong>.</p>
+    </div>
+  </div>
+</section>

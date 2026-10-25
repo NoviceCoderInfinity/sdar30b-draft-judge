@@ -1,0 +1,187 @@
+<!-- 13 -->
+<section class="slide">
+  <div class="eyebrow">Chapter V &middot; the method</div>
+  <h2>Tell it which slots are guesses, and edit it only there</h2>
+  <p class="lede">Round 1 trained a plain adapter at every position and collapsed to 38%. Two structural causes, both fixed by round 2a &mdash; the mechanism now in the model.</p>
+  <div class="figbox">
+    <svg viewBox="0 0 700 225" role="img" aria-label="Round 1 applies one adapter everywhere and hides which slots are drafts; round 2a adds a draft-flag vector and applies the adapter only at flagged slots.">
+      <defs><marker id="m13" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><polygon points="0,0 10,5 0,10" fill="var(--draft)"/></marker></defs>
+      <text x="0" y="16" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="15" fill="var(--wrong)">ROUND 1 &mdash; failed</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="12">
+        <rect x="0"   y="28" width="66" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="33"  y="48" text-anchor="middle" fill="var(--commit)">10</text>
+        <rect x="70"  y="28" width="66" height="30" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="103" y="48" text-anchor="middle" fill="var(--draft)">rate</text>
+        <rect x="140" y="28" width="66" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="173" y="48" text-anchor="middle" fill="var(--commit)">is</text>
+        <rect x="210" y="28" width="66" height="30" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="243" y="48" text-anchor="middle" fill="var(--draft)">$</text>
+        <rect x="280" y="28" width="66" height="30" fill="none" stroke="var(--mask)" stroke-dasharray="3 3"/><text x="313" y="49" text-anchor="middle" fill="var(--mask)">▒</text>
+      </g>
+      <rect x="0" y="64" width="346" height="22" fill="none" stroke="var(--wrong)" stroke-dasharray="4 3"/>
+      <text x="173" y="79" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--wrong)">one LoRA delta, applied at every position</text>
+      <text x="356" y="42" font-family="Source Serif 4, serif" font-size="14" fill="var(--ink-2)"><tspan font-weight="600">1.</tspan> a guess and a settled token look identical,</text>
+      <text x="356" y="62" font-family="Source Serif 4, serif" font-size="14" fill="var(--ink-2)">     so it must first infer what it is being asked</text>
+      <text x="356" y="84" font-family="Source Serif 4, serif" font-size="14" fill="var(--ink-2)"><tspan font-weight="600">2.</tspan> the edit bleeds into masked decoding</text>
+      <line x1="0" y1="104" x2="700" y2="104" stroke="var(--rule)"/>
+      <text x="0" y="128" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="15" fill="var(--commit)">ROUND 2a &mdash; the current mechanism</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="12">
+        <rect x="0"   y="140" width="66" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="33"  y="160" text-anchor="middle" fill="var(--commit)">10</text>
+        <rect x="70"  y="140" width="66" height="30" fill="var(--draft-soft)" stroke="var(--draft)" stroke-width="2.4"/><text x="103" y="160" text-anchor="middle" fill="var(--draft)">rate</text>
+        <rect x="140" y="140" width="66" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="173" y="160" text-anchor="middle" fill="var(--commit)">is</text>
+        <rect x="210" y="140" width="66" height="30" fill="var(--draft-soft)" stroke="var(--draft)" stroke-width="2.4"/><text x="243" y="160" text-anchor="middle" fill="var(--draft)">$</text>
+        <rect x="280" y="140" width="66" height="30" fill="none" stroke="var(--mask)" stroke-dasharray="3 3"/><text x="313" y="161" text-anchor="middle" fill="var(--mask)">▒</text>
+      </g>
+      <line x1="103" y1="186" x2="103" y2="172" stroke="var(--draft)" stroke-width="1.5" marker-end="url(#m13)"/>
+      <line x1="243" y1="186" x2="243" y2="172" stroke="var(--draft)" stroke-width="1.5" marker-end="url(#m13)"/>
+      <text x="103" y="200" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--draft)">+ flag</text>
+      <text x="243" y="200" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--draft)">+ flag</text>
+      <text x="173" y="218" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--commit)">LoRA runs ONLY here; every other position is stock</text>
+      <text x="356" y="150" font-family="Source Serif 4, serif" font-size="14" fill="var(--ink-2)">a learned 2,048-number vector added to the input</text>
+      <text x="356" y="170" font-family="Source Serif 4, serif" font-size="14" fill="var(--ink-2)">embedding of every tentative slot</text>
+      <text x="356" y="194" font-family="Source Serif 4, serif" font-size="14" fill="var(--ink-2)">the same 0/1 flag gates the delta on q, k, v, o</text>
+      <text x="356" y="214" font-family="Source Serif 4, serif" font-size="14" fill="var(--ink-2)">of all 48 layers. At flag 0, max |&Delta;logit| = 0.0</text>
+    </svg>
+  </div>
+  <div class="num-strip">
+    <div><div class="v">26,738,688</div><div class="k">LoRA params · r 32, &alpha; 64</div></div>
+    <div><div class="v">2,048</div><div class="k">the draft-flag vector</div></div>
+    <div><div class="v">0.09%</div><div class="k">of the 30.5 B model</div></div>
+    <div><div class="v">frozen</div><div class="k">experts · embeddings · head · drafter</div></div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="slide">
+  <div class="eyebrow">Chapter V &middot; the method</div>
+  <h2>Why attention is the right thing to edit</h2>
+  <div class="cols">
+    <div class="stack">
+      <p class="lede" style="font-size:18px;">Both behaviours the judge needs <strong>already exist in the network</strong>. Nothing new has to be learned from scratch.</p>
+      <ul class="points">
+        <li><strong>"Copy the token at my own slot"</strong> is an identity attention pattern &mdash; that is what fires at filled slots today.</li>
+        <li><strong>"Infer a slot from its neighbours"</strong> is the masked-slot machinery SDAR spent 50 B tokens training.</li>
+        <li>The adapter's whole job is to make the <em>second</em> fire where the <em>first</em> currently does. That is a change in <strong>where attention looks</strong> &mdash; exactly what a low-rank update to q, k, v, o expresses.</li>
+      </ul>
+      <div class="callout good"><b>This is why 27 M parameters is a plausible budget</b> for undoing a habit inherited from trillions of pretraining tokens. We are not teaching a new skill; we are re-routing between two the model already has.</div>
+    </div>
+    <div class="figbox">
+      <svg viewBox="0 0 560 300" role="img" aria-label="At a flagged slot the input embedding gains the draft vector and the LoRA delta applies; at committed and masked slots neither happens, so the computation is the frozen model exactly.">
+        <g font-family="IBM Plex Mono, monospace" font-size="12">
+          <text x="90" y="18" text-anchor="middle" font-size="13" font-weight="600" fill="var(--commit)">committed</text>
+          <text x="280" y="18" text-anchor="middle" font-size="13" font-weight="600" fill="var(--draft)">tentative draft</text>
+          <text x="470" y="18" text-anchor="middle" font-size="13" font-weight="600" fill="var(--mask)">masked</text>
+          <rect x="40" y="30" width="100" height="26" fill="none" stroke="var(--commit)"/><text x="90" y="48" text-anchor="middle" fill="var(--ink-2)">g = 0</text>
+          <rect x="230" y="30" width="100" height="26" fill="none" stroke="var(--draft)" stroke-width="2.4"/><text x="280" y="48" text-anchor="middle" fill="var(--draft)">g = 1</text>
+          <rect x="420" y="30" width="100" height="26" fill="none" stroke="var(--mask)"/><text x="470" y="48" text-anchor="middle" fill="var(--ink-2)">g = 0</text>
+        </g>
+        <g font-family="IBM Plex Mono, monospace" font-size="12">
+          <rect x="10" y="76" width="160" height="38" fill="none" stroke="var(--rule)"/>
+          <text x="90" y="100" text-anchor="middle" fill="var(--muted)">e = embed(x)</text>
+          <rect x="200" y="76" width="160" height="38" fill="var(--draft-soft)" stroke="var(--draft)" stroke-width="1.8"/>
+          <text x="280" y="100" text-anchor="middle" fill="var(--draft)">e = embed(x) + v</text>
+          <rect x="390" y="76" width="160" height="38" fill="none" stroke="var(--rule)"/>
+          <text x="470" y="100" text-anchor="middle" fill="var(--muted)">e = embed(x)</text>
+        </g>
+        <g font-family="IBM Plex Mono, monospace" font-size="12">
+          <rect x="10" y="134" width="160" height="44" fill="none" stroke="var(--rule)"/>
+          <text x="90" y="152" text-anchor="middle" fill="var(--muted)">y = W x</text>
+          <text x="90" y="169" text-anchor="middle" font-size="10.5" fill="var(--muted)">frozen weight only</text>
+          <rect x="200" y="134" width="160" height="44" fill="var(--draft-soft)" stroke="var(--draft)" stroke-width="1.8"/>
+          <text x="280" y="152" text-anchor="middle" fill="var(--draft)">y = W x + &sup2;BAx</text>
+          <text x="280" y="169" text-anchor="middle" font-size="10.5" fill="var(--draft)">rank-32 delta applies</text>
+          <rect x="390" y="134" width="160" height="44" fill="none" stroke="var(--rule)"/>
+          <text x="470" y="152" text-anchor="middle" fill="var(--muted)">y = W x</text>
+          <text x="470" y="169" text-anchor="middle" font-size="10.5" fill="var(--muted)">frozen weight only</text>
+        </g>
+        <rect x="10" y="196" width="540" height="34" fill="none" stroke="var(--rule)" stroke-dasharray="5 3"/>
+        <text x="280" y="218" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--muted)">router + 128 experts, top-8 &mdash; entirely frozen</text>
+        <text x="280" y="258" text-anchor="middle" font-family="Source Serif 4, serif" font-size="15" fill="var(--commit)">Ordinary masked decoding cannot drift, by construction.</text>
+        <text x="280" y="280" text-anchor="middle" font-family="Source Serif 4, serif" font-size="15" fill="var(--muted)">Round 1 had no such guarantee, and duly drifted.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="slide">
+  <div class="eyebrow">Chapter V &middot; the method</div>
+  <h2>One training example: the drafter's own mistakes as the corruption</h2>
+  <div class="cols wide-left">
+    <div class="stack">
+      <p class="lede" style="font-size:18px;">An example is one (item, block) pair, and its state is <strong>re-randomised every time it is drawn</strong>, so the model meets the whole trajectory rather than one snapshot of it.</p>
+      <div class="eq">with prob 0.4  nothing committed <span class="c">(pass-1 state)</span>
+else           a recorded pass's committed set
+
+each open slot then holds
+  the draft token  w.p. 1 &minus; m
+  [MASK]           w.p. m,   m ~ U(0,1)
+
+with prob 0.3  m = 0 exactly
+               <span class="c">(the literal pass-1 inference state)</span></div>
+      <div class="callout"><b>The corruption is the real drafter's errors.</b> Published work on correcting filled tokens corrupts with uniform or self-sampled noise. Here the wrong tokens the judge learns to catch are precisely the wrong tokens it will meet at inference.</div>
+    </div>
+    <div class="figbox">
+      <svg viewBox="0 0 560 300" role="img" aria-label="A sampled training state: committed slots carry the truth as context, draft slots carry the drafter's guess, masked slots are empty, and the loss is computed only at the open slots.">
+        <text x="0" y="18" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">INPUT to the model</text>
+        <g font-family="IBM Plex Mono, monospace" font-size="12">
+          <rect x="0"   y="30" width="44" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="22"  y="50" text-anchor="middle" fill="var(--commit)">C</text>
+          <rect x="48"  y="30" width="44" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="70"  y="50" text-anchor="middle" fill="var(--commit)">C</text>
+          <rect x="96"  y="30" width="44" height="30" fill="var(--draft-soft)" stroke="var(--draft)" stroke-width="2"/><text x="118" y="50" text-anchor="middle" fill="var(--draft)">D</text>
+          <rect x="144" y="30" width="44" height="30" fill="none" stroke="var(--mask)" stroke-dasharray="3 3"/><text x="166" y="51" text-anchor="middle" fill="var(--mask)">▒</text>
+          <rect x="192" y="30" width="44" height="30" fill="var(--draft-soft)" stroke="var(--draft)" stroke-width="2"/><text x="214" y="50" text-anchor="middle" fill="var(--draft)">D</text>
+          <rect x="240" y="30" width="44" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="262" y="50" text-anchor="middle" fill="var(--commit)">C</text>
+          <rect x="288" y="30" width="44" height="30" fill="var(--draft-soft)" stroke="var(--draft)" stroke-width="2"/><text x="310" y="50" text-anchor="middle" fill="var(--draft)">D</text>
+          <rect x="336" y="30" width="44" height="30" fill="none" stroke="var(--mask)" stroke-dasharray="3 3"/><text x="358" y="51" text-anchor="middle" fill="var(--mask)">▒</text>
+          <rect x="384" y="30" width="44" height="30" fill="var(--draft-soft)" stroke="var(--draft)" stroke-width="2"/><text x="406" y="50" text-anchor="middle" fill="var(--draft)">D</text>
+          <rect x="432" y="30" width="44" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="454" y="50" text-anchor="middle" fill="var(--commit)">C</text>
+        </g>
+        <text x="0" y="86" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">LOSS is computed at</text>
+        <g font-family="IBM Plex Mono, monospace" font-size="12">
+          <rect x="0"   y="98" width="44" height="26" fill="none" stroke="var(--rule)"/><text x="22"  y="116" text-anchor="middle" fill="var(--muted)">—</text>
+          <rect x="48"  y="98" width="44" height="26" fill="none" stroke="var(--rule)"/><text x="70"  y="116" text-anchor="middle" fill="var(--muted)">—</text>
+          <rect x="96"  y="98" width="44" height="26" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="118" y="116" text-anchor="middle" fill="var(--commit)">✓</text>
+          <rect x="144" y="98" width="44" height="26" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="166" y="116" text-anchor="middle" fill="var(--commit)">✓</text>
+          <rect x="192" y="98" width="44" height="26" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="214" y="116" text-anchor="middle" fill="var(--commit)">✓</text>
+          <rect x="240" y="98" width="44" height="26" fill="none" stroke="var(--rule)"/><text x="262" y="116" text-anchor="middle" fill="var(--muted)">—</text>
+          <rect x="288" y="98" width="44" height="26" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="310" y="116" text-anchor="middle" fill="var(--commit)">✓</text>
+          <rect x="336" y="98" width="44" height="26" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="358" y="116" text-anchor="middle" fill="var(--commit)">✓</text>
+          <rect x="384" y="98" width="44" height="26" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="406" y="116" text-anchor="middle" fill="var(--commit)">✓</text>
+          <rect x="432" y="98" width="44" height="26" fill="none" stroke="var(--rule)"/><text x="454" y="116" text-anchor="middle" fill="var(--muted)">—</text>
+        </g>
+        <line x1="0" y1="146" x2="540" y2="146" stroke="var(--rule)"/>
+        <g font-family="Source Serif 4, serif" font-size="14.5" fill="var(--ink-2)">
+          <text x="0" y="172"><tspan font-family="IBM Plex Mono, monospace" fill="var(--commit)">C</tspan>  committed &mdash; context only, never a loss row</text>
+          <text x="0" y="196"><tspan font-family="IBM Plex Mono, monospace" fill="var(--draft)">D</tspan>  the drafter's token &mdash; <strong>input only, never a target</strong></text>
+          <text x="0" y="220"><tspan font-family="IBM Plex Mono, monospace" fill="var(--mask)">▒</tspan>  [MASK] &mdash; the ordinary diffusion regime, kept in the mix</text>
+        </g>
+        <text x="0" y="256" font-family="Source Serif 4, serif" font-size="14.5" fill="var(--ink)">The target at every open slot is the token that block <em>ended up with</em>.</text>
+        <text x="0" y="280" font-family="Source Serif 4, serif" font-size="14.5" fill="var(--ink)">Draft right &rarr; a confirmation. Draft wrong &rarr; an override.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="slide">
+  <div class="eyebrow">Chapter V &middot; the method</div>
+  <h2>The loss: say the right token, and be sure about it</h2>
+  <div class="cols" style="grid-template-columns:600px 1fr;">
+    <div class="stack">
+      <div class="eq">L = mean&#8342; &isin; &#8338; [ &minus;log p&#7522;(T&#7522;) ]
+      <span class="c">cross-entropy, every open slot</span>
+
+  + &beta; &middot; mean&#8342; &isin; &#8450; H( softmax(z&#7522; / &tau;) )
+      <span class="c">sharpen, ONLY where already right</span>
+
+&#8450; = { i &isin; &#8338; : argmax p&#7522; = T&#7522; }
+&beta; = 2.0   &tau; = 0.5   [MASK] column removed</div>
+      <p class="kicker sm">AdamW, lr 2e&minus;5, cosine, global batch 32 states, <strong>1,057 steps</strong> = two epochs over 16,905 blocks. 5.3 s per step on 8 GPUs.</p>
+    </div>
+    <div class="stack">
+      <ul class="points">
+        <li><strong>Term one teaches what to say.</strong> Cross-entropy against the block's final tokens.</li>
+        <li><strong>Term two attacks the bottleneck.</strong> A third of slots are right but under 0.95. Where the top guess is <em>already</em> the target, push it toward 1 so the slot clears the threshold in one pass instead of three.</li>
+        <li><strong>Never applied to a wrong slot.</strong> It sharpens a correct distribution; it cannot entrench a wrong one.</li>
+        <li><strong>[MASK] is deleted before the entropy.</strong> Otherwise entropy could be minimised by piling probability on a token that is never a legal output.</li>
+      </ul>
+      <div class="callout"><b>Honest about scale.</b> ~600,000 supervised slots, <strong>7 to 15&times; less</strong> than dParallel used for a comparable behaviour change. Under-confidence was flagged in advance as the likeliest failure. It is exactly what happened.</div>
+    </div>
+  </div>
+</section>

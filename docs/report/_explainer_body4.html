@@ -1,0 +1,201 @@
+<section>
+  <div class="num">08</div>
+  <div class="body">
+    <h2>How the trained judge decodes</h2>
+    <p class="lede">One forward pass per round, with every open slot holding the draft, and a three-way
+    verdict per slot.</p>
+
+    <ol>
+      <li>The drafter writes the block in 8 steps &rarr; <em>D</em>.</li>
+      <li>The big model runs <strong>one</strong> forward pass with every open slot holding <em>D</em>
+      &mdash; no masks at all &mdash; and the draft flag armed at exactly those slots.</li>
+      <li>Per slot: <strong>commit</strong> to the judge's argmax if its probability beats &tau;;
+      otherwise <strong>keep the draft as tentative context</strong> if the judge's argmax agrees with it;
+      otherwise <strong>re-mask</strong> the slot.</li>
+      <li>Repeat on the new state. At least one commit is forced per pass, so it terminates. Then the
+      cache flush, as always.</li>
+    </ol>
+
+    <p>Step 3 is the part with no analogue in speculative decoding. A rejected slot does not discard the
+    slots after it; it just goes back to being a question, with everything the pass <em>did</em> settle
+    now available as context.</p>
+
+    {{FIG_F1}}
+
+    <h3 class="kicker">The result, paired against stock on the same 100 prompts</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>decode</th><th>accuracy</th><th>&Delta; vs stock [95% CI]</th>
+        <th>passes/block</th><th>exec/token</th><th>ms/token</th></tr></thead>
+      <tbody>
+        <tr><td>stock</td><td>95.0</td><td>&mdash;</td><td>9.31</td><td>1,091</td><td>187</td></tr>
+        <tr class="hi"><td>free rule, &gamma; .50 &mdash; <em>no training</em></td><td>95.0</td>
+          <td>0.0 [0, 0]</td><td>7.93</td><td>963</td><td>172</td></tr>
+        <tr class="bad"><td>round 1 judge, commit .95</td><td>38.0</td><td>&minus;57.0 [&minus;67, &minus;47]</td>
+          <td>19.57</td><td>1,909</td><td>346</td></tr>
+        <tr><td>2a: confirm .95 / override .95</td><td>91.0</td><td>&minus;4.0 [&minus;9, 0]</td>
+          <td>6.90</td><td>878</td><td>164</td></tr>
+        <tr><td>2a: confirm .90 / override .90</td><td>89.0</td><td>&minus;6.0 [&minus;12, &minus;1]</td>
+          <td>5.75</td><td>747</td><td>139</td></tr>
+        <tr><td>2a: confirm .90 / override .90, re-mask only</td><td>91.0</td><td>&minus;4.0 [&minus;9, 0]</td>
+          <td>6.51</td><td>826</td><td>149</td></tr>
+        <tr><td>2a: confirm .95 / override .99</td><td>93.0</td><td>&minus;2.0 [&minus;5, 0]</td>
+          <td>8.26</td><td>1,032</td><td>192</td></tr>
+        <tr class="hi"><td>2a: confirm .90 / override .99 &mdash; <em>best</em></td><td>94.0</td>
+          <td>&minus;1.0 [&minus;5, +2]</td><td>7.93</td><td>995</td><td>182</td></tr>
+        <tr><td>2a: confirm .95 / override .995</td><td>93.0</td><td>&minus;2.0 [&minus;6, +2]</td>
+          <td>8.87</td><td>1,098</td><td>198</td></tr>
+      </tbody>
+    </table></div>
+
+    <p>Read the last highlighted row against the second one. <strong>The trained judge's best setting sits
+    exactly on the free rule's point &mdash; 7.93 passes &mdash; and gets there with one accuracy point
+    less and 3% more expert work.</strong> The judge is a large step up from round 1 and it beats stock on
+    every cost axis at &tau; = .95, but it does not yet buy a better frontier than the rule that costs
+    nothing.</p>
+
+    {{FIG_F5}}
+  </div>
+</section>
+
+<section>
+  <div class="num">09</div>
+  <div class="body">
+    <h2>Where the remaining errors come from</h2>
+    <p class="lede">The judge's mistakes are not spread evenly. They live almost entirely in one of its
+    two kinds of decision, and that is what makes the result diagnosable rather than merely disappointing.</p>
+
+    <p>Split every confident commit in two. A <strong>confirmation</strong> is a commit where the judge's
+    argmax equals the drafter's token &mdash; it agrees. An <strong>override</strong> is a commit where the
+    argmax differs &mdash; it overrules the draft. On 8,687 held-out pass-1 slots, at &tau; = 0.95:</p>
+
+    <div class="grid2">
+      <div class="stat"><div class="k">confirmations</div><div class="v" style="color:var(--commit)">0.991</div>
+        <div class="d">precision · 34.7% of open slots</div></div>
+      <div class="stat"><div class="k">overrides</div><div class="v" style="color:var(--tent)">0.825</div>
+        <div class="d">precision · 7.2% of open slots</div></div>
+      <div class="stat"><div class="k">draft was right</div><div class="v">55.5%</div>
+        <div class="d">the ceiling on confirmations</div></div>
+      <div class="stat"><div class="k">judge's argmax right</div><div class="v">63.0%</div>
+        <div class="d">above the draft, so it does add signal</div></div>
+    </div>
+
+    <p><strong>Nearly every wrong confident commit is an override.</strong> When the judge agrees with the
+    draft it is right 99 times in 100; when it overrules the draft it is wrong 17 times in 100. Raising
+    only the override threshold to 0.99 lifts override precision to 0.953 and cuts expected damage from
+    0.46 wrong commits per block to 0.14 &mdash; which is exactly the asymmetric rule in the results table,
+    and exactly why it recovers accuracy.</p>
+
+    {{FIG_F6}}
+
+    <p>But it recovers accuracy by <em>giving the pass savings back</em>, and that is the crux:</p>
+
+    <div class="callout warn">
+      <h4>Why the judge ties instead of winning</h4>
+      <p><strong>Confirmations are capped and overrides are unreliable.</strong> Confirmations can never
+      exceed the drafter's 55.5% agreement, and the judge is confident enough to take only 62% of the
+      correct drafts it sees. The decisions that would break through that ceiling &mdash; overrides,
+      where the judge contributes something the drafter could not &mdash; are precisely the 17%-wrong
+      ones. Make them safe and they nearly vanish; leave them loose and they cost accuracy.</p>
+    </div>
+
+    <p>The failure mode is visible in the generated text. Stock and the free rule never break the answer
+    format. The judge at &tau; = .95 breaks it in 2 or 3 of its 9 wrong answers: correct reasoning ending
+    in <code>\boxed{180$.</code> with a missing brace, or <code>boxed{64}$</code> with a missing backslash.
+    <strong>A wrong override of a single token in the answer wrapper flips the whole item.</strong> Under
+    confirm .90 / override .99 no format failures occur at all &mdash; all six wrong answers are genuine
+    reasoning errors.</p>
+  </div>
+</section>
+
+<section>
+  <div class="num">10</div>
+  <div class="body">
+    <h2>What is settled, what is not, and what would change it</h2>
+
+    <h3 class="kicker">Settled</h3>
+    <ul>
+      <li><strong>The mechanism findings.</strong> Filled slots on a masked-diffusion model return the
+      next input token; draft context makes the stock model sycophantic; the empty-block marginal is the
+      only honest free signal. These are clean measurements on 15,782 slots and they explain a family of
+      failed approaches.</li>
+      <li><strong>The training-free rule works and is held out.</strong> +0.2 accuracy points
+      [&minus;1.4, +1.8] with 16% fewer passes on GSM8K-500.</li>
+      <li><strong>The flag-and-gate design is the right fix for round 1.</strong> 0.393 &rarr; 0.579 at
+      draft slots, 38% &rarr; 94% end to end, at identical data and budget, with normal decoding provably
+      untouched.</li>
+      <li><strong>Draft-informed expert pools cover better than mask-informed ones.</strong> A top-32
+      pool voted from a draft-filled block covers 0.754 of the final tokens' expert picks against 0.511
+      from masks, paired difference +0.242 [+0.233, +0.252]. This lever has been measured but never yet
+      put in a decode.</li>
+    </ul>
+
+    <h3 class="kicker">Not settled</h3>
+    <ul>
+      <li><strong>Whether the judge can beat the free rule at all.</strong> On present evidence it ties.
+      Every trained point sits on or inside the free-rule frontier.</li>
+      <li><strong>Whether any of this survives 500 items.</strong> The trained results are 100-item
+      numbers with ±5-point intervals. A 1-point deficit is not distinguishable from a 3-point one.</li>
+      <li><strong>The pre-registered gates are not met.</strong> The target was accuracy within 1.5 points
+      at ≤5 passes per block and ≤582 expert-layer executions per token. Best achieved: 1 point at 7.93
+      passes and 995 executions.</li>
+      <li><strong>The T0 control never ran.</strong> Without the same recipe trained <em>without</em> a
+      draft, we cannot yet separate "the draft helps" from "certainty forcing helps".</li>
+    </ul>
+
+    <h3 class="kicker">The three levers still open</h3>
+    <ol>
+      <li><strong>Confirmation recall.</strong> The judge's confident share was still climbing when the
+      learning rate decayed (0.35 &rarr; 0.39 over the last 400 steps). More data and more steps should
+      convert correct-but-timid confirmations into commits &mdash; the cheapest possible win, since
+      confirmations are already 99% precise. <span class="tag t-prop">running</span></li>
+      <li><strong>Override precision.</strong> Same route: the overrides are the only decisions that can
+      push past the drafter's ceiling, and they need to get from 0.83 to about 0.95 at &tau; = .95 rather
+      than at &tau; = .99. <span class="tag t-prop">running</span></li>
+      <li><strong>The drafter's 55.5% agreement itself.</strong> Fine-tune the 1.7B on the big model's own
+      trajectories, which is standard practice for speculative-decoding drafters and directly raises the
+      cap on confirmations. <span class="tag t-prop">queued</span></li>
+    </ol>
+
+    <div class="callout note">
+      <h4>Running right now</h4>
+      <p>Round-2 data generation is on all 8 GPUs: the remaining GSM8K prompts, a third of MATH train, and
+      MBPP. The snapshot at the time of writing is about 38,600 usable blocks, roughly 2.3&times; round 1.
+      When it finishes, an orchestrator trains the drafter on one GPU and resumes the judge for 2,000 more
+      steps on the other seven, then evaluates four commit rules. <strong>Neither round 2b nor the drafter
+      fine-tune has run yet</strong>; everything in this section is code that exists, not a result.</p>
+    </div>
+
+    <h3 class="kicker">What the paper is, in each outcome</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>if</th><th>then the contribution is</th></tr></thead>
+      <tbody>
+        <tr><td>the judge clears the free rule's frontier</td>
+          <td>per-slot acceptance of an external draft on a block-diffusion MoE, which no causal verifier
+          can do &mdash; the intended result</td></tr>
+        <tr><td>the judge only matches a no-draft control</td>
+          <td>certainty forcing replicated on an MoE block-diffusion model; publishable, but not the
+          drafter claim</td></tr>
+        <tr class="hi"><td>neither &mdash; today's position</td>
+          <td>the mechanism analysis itself: the next-token residue at filled slots, the sycophancy of
+          draft context, the blind-marginal ceiling, and a training-free rule that is free and
+          accuracy-neutral. A weaker paper, but an honest and useful one.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<footer>
+  <p><strong>Provenance.</strong> Every number on this page comes from a recorded file in
+  <code>/workspace/dlm-exp1-voting</code> on branch <code>drafter-voting</code>, or from a CPU
+  re-computation over those records. Decode metrics come from
+  <code>logs/draftalign/da_decode/&lt;cell&gt;</code> via <code>code/draftalign/analyze_da.py</code>;
+  probe metrics from <code>logs/draftalign/ab_probe/</code>; training curves from the two torchrun logs;
+  the confirm/override split from
+  <code>results/metrics/draftalign/holdout_precision_t2a.json</code>. Nothing was run on a GPU to make
+  this page.</p>
+  <p><span class="tag t-act">actual</span> a run that happened &nbsp;
+     <span class="tag t-rep">replay</span> analysis over recorded data &nbsp;
+     <span class="tag t-prop">proposed</span> code that exists but has not produced a result.</p>
+</footer>
+
+</div>

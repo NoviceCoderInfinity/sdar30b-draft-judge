@@ -1,0 +1,4 @@
+# SGLang dLLM config for the 30B's stock decode (code/corpus1b/gen_sglang.py).
+# Same rule as sdar_harness/decode.py at block 32, threshold 0.95 (strict >, else the single best slot).
+block_size: 32
+threshold: 0.95

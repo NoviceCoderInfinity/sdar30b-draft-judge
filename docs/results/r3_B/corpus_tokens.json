@@ -1,0 +1,95 @@
+{
+ "all": {
+  "items": 4444,
+  "examples": 23558,
+  "prompt_tokens": 1152832,
+  "response_tokens": 686208,
+  "response_tokens_to_eos": 613360,
+  "supervised_positions": 686208,
+  "forward_tokens_per_epoch": 7896896,
+  "corpus_tokens": 1839040,
+  "mean_forward_tokens_per_state": 335.21079887936156,
+  "by_source": {
+   "opencode": {
+    "items": 2344,
+    "examples": 8297,
+    "tokens": 1196768
+   },
+   "gsm8k": {
+    "items": 1410,
+    "examples": 8400,
+    "tokens": 363392
+   },
+   "if": {
+    "items": 690,
+    "examples": 6861,
+    "tokens": 278880
+   }
+  }
+ },
+ "train": {
+  "items": 4294,
+  "examples": 22734,
+  "prompt_tokens": 1114429,
+  "response_tokens": 662179,
+  "response_tokens_to_eos": 591709,
+  "supervised_positions": 662179,
+  "forward_tokens_per_epoch": 7622048,
+  "corpus_tokens": 1776608,
+  "mean_forward_tokens_per_state": 335.2708718219407,
+  "by_source": {
+   "opencode": {
+    "items": 2266,
+    "examples": 8026,
+    "tokens": 1157344
+   },
+   "gsm8k": {
+    "items": 1362,
+    "examples": 8103,
+    "tokens": 350368
+   },
+   "if": {
+    "items": 666,
+    "examples": 6605,
+    "tokens": 268896
+   }
+  },
+  "loss_rows_epoch0": 429365,
+  "draft_filled_rows_epoch0": 279124
+ },
+ "holdout": {
+  "items": 150,
+  "examples": 824,
+  "prompt_tokens": 38403,
+  "response_tokens": 24029,
+  "response_tokens_to_eos": 21651,
+  "supervised_positions": 24029,
+  "forward_tokens_per_epoch": 274848,
+  "corpus_tokens": 62432,
+  "mean_forward_tokens_per_state": 333.5533980582524,
+  "by_source": {
+   "opencode": {
+    "items": 78,
+    "examples": 271,
+    "tokens": 39424
+   },
+   "gsm8k": {
+    "items": 48,
+    "examples": 297,
+    "tokens": 13024
+   },
+   "if": {
+    "items": 24,
+    "examples": 256,
+    "tokens": 9984
+   }
+  }
+ },
+ "calibrated_judge_total": {
+  "states": 45120,
+  "epochs": 1.9846925310108208,
+  "forward_tokens_approx": 15127422,
+  "loss_rows_approx": 852158
+ },
+ "tokenizer": "SDAR (Qwen3) ids as stored in the item npz files; prompts include the chat template"
+}

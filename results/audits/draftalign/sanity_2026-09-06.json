@@ -1,0 +1,66 @@
+{
+  "state": {
+    "item": 47,
+    "block": 15,
+    "idx": 3645,
+    "split": "train",
+    "example": 304,
+    "epoch": 0,
+    "regime": "sample",
+    "pass": 0,
+    "m": 0.5342329144477844,
+    "allmask": false,
+    "has_draft": true,
+    "n_open": 32,
+    "n_draft_filled": 14,
+    "seq_len": 640,
+    "correct": 0
+  },
+  "trainable": {
+    "lora": 26738688,
+    "gate": 12582912,
+    "total": 39321600
+  },
+  "parity_nockpt": {
+    "checkpoint": false,
+    "seq_len": 640,
+    "max_abs_diff_all_rows": 0.0,
+    "max_abs_diff_loss_rows": 0.0,
+    "argmax_equal_all_rows": true,
+    "n_rows": 32
+  },
+  "parity_ckpt": {
+    "checkpoint": true,
+    "seq_len": 640,
+    "max_abs_diff_all_rows": 0.0,
+    "max_abs_diff_loss_rows": 0.0,
+    "argmax_equal_all_rows": true,
+    "n_rows": 32
+  },
+  "pool": {
+    "M": 32,
+    "max_unique_active": 32,
+    "mean_unique_active": 30.5,
+    "pool_sizes": [
+      32
+    ],
+    "mean_unique_active_pool_off": 67.70833587646484
+  },
+  "step": {
+    "loss": 1.3890202045440674,
+    "finite": true,
+    "ce": 1.3807607889175415,
+    "cert": 0.004129694774746895,
+    "acc": 0.78125,
+    "grad_norm": 16.397804260253906,
+    "n_trainable_tensors": 432,
+    "n_moved_adapter": 240,
+    "n_base_tensors": 18819,
+    "n_base_sampled": 256,
+    "base_changed": [],
+    "base_with_grad": [],
+    "seconds": 5.308,
+    "peak_mem_gib": 57.67,
+    "must_move_not_moved": []
+  }
+}

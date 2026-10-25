@@ -1,0 +1,194 @@
+<!-- 5 -->
+<section class="slide">
+  <div class="eyebrow">Chapter II &middot; the idea</div>
+  <h2>Choosing is flat. Judging is peaked.</h2>
+  <p class="lede">A 1.7B model of the same family writes all 32 slots in 8 of its own cheap steps. Its guess <em>D</em> is the concrete completion the big model gets to condition on. The 30B stops inventing and starts judging.</p>
+  <div class="figbox">
+    <svg viewBox="0 0 700 210" role="img" aria-label="The 1.7B drafter writes a whole coherent block in 8 steps costing 0.4 of one 30B pass; the 30B then answers keep-or-replace at each slot.">
+      <defs><marker id="m5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><polygon points="0,0 10,5 0,10" fill="currentColor"/></marker></defs>
+      <rect x="0" y="30" width="160" height="72" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <text x="80" y="56" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="16" fill="currentColor">drafter 1.7B</text>
+      <text x="80" y="76" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">8 steps &middot; 18 ms each</text>
+      <text x="80" y="93" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--commit)">= 0.4 of one 30B pass</text>
+      <line x1="162" y1="66" x2="204" y2="66" stroke="currentColor" stroke-width="1.4" marker-end="url(#m5)"/>
+      <g font-family="IBM Plex Mono, monospace" font-size="12">
+        <rect x="208" y="34" width="52" height="32" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="234" y="55" text-anchor="middle" fill="var(--draft)">This</text>
+        <rect x="262" y="34" width="52" height="32" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="288" y="55" text-anchor="middle" fill="var(--draft)">means</text>
+        <rect x="316" y="34" width="52" height="32" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="342" y="55" text-anchor="middle" fill="var(--draft)">her</text>
+        <rect x="370" y="34" width="52" height="32" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="396" y="55" text-anchor="middle" fill="var(--draft)">rate</text>
+        <rect x="424" y="34" width="52" height="32" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="450" y="55" text-anchor="middle" fill="var(--draft)">is</text>
+        <rect x="478" y="34" width="52" height="32" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="504" y="55" text-anchor="middle" fill="var(--draft)">$</text>
+        <rect x="532" y="34" width="52" height="32" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="558" y="55" text-anchor="middle" fill="var(--draft)">1</text>
+        <rect x="586" y="34" width="52" height="32" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="612" y="55" text-anchor="middle" fill="var(--draft)">8</text>
+      </g>
+      <text x="646" y="55" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">…</text>
+      <text x="208" y="86" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">a whole coherent block, guessed in one shot</text>
+      <text x="208" y="103" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--commit)">right on 55.8% of slots</text>
+      <line x1="420" y1="112" x2="420" y2="136" stroke="currentColor" stroke-width="1.4" marker-end="url(#m5)"/>
+      <rect x="208" y="140" width="430" height="56" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <text x="222" y="162" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="16" fill="currentColor">30B model, one pass</text>
+      <text x="222" y="184" font-family="Source Serif 4, serif" font-size="14" fill="var(--ink-2)">per slot: keep this token or replace it. A verdict, not an invention.</text>
+      <text x="0" y="150" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--commit)">the whole bet:</text>
+      <text x="0" y="170" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">one pass can now</text>
+      <text x="0" y="187" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">settle many slots</text>
+    </svg>
+  </div>
+  <div class="num-strip">
+    <div><div class="v">0.558</div><div class="k">drafter agreement · 8 steps</div></div>
+    <div><div class="v">0.497 <small>/ 0.586</small></div><div class="k">at 4 steps / dynamic .90</div></div>
+    <div><div class="v">18 <small>ms</small></div><div class="k">per drafter forward</div></div>
+    <div><div class="v">369 <small>ms</small></div><div class="k">per 30B forward, empty block</div></div>
+  </div>
+  <p class="kicker sm"><strong>Agreement 0.558</strong> = for a random slot, the 1.7B's token is the token the 30B eventually writes there. It is also the hard ceiling on everything that follows. Eight drafter steps cost 144&nbsp;ms against 369&nbsp;ms for one 30B pass, so the draft pays if it removes more than half a pass out of 9.31. The target was five or six.</p>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <div class="eyebrow">Chapter II &middot; the idea</div>
+  <h2>Per slot, not per prefix</h2>
+  <div class="figbox">
+    <svg viewBox="0 0 700 252" role="img" aria-label="A causal verifier must discard every drafted token after the first rejection; a bidirectional block judge accepts any subset of slots.">
+      <text x="0" y="18" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="15" fill="var(--muted)">CLASSIC SPECULATIVE DECODING &mdash; autoregressive verifier</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="12">
+        <rect x="0"   y="30" width="64" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="32"  y="50" text-anchor="middle" fill="var(--commit)">✓</text>
+        <rect x="68"  y="30" width="64" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="100" y="50" text-anchor="middle" fill="var(--commit)">✓</text>
+        <rect x="136" y="30" width="64" height="30" fill="var(--wrong-soft)" stroke="var(--wrong)"/><text x="168" y="50" text-anchor="middle" fill="var(--wrong)">✗</text>
+        <rect x="204" y="30" width="64" height="30" fill="none" stroke="var(--rule)"/><text x="236" y="50" text-anchor="middle" fill="var(--muted)">—</text>
+        <rect x="272" y="30" width="64" height="30" fill="none" stroke="var(--rule)"/><text x="304" y="50" text-anchor="middle" fill="var(--muted)">—</text>
+        <rect x="340" y="30" width="64" height="30" fill="none" stroke="var(--rule)"/><text x="372" y="50" text-anchor="middle" fill="var(--muted)">—</text>
+        <rect x="408" y="30" width="64" height="30" fill="none" stroke="var(--rule)"/><text x="440" y="50" text-anchor="middle" fill="var(--muted)">—</text>
+      </g>
+      <text x="476" y="50" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">everything after the first</text>
+      <text x="476" y="70" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">rejection assumed it. Discarded.</text>
+      <text x="0" y="82" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--wrong)">acceptance is a PREFIX &rarr; the run stops at the first miss</text>
+      <line x1="0" y1="102" x2="700" y2="102" stroke="var(--rule)"/>
+      <text x="0" y="130" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="15" fill="var(--commit)">BLOCK DIFFUSION &mdash; bidirectional judge</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="12">
+        <rect x="0"   y="142" width="64" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="32"  y="162" text-anchor="middle" fill="var(--commit)">✓</text>
+        <rect x="68"  y="142" width="64" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="100" y="162" text-anchor="middle" fill="var(--commit)">✓</text>
+        <rect x="136" y="142" width="64" height="30" fill="var(--wrong-soft)" stroke="var(--wrong)"/><text x="168" y="162" text-anchor="middle" fill="var(--wrong)">✗</text>
+        <rect x="204" y="142" width="64" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="236" y="162" text-anchor="middle" fill="var(--commit)">✓</text>
+        <rect x="272" y="142" width="64" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="304" y="162" text-anchor="middle" fill="var(--commit)">✓</text>
+        <rect x="340" y="142" width="64" height="30" fill="var(--wrong-soft)" stroke="var(--wrong)"/><text x="372" y="162" text-anchor="middle" fill="var(--wrong)">✗</text>
+        <rect x="408" y="142" width="64" height="30" fill="var(--commit-soft)" stroke="var(--commit)"/><text x="440" y="162" text-anchor="middle" fill="var(--commit)">✓</text>
+      </g>
+      <text x="476" y="162" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">slot 20's verdict stands even</text>
+      <text x="476" y="182" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">when slot 17 was wrong.</text>
+      <text x="0" y="194" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--commit)">acceptance is PER SLOT &rarr; every agreeing slot counts, wherever it sits</text>
+      <text x="0" y="222" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">Rejected slots are not discarded. They go back to being questions, with</text>
+      <text x="0" y="242" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">everything the pass <tspan font-style="italic">did</tspan> settle now available as context.</text>
+    </svg>
+  </div>
+  <p class="kicker sm"><strong>Be careful with the size of this advantage.</strong> Textbook speculative decoding assumes each slot is an independent coin, which at 56% gives an accepted prefix of about 2 tokens. Measured here it is not: agreement is one shared trajectory, and the run of identical tokens from the start of a block averages <strong>13.1 slots</strong> (median 9). So per-slot buys roughly <strong>18 of 32 against ~13</strong>, not against 2. The real edge is that it also takes the correct slots scattered <em>after</em> a divergence, which a prefix scheme cannot reach at any agreement rate.</p>
+  <p class="kicker sm">The price of that freedom: a causal verifier is <strong>free and exact</strong>, because the big model's output at position <em>i</em> is already a judgement of <em>i+1</em> made without seeing it. A bidirectional block model has no such position. <strong>There is no free verifier here.</strong></p>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <div class="eyebrow">Chapter II &middot; the idea</div>
+  <h2>The same block, marginal against conditional</h2>
+  <p class="lede">One real block: GSM8K item 9, block 3 &mdash; <span style="font-family:var(--mono);font-size:16px">"This means her overtime rate is $18 + ($18/2) …"</span>. The drafter is right on 18 of the 32 slots. Pale bars: the stock model's own probability for the drafter's token, block empty. Solid bars: the trained judge, block draft-filled.</p>
+  <div class="figbox">
+    <svg viewBox="0 0 700 240" role="img" aria-label="Slot by slot, the stock marginal sits near 0.2 where the draft is right while the trained judge reaches 0.5 to 0.99 at the same slots.">
+      <line x1="34" y1="176" x2="690" y2="176" stroke="currentColor" stroke-width="1"/>
+      <line x1="34" y1="26" x2="34" y2="176" stroke="currentColor" stroke-width="1"/>
+      <line x1="34" y1="33.5" x2="690" y2="33.5" stroke="var(--commit)" stroke-dasharray="4 3" stroke-width="1"/>
+      <text x="694" y="30" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--commit)" text-anchor="end">0.95 commit line</text>
+      <g font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)" text-anchor="end">
+        <text x="30" y="30">1.0</text><text x="30" y="105">0.5</text><text x="30" y="180">0</text>
+      </g>
+      <!-- generated from the trace: pale = q_stock, solid = p_judge -->
+      <g>
+        <rect x="40" y="26" width="8" height="150" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="49" y="26" width="8" height="150" fill="var(--commit)"/>
+        <rect x="60" y="26" width="8" height="150" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="69" y="26" width="8" height="150" fill="var(--commit)"/>
+        <rect x="80" y="26" width="8" height="150" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="89" y="26" width="8" height="150" fill="var(--commit)"/>
+        <rect x="100" y="33" width="8" height="143" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="109" y="27" width="8" height="149" fill="var(--commit)"/>
+        <rect x="120" y="29" width="8" height="147" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="129" y="27" width="8" height="149" fill="var(--commit)"/>
+        <rect x="140" y="28" width="8" height="148" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="149" y="26" width="8" height="150" fill="var(--commit)"/>
+        <rect x="160" y="38" width="8" height="138" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="169" y="26" width="8" height="150" fill="var(--commit)"/>
+        <rect x="180" y="145" width="8" height="31" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="189" y="75" width="8" height="101" fill="var(--commit)"/>
+        <rect x="200" y="140" width="8" height="36" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="209" y="102" width="8" height="74" fill="var(--commit)"/>
+        <rect x="220" y="146" width="8" height="30" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="229" y="100" width="8" height="76" fill="var(--commit)"/>
+        <rect x="240" y="149" width="8" height="27" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="249" y="90" width="8" height="86" fill="var(--commit)"/>
+        <rect x="260" y="150" width="8" height="26" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="269" y="54" width="8" height="122" fill="var(--commit)"/>
+        <rect x="280" y="140" width="8" height="36" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="289" y="34" width="8" height="142" fill="var(--commit)"/>
+        <rect x="300" y="145" width="8" height="31" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="309" y="43" width="8" height="133" fill="var(--commit)"/>
+        <rect x="320" y="139" width="8" height="37" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="329" y="37" width="8" height="139" fill="var(--commit)"/>
+        <rect x="340" y="137" width="8" height="39" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="349" y="30" width="8" height="146" fill="var(--commit)"/>
+        <rect x="360" y="152" width="8" height="24" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="369" y="43" width="8" height="133" fill="var(--commit)"/>
+        <rect x="380" y="160" width="8" height="16" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="389" y="92" width="8" height="84" fill="var(--wrong)"/>
+        <rect x="400" y="148" width="8" height="28" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="409" y="116" width="8" height="60" fill="var(--wrong)"/>
+        <rect x="420" y="157" width="8" height="19" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width=".6"/><rect x="429" y="125" width="8" height="51" fill="var(--commit)"/>
+        <rect x="440" y="172" width="8" height="4" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="449" y="124" width="8" height="52" fill="var(--wrong)"/>
+        <rect x="460" y="162" width="8" height="14" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="469" y="150" width="8" height="26" fill="var(--wrong)"/>
+        <rect x="480" y="160" width="8" height="16" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="489" y="147" width="8" height="29" fill="var(--wrong)"/>
+        <rect x="500" y="159" width="8" height="17" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="509" y="147" width="8" height="29" fill="var(--wrong)"/>
+        <rect x="520" y="166" width="8" height="10" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="529" y="145" width="8" height="31" fill="var(--wrong)"/>
+        <rect x="540" y="175" width="8" height="1" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="549" y="139" width="8" height="37" fill="var(--wrong)"/>
+        <rect x="560" y="174" width="8" height="2" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="569" y="134" width="8" height="42" fill="var(--wrong)"/>
+        <rect x="580" y="175" width="8" height="1" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="589" y="139" width="8" height="37" fill="var(--wrong)"/>
+        <rect x="600" y="175" width="8" height="1" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="609" y="150" width="8" height="26" fill="var(--wrong)"/>
+        <rect x="620" y="174" width="8" height="2" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="629" y="146" width="8" height="30" fill="var(--wrong)"/>
+        <rect x="640" y="167" width="8" height="9" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="649" y="150" width="8" height="26" fill="var(--wrong)"/>
+        <rect x="660" y="168" width="8" height="8" fill="var(--wrong-soft)" stroke="var(--wrong)" stroke-width=".6"/><rect x="669" y="139" width="8" height="37" fill="var(--wrong)"/>
+      </g>
+      <text x="44" y="192" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)">slot 0</text>
+      <text x="360" y="192" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)">16</text>
+      <text x="660" y="192" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)">31</text>
+      <path d="M 40 204 L 177 204" stroke="var(--muted)" stroke-width="1.6"/>
+      <path d="M 180 204 L 377 204" stroke="var(--commit)" stroke-width="1.6"/>
+      <path d="M 380 204 L 677 204" stroke="var(--wrong)" stroke-width="1.6"/>
+      <text x="108" y="224" text-anchor="middle" font-family="Source Serif 4, serif" font-size="12.5" fill="var(--muted)">prefix-forced</text>
+      <text x="278" y="224" text-anchor="middle" font-family="Source Serif 4, serif" font-size="12.5" fill="var(--commit)">draft right at all 10</text>
+      <text x="528" y="224" text-anchor="middle" font-family="Source Serif 4, serif" font-size="12.5" fill="var(--wrong)">draft wrong at 14 of 15</text>
+    </svg>
+  </div>
+  <p class="kicker sm">The mechanism, working, on real data. <strong>Slots 7&ndash;16</strong>, where the draft is right at all ten: the stock marginal averages <strong>0.21</strong> and commits nothing; the trained judge averages <strong>0.77</strong> and clears 0.95 at several. <strong>Slots 17&ndash;31</strong>, where the draft is wrong at fourteen of fifteen: the judge stays unconfident, which is the correct behaviour. This block took 17 stock passes.</p>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <div class="eyebrow">Chapter III &middot; the obstacle</div>
+  <h2>The stock model physically cannot read a filled slot</h2>
+  <div class="cols">
+    <div class="stack">
+      <p class="lede" style="font-size:18px;">SDAR's training loss is computed <strong>only at masked slots</strong> &mdash; that is what masked diffusion means. The output logits at a slot that already holds a token were never touched by a single gradient step.</p>
+      <p class="kicker">So what answers there? The base model underneath is <strong>Qwen3</strong>, an ordinary next-token predictor, and that behaviour survives untouched at exactly the positions diffusion training never visited.</p>
+      <div class="callout bad"><b>Reading a filled slot returns a shifted copy of the input.</b> Not a weak judgement, not a noisy one. A different function entirely. This one fact explains every earlier attempt on this branch to "show the model the draft and ask what it thinks".</div>
+    </div>
+    <div class="figbox">
+      <svg viewBox="0 0 640 250" role="img" aria-label="With the block filled, the model's output at slot i is the token belonging to slot i plus one: a shifted copy, not a judgement.">
+        <defs><marker id="m8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><polygon points="0,0 10,5 0,10" fill="var(--wrong)"/></marker></defs>
+        <text x="0" y="20" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">INPUT &mdash; block filled with the model's own answer</text>
+        <g font-family="IBM Plex Mono, monospace" font-size="13">
+          <rect x="0"   y="32" width="104" height="34" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="52"  y="54" text-anchor="middle" fill="var(--draft)">her</text>
+          <rect x="112" y="32" width="104" height="34" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="164" y="54" text-anchor="middle" fill="var(--draft)">rate</text>
+          <rect x="224" y="32" width="104" height="34" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="276" y="54" text-anchor="middle" fill="var(--draft)">is</text>
+          <rect x="336" y="32" width="104" height="34" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="388" y="54" text-anchor="middle" fill="var(--draft)">$</text>
+          <rect x="448" y="32" width="104" height="34" fill="var(--draft-soft)" stroke="var(--draft)"/><text x="500" y="54" text-anchor="middle" fill="var(--draft)">18</text>
+        </g>
+        <g stroke="var(--wrong)" stroke-width="1.4" fill="none">
+          <path d="M 164 70 C 164 100, 52 100, 52 132" marker-end="url(#m8)"/>
+          <path d="M 276 70 C 276 100, 164 100, 164 132" marker-end="url(#m8)"/>
+          <path d="M 388 70 C 388 100, 276 100, 276 132" marker-end="url(#m8)"/>
+          <path d="M 500 70 C 500 100, 388 100, 388 132" marker-end="url(#m8)"/>
+        </g>
+        <text x="0" y="152" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)">OUTPUT &mdash; what it says at each slot</text>
+        <g font-family="IBM Plex Mono, monospace" font-size="13">
+          <rect x="0"   y="160" width="104" height="34" fill="var(--wrong-soft)" stroke="var(--wrong)"/><text x="52"  y="182" text-anchor="middle" fill="var(--wrong)">rate</text>
+          <rect x="112" y="160" width="104" height="34" fill="var(--wrong-soft)" stroke="var(--wrong)"/><text x="164" y="182" text-anchor="middle" fill="var(--wrong)">is</text>
+          <rect x="224" y="160" width="104" height="34" fill="var(--wrong-soft)" stroke="var(--wrong)"/><text x="276" y="182" text-anchor="middle" fill="var(--wrong)">$</text>
+          <rect x="336" y="160" width="104" height="34" fill="var(--wrong-soft)" stroke="var(--wrong)"/><text x="388" y="182" text-anchor="middle" fill="var(--wrong)">18</text>
+          <rect x="448" y="160" width="104" height="34" fill="none" stroke="var(--rule)" stroke-dasharray="3 3"/><text x="500" y="182" text-anchor="middle" fill="var(--muted)">…</text>
+        </g>
+        <text x="514" y="52" font-family="Source Serif 4, serif" font-size="14" fill="var(--ink-2)">it returns its</text>
+        <text x="514" y="70" font-family="Source Serif 4, serif" font-size="14" fill="var(--ink-2)">neighbour's token</text>
+        <text x="514" y="178" font-family="IBM Plex Mono, monospace" font-size="24" font-weight="600" fill="var(--wrong)">93.6%</text>
+        <text x="514" y="196" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)">of slots, measured</text>
+        <line x1="0" y1="212" x2="640" y2="212" stroke="var(--rule)"/>
+        <text x="0" y="234" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink-2)">its own slot's token: 10.0%   ·   draft-filled instead of final: 87.8%</text>
+      </svg>
+    </div>
+  </div>
+  <figcaption>Probe over 87 items / 15,782 slots. The 93.6% counts the slots that have a successor inside the block; the figure quoted earlier as 90.4% is the same measurement with each block's last slot, which has no successor, counted as a miss.</figcaption>
+</section>

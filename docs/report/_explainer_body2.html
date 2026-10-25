@@ -1,0 +1,109 @@
+<section>
+  <div class="num">04</div>
+  <div class="body">
+    <h2>The obstacle: the stock model cannot read a filled slot</h2>
+    <p class="lede">This is the finding the whole project turns on, and it is a property of how SDAR was
+    trained, not a bug in our code.</p>
+
+    <p>SDAR's training loss is computed <strong>only at <code>[MASK]</code> positions</strong>. That is
+    the standard masked-diffusion objective: corrupt some tokens to the absorbing <code>[MASK]</code>
+    state, predict them back, score nothing else. It means that at a slot which <em>already holds a
+    token</em>, the model's output logits were never supervised by a single gradient step in 50 billion
+    tokens of continued training.</p>
+
+    <p>So what does come out of a filled slot? The base model underneath SDAR is Qwen3, an ordinary
+    autoregressive next-token predictor, and that behaviour survives untouched at exactly the positions
+    diffusion training never visited. We measured it directly by filling a block with the model's own
+    final tokens and reading every slot:</p>
+
+    <div class="eq">
+block filled with the FINAL tokens, read at slot i:
+  argmax = token at slot i+1  ...  <b>93.6%</b>  <span class="cmt">(of slots that have a successor)</span>
+  argmax = token at slot i    ...  <b>10.0%</b>
+
+block filled with the DRAFT tokens, read at slot i:
+  argmax = draft token at i+1 ...  <b>84.8%</b>
+    </div>
+
+    <p>Reading a filled slot on the stock model gives you a <strong>shifted copy of the input</strong>.
+    It is not a judgement of anything. This single fact explains every earlier failed attempt on this
+    branch to "show the model the draft and ask it what it thinks".</p>
+
+    <h3 class="kicker">Three ways to ask, and what each one actually returns</h3>
+    <p>Since we cannot read a filled slot, there are only three remaining ways to get an opinion about a
+    draft token out of the frozen model. We probed all three on 87 items, 537 blocks, 15,782 slots.</p>
+
+    {{DIA_READS}}
+
+    <p><strong>The halves trick fails for an interesting reason.</strong> Keeping the judged slot masked
+    puts it back in the trained regime, and confidence duly explodes: the share of slots clearing 0.95
+    rises from 0.26 to 0.90. But the model agrees with the draft at 92% of slots, and specifically
+    <strong>confirms 76% of the drafter's wrong tokens at above 0.95</strong>, while correcting a wrong
+    draft in only 1.2% of slots. It is not verifying; it is deferring.</p>
+
+    <p>The control that proves this is deference and not competence: fill the context with the model's
+    <em>own</em> incoherent pass-1 guesses instead of the drafter's coherent block, and the confirmation
+    rate collapses from 33.4% of slots to 6.6%. <strong>The stock model is a sycophantic verifier of any
+    coherent context.</strong> It trusts fluency, not correctness. Decoding end to end this way gives
+    67.0% accuracy against a 95.0% baseline. Closed.</p>
+
+    <div class="callout">
+      <h4>The conclusion that motivates training</h4>
+      <p>The ability "judge whether this specific token belongs in this specific slot, given its
+      neighbours" <strong>does not exist anywhere in the frozen model</strong>. No threshold, no voting
+      scheme, no clever masking pattern can extract it, because there is nothing to extract. If we want
+      that ability, we have to put it there.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="num">05</div>
+  <div class="body">
+    <h2>The training-free baseline, and why it is hard to beat</h2>
+    <p class="lede">The third readout &mdash; the model's own opinion of the draft, formed before it saw
+    the draft &mdash; costs nothing and works. It is the baseline everything else must beat.</p>
+
+    <p>The big model's very first pass on a block is run anyway, with the block empty. From those same
+    logits, read <em>q<sub>i</sub></em> = the probability the model assigns to the drafter's token at
+    slot <em>i</em>. This number is uncontaminated: the model never saw the draft. If it is above a
+    threshold &gamma;, take the drafter's token for that slot even though the model's own top-1 did not
+    clear 0.95. Zero extra forward passes. I will call this the <strong>free rule</strong>.</p>
+
+    <div class="eq">
+accept D<sub>i</sub>  &hArr;  slot i still open  &and;  p<sub>MoE</sub>(D<sub>i</sub> | empty block) &gt; &gamma;
+    </div>
+
+    <div class="tbl"><table>
+      <thead><tr><th>&gamma;</th><th>extra slots taken / block</th>
+        <th>of those, correct</th><th>wrong / block</th></tr></thead>
+      <tbody>
+        <tr><td>0.30</td><td>7.00</td><td>0.826</td><td>1.22</td></tr>
+        <tr><td>0.40</td><td>5.70</td><td>0.874</td><td>0.72</td></tr>
+        <tr class="hi"><td>0.50 <em>(chosen)</em></td><td>4.73</td><td>0.908</td><td>0.43</td></tr>
+        <tr><td>0.70</td><td>3.06</td><td>0.960</td><td>0.12</td></tr>
+      </tbody>
+    </table></div>
+
+    <p>At &gamma; = 0.50 the rule takes about 4.7 extra slots per block and gets 0.43 of them wrong.
+    That turns out to be free in practice, because a wrong token in a slot the block later contradicts
+    is usually re-derived: end to end, accuracy is <strong>exactly unchanged</strong>, item for item, while
+    passes fall 15%.</p>
+
+    <div class="tbl"><table>
+      <thead><tr><th>free rule vs stock</th><th>accuracy</th><th>passes/block</th>
+        <th>exec/token</th><th>ms/token</th></tr></thead>
+      <tbody>
+        <tr><td>100 frozen train prompts <span class="tag t-act">actual</span></td>
+          <td>95.0 &rarr; 95.0</td><td>9.31 &rarr; 7.93</td><td>1,091 &rarr; 963</td><td>187 &rarr; 172</td></tr>
+        <tr class="hi"><td>GSM8K-500, held out <span class="tag t-act">actual</span></td>
+          <td>90.2 &rarr; 90.4</td><td>10.06 &rarr; 8.49</td><td>1,164 &rarr; 1,017</td><td>198 &rarr; 184</td></tr>
+      </tbody>
+    </table></div>
+
+    <p>A paired 95% interval on the held-out 500 items is <strong>+0.2 [&minus;1.4, +1.8]</strong> points
+    &mdash; accuracy-neutral, with 16% fewer passes and 13% less expert work. Modest, but real, confirmed
+    on data never used for tuning, and <strong>free</strong>. It is also the decoder that generated all
+    the training data.</p>
+  </div>
+</section>

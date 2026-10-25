@@ -1,0 +1,1629 @@
+{
+ "ckpt": "logs/draftalign/train_drafter/d1/step001080",
+ "info": {
+  "kind": "checkpoint",
+  "spec": "/workspace/dlm-exp1-voting/logs/draftalign/train_drafter/d1/step001080",
+  "step": 1080
+ },
+ "items": "calibvalid",
+ "n": 100,
+ "accuracy": 0.78,
+ "passes_per_block_mean": 10.657980456026058,
+ "seconds": 178.25546553405002,
+ "rows": [
+  {
+   "idx": 9,
+   "pred": " Tina makes $18.00 an hour. If she works more than 8 hours per shift, she is eligible for overtime. Overtime is paid at her hourly wage plus 1/2 of her hourly wage, so that's $18 + 1/2 * $18 = $18 + $9 = $27 per hour.\nIf she works 10 hours every day for 5 days, she will work a total of 10 * 5 = 50 hours.\nFor the first 8 hours each day, she will make $18 * 8 = $144 per day.\nFor the remaining 2 hours each day, she will make $27 * 2 = $54 per day.\nSo in total, she will make $144 + $54 = $198 per day.\nIf she works for 5 days, she will make $198 * 5 = $990.\nSo the answer is $\\boxed{990}$.\n",
+   "gold": "She works 8 hours a day for $18 per hour so she makes 8*18 = $<<8*18=144.00>>144.00 per 8-hour shift\nShe works 10 hours a day and anything over 8 hours is eligible for overtime, so she gets 10-8 = <<10-8=2>>2 hours of overtime\nOvertime is calculated as time and a half so and she makes $18/hour so her overtime pay is 18*.5 = $<<18*.5=9.00>>9.00\nHer overtime pay is 18+9 = $<<18+9=27.00>>27.00\nHer base pay is $144.00 per 8-hour shift and she works 5 days and makes 5 * $144 = $<<144*5=720.00>>720.00\nHer overtime pay is $27.00 per hour and she works 2 hours of overtime per day and makes 27*2 = $<<27*2=54.00>>54.00 in overtime pay\n2 hours of overtime pay for 5 days means she makes 54*5 = $270.00\nIn 5 days her base pay is $720.00 and she makes $270.00 in overtime pay so she makes $720 + $270 = $<<720+270=990.00>>990.00\n#### 990",
+   "n_blocks": 8,
+   "passes_per_block": [
+    5,
+    19,
+    19,
+    14,
+    23,
+    16,
+    11,
+    8
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 115,
+   "pred": " If one quarter of the red jelly beans are coconut flavored, and there are 750 coconut flavored jelly beans, then the number of red jelly beans is $750 \\times 4 = 3000$.\nIf three fourths of the jelly beans are red, then the number of total jelly beans is $3000 \\times \\frac{3}{4}=0.75$.\nSo, there are $\\boxed{1000}$ jelly beans in the jar. The answer is: $10000$",
+   "gold": "There are 750*4=<<750*4=3000>>3000 red jelly beans.\nThere are 3000/3*4=<<3000/3*4=4000>>4000 jelly beans in the jar.\n#### 4000",
+   "n_blocks": 4,
+   "passes_per_block": [
+    7,
+    9,
+    23,
+    20
+   ],
+   "stopped_eos": true,
+   "correct": 0
+  },
+  {
+   "idx": 132,
+   "pred": " James buys 5 packs of beef, and each pack is 4 pounds. So the total amount of beef he bought is $5 \\times 4 = 20$ pounds.\nThe price of beef is $5.50 per pound, so to find out how much he paid in total, we multiply the total amount of beef by the price per pound: $20 \\times 5.50 = 110$.\nSo James paid $\\boxed{110}$ dollars for beef. The answer is $\\boxed{110}$.\n",
+   "gold": "He bought 5*4=<<5*4=20>>20 pounds of beef\nSo he paid 20*5.5=$<<20*5.5=110>>110\n#### 110",
+   "n_blocks": 5,
+   "passes_per_block": [
+    1,
+    11,
+    11,
+    9,
+    10
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 270,
+   "pred": " First, we need to convert the duration of each call from hours to minutes because the cost is given per minute. Since there are 60 minutes in an hour, each call lasts 60 minutes.\nIf each call lasts 60 minutes and each call is charged five cents per minute, then the cost of each call is 60 * $0.05 = $3.\nIf Ayla manages to talk to 50 customers a week, then the total cost for the week is 50 * $3 = $150.\nSince there are 4 weeks weeks in a month, the total cost for the month is $150 * 4 = $600.\nSo the phone bill at the end of the month is $600. The answer is: $\\boxed{600}$.\n",
+   "gold": "An hour has 60 minutes.\nIf each call lasts an hour, the total amount of money charged is 60*.05 = $<<60*.05=3>>3 for 1 customer.\nWhen she talks to 50 clients in a week, the total amount of money charged is 50*3 = $<<50*3=150>>150.\nIn a month of 4 weeks, the phone bill is 150*4 = $<<150*4=600>>600.\n#### 600",
+   "n_blocks": 6,
+   "passes_per_block": [
+    18,
+    23,
+    19,
+    14,
+    13,
+    8
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 316,
+   "pred": " The original price of the bicycle was $220.\nThe price was increased by 15%, so we need to find out how much the increase is. To do this, we multiply the original price by the percentage increase: $220 * 0.15 = $33.\nTo find the new price, we add the increase to the original price: $220 + $33 = $253.\nSo the new price of the bicycle is $253. The answer is $\\boxed{253}$.\n",
+   "gold": "The price of the bicycle increased by $220 * 15/100 = $<<220*15/100=33>>33.\nAdding the increment price, the new price is $220 + $33 = $<<220+33=253>>253.\n#### 253",
+   "n_blocks": 5,
+   "passes_per_block": [
+    8,
+    22,
+    11,
+    7,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 331,
+   "pred": " On the first day, the company paved 4 miles of road. Since it takes three truckloads of asphalt to pave each mile of road, they used $3 \\times 4 = 12$ truckloads of asphalt on the first day.\nEach truckload of asphalt uses two bags of gravel, so on the first day they used $12 \\times 2 = 24$ bags of gravel.\nEach truckload of asphalt uses five times as many bags of gravel as it does barrels of pitch, so on the first day they used $\\frac{24}{5} = 4.8$ barrels of pitch.\nOn the second day, the company paved one mile less than double the amount paved on the first day. Double the amount paved on the first day is $2 \\times 4 = 8$ miles. So on the second day, they paved $8 - 1 = 7$ miles of road.\nAgain, it takes three truckloads of asphalt to pave each mile of road, they used $3 \\times 7 = 21$ truckloads of asphalt on the second day.\nOn the second day, they used $21 \\times 2 = 42$ bags of gravel.\nOn the second day, they used $\\frac{42}{5} = 8.4$ barrels of pitch.\nThe total amount of pitch used in the first two days is $4.8 + 8.4 = 13.2$ barrels.\nThe remaining length of the road to be paved is $16 - 4 - 7 = 5$ miles.\nOn the third day, they will use $3 \\times 5 = 15$ truckloads of asphalt.\nOn the third day, they used $15 \\times 2 = 30$ bags of gravel.\nOn the third day, they used $\\frac{30}{5} = 6$ barrels of pitch.\nTherefore, the company will need $\\boxed{6}$ barrels of pitch to finish the remaining road on the third day. The answer is: $6$\n",
+   "gold": "On the second day, the company paved 4 * 2 - 1 = <<4*2-1=7>>7 miles.\nThe company has 16 - 7 - 4 = <<16-7-4=5>>5 miles of road remaining to pave.\nThey will need 3 * 5 = <<3*5=15>>15 truckloads of asphalt to pave 5 miles of road.\nFor 15 truckloads, they will need 15 * 2 = <<15*2=30>>30 bags of gravel.\nThus, the company will need 30 / 5 = <<30/5=6>>6 barrels of pitch to finish the road on the third day.\n#### 6",
+   "n_blocks": 14,
+   "passes_per_block": [
+    10,
+    18,
+    13,
+    15,
+    12,
+    14,
+    13,
+    6,
+    6,
+    15,
+    21,
+    9,
+    4,
+    14
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 370,
+   "pred": " Nurse Missy has 12 patients in total. One-third of her patients have special dietary requirements, so there are 12/3 = 4 patients with special dietary requirements.\nThe remaining patients, which is 12 - 4 = 8 patients, require standard care.\nIt takes 5 minutes to serve each standard care patient, so it will take 8 * 5 = 40 minutes to serve the standard care patients.\nFor the patients with special dietary requirements, the serving time is increased by 20%. This means it will take 5 + (5 * 0.2) = 5 + 1 = 6 minutes to serve each patient with special dietary requirements.\nSince there are 4 patients with special dietary requirements, it will take 4 * 6 = 24 minutes to serve the patients with special dietary requirements.\nTo find the total time it takes for Missy to serve dinner to all of her patients, we add the time taken for the standard care patients and the patients with special dietary requirements: 40 + 24 = 64 minutes.\nThe answer is $\\boxed{64}$.\n",
+   "gold": "Nurse Missy has 12*(1/3)=<<12*(1/3)=4>>4 special needs patients.\nShe has 12-4=<<12-4=8>>8 standard care patients.\nSpecial needs patients take 20% longer to serve, which means serving takes 1.2*5=6 minutes per patient.\nTo serve dinner to all of her standard care patients, it will take 5*8=<<5*8=40>>40 minutes.\nTo serve dinner to all of her special needs patients, it will take 6*4=<<6*4=24>>24 minutes.\nIn total, it will take 40+24=<<40+24=64>>64 minutes to serve dinner to all of her patients.\n#### 64",
+   "n_blocks": 9,
+   "passes_per_block": [
+    5,
+    24,
+    14,
+    16,
+    20,
+    10,
+    15,
+    11,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 509,
+   "pred": " First, we need to find out how much electricity Coco used with his oven. We know that the oven has a consumption rate of 2.4 kWh per hour, and he used it for 25 hours. So the total amount of electricity used is $2.4 \\times 25 = 60$ kWh.\nNext, we need to calculate how much Coco will pay for using this electricity. We know that the electricity price is $0.10 per kWh. So the total cost will be $60 \\times 0.10 = 6$.\nTherefore, Coco will pay $6 for using his oven only. The answer is $\\boxed{6}$.\n",
+   "gold": "If Coco used his oven 25 hours last month and its energy consumption is 2.4 kW per hour, then we consumed a total of 25*2.4= <<25*2.4=60>>60 kW on his oven last month\nIf the price of electricity is $0.10 per kW, then 60 kW would cost = $0.10*60 = $<<0.10*60=6>>6\n#### 6",
+   "n_blocks": 6,
+   "passes_per_block": [
+    8,
+    21,
+    16,
+    22,
+    13,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 510,
+   "pred": " If each whole pie is cut into 10 slices, and they make 6 whole pies, then the total number of slices is $6 \\times 10 = 60$.\nIf each slice is sold for $3, then the total amount of money earned will be $60 \\times 3 = 180$.\nSo the pie shop will earn $180. The answer is $\\boxed{180}$.\n",
+   "gold": "The pie shop has 6 x 10 = <<6*10=60>>60 slices of custard pie.\nTherefore, the pie shop will earn $3 x 60 = $<<3*60=180>>180 for the 60 slices of custard pie.\n#### 180",
+   "n_blocks": 4,
+   "passes_per_block": [
+    16,
+    13,
+    11,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 515,
+   "pred": " If the temperature is 8 degrees, then the temperature drops below 32 degrees by 32 - 8 = 24 degrees.\nFor every 3 degrees the temperature drops, Annie's chances of skidding on ice increase 5%. So for 24 degrees, her chances of skidding increase (24 / 3) * 5% = 40%.\nIf she goes into a skid, she has a 40% of regaining control. This means that there is a 60% chance that she will go into a skid and not regaining control.\nTherefore, the percentage chance of Annie getting into a serious accident if she drives is 60%. The answer is $\\boxed{60}$.\n",
+   "gold": "First find how many degrees below 32 the temperature is: 32 degrees - 8 degrees = <<32-8=24>>24 degrees\nThen divide that amount by the number of degrees per 5% increase in skid risk to find how many 5% increases there are: 24 degrees / 3 degrees/5% increase = <<24/3=8>>8 5% increases\nMultiply the number of increases by 5% to find the total increase in skid risk: 8 * 5% = 40%\nNow find the chance that Annie has a serious accident if she goes into a skid by subtracting the chance she regains control from 100%: 100% - 40% = 60%\nFinally, multiply the chance of going into a skid by the chance of having a serious accident after a skid to find the total risk of a serious accident: 60% * 40% = 24%\n#### 24",
+   "n_blocks": 6,
+   "passes_per_block": [
+    6,
+    18,
+    22,
+    16,
+    25,
+    9
+   ],
+   "stopped_eos": true,
+   "correct": 0
+  },
+  {
+   "idx": 565,
+   "pred": " Let's say Katie drives $x$ miles. Then Michelle drives $3x$ miles, and Tracy drives $20 + 20$ miles.\nThe total distance driven by the three is the sum of the distances driven by Katie, Michelle, and Tracy, which is $x + 3x + 40 = 1000$.\nCombining like terms gives $4x + 40 = 1000$.\nSubtracting 40 from both sides gives $4x = 960$.\nDividing both sides by 4 gives $x = 240$.\nSo Katie drives 240 miles, Michelle drives $3(240) = 720$ miles, and Tracy drives $20 + 20 = 40$ miles.\nTherefore, Michelle drives 720 miles. The final answer is: $\\boxed{720}$.\n",
+   "gold": "Let x represent the number of miles Kati drives\nMichelle:3x\nTracy:20+2(3x)=20+6x\nTotal:x+3x+20+6x=1000\n10x+20=1000\n10x=980\nx=<<98=98>>98 miles\n3(98)=<<3*98=294>>294 miles\n#### 294",
+   "n_blocks": 7,
+   "passes_per_block": [
+    10,
+    31,
+    18,
+    4,
+    14,
+    11,
+    9
+   ],
+   "stopped_eos": true,
+   "correct": 0
+  },
+  {
+   "idx": 604,
+   "pred": " Santana has 7 brothers in total.\nIn the first half of the year (March, April, May, June, July, August, September), she has 3 brothers with birthdays in March, 1 brother with a in October, 1 brother with a birthday in November, and another 2 brothers were born in December. So in total, she has 3 + 1 + 1 + 2 = 7 brothers in the first half of the year.\nFor each brother, she has to buy a birthday present and a Christmas present. So for the first half of the year, she has to buy 7 x 2 = 14 presents.\nIn the second half of the year (December, January, February, March, April, May, June, July, August, September, October, November), she has 3 brothers with birthdays in March, 1 brother with a birthday in October, 1 brother with a birthday in November, and another 2 brothers were born in December. So in total, she has 3 + 1 + 1 + 2 = 7 brothers in the second half of the year.\nFor each brother, she has to buy a birthday present and a Christmas present. So for the second half of the year, she has to buy 7 x 2 = 14 presents.\nTo find out how many more presents she has to buy in the second half of the year than the first half of the year, we subtract the number of presents bought in the first half of the year from the number of presents bought in the second half of the year: 14 - 14 = 0.\nThe answer is $\\boxed{0}$.\n",
+   "gold": "Santana has 1 + 1 + 2 = <<1+1+2=4>>4 brothers with birthdays in the second half of the year.\nShe has 7 brothers - 4 brothers = <<7-4=3>>3 brothers with birthdays in the first half of the year.\nAltogether, she has to buy 4 + 7 = <<4+7=11>>11 presents in the second half of the year.\nTherefore, she has to buy 11 - 3 = <<11-3=8>>8 more presents in the second half of the year.\n#### 8",
+   "n_blocks": 12,
+   "passes_per_block": [
+    13,
+    25,
+    20,
+    20,
+    16,
+    21,
+    9,
+    6,
+    2,
+    6,
+    5,
+    5
+   ],
+   "stopped_eos": true,
+   "correct": 0
+  },
+  {
+   "idx": 657,
+   "pred": " Pete has to take a 10-minute walk down to the train station.\nHe then boards a 1 hour 20-minute train to LA, which is equivalent to 60 minutes + 20 minutes = 80 minutes.\nThe total time Pete needs to travel is 10 minutes + 80 minutes = 90 minutes.\nTo convert this to hours, we divide by 60: 90 minutes / 60 = 1.5 hours.\nIf Pete wants to get to LA later than 0900 hours, he should leave at 0900 hours - 1.5 hours = 0730 hours.\nThe answer is $\\boxed{0730}$.\n",
+   "gold": "There are 60 minutes in an hour so 1 hour 20 minutes = (60+20) minutes = 80 minutes\nHe will spend a total of 80+10 = <<80+10=90>>90 minutes\n90 minutes is = (60/60) hours and 30 minutes = 1 hour 30 minutes = 0130 in 24-hr time\nHe has to leave 0130 hours earlier than 0900 i.e. 0900-0130 = 0730 hours\n#### 730",
+   "n_blocks": 6,
+   "passes_per_block": [
+    11,
+    20,
+    21,
+    19,
+    18,
+    3
+   ],
+   "stopped_eos": true,
+   "correct": 0
+  },
+  {
+   "idx": 659,
+   "pred": " Elizabeth makes 20 bags of granola, and each bag costs $3.00 to make. So the total cost to make all the bags is 20 * $3 = $60.\nShe sells 15 bags at $6.00 each, so she earns 15 * $6 = $90 from those bags.\nShe then marks the remaining 5 bags down to $4.00 each, so she earns 5 * $4 = $20 from those bags.\nIn total, she earns $90 + $20 = $110 from selling all the bags.\nTo find her net profit, we need to subtract the total cost from the total earnings. So her net profit is $110 - $60 = $50.\nThe answer is $\\boxed{50}$.\n",
+   "gold": "She uses $3.00 of ingredients per 1 bag of granola and she makes 20 bags so she spends 3*20 = $<<3*20=60.00>>60.00 on ingredients\nShe sells 15 bags for $6.00 so she makes 15*6 = $<<15*6=90.00>>90.00\nShe sells her last 5 bags for $4.00 so she makes 5*4 = $<<5*4=20.00>>20.00\nShe made $90.00 and $20.00 for a total of 90+20 = $<<90+20=110.00>>110.00\nShe made $110.00 but spent $60.00 on ingredients so her net profit is 110-60 = $<<110-60=50.00>>50.00\n#### 50",
+   "n_blocks": 6,
+   "passes_per_block": [
+    12,
+    16,
+    17,
+    12,
+    18,
+    3
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 674,
+   "pred": " On the first level, there are 58 open parking spots.\nOn the second level, there are 2 more open parking spots than on the first level, so there are 58 + 2 = 60 open parking spots.\nOn the third level, there are 5 more open parking spots than on the second level, so there are 60 + 5 = 65 open parking spots.\nOn the fourth level, there are 31 open parking spots.\nThe total number of open parking spots is 58 + 60 + 65 + 31 = 214.\nSince there are 100 spots per level, the total number of full parking spots is 4 * 1000 = 400.\nThe answer is $\\boxed{400}$.\n",
+   "gold": "There are 4 levels * 100 spots = <<4*100=400>>400 possible parking spots.\nThe second level has 58 open spots + 2 = <<58+2=60>>60 open spots.\nThe third level has 60 open spots + 5 = <<60+5=65>>65 open spots.\nTotal open spots are 58 + 60 + 65 + 31 = <<58+60+65+31=214>>214 open spots.\nIf there are 400 possible spots \u2013 214 open spots = <<400-214=186>>186 full spots.\n#### 186",
+   "n_blocks": 7,
+   "passes_per_block": [
+    3,
+    10,
+    4,
+    6,
+    11,
+    21,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 0
+  },
+  {
+   "idx": 735,
+   "pred": " First, we need to convert the time from minutes to hours because we want the speed in miles per hour. There are 60 minutes in an hour, so 10 minutes is equal to $\\frac{10}{60} = \\frac{1}{6}$ hours.\nNext, we can use the formula for speed, which is distance divided by time. The distance is 5 miles and the time is $\\frac{1}{6}$ hours, so the speed is $\\frac{5}{\\frac{1}{6}} = 30$ miles per hour.\nSo Marcos needs to go at a speed of 30 miles per hour to make it to work on time. The answer is $\\boxed{30}$.\n",
+   "gold": "10 minutes for 5 miles means 10 minutes / 5 miles = <<10/5=2>>2 minutes/mile\n1 hour is 60 minutes so 60 minutes/hour / 2 minutes/mile = 30 miles/hour\n#### 30",
+   "n_blocks": 5,
+   "passes_per_block": [
+    17,
+    7,
+    16,
+    14,
+    12
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 747,
+   "pred": " John's first rocket can travel 500 ft in the air.\nJohn's second rocket can travel twice as high as the first one, so it can travel $2 \\times 500 = 1000$ ft.\nTo find the combined height of the two rockets, we add the heights of the two rockets: $500 + 1000 = 1500$.\nSo the combined height of the two rockets is $\\boxed{1500}$ ft. The answer is $\\boxed{1500}$.\n",
+   "gold": "The second rocket goes 500*2=<<500*2=1000>>1000 feet\nSo the total height is 500+1000=<<500+1000=1500>>1500 feet\n#### 1500",
+   "n_blocks": 4,
+   "passes_per_block": [
+    19,
+    6,
+    10,
+    9
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 750,
+   "pred": " A dozen is equal to 12, so a half dozen is equal to 12/2 = 6.\nJamal bought 4 half dozen crayons, so she bought a total of 4 x 6 = 24 crayons.\nEach crayon costs $2, so the total cost of the crayons that she bought is 24 x $2 = $48.\nThe answer is $\\boxed{48}$.\n",
+   "gold": "Since a dozen has 12 items, a half dozen has 1/2*12=<<6=6>>6 items.\nSince Jamal bought four half dozen colored crayons, he bought 4*6 = <<4*6=24>>24 colored crayons.\nIf each crayon's cost was $2, Jamal paid $2*24 = $<<2*24=48>>48 for all the crayons he bought.\n#### 48",
+   "n_blocks": 4,
+   "passes_per_block": [
+    6,
+    21,
+    12,
+    3
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 764,
+   "pred": " If the dietitian ate three-fourths of her lunch, then she ate $3/4 \\times 40 = 30$ calories.\nThe recommended calorie intake by the FDA is 25 calories.\nTo find out how many more calories than the recommended amount she ate, we subtract the recommended amount from the amount she ate: $30 - 25 = 5$.\nSo the dietitian ate 5 more calories than the recommended amount. The answer is $\\boxed{5}$.\n",
+   "gold": "A dietitian ate three-fourths of her lunch during her lunch break, containing 3/4*40=<<3/4*40=30>>30 calories.\nIf the recommended calorie intake by the FDA is 25, the dietitian ate 30-25=5 more calories than the recommended amount.\n#### 5",
+   "n_blocks": 4,
+   "passes_per_block": [
+    8,
+    11,
+    10,
+    6
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 776,
+   "pred": " If Amber worked for 12 hours, and Armand worked one-third as long as Amber, then Armand worked 12/3 = 4 hours.\nIf Ella worked twice as long as Amber, then Ella worked 12*2 = 24 hours.\nTo find the total number of hours the three people worked, we add up their individual hours: 12 + 4 + 24 = 40 hours.\nThe answer is $\\boxed{40}$.\n",
+   "gold": "Armand = (1/3) * 12 = <<(1/3)*12=4>>4 hours\nElla = 2 * 12 = <<2*12=24>>24 hours\nTotal hours = 12 + 4 + 24 = <<12+4+24=40>>40 hours\nThey worked a total of 40 hours.\n#### 40",
+   "n_blocks": 5,
+   "passes_per_block": [
+    3,
+    12,
+    10,
+    9,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 809,
+   "pred": " Clover goes for a 1.5-mile walk in the morning and another 1.5-mile walk in the evening, so he walks a total of 1.5 + 1.5 = 3 miles every day.\nIf he does this for 30 days, then the total number of miles he walks is 3 * 30 = 90 miles.\nThe answer is $\\boxed{90}$.\n",
+   "gold": "He walks 1.5 miles in the morning and 1.5 miles in the evening so that\u2019s 1.5+1.5 = <<1.5+1.5=3>>3 miles\nIf he walks 3 miles everyday, for 30 days then he walks 3*30 = <<3*30=90>>90 miles in 30 days\n#### 90",
+   "n_blocks": 3,
+   "passes_per_block": [
+    12,
+    15,
+    8
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 824,
+   "pred": " One-third of the 15 classrooms have 30 desks each, so there are (15/3) * 30 = 50 desks in these classrooms.\nThe rest of the classrooms, which is 15 - 10 = 10 classrooms, have 25 desks each, so there are 10 * 25 = 250 desks in these classrooms.\nAdding up the desks from both sets of classrooms, we have a total of 50 + 250 = 300 desks.\nTherefore, the school can accommodate 300 students so that everyone has their own desk. The answer is $\\boxed{300}$.\n",
+   "gold": "One-third of the classrooms have 30 desks, so there are 1/3 * 15 = <<1/3*15=5>>5 classrooms like that.\nThe rest, which means 15 - 5 = <<15-5=10>>10 classrooms, have 25 desks.\nOne-third of the classrooms can fit 5 * 30 = <<5*30=150>>150 students.\nThe rest can fit 10 * 25 = <<10*25=250>>250 students.\nSo in total, the school can be filled with 150 + 250 = <<150+250=400>>400 students.\n#### 400",
+   "n_blocks": 6,
+   "passes_per_block": [
+    10,
+    23,
+    9,
+    16,
+    11,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 0
+  },
+  {
+   "idx": 893,
+   "pred": " On Monday, Kylie makes 10 necklaces, and each necklace requires 20 beads. So she uses 10 * 20 = 200 beads on Monday.\nOn Tuesday, Kylie makes 2 necklaces, and each necklace requires 20 beads. So she uses 2 * 20 = 40 beads on Tuesday.\nOn Wednesday, Kylie makes 5 bracelets, and each bracelet requires 10 beads. So she uses 5 * 10 = 50 beads on Wednesday.\nShe also makes 7 earrings, and each earring requires 5 beads. So she uses 7 * 5 = 35 beads beads on Wednesday.\nTo find out how many beads Kylie uses in total, we add up the number of beads used on each day: 200 + 40 + 50 + 35 = 325 beads.\nSo Kylie uses a total of 325 beads to make her jewelry. The answer is $\\boxed{325}$.\n",
+   "gold": "Kylie makes 10 + 2 = <<10+2=12>>12 beaded necklaces\nThe number of beads used for the necklaces is 12 * 20 = <<12*20=240>>240 beads\nThe number of beads used for the bracelets is 5 * 10 = <<5*10=50>>50 beads\nThe number of beads used for the earrings is 7 * 5 = <<7*5=35>>35 beads\nThe total number of beads used is 240 + 50 + 35 = <<240+50+35=325>>325 beads\n#### 325",
+   "n_blocks": 8,
+   "passes_per_block": [
+    7,
+    11,
+    5,
+    4,
+    5,
+    14,
+    13,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 944,
+   "pred": " Kylie initially has 5 daisies. Her sister gave her another 9 daisies, so she has a total of $5 + 9 = 14$ daisies.\nKylie gave half of her daisies to her mother. To find out how many daisies she gave away, we divide the total number of daisies by 2: $\\frac{14}{2} = 7$.\nSo Kylie gave away 7 daisies to her mother.\nTo find out how many daisies Kylie has left, we subtract the number of daisies she gave away from the total number of daisies she had: $14 - 7 = 7$.\nTherefore, Kylie has $\\boxed{7}$ daisies left. The answer is: $\\boxed{7}$.\n",
+   "gold": "Kylie had 5 + 9 = <<5+9=14>>14 daisies.\nShe has 14/2 = <<14/2=7>>7 daisies left.\n#### 7",
+   "n_blocks": 6,
+   "passes_per_block": [
+    17,
+    15,
+    13,
+    11,
+    8,
+    10
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 959,
+   "pred": " First, we need to find the total number of snowballs made by Janet and her brother. Janet makes 50 snowballs and her brother makes 150 snowballs, so the total number of snowballs is $50 + 150 = 200$.\nNext, we need to find the percentage of snowballs that Janet made. To do this, we divide the number of snowballs Janet made by the total number of snowballs and multiply by 100. So, the percentage of snowballs that Janet made is $\\frac{50}{200} \\times 100 = 25\\%$.\nTherefore, Janet made 25% of the snowballs. The answer is $\\boxed{25%}$.\n",
+   "gold": "First add the number of snowballs each person made to find the total: 50 snowballs + 150 snowballs = <<50+150=200>>200 snowballs\nThen divide the number Janet made by the total number and multiply by 100% to express the answer as a percentage: 50 snowballs / 200 snowballs * 100% = 25%\n#### 25",
+   "n_blocks": 6,
+   "passes_per_block": [
+    3,
+    15,
+    18,
+    16,
+    8,
+    9
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 1022,
+   "pred": " Let's say Leah is $L$ years old. Then Rachel would be $L+4$ years old.\nIf the sum of their ages is 34, we can write the equation: $L + (L+4) = 34$.\nCombining like terms gives us $2L + 4 = 34$.\nSubtracting 4 from both sides gives us $2L = 30$.\nDividing both sides by 2 gives us $L = 15$.\nSo Leah is 15 years old, and Rachel is $15+4 = 19$ years old. The answer is $\\boxed{19}$.",
+   "gold": "If Rachel and Leah have the same age, then the sum of their ages would be 34 - 4 = <<34-4=30>>30.\nSo Leah would be 30/2 = <<30/2=15>>15 years old.\nHence, Rachel is 15 + 4 = <<15+4=19>>19 years old.\n#### 19",
+   "n_blocks": 5,
+   "passes_per_block": [
+    13,
+    14,
+    8,
+    6,
+    17
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 1066,
+   "pred": " George picks 45 oranges.\nAmelia picks 18 fewer oranges than George, so she picks $45 - 18 = 27$ oranges.\nAmelia picks 15 apples.\nGeorge picks 5 more apples than Amelia, so he picks $15 + 5 = 20$ apples.\nTo find out how many fruits they pick altogether, we add up the number of oranges and apples each person picks: $45 + 27 + 15 + 20 = 107$.\nSo they pick a total of 107 fruits altogether. The answer is: $\\boxed{107}$.\n",
+   "gold": "Amelia picks 45 - 18 = <<45-18=27>>27 oranges.\nThe total number of oranges that they pick is 45 + 27 = <<45+27=72>>72.\nGeorge picks 15 + 5 = <<15+5=20>>20 apples.\nThe total number of apples that they pick is 20 + 15 = <<20+15=35>>35.\nSo, they pick 72 + 35 = <<72+35=107>>107 fruits altogether.\n#### 107",
+   "n_blocks": 5,
+   "passes_per_block": [
+    9,
+    11,
+    13,
+    14,
+    4
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 1140,
+   "pred": " The team played 40 games and won 70% of them, so they won $40 \\times 0.7 = 28$ games.\nThey still have 10 games to play, so the total number of games they will play is $40 + 10 = 50$.\nTo win 60% of their games, they need to win $50 \\times 0.6 = 30$ games.\nSince they have already won 28 games, they need to lose $30 - 28 = 2$ games.\nThe answer is $\\boxed{2}$.\n",
+   "gold": "The team has won 40 x 70/100 = <<40*70/100=28>>28 games out of 40.\nThere a total of 40 + 10 = <<40+10=50>>50 games to be played.\nThe team has to win a total of is 50 x 60/100 = <<50*60/100=30>>30 games.\nSo, it still needs to win 30 - 28 = <<30-28=2>>2 more games.\nHence, they can still lose 10 - 2 = <<10-2=8>>8 games.\n#### 8",
+   "n_blocks": 5,
+   "passes_per_block": [
+    13,
+    16,
+    9,
+    14,
+    4
+   ],
+   "stopped_eos": true,
+   "correct": 0
+  },
+  {
+   "idx": 1144,
+   "pred": " Let's say Michael's current age is $x$.\nWhen Michael was a year younger, his age was $x-1$.\nTwice his age at that time is $2(x-1)$.\nHis oldest brother is 1 year older than this, so his age is $22(x-1)+1=22x-1$.\nHis younger brother is 5 years old, which is a third of the age of the older brother, so his age is $3 \\times 5 = 15$.\nThe combined age of all three brothers is $x + (22x-1) + 15 = 23x + 14$.\nBut we know that this combined age is equal to the sum of the ages of the two brothers, which is $x + (22x-1) + 15 = 23x + 14$.\nSo we can set up the equation $23x + 14 = 23x + 14$.\nThis equation is always true, so it doesn't give us any new information.\nHowever, we can solve for $x$ by recognizing that the combined age of all three brothers is equal to the sum of the ages of the two brothers, which is $x + (22x-1) + 15 = 23x + 14$.\nSo we can set up the equation $23x + 14 = 23x + 14$.\nThis equation is always true, so it doesn't give us any new information.\nHowever, we can solve for $x$ by recognizing that the combined age of all three brothers is equal to the sum of the ages of the two brothers, which is $x + (22x-1) + 15 = 23x + 14$.\nSo we can set up the equation $23x + 14 = 23x + 14$.\nThis equation is always true, so it doesn't give us us any new information.\nHowever, we can solve for $x$ by recognizing that the combined age of all three brothers is equal to the sum of the ages of the two brothers, which is $x + (22x-1) + 15 = 23x + 14$.\nSo we can set up the equation $23x + 14 = 23x + 14$.\nThis equation is always true, so it doesn't give us us any new information.\nHowever, we can solve for $x$ by recognizing that the combined age of all three brothers is equal to the sum of the ages of the two brothers, which is $x + (22x-1) + 15 = 23x + 14$.\nSo we can set up the equation $23x + 14 = 23x + 14$.\nThis equation is always true, so it doesn't give us us any new information.\nHowever, we can solve for $x$ by recognizing that the combined age of all three brothers is equal to the sum of the ages of the two brothers, which is $x + (22x-1) + 15 = 23x + 14$.\nSo we can set up the equation $23x + 14 = 23x + 14$.\nThis equation is always true, so it doesn't give us us any new information.\nHowever, we can solve for $x$ by recognizing that the combined age of all three brothers is equal to the sum of the ages of the two brothers, which is $x + (22x-1) + 15 = 23x + 14$.\nSo we can set up the equation $23x + 14 = 23x + 14$.\nThis equation is always true, so it doesn't give us us any new information.\nHowever, we can solve for $x$ by recognizing that the combined age of all three brothers is equal to the sum of the ages of the two brothers, which is $x + (22x-1) + 15 = 23x + 14$.\nSo we can set up the equation $23x + 14 = 23x + 14$.\nThis equation is always true, so it doesn't give us us any new information.\nHowever, we can solve for $x$ by recognizing that the combined age of all three brothers is equal to the sum of the ages of the two brothers, which is $x + (22x-1) + 15 = 23x + 14$.\nSo we can set up the equation $23x + 14 = 23x + 14$.\nThis equation is always true, so it doesn't give us us any",
+   "gold": "The oldest brother is 15 because 3 x 5 = <<3*5=15>>15\nMichael is 8 because if 1 + (Michael's age - 1) x 2 = 15 then Michael's age = 8\nTheir combined age is 28 because 5 + 15 + 8 = <<5+15+8=28>>28\n#### 28",
+   "n_blocks": 33,
+   "passes_per_block": [
+    14,
+    20,
+    24,
+    18,
+    20,
+    27,
+    15,
+    27,
+    19,
+    9,
+    8,
+    3,
+    2,
+    5,
+    2,
+    2,
+    2,
+    4,
+    2,
+    3,
+    3,
+    2,
+    2,
+    2,
+    2,
+    2,
+    3,
+    2,
+    2,
+    2,
+    2,
+    2,
+    3
+   ],
+   "stopped_eos": false,
+   "correct": 0
+  },
+  {
+   "idx": 1167,
+   "pred": " If 2 kg of potatoes costs $6, then the price per kg is $6/2 = $3.\nDaphney buys 5 kg of potatoes, so she will pay 5 * $3 = $15.\nThe answer is $\\boxed{15}$.\n",
+   "gold": "The price per kilogram of potatoes is $6 / 2 = $<<6/2=3>>3.\nTo buy 5 kg of potatoes, she will have to pay 5 * $3 = $<<5*3=15>>15.\n#### 15",
+   "n_blocks": 3,
+   "passes_per_block": [
+    4,
+    12,
+    3
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 1198,
+   "pred": " Arthur spends four-fifths of $200. To find out how much he spends, we multiply $200 by 4/5:\n$200 * \\frac{4}{5} = 160.\nSo Arthur spends $160.\nTo find out how much he has left, we subtract the amount he spent from the amount he had initially:\n$200 - $160 = $40.\nTherefore Arthur has $40 left. The answer is $\\boxed{40}$.\n",
+   "gold": "Arthur spent 4/5 * $200 = $<<4/5*200=160>>160.\nThus he has $200 - $160 = $<<200-160=40>>40 remaining.\n#### 40",
+   "n_blocks": 5,
+   "passes_per_block": [
+    8,
+    18,
+    17,
+    9,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 1203,
+   "pred": " Josh spent $1.75 on a drink and then spent another $1.25, so he spent a total of $1.75 + $1.25 = $3.\nIf he had $6 left, then the total amount of money he had at first is the sum of what he spent and what he had left. So, Josh had $3 + $6 = $9 at first.\nThe answer is $\\boxed{9}$.\n",
+   "gold": "Josh spent 1.75+1.25=<<1.75+1.25=3>>3 dollars in total.\nJosh had 6+3=<<6+3=9>>9 dollars at first.\n#### 9",
+   "n_blocks": 4,
+   "passes_per_block": [
+    11,
+    14,
+    22,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 1225,
+   "pred": " Donovan Mitchell has played 15 games this season and is currently averaging 26 points per game. So he has scored a total of $15 \\times 26 = 390$ points.\nHe has a goal of averaging 30 points per game for the entire 20 game season. This means he needs to score a total of $20 \\times 30 = 600$ points for the season.\nTo find out how many points he needs to average per game to reach his goal, we divide the number of points he needs to score by the total number of games in the season: $\\frac{600}{20} = 30$.\nSo Donovan Mitchell needs to average 30 points per game to reach his goal. The answer is $\\boxed{30}$.\n",
+   "gold": "At this point in the season, Donovan has scored 26 * 15 = <<26*15=390>>390 points.\nTo reach his goal of 30 points per game, he would have to finish the season with a total of 30 * 20 = <<30*20=600>>600 points.\nFor the remaining 5 games, Donovan needs to score 600 - 390 = <<600-390=210>>210 points.\nTherefore, he needs to average 210 / 5 = <<210/5=42>>42 points per game.\n#### 42",
+   "n_blocks": 7,
+   "passes_per_block": [
+    10,
+    13,
+    10,
+    10,
+    15,
+    9,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 0
+  },
+  {
+   "idx": 1396,
+   "pred": " Yesterday morning, Mrs. Lim got 68 gallons of milk.\nIn the evening, she got 82 gallons of milk.\nSo the total amount of milk she got yesterday is 68 + 82 = 150 gallons.\nThis morning, she got 18 gallons fewer than she had yesterday morning, so she got 68 - 18 = 50 gallons of milk this morning.\nThe total amount of milk she got today is 82 + 50 = 232 gallons.\nThe total amount of milk she has so far is 150 + 232 = 382 gallons.\nAfter selling some gallons of milk in the afternoon, she has only 24 gallons left, so she sold 382 - 24 = 358 gallons of milk.\nIf each gallon costs $3.50, then her revenue for the milk is 358 * $3.50 = $1253.\nThe answer is $\\boxed{1253}$ dollars.\n",
+   "gold": "Mrs. Lim got 68 gallons - 18 gallons = <<68-18=50>>50 gallons this morning.\nSo she was able to get a total of 68 gallons + 82 gallons + 50 gallons = <<68+82+50=200>>200 gallons.\nShe was able to sell 200 gallons - 24 gallons = <<200-24=176>>176 gallons.\nThus, her total revenue for the milk is $3.50/gallon x 176 gallons = $<<3.50*176=616>>616.\n#### 616",
+   "n_blocks": 8,
+   "passes_per_block": [
+    7,
+    16,
+    8,
+    20,
+    13,
+    12,
+    9,
+    6
+   ],
+   "stopped_eos": true,
+   "correct": 0
+  },
+  {
+   "idx": 1506,
+   "pred": " Tina made a pan of brownies and cut it into 24 pieces.\nShe had one with lunch and dinner every day for 5 days, so she ate 2 x 5 = 10 brownies.\nHer husband snagged one per day for 5 days to take to work, so he ate 5 brownies.\nThey shared 4 with dinner guests.\nSo in total, they ate 10 + 5 + 4 = 19 brownies.\nTo find out how many brownies were left, we subtract the number of brownies eaten from the total number of brownies made: 24 - 19 = 5.\nTherefore, there were 5 brownies left left. The answer is $\\boxed{5}$.\n",
+   "gold": "Tina ate one twice a day for 5 days so 2*5 = <<1*2*5=10>>10\nHer husband at 1 per day for 5 days so 1*5 = <<1*5=5>>5\nShe made 24, ate 10, her husband ate 5 and the guests ate 4 so 24-10-5-4 = <<24-10-5-4=5>>5 brownies left\n#### 5",
+   "n_blocks": 6,
+   "passes_per_block": [
+    3,
+    15,
+    12,
+    7,
+    11,
+    10
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 1529,
+   "pred": " If there are 2,000 males in the town, and the rest of the population are females, then the number of females is $5,000 - 2,000 = 3,000.\nIf thirty percent of the female population wears glasses, then the number of females wearing glasses is $0.3 \\times 3,000 = 900$.\nSo, 900 females wear glasses. The answer is $\\boxed{900}$.\n",
+   "gold": "There are 5,000 - 2,000 = <<5000-2000=3000>>3,000 females that lives in the town.\nSince thirty percent of the female population wears glasses, 30/100 * 3,000 = <<30/100*3000=900>>900 females wear glasses.\n#### 900",
+   "n_blocks": 4,
+   "passes_per_block": [
+    13,
+    11,
+    13,
+    4
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 1551,
+   "pred": " Marcy gives 5 time-outs for running.\nShe gives 1 less than five times the number of time-outs for throwing food. So she gives (5*5) - 1 = 25 - 1 = 24 time-outs for throwing food.\nShe gives 1/3 the number of food-throwing time-outs for swearing. So she gives (24/3) = 8 time-outs for swearing.\nThe total number of time-outs is 5 + 24 + 8 = 37 time-outs.\nIf each time-out is 5 minutes, then the total time spent in time-out is 37 * 5 = 185 minutes.\nThe answer is $\\boxed{185}$.\n",
+   "gold": "First multiply the number of running time-outs by 5: 5 time-outs * 5 = <<5*5=25>>25 time-outs\nThen subtract 1 from that number to find the number of food-throwing time-outs: 25 time-outs - 1 = <<25-1=24>>24 time-outs\nThen divide that number by 3 to find the number of swearing time-outs: 24 time-outs / 3 = <<24/3=8>>8 time-outs\nThen add the number of each kind of time-out to find the total number: 8 time-outs + 24 time-outs + 5 time-outs = <<8+24+5=37>>37 time-outs\nThen multiply that number by the length of each time-out to find the total time the students spend in time-out: 37 time-outs * 5 minutes/time-out = <<37*5=185>>185 minutes\n#### 185",
+   "n_blocks": 5,
+   "passes_per_block": [
+    13,
+    10,
+    9,
+    10,
+    6
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 1559,
+   "pred": " Maci needs 10 blue pens, and each blue pen costs ten cents. So the total cost for the blue pens is 10 * $10 = $10.\nA red pen costs twice as much as a blue pen, so each red pen costs 2 * $10 = $20.\nMaci needs 15 red pens, so the total cost for the red pens is 15 * $20 = $300.\nTo find out how much money Maci pays in total, we add the cost of the blue pens and the red pens together: $10 + $300 = $310.\nSo Maci pays $310 for the pens in total. The answer is $\\boxed{310}$.\n",
+   "gold": "Maci pays 10 * $0.10 = $<<10*0.10=1>>1 for the blue pens.\nEach red pen costs 2*$0.10 = $<<2*0.10=0.20>>0.20\nShe pays 15*$0.20 = $<<15*0.20=3.00>>3.00 for the red pens.\nTo buy all the pens she needs, Maci pays $3+$1= $<<3+1=4>>4\n#### 4",
+   "n_blocks": 6,
+   "passes_per_block": [
+    4,
+    20,
+    13,
+    5,
+    9,
+    14
+   ],
+   "stopped_eos": true,
+   "correct": 0
+  },
+  {
+   "idx": 1565,
+   "pred": " Jane applies a base coat that takes 2 minutes to dry.\nShe applies two color coats, and each coat takes 3 minutes to dry. So the total time for the color coats is 2 * 3 = 6 minutes.\nAnd she applies a clear top coat that takes 5 minutes to dry.\nTo find the total time Jane spends waiting, we add up the times for each coat: 2 + 6 + 5 = 13 minutes.\nSo Jane spends a total of 13 minutes waiting for her nail polish to dry. The answer is $\\boxed{13}$.\n",
+   "gold": "First figure out how long both color coats will take to dry: 3 minutes * 2 = <<3*2=6>>6 minutes\nThen add up the time for the base coat, top coat, and color coats: 6 minutes + 2 minutes + 5 minutes = <<6+2+5=13>>13 minutes\n#### 13",
+   "n_blocks": 5,
+   "passes_per_block": [
+    4,
+    19,
+    13,
+    15,
+    4
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 1664,
+   "pred": " In the first 2 rounds, each round had 6 matches, so Brendan won 2 * 6 = 12 matches in those rounds.\nIn the last round, there were 4 matches, and Brendan won half of them, so he won 4 / 2 = 2 matches in the last round.\nTo find the total number of matches Brendan won throughout the competition, we add up the number of matches he won in each round: 12 + 2 = 14.\nSo Brendan won a total of 14 matches throughout the competition. The answer is $\\boxed{14}$.\n",
+   "gold": "In the first 2 rounds, Brendan wins a total of 2 rounds * 6 matches per round = <<2*6=12>>12 matches.\nIn the last round, Brendan wins half of the matches which is 4 matches / 2 = <<4/2=2>>2 matches.\nThroughout the competition, Brendan has therefore won 12 + 2 = <<12+2=14>>14 matches.\n#### 14",
+   "n_blocks": 5,
+   "passes_per_block": [
+    7,
+    22,
+    16,
+    16,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 1675,
+   "pred": " The weight of the lorry when loaded with 20 bags of apples, each weighing 60 pounds, is $20 \\times 60 = 1200$ pounds.\nTo find the total weight of the lorry, we add the weight of the empty lorry to the weight of the apples: $500 + 1200 = 1700$ pounds.\nSo the total weight of the lorry is $\\boxed{1700}$ pounds. The answer is $\\boxed{1700}$.\n",
+   "gold": "If the lorry is loaded with 20 bags of apples, each weighing 60 pounds, it will have an additional weight of 20*60=<<20*60=1200>>1200\nThe total weight of the lorry after being loaded with the bags of apples will be 500+1200=<<500+1200=1700>>1700 pounds\n#### 1700",
+   "n_blocks": 5,
+   "passes_per_block": [
+    5,
+    12,
+    19,
+    11,
+    6
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 1762,
+   "pred": " If 75% of the cars have valid tickets, then the number of cars with valid tickets is $0.75 \\times 300 = 225$.\nIf 1/5th that number have permanent parking passes, then the number of cars with permanent parking passes is $\\frac{1}{5} \\times 225 = 45$.\nThe total number of cars that paid for their parking is $225 + 45 = 270$.\nTherefore, the number of people who tried to park the lot without paying is $300 - 270 = 30$.\nThe answer is $\\boxed{30}$.\n",
+   "gold": "First find how many cars have valid tickets: 75% * 300 cars = <<75*.01*300=225>>225 cars\nThen find the percentage of cars with parking passes: 75% / 5 = 15%\nThen multiply that number by the total number of cars to find the number with parking passes: 15% * 300 cars = <<15*.01*300=45>>45 cars\nThen subtract all the cars with valid forms of parking to find the number parked illegally: 300 cars - 225 cars - 45 cars = <<300-225-45=30>>30 cars\n#### 30",
+   "n_blocks": 6,
+   "passes_per_block": [
+    2,
+    9,
+    7,
+    10,
+    12,
+    7
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 1789,
+   "pred": " Padma traded 2 of her cards for 10 of Robert's cards. So the total number of cards traded by Padma is $2 + 10 = 12$.\nRobert traded 8 of his cards for 15 of Padma's cards. So the total number of cards traded by Robert is $8 + 15 = 23$.\nTo find the total number of cards traded between both Padma and Robert, we add the number of cards traded by Padma and Robert: $12 + 23 = 35$.\nSo the total number of cards traded between both Padma and Robert is $\\boxed{35}$.\n",
+   "gold": "Padma traded 2 + 15 of her cards = <<2+15=17>>17 cards.\nRobert traded 10 + 8 of his cards = <<10+8=18>>18 cards.\nIn total, between both of them Padma and Robert traded 17 + 18 = <<17+18=35>>35 cards.\n#### 35",
+   "n_blocks": 5,
+   "passes_per_block": [
+    21,
+    6,
+    7,
+    13,
+    3
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 1792,
+   "pred": " Each arrangement needs 8 roses, 12 daisies, 3 snapdragons, and twice as many lilies as snapdragons. Since there are 3 snapdragons, the number of lilies is $2 \\times 3 = 6$.\nSo, each arrangement needs a total of $8 + 12 + 3 + 6 = 29$ flowers.\nThe reception will have 10 tables, so the total number of flowers needed is $29 \\times 10 = 290$.\nTherefore Marta will need $\\boxed{290}$ flowers in total to fill this order.",
+   "gold": "She needs twice as many lilies as the 3 snapdragons in the arrangement so she needs 2*3 = <<2*3=6>>6 lilies\nShe needs 8 roses, 12 daisies, 3 snapdragons and 6 lilies for a total of 8+12+3+6 = <<8+12+3+6=29>>29 flowers per arrangement\nShe needs 29 flowers per each of the 10 tables for a total of 29*10 = <<29*10=290>>290 flowers\n#### 290",
+   "n_blocks": 5,
+   "passes_per_block": [
+    5,
+    13,
+    12,
+    16,
+    14
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 1806,
+   "pred": " If Tim drove for 5 hours, and he was stuck in traffic for twice as long as he was driving, then the time spent in traffic is $2 \\times 5 = 10$ hours.\nTo find the total length of the trip, we add the time spent driving and the time spent in traffic: $5 + 10 = 15$.\nSo the total length of the trip is 15 hours. The answer is: $\\boxed{15}$.\n",
+   "gold": "He was stuck in traffic for 5*2=<<5*2=10>>10 hours\nSo his trip took 10+5=<<10+5=15>>15 hours\n#### 15",
+   "n_blocks": 4,
+   "passes_per_block": [
+    8,
+    10,
+    13,
+    12
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 1816,
+   "pred": " Johnny is walking his two dogs, and each dog has 4 legs. So the total number of legs for the dogs is $2 \\times 4 = 8$.\nHis son also joins him for the walk, and he has 2 legs. So the total number of legs for his son is $1 \\times 2 = 2$.\nTo find the total number of legs worth of organisms traveling together, we add the number of legs for the dogs and his son: $8 + 2 = 10$.\nSo there are $\\boxed{10}$ legs' worth of organisms traveling together for this walk. The answer is: $10$\n",
+   "gold": "As Johnny and his son are humans, and humans walk on two legs, this means that between the two of them there are 2*2=<<2*2=4>>4 legs' worth of organisms.\nThere are two dogs walking along as well, and since dogs walk on 4 legs this means there are 2*4=<<2*4=8>>8 legs' worth of organisms.\nWe add these two totals together to find there are 4+8=<<4+8=12>>12 legs' worth of organisms in total.\n#### 12",
+   "n_blocks": 6,
+   "passes_per_block": [
+    7,
+    15,
+    19,
+    15,
+    13,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 0
+  },
+  {
+   "idx": 1929,
+   "pred": " If Lori owns 15 times as many beanie babies as Sydney, and Lori has 300 beanie babies, then we can find out how many beanie babies Sydney has by dividing the number of beanie babies Lori has by 15. So Sydney has $300/15 = 20$ beanie babies.\nTo find the total number of beanie babies they have, we add the number of beanie babies Lori has to the number of beanie babies Sydney has. So the total number of beanie babies they have is $300 + 20 = 320$.\nThe answer is $\\boxed{320}$.\n",
+   "gold": "If Lori has 15 times as many beanie babies as Sydney, Sydney has 300/15 = 20 beanie babies.\nTogether, they have 20 + 300 = <<20+300=320>>320 beanie babies\n#### 320",
+   "n_blocks": 6,
+   "passes_per_block": [
+    2,
+    14,
+    14,
+    9,
+    10,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 1954,
+   "pred": " Andrew's dog has 12 burrs.\nThe dog has six times as many ticks as burrs, so the number of ticks is $6 \\times 12 = 72$.\nTo find the total number of foreign objects caught in the dog's fur, we add the number of burrs and the number of ticks: $12 + 72 = 84$.\nSo, there are $\\boxed{84}$ foreign objects total caught in the dog's fur. The answer is $\\boxed{84}$.\n",
+   "gold": "First find how many burrs are caught in the dog's fur: 12 burrs * 6 ticks/burr = <<12*6=72>>72 ticks\nThen add the number of burrs to find the total number objects: 72 objects + 12 objects = <<72+12=84>>84 objects\n#### 84",
+   "n_blocks": 5,
+   "passes_per_block": [
+    2,
+    10,
+    8,
+    10,
+    3
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 1983,
+   "pred": " Janet spends 3 pounds of broccoli for $4 a pound, so she spends 3 * $4 = $12 on broccoli.\nShe buys 3 oranges for $0.75 each, so she spends 3 * $0.75 = $2.25 on oranges.\nShe buys a cabbage for $3.75.\nShe buys a pound of bacon for $3.\nShe buys two pounds of chicken for $3 a pound, so she spends 2 * $3 = $6 on chicken.\nThe total amount she spent on groceries is $12 + $2.25 + $3.75 + $3 + $6 = $27.\nThe amount she spent on meat is $3 + $6 = $9.\nTo find the percentage of her grocery budget she spent on meat, we divide the amount spent on meat by the total amount spent on groceries and by 100: ($9 / $27) * 100 = 33.33%.\nRounding to the nearest percent, she spent approximately 33% of her grocery budget on meat. The answer is $\\boxed{33}$.\n",
+   "gold": "First find the total cost of the broccoli: 3 pounds * $4/pound = $<<3*4=12>>12\nThen find the total cost of the oranges: 3 oranges * $0.75/orange = $<<3*0.75=2.25>>2.25\nThen find the total cost of the vegetables: $12 + $2.25 + $3.75 = $<<12+2.25+3.75=18>>18\nThen find the total cost of the chicken: $3/pound * 2 pounds = $<<3*2=6>>6\nThen add the cost of the bacon to find the total cost of the meat: $6 + $3 = $<<6+3=9>>9\nThen add the cost of the meat and vegetables to find the total cost of the groceries: $9 + $18 = $<<9+18=27>>27\nThen divide the cost of the meat by the total grocery bill and multiply by 100% to express the answer as a percentage: $9 / $27 * 100% = 33.333%, which rounds down to 33%\n#### 33",
+   "n_blocks": 9,
+   "passes_per_block": [
+    2,
+    11,
+    6,
+    9,
+    13,
+    19,
+    18,
+    15,
+    6
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 1990,
+   "pred": " If the first car was made in 1970, and it was made 10 years earlier than the second car, then the second car was made in 1970 + 10 = 1980.\nIf the third car was manufactured 20 years later after the second car was manufactured, then the third car was made in 1980 + 20 = 2000.\nSo the third car was made in the year 2000. The answer is $\\boxed{2000}$.\n",
+   "gold": "If the first car was made 10 years earlier than the second car, then the manufacture date for the second car is 1970+10 = 1980\nThe third car was manufactured 20 years after the second car was made, which is 1980+20 = 2000\n#### 2000",
+   "n_blocks": 5,
+   "passes_per_block": [
+    2,
+    10,
+    8,
+    9,
+    4
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 1998,
+   "pred": " Harold started with 100 marbles. He kept 20, so he had 100 - 20 = 80 marbles to share among his 5 friends.\nTo find out how many marbles each friend got, we divide the number of marbles he shared by the number of friends: 80 / 5 = 16.\nSo each friend got 16 marbles. The answer is: $\\boxed{16}$.",
+   "gold": "Harold shared 100 - 20 = <<100-20=80>>80 marbles with his friends.\nTherefore, his 5 friends got 80/5 = <<80/5=16>>16 marbles each.\n#### 16",
+   "n_blocks": 4,
+   "passes_per_block": [
+    4,
+    18,
+    14,
+    5
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 2052,
+   "pred": " The first half of the book is 500/2 = 250 pages.\nJane read the first half at a speed of 10 pages per day, so it took 250/10 = 25 days to finish the first half.\nThe second half of the book is also 500/2 = 250 pages.\nJane read the second half at a speed of 5 pages per day, so it took 250/5 = 50 days to finish the second half.\nTo find out how many days Jane spent reading the book in total, we add the number of days it took for each half: 25 + 50 = 75 days.\nThe answer is $\\boxed{75}$.\n",
+   "gold": "Half of the book means 500 / 2 = <<500/2=250>>250 pages.\nReading the first half took Jane 250 / 10 = <<250/10=25>>25 days.\nReading the second half of the book took Jane 250 / 5 = <<250/5=50>>50 days.\nSo in total Jane needed 25 + 50 = <<25+50=75>>75 days to read the whole book.\n#### 75",
+   "n_blocks": 6,
+   "passes_per_block": [
+    8,
+    15,
+    10,
+    2,
+    15,
+    6
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 2121,
+   "pred": " If a jar of peanut butter costs $3, then a jar of almond butter costs 3 * $3 = $9.\nIt takes half a jar to make a batch of cookies, so the cost per batch for peanut butter cookies is $3 * 0.5 = $6.\nThe cost per batch for almond butter cookies is $9 * 0.5 = $18.\nTo find out how much more it costs per batch to make almond butter cookies instead of peanut butter cookies, we subtract the cost per batch for peanut butter cookies from the cost per batch for almond butter cookies: $18 - $6 = $12.\nSo it costs $12 more per batch to make almond butter cookies instead of peanut butter cookies. The answer is $\\boxed{12}$.\n",
+   "gold": "A jar of almond butter costs 3 * 3 = $<<3*3=9>>9.\nIt takes half a jar to make a batch of cookies, so it costs 9 / 2 = $<<9/2=4.50>>4.50 to use almond butter.\nIt costs 3 / 2 = $<<3/2=1.50>>1.50 to use peanut butter.\nThus, it costs 4.50 - 1.50 = $<<4.50-1.50=3>>3 more to make a batch of almond butter cookies than peanut butter cookies.\n#### 3",
+   "n_blocks": 6,
+   "passes_per_block": [
+    5,
+    20,
+    14,
+    11,
+    9,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 0
+  },
+  {
+   "idx": 2130,
+   "pred": " The first course costs $15.\nThe second course costs $5 more than the first course, so it costs $15 + $5 = $20.\nThe cost of the dessert is 25% of the price of the second course, so it costs 25/100 * $20 = $5.\nThe total cost of all the meals is $15 + $20 + $5 = $40.\nAmelia has $60 to spend, so after buying all those meals, she will have $60 - $40 = $20 left.\nThe answer is $\\boxed{20}$.\n",
+   "gold": "The second course cost Amelia $15 + $5 = $<<15+5=20>>20.\nThe dessert cost 25/100 * $20 = $<<25/100*20=5>>5.\nThat leaves Amelia with $60 - $15 - $20 - $5 = $<<60-15-20-5=20>>20.\n#### 20",
+   "n_blocks": 5,
+   "passes_per_block": [
+    3,
+    7,
+    14,
+    15,
+    4
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 2133,
+   "pred": " Let's assume the purchase price of the second commodity is $x$. Then, the purchase price of the first commodity is $x + 127$.\nThe total cost of the two commodities is given as $827, so we can write the equation: $x + (x + 127) = 827$.\nCombining like terms gives us $2x + 127 = 827$.\nSubtracting 127 from both sides gives us $2x = 700$.\nDividing both sides by 2 gives us $x = 350$.\nSo the purchase price of the first commodity is $x + 127 = 350 + 127 = 477$.\nThe answer is $\\boxed{477}$.\n",
+   "gold": "Let X be the price of the first commodity, so the price of the second commodity is X - $127.\nThe cost of purchasing two of them is X + (X - $127) = $827.\nCombining like terms, we get X*2 - $127 = $827.\nSubtracting $137 from both sides, we get X*2 = $954.\nDividing both sides by 2, we get X = $477.\n#### 477",
+   "n_blocks": 7,
+   "passes_per_block": [
+    2,
+    10,
+    13,
+    9,
+    4,
+    6,
+    7
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 2220,
+   "pred": " Luke takes 70 minutes to travel to work every day.\nPaula takes 3/5 of this time, so she takes 70 * (3/5) = 42 minutes to travel to work every day.\nLuke takes a bike ride back home, which is 5 times slower than the bus, so he takes 70 / 5 = 14 minutes to bike back home every day.\nPaula takes the bus back home, so she takes 42 minutes to bus back home every day.\nTo find the total amount of time they take traveling from home to work and back each day, we add up their individual times: 70 + 42 + 14 + 42 = 178 minutes.\nThe answer is $\\boxed{178}$.\n",
+   "gold": "When Luke takes the 70-minute bus to work, his coworker Paula takes 3/5*70 = <<70*3/5=42>>42 minutes to travel from home to work.\nFrom work to home, Paula spends the same amount of time she spent going to work, giving a total of 42+42 = <<42+42=84>>84 minutes in a day traveling.\nFrom work to home, while riding the bike, Luke spends 5*70 = <<5*70=350>>350 minutes on the road.\nThe total time Luke takes to travel from home to work and back is 350+70 = <<350+70=420>>420 minutes.\nTogether, Luke and Paula takes 420+84 = <<420+84=504>>504 minutes\n#### 504",
+   "n_blocks": 6,
+   "passes_per_block": [
+    19,
+    14,
+    12,
+    19,
+    16,
+    7
+   ],
+   "stopped_eos": true,
+   "correct": 0
+  },
+  {
+   "idx": 2254,
+   "pred": " Aubrey starts with a deck of 52 cards. She then adds two additional cards to the deck, so the total number of cards is $52 + 2 = 54$.\nIf she splits the deck evenly among herself and two other players, there are a total of 3 players. To find out how many cards each player gets, we divide the total number of cards by the number of players: $\\frac{54}{3} = 18$.\nSo each player gets 18 cards. The answer is: $\\boxed{18}$.\n",
+   "gold": "The deck has 54 cards because 52 + 2 = <<52+2=54>>54\nThere are three players because 1 + 2 = <<1+2=3>>3\nEach player gets 18 cards because 54 / 3 = <<54/3=18>>18\n#### 18",
+   "n_blocks": 4,
+   "passes_per_block": [
+    18,
+    15,
+    13,
+    6
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 2257,
+   "pred": " If three fourths of the jelly beans are red, then the number of red jelly beans is $\\frac{3}{4} \\times 4000 = 3000$.\nIf one quarter of the red jelly beans are coconut flavored, then the number of coconut flavored jelly beans is $\\frac{1}{4} \\times 3000 = 750$.\nSo, there are $\\boxed{750}$ coconut flavored jelly beans. The answer is $\\boxed{750}$.\n",
+   "gold": "There are 4000/4*3=<<4000/4*3=3000>>3000 red jelly beans.\nThere are 3000/4=<<3000/4=750>>750 coconut flavored jelly beans.\n#### 750",
+   "n_blocks": 4,
+   "passes_per_block": [
+    8,
+    5,
+    7,
+    8
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 2308,
+   "pred": " Two dozen is equal to $2 \\times 12 = 24$.\nIf the box of bandages had 8 less than two dozen bandages, then it had $24 - 8 = 16$ bandages before Peggy skinned her knees.\nPeggy needed a total of $2 + 3 = 5$ bandages for her knees.\nTo find out how many band were left in the box after Peggy finished putting bandages on her knees, we subtract the number of bandages she used from the total number of bandages in the box. So, there were $16 - 5 = 11$ bandages left in the box. The answer is $\\boxed{11}$.\n",
+   "gold": "Two dozen is 12*2=<<12*2=24>>24.\nEight less than two dozen bandages is 24-8=<<24-8=16>>16 bandages.\nShe needed two bandages on her left knee and three bandages on her right knee for a total of 2+3=<<2+3=5>>5 bandages.\nTherefore, after Peggy finished putting bandages on her knees there were 16-5=<<16-5=11>>11 bandages remaining in the box.\n#### 11",
+   "n_blocks": 5,
+   "passes_per_block": [
+    14,
+    15,
+    13,
+    18,
+    8
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 2356,
+   "pred": " If the total cost of oranges was $12, and the apples were two times cheaper than the oranges, then the cost of one apple is $12/2 = $6.\nSince Betty bought 3 kg of apples, the cost per kg of apples is $6/3 = $2.\nTherefore, Betty paid for $2 for 1 kg of apples. The answer is $\\boxed{2}$.\n",
+   "gold": "The cost of the apples was $12 / 2 = $<<12/2=6>>6.\nWhen the cost of 3 kg of apples was $6, then the cost of 1 kg of apples was $6 / 3 kg = $<<6/3=2>>2/kg.\n#### 2",
+   "n_blocks": 3,
+   "passes_per_block": [
+    13,
+    20,
+    15
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 2378,
+   "pred": " Tony bought 3 sets of Lego blocks at $250 each, so he paid 3 * $250 = $750 for the Lego blocks.\nHe bought 7 toy swords at $120 each, so he paid 7 * $120 = $840 for the toy swords.\nAnd he bought 10 play doughs at $35 each, so he paid 10 * $35 = $350 for the play doughs.\nTo find how much Tony paid in total, we add up the amounts for each item: $750 + $840 + $350 = $1940.\nSo Tony paid a total of $1940. The answer is $\\boxed{1940}$.\n",
+   "gold": "The total cost for the legos are 3 x $250 = $<<3*250=750>>750.\nThe total cost for the toy swords is 7 x $120 = $<<7*120=840>>840.\nThe total cost for the play doughs is 10 x $35 = $<<10*35=350>>350.\nTherefore the total cost for everything is $750 + $840 + $350 = $<<750+840+350=1940>>1940.\n#### 1940",
+   "n_blocks": 7,
+   "passes_per_block": [
+    1,
+    9,
+    4,
+    3,
+    11,
+    10,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 2384,
+   "pred": " First, we need to convert the number of farthings Gerald has into pfennigs. Since there are 6 farthings to a pfennig, we divide the number of farthings by 6: $\\frac{54}{6} = 9$.\nSo Gerald has 9 pfennigs.\nHe wants buy a pie that costs 2 pfennigs. To find out how many pfennigs he will have left, we subtract the cost of the pie from the number of pfennigs he has: $9 - 2 = 7$.\nTherefore, Gerald will have 7 pfennigs left after buying the pie. The answer is: $\\boxed{7}$.\n",
+   "gold": "First convert the number of farthings Gerald has to pfennigs by dividing by the exchange rate: 54 farthings / 6 farthings/pfennig = <<54/6=9>>9 pfennigs\nThen subtract the cost of the meat pie to find how many pfennigs Gerald has left: 9 pfennigs - 2 pfennigs = <<9-2=7>>7 pfennigs\n#### 7",
+   "n_blocks": 5,
+   "passes_per_block": [
+    15,
+    15,
+    16,
+    10,
+    6
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 2469,
+   "pred": " If there are 6 blue crayons, and the number of green crayons is 2/3 the number of blue crayons, then the number of green crayons is (2/3) * 6 = 4.\nThe total number of red, blue, and green crayons is 8 + 6 + 4 = 18.\nSince the rest of the crayons are pink, the number of pink crayons is 24 - 18 = 6.\nSo, there are 6 pink crayons. The answer is $\\boxed{6}$.\n",
+   "gold": "There are 2/3 green crayons * 6 blue crayons = <<2/3*6=4>>4 green crayons.\nThe pink crayons left in the box are 24 crayons total - 8 red - 6 blue - 4 green = <<24-8-6-4=6>>6 pink crayons.\n#### 6",
+   "n_blocks": 5,
+   "passes_per_block": [
+    7,
+    8,
+    9,
+    11,
+    4
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 2484,
+   "pred": " The first row originally had 24 people, but 3 got up to wade in the water. So there are now 24 - 3 = 21 people left in the first row.\nThe second row originally had 20 people, but 5 went to join the first row. So there are now 20 - 5 = 15 people left in the second row.\nThe third row still has 18 people.\nTo find out how many people are left relaxing on the beach, we add up the number of people in each row: 21 + 15 + 18 = 54.\nSo there are $\\boxed{54}$ people left relaxing on the beach. The answer is: $54$\n",
+   "gold": "In the first row, there are now 24 \u2013 3 = <<24-3=21>>21 people.\nIn the second row, there are now 20 \u2013 5 = <<20-5=15>>15 people.\nSo in total there are 21 in the first row + 15 in the second row + 18 in the third row = <<21+15+18=54>>54 people.\n#### 54",
+   "n_blocks": 6,
+   "passes_per_block": [
+    20,
+    9,
+    15,
+    11,
+    12,
+    3
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 2540,
+   "pred": " Three years ago, Rosie purchased an art piece for $4000.\nIn another three years, the art piece will be three times as much, so it will cost 3 * $4000 = $12000.\nTo find out how much money the art piece will have increased by, we subtract the original price from the future price: $12000 - $4000 = $8000.\nSo the art piece will have increased by $8000. The answer is $\\boxed{8000}$.\n",
+   "gold": "If the art piece was bought at $4000, and its price in three years will be three times its buying price, it will be worth 3*$4000 = $12000 in another three years.\nThe price of the art piece will increase by $12000-$4000 = $<<12000-4000=8000>>8000\n#### 8000",
+   "n_blocks": 4,
+   "passes_per_block": [
+    13,
+    10,
+    10,
+    8
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 2590,
+   "pred": " Damien's tall cupboard can hold 20 glasses.\nHis wide cupboard can hold twice as many, so it can hold $2 \\times 20 = 40$ glasses.\nHis narrow cupboard can hold 15 glasses, and the glasses are divided equally among the three shelves, so each shelf can hold $\\frac{15}{3} = 5$ glasses. If Damien breaks one shelf, then the narrow cupboard can only hold $15 - 5 = 10$ glasses.\nTo find out how many glasses are currently being displayed, we add up the number of glasses in each cupboard: $20 + 40 + 10 = 70$.\nSo, there are currently 70 glasses being displayed in the cupboards. The answer is $\\boxed{70}$.\n",
+   "gold": "The wide cupboard holds twice as many glasses as the tall cupboard, amounting to 20 * 2 = <<20*2=40>>40 glasses.\nEach of the shelves in the narrow cupboard holds 15 / 3 = <<15/3=5>>5 glasses.\nSince a shelf was broken, a narrow cupboard now holds only 15 \u2013 5 = <<15-5=10>>10 glasses.\nIn total, there are 20 + 40 + 10 = <<20+40+10=70>>70 glasses.\n#### 70",
+   "n_blocks": 6,
+   "passes_per_block": [
+    4,
+    9,
+    16,
+    26,
+    8,
+    18
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 2597,
+   "pred": " If Lisa visited 6 rehabilitation centers, and Jude visited half fewer rehabilitation centers as Lisa did, then Jude visited $6 - \\frac{1}{2} \\cdot 6 = 6 - 3 = 3$ rehabilitation centers.\nIf Han visited 2 less than twice as many rehabilitation centers as Jude did, then Han visited $2 \\cdot 3 - 2 = 6 - 2 = 4$ rehabilitation centers.\nIf Jane visited 6 more than twice as many rehabilitation centers as Han did, then Jane visited $2 \\cdot 4 + 6 = 8 + 6 = 14$ rehabilitation centers.\nTo find the total number of rehabilitation centers they all visited, we add up the number of centers each person visited: $6 + 3 + 4 + 14 = 27$.\nSo they all visited a total of 27 rehabilitation centers in Iran. The answer is $\\boxed{27}$.",
+   "gold": "Jude visited 1/2*6=<<1/2*6=3>>3 rehabilitation centers.\nHan visited 2*3-2=<<2*3-2=4>>4 rehabilitation centers.\nJane visited 6+2*4=<<6+2*4=14>>14 rehabilitation centers.\nThey all visited 6+3+4+14=<<6+3+4+14=27>>27 rehabilitation centers.\n#### 27",
+   "n_blocks": 7,
+   "passes_per_block": [
+    2,
+    20,
+    6,
+    7,
+    6,
+    9,
+    19
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 2621,
+   "pred": " Fifi has 7 pink hangers.\nShe also has 4 green hangers.\nThe number of blue hangers is one less than the number of green hangers, so it's 4 - 1 = 3.\nThe number of yellow hangers is one less than the number of blue hangers, so it's 3 - 1 = 2.\nTo find the total number of colored hangers, we add up the number of each color: 7 + 4 + 3 + 2 = 16.\nSo the total number of colored hangers in Fifi's closet is $\\boxed{16}$. answer is: $16$\n",
+   "gold": "With 4 green hangers, 1 less blue hanger than there are green hangers is 4-1=<<4-1=3>>3 blue hangers.\nWith 3 blue hangers, 1 less yellow hanger less than there are blue hangers is 3-1=<<3-1=2>>2 yellow hangers.\nWith 7 pink hangers, the total number of colored hangers in Fifi's closet is 7+4+3+2=<<7+4+3+2=16>>16 hangers.\n#### 16",
+   "n_blocks": 5,
+   "passes_per_block": [
+    12,
+    10,
+    7,
+    10,
+    5
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 2656,
+   "pred": " If W is tagged with the number 200, and X is tagged with half the number W is tagged with, then X is tagged with 200/2 = 100.\nIf Y is tagged with the total of X and W's tags, then Y is tagged with 200 + 100 = 300.\nIf Z is tagged with the number 400.\nTo find the total of all the tagged numbers, we add up all the numbers: 200 + 100 + 300 + 400 = 1000.\nThe answer is $\\boxed{1000}$.\n",
+   "gold": "If the card with the letter X has half the number the card with letter W has, it has 1/2*200= 100\nTogether, cards with letters W and X have tags that total 100+200 = <<100+200=300>>300.\nIf the card with the letter Y has the total of the numbers cards with letters, W and X have, then the total for cards with letters W, X, and Y is 300+300 = 600\nSince the card with the letter Z has a tag of 200, the total of the numbers the tags have is 600+400= 1000\n#### 1000",
+   "n_blocks": 5,
+   "passes_per_block": [
+    11,
+    8,
+    8,
+    7,
+    4
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 2664,
+   "pred": " If there are 4 pizzas, and each pizza is cut into 12 slices, then the total number of slices is $4 \\times 12 = 48$.\nIf the guests eat 39 slices, then the number of slices left is $48 - 39 = 9$.\nSo, there are 9 slices left. The answer is: $\\boxed{9}$.\n",
+   "gold": "There\u2019s a total of 4 x 12 = <<4*12=48>>48 slices.\nAfter the guests eat, there are 48 - 39 = <<48-39=9>>9 pieces.\n#### 9",
+   "n_blocks": 4,
+   "passes_per_block": [
+    4,
+    6,
+    8,
+    4
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 2704,
+   "pred": " If the car's value has reduced by 30%, then the value decrease is $4000 * 0.30 = $1000.\nTo find the current value of the car, we need to subtract the value decrease from the original price. So, the current value of the car is $4000 - $1000 = $3000.\nThe answer is $\\boxed{3000}$.\n",
+   "gold": "If Jocelyn bought the car 3 years ago at $4000, the car's value has reduced by 30/100*$4000=$1200\nThe current value of the car is $4000-$1200 = $<<4000-1200=2800>>2800\n#### 2800",
+   "n_blocks": 4,
+   "passes_per_block": [
+    3,
+    21,
+    13,
+    5
+   ],
+   "stopped_eos": true,
+   "correct": 0
+  },
+  {
+   "idx": 2724,
+   "pred": " If each carrot produces 4 servings of vegetables, and there are 9 carrot plants, then the total number of servings from the carrots is $4 \\times 9 = 36$.\nIf each corn plant produces 5 times as many servings as each carrot, then each corn plant produces $5 \\times 4 = 20$ servings of vegetables. Since there are 9 corn plants, the total number of servings from the corn is $20 \\times 9 = 180$.\nIf each green bean plant produces half as many servings as each corn plant, then each green bean plant produces $\\frac{1}{2} \\times 20 = 10$ servings of vegetables. Since there are 9 green bean plants, the total number of servings from the green beans is $10 \\times 9 = 90$.\nTo find the total number of servings of vegetables Jimmy is growing, we add up the servings from each plot: $36 + 180 + 90 = 306$.\nSo Jimmy is growing $\\boxed{306}$ servings of vegetables. The answer is: $306$\n",
+   "gold": "First, find how many servings one corn plant produces by multiplying the number of carrot servings by 5: 4 servings * 5 = <<4*5=20>>20 servings\nThen find how many servings one green bean plant produces by dividing the number of corn servings by two: 20 servings / 2 = <<20/2=10>>10 servings\nNow multiply the number of servings per carrot plant by the number of carrot plants: 4 servings/plant * 9 plants = <<4*9=36>>36 servings\nDo the same for corn: 20 servings/plant * 9 plants = <<20*9=180>>180 servings\nAnd do the same for green beans: 10 servings/plant * 9 plants = <<10*9=90>>90 servings\nNow add up the servings for all three types of plant: 36 servings + 180 servings + 90 servings = <<36+180+90=306>>306 servings\n#### 306",
+   "n_blocks": 9,
+   "passes_per_block": [
+    9,
+    11,
+    14,
+    3,
+    7,
+    3,
+    12,
+    13,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 2725,
+   "pred": " If 60% of the 40 dogs are female, then the number of female dogs is $0.6 \\times 40 = 24$.\nIf 3/4 of the female dogs give birth, then the number of pregnant dogs is $\\frac{3}{4} \\times 24 = 18$.\nIf each pregnant dog has 10 puppies, then the total number of puppies born is $18 \\times 10 = 180$.\nIf Tenisha donates 130 puppies to the church, then the number of puppies she remains with is $180 - 130 = 50$.\nThe answer is $\\boxed{50}$.\n",
+   "gold": "If Tenisha has 40 dogs, the number of female dogs is 60/100*40 = 24\n3/4 of the females give birth, meaning 3/4*24 = <<3/4*24=18>>18 female dogs gives birth to puppies.\nSince each dog that gave birth had 10 puppies, the number of puppies that were born is 18*10 = <<18*10=180>>180\nAfter donating 130 puppies to the church, Tenisha remained with 180-130 = 50 puppies.\n#### 50",
+   "n_blocks": 6,
+   "passes_per_block": [
+    4,
+    9,
+    12,
+    11,
+    15,
+    5
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 2729,
+   "pred": " If it takes 3 men an hour to complete one job, then to complete 5 jobs, it will take $3 \\times 5 = 15$ hours.\nIf each man is paid $10 per hour, then the total amount of money the three men will earn is $3 \\times 15 \\times 10 = 450$.\nThe answer is $\\boxed{450}$.\n",
+   "gold": "Since they are paid $10 each per hour of work and can complete a job in one hour, they earn a total of $10*3=$<<10*3=30>>30 together for an hour of work.\nIf they earn together $30 for one job, for the five jobs, they'll earn $30*5=$<<30*5=150>>150\n#### 150",
+   "n_blocks": 4,
+   "passes_per_block": [
+    11,
+    17,
+    18,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 0
+  },
+  {
+   "idx": 2746,
+   "pred": " If Ed weighs 146 pounds and is 38 pounds lighter than Al, then Al weighs $146 + 38 = 184$ pounds.\nIf Al is 25 pounds heavier than Ben, then Ben weighs $184 - 25 = 159$ pounds.\nIf Ben is 16 pounds lighter than Carl, then Carl weighs $159 + 16 = 175$ pounds.\nSo the weight of Carl is $\\boxed{175}$ pounds. The answer is: $\\boxed{175}$\n",
+   "gold": "Al weighs 146 + 38 = <<146+38=184>>184 pounds.\nBen weighs 184 - 25 = <<184-25=159>>159 pounds.\nCarl weighs 159 + 16 = <<159+16=175>>175 pounds.\n#### 175",
+   "n_blocks": 4,
+   "passes_per_block": [
+    8,
+    4,
+    3,
+    12
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 2898,
+   "pred": " The elevator needs to move down 20 floors in total.\nThe first half of the floors is 20/2 = 10 floors.\nIt takes 15 minutes for the elevator to travel down the first half of the floors.\nThe next 5 floors take 5 * 5 = 25 minutes to travel down.\nThe final 5 floors take 5 * 16 = 80 minutes to travel down.\nIn total, it takes 15 + 25 + 80 = 120 minutes for the elevator to reach the bottom.\nTo convert minutes to hours, we divide by 60 since there are 60 minutes in an hour: 120 / 60 = 2 hours.\nSo it took the elevator 2 hours for the elevator to reach the bottom. The answer is $\\boxed{2}$.\n",
+   "gold": "Over 5 of the floors, it takes the elevator 5 floors * 5 minutes per floor = <<5*5=25>>25 minutes to lower.\nOver the final 5 floors, it takes the elevator 5 floors * 16 minutes per floor = <<5*16=80>>80 minutes to lower.\nSo in total, the elevator takes 15 minutes in the first half + 25 minutes in the next five floors + 80 minutes in the final five floors = <<15+25+80=120>>120 minutes to lower to the bottom.\nThis is the same as 120 minutes / 60 minutes per hour = <<120/60=2>>2 hours.\n#### 2",
+   "n_blocks": 6,
+   "passes_per_block": [
+    18,
+    21,
+    12,
+    8,
+    9,
+    11
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 2927,
+   "pred": " The company sells $4000 worth of shoes every month. In a year, there are 12 months, so the total amount they make in a year is $4000 \\times 12 = $48000.\nThey want to make $60000 in a year. To find out how many more dollars per month they need to make, we subtract the amount they already make from the amount they want to make: $60000 - $48000 = $12000.\nTo find out how many more dollars per month they need to make, we divide the remaining amount by the number of months: $12000 / 12 = $1000.\nSo the company needs to make $1000 more per month selling shoes. The answer is $\\boxed{1000}$.\n",
+   "gold": "The amount of money they currently make in a year is 12 * 4000 = $<<12*4000=48000>>48000.\nThe additional amount they need to make is $60000 - $48000= $<<60000-48000=12000>>12000 per year.\nSo, they should make $12000 / 12 = $<<12000/12=1000>>1000 more every month.\n#### 1000",
+   "n_blocks": 6,
+   "passes_per_block": [
+    22,
+    10,
+    22,
+    13,
+    14,
+    16
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 2933,
+   "pred": " If there are 235 books in the library.\nOn Tuesday, 227 books are taken out, so the number of books remaining is $235 - 227 = 8$.\nOn Thursday, 56 books are brought back, so the number of books now is $8 + 56 = 64$.\nOn Friday, 35 books are taken out again, so the number of books now is $64 - 35 = 29$.\nTherefore, there are $\\boxed{29}$ books now. The answer is now: $\\boxed{29}$.\n",
+   "gold": "On Tuesday, 227 books were taken, so there are 235 - 227= <<235-227=8>>8 books left.\n56 books were brought back on Thursday, so there are 8 + 56 = <<8+56=64>>64 books in the library.\nFinally, 35 books are taken out on Friday, leaving 64 - 35 = <<29=29>>29 books available.\n#### 29",
+   "n_blocks": 5,
+   "passes_per_block": [
+    8,
+    11,
+    7,
+    14,
+    13
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 3047,
+   "pred": " The total number of seats in the auditorium is $20 \\times 10 = 200$.\nIf only 3/4 of the seats were sold, then the number of seats sold is $\\frac{3}{4} \\times 200 = 150$.\nSince each ticket costs $10, the total amount earned from the play is $150 \\times 10 = 1500$.\nThe answer is $\\boxed{1500}$.\n",
+   "gold": "There are 20 x 10 = <<20*10=200>>200 seats in the auditorium.\nOnly 200 x 3/4 = <<200*3/4=150>>150 seats were sold.\nHence, the earnings from the play is $10 x 150 = $<<10*150=1500>>1500.\n#### 1500",
+   "n_blocks": 4,
+   "passes_per_block": [
+    8,
+    9,
+    10,
+    5
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 3153,
+   "pred": " Carolyn starts with 6 monkeys and 6 birds in the tree.\nTwo of the monkeys eat one bird each, so there are now 6 - 2 = 4 monkeys and 6 - 2 = 4 birds.\nThe total number of animals outside her window is 4 + 4 = 8.\nTo find the percentage of animals that are monkeys, we divide the number of monkeys by the total number of animals and multiply by 100: (4/8) * 100 = 50%.\nSo, 50% of the animals outside her window are monkeys now. The answer is $\\boxed{50}$.\n",
+   "gold": "First find the new number of birds: 6 birds - 2 birds = <<6-2=4>>4 birds\nThen find the new total number of animals: 6 monkeys + 4 birds = <<6+4=10>>10 animals\nThen divide the number of monkeys by the number of animals and multiply by 100% to express the answer as a percentage: 6 monkeys / 10 animals * 100% = 60%\n#### 60",
+   "n_blocks": 6,
+   "passes_per_block": [
+    2,
+    19,
+    17,
+    14,
+    11,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 0
+  },
+  {
+   "idx": 3155,
+   "pred": " Thomas and his 4 friends take 1/4 of the bars, so they take 200 * (1/4) = 50 bars.\nThey divide these bars equally between them, so each friend gets 50 / 5 = 10 bars.\nOne of Thomas's friends returns 5 bars to the box, so he now has 10 - 5 = 5 bars.\nThe total number of bars left in the box is 200 - 50 = 150 bars.\nPiper takes 5 fewer bars than those taken in total by Thomas and his friends, so she takes 50 - 5 = 45 bars.\nThe final number of bars left in the box is 150 - 45 = 105 bars.\nThe answer is $\\boxed{105}$.\n",
+   "gold": "Thomas and his friends took 1/4*200 = <<1/4*200=50>>50 bars.\nThe total number of bars left in the box was 200-50 = <<200-50=150>>150 bars.\nSince there are five of them sharing, each of them got 50/5 = <<50/5=10>>10 bars.\nAfter a friend returned 5 bars, there were 150 + 5 = <<150+5=155>>155 bars in the box.\nPiper took five fewer bars, that is 50 - 5 = <<50-5=45>>45 bars.\nThe total remaining bars left in the box is 155 - 45 = <<155-45=110>>110 bars.\n#### 110",
+   "n_blocks": 7,
+   "passes_per_block": [
+    2,
+    19,
+    19,
+    24,
+    18,
+    8,
+    5
+   ],
+   "stopped_eos": true,
+   "correct": 0
+  },
+  {
+   "idx": 3205,
+   "pred": " Let's assume the length of the dog's body is $x$ inches.\nThe tail is half the length of the body, so its length is $\\frac{x}{2}$ inches.\nThe head is 1/6 the length of the body, so its length is $\\frac{x}{6}$ inches.\nThe total length of the dog is the sum of the lengths of the body, tail, and head, which is $x + \\frac{x}{2} + \\frac{x}{6} = 30$.\nTo simplify this equation, we can multiply every term by 6 to get rid of the fractions: $6x + 3x + x = 180$.\nCombining like terms gives us $10x = 180$.\nDividing both sides by 10 gives us $x = 18$.\nSo the length of the dog's body is 18 inches.\nTo find the length of the tail, we substitute $x = 18$ into the expression for the tail: $\\frac{x}{2} = \\frac{18}{2} = 9$.\nTherefore, the length of the tail is 9 inches. The answer is $\\boxed{9}$.\n",
+   "gold": "If b is the length of the body, h is the length of the head, and t is the length of the tail, we know that b + h + t = 30, h = b/6 and t = b/2. We can substitute the second two equations into the first equation to get b + b/6 + b/2 = 30\nNow multiply both sides of this equation by 6: 6b + b + 3b = 180\nNow combine like terms: 10b = 180\nNow divide both sides by 10: b = 180.\nThe dog's body is 18 inches long. Now divide that length by 2 to find the length of its tail: 18 inches / 2 = <<18/2=9>>9 inches\n#### 9",
+   "n_blocks": 9,
+   "passes_per_block": [
+    20,
+    10,
+    15,
+    15,
+    11,
+    8,
+    11,
+    15,
+    4
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 3267,
+   "pred": " Caleb's grandfather is turning 79 years old, and he puts one candle for each year. So the total number of candles on the cake is 79.\nHe puts 27 yellow candles and 14 red candles, so the total number of yellow and red candles is 27 + 14 = 41.\nTo find out how many blue candles he used, we subtract the total number of yellow and red candles from the total number of candles. That is 79 - 41 = 38.\nSo Caleb used 38 blue candles. The answer is $\\boxed{38}$.",
+   "gold": "Caleb has put 27 + 14 = <<27+14=41>>41 yellow and red candles.\nSo, he used 79 - 41 = <<79-41=38>>38 blue candles.\n#### 38",
+   "n_blocks": 5,
+   "passes_per_block": [
+    2,
+    15,
+    10,
+    9,
+    8
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 3317,
+   "pred": " If Hazel has missed 6 days of school, and she can miss 5% or less of the school year, then the maximum number of days she can miss is $180 \\times 0.05 = 9$.\nTo find out how many more days she can miss, we subtract the number of days she has already missed from the maximum number of days she can miss: $9 - 6 = 3$.\nSo Hazel can miss 3 more days and still not have to take her exams. The answer is $\\boxed{3}$.\n",
+   "gold": "There are 180 days in the school year and she can miss up to 5% so that\u2019s 180*.05 = <<180*.05=9>>9 days\nHazel has been sick 6 days already and she can only miss 9 days or less so she can miss 9-6 = <<9-6=3>>3 more days\n#### 3",
+   "n_blocks": 5,
+   "passes_per_block": [
+    7,
+    15,
+    10,
+    13,
+    4
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 3435,
+   "pred": " John can buy 10 burritos for $6, so each burrito costs $6/10 = $0.60.\nEach burrito has 120 calories, so the number of calories per dollar for a burrito is 120/0.60 = 200 calories per dollar.\nJohn can buy 5 burgers for $8, so each burger costs $8/5 = $1.60.\nEach burger has 400 calories, so the number of calories per dollar for a burger is 400/1.60 = 250 calories per dollar.\nTo find out how many more calories per dollar he gets from the burgers, we subtract the number of calories per dollar for a burrito from the number of calories per dollar for a burger: 250 - 200 = 50.\nSo John gets 50 more calories per dollar from the burgers. The answer is $\\boxed{50}$.\n",
+   "gold": "The burritos have 10*120=<<10*120=1200>>1200 calories\nThat means he gets 1200/6=<<1200/6=200>>200 calories per dollar\nThe burgers get 5*400=<<5*400=2000>>2000 calories\nSo he gets 2000/8=<<2000/8=250>>250 calories per dollar\nSo he gets 250-200=<<250-200=50>>50 more calories per dollar from the burgers\n#### 50",
+   "n_blocks": 8,
+   "passes_per_block": [
+    3,
+    12,
+    19,
+    8,
+    3,
+    11,
+    9,
+    4
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 3445,
+   "pred": " Mr. Parker buys 2 burger meals for his wife and himself, which is 2 * $9.50 = $19.\nHe also buys 2 burger meals and 2 kid's meals for his 4 children, which is 2 * $9 + 2 * $5 = $1 + $10 = $18.\nIn total, he spends $19 + $18 = $37.\nIf he had bought the individual food items, he would have spent 2 * $5 + 2 * $3 + 2 * $3 + 2 * $3 + 2 * $2 + 2 * $2 = $10 + $6 + $6 + $6 + $4 + $4 = $36.\nTo find out how much money he saved, we subtract the cost of the individual meals from the cost of the meals: $37 - $366 = $1.\nSo Mr. Parker saved $1 by buying the 6 meals versus buying the individual food items. The answer is $\\boxed{1}$.\n",
+   "gold": "To buy regular food items individually, they cost $5 + $3 + $3 = $<<5+3+3=11>>11.\nTo buy kids food items individually, they cost $3 + $2 + $2 = $<<3+2+2=7>>7.\nIf you buy the special burger meal, you save $11 - $9.50 = $<<11-9.5=1.50>>1.50.\nIf you buy the kid's meal, you save $7 - $5 = $<<7-5=2>>2.\nMr. Parker buys 4 special burger meals, bringing his discount to 4 x $1.50 = $<<4*1.50=6>>6.\nHe buys 2 kid's meals, bringing his discount to 2 x $2 = $<<2*2=4>>4.\nThe total savings for Mr. Parker is $6 + $4 = $<<6+4=10>>10.\n#### 10",
+   "n_blocks": 8,
+   "passes_per_block": [
+    7,
+    13,
+    23,
+    21,
+    19,
+    13,
+    21,
+    6
+   ],
+   "stopped_eos": true,
+   "correct": 0
+  },
+  {
+   "idx": 3490,
+   "pred": " Grayson spends 2 hours answering questions, and since there are 60 minutes in an hour, he spends a total of $2 \\times 60 = 120$ minutes answering questions.\nEach answer takes 2 minutes, so the number of questions he answers is $\\frac{120}{2} = 60$.\nGrayson has 100 questions in total, so the number of questions he leaves unanswered is $100 - 60 = 40$.\nThe answer is $\\boxed{40}$.\n",
+   "gold": "Each hour contains 60 minutes, so after 2 hours he took 2*60 = <<2*60=120>>120 minutes.\nIf each question takes two minutes, then he answered 120/2 = <<120/2=60>>60 questions.\nUnanswered questions is 100-60 = <<100-60=40>>40 questions\n#### 40",
+   "n_blocks": 5,
+   "passes_per_block": [
+    10,
+    13,
+    17,
+    11,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 3556,
+   "pred": " Kathleen saved $21 in June, $46 in July, and $45 in August. So the total amount of money she saved is $21 + $46 + $45 = $112.\nKleen spent $12 on school supplies and $54 on new clothes. So the total amount of money she spent is $12 + $54 = $66.\nTo find out how much money Kathleen has left, we need to subtract the amount of money she spent from the total amount of money she saved. So, $112 - $66 = $46.\nKleen's aunt said she would give her $25 if Kathleen saves more than $125. Since Kathleen saved $112, she did not save more than $125, so her aunt did not give her $25.\nTherefore, Kathleen has $46 left. The answer is $\\boxed{46}$.\n",
+   "gold": "Kathleen saved $21 + $46 + $45 = $<<21+46+45=112>>112.\nKathleen\u2019s aunt did not give Kathleen any money because $112 is not greater than $125.\nKathleen spent $12 + $54 = $<<12+54=66>>66.\nKathleen has $112 - $66 = $<<112-66=46>>46 remaining.\n#### 46",
+   "n_blocks": 8,
+   "passes_per_block": [
+    3,
+    6,
+    10,
+    6,
+    13,
+    19,
+    23,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 3626,
+   "pred": " First, let's find out how much money is in one machine. There are 80 quarters, and each quarter is worth $0.25, so the total value of the quarters in one machine is 80 * $0.25 = $20.\nThere are also 100 dimes, and each dime is worth $0.10, so the total value of the dimes in one machine is 00 * $0.10 = $10.\nThe total amount of money in one machine is therefore $20 + $10 = $30.\nIf Erin has a total of $90 change from all the machines, and each machine holds $30, then the number of machines in the launderette is $90 / $30 = 3.\nSo there are 3 machines in the launderette. The answer is $\\boxed{3}$.\n",
+   "gold": "There are 4 quarters in a dollar so in quarters, each machine holds 80 quarters / 4 = $<<80/4=20>>20.\nThere are 10 dimes in a dollar so in dimes, each machine holds 100 dimes / 10 = $10.\nEach machine therefore holds $20 in quarters + $10 in dimes = $<<20+10=30>>30.\nSo Erin must therefore have $90 total income / $30 income per machine = <<90/30=3>>3 machines.\n#### 3",
+   "n_blocks": 7,
+   "passes_per_block": [
+    11,
+    15,
+    10,
+    9,
+    15,
+    17,
+    5
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 3645,
+   "pred": " Geordie drives his car to work three times a week, and each commute is 14 miles. So he drives a total of 3 * 14 = 42 miles in his car per week.\nHis car gets 35 miles per gallon of gas, so he will need 42 / 35 = 1.2 gallons of gas per week for his car.\nThe cost of gas is $3.75 per gallon, so he will spend 1.2 * $3.75 = $4.50 on gas for his car per week.\nThe toll for his car is $12.50 per trip, so he will spend 3 * $12.50 = $37.50 on toll for his car per week.\nAdding up the cost of gas and toll for his car, Geordie will spend $4.50 + $37.50 = $42 on his car per week.\nGeordie also drives his motorcycle to work twice a week, and each commute is 14 miles. So he drives a total of 2 * 14 = 28 miles in his motorcycle per week.\nHis motorcycle also gets 35 miles per gallon of gas, so he will need 28 / 35 = 0.8 gallons of gas per week for his motorcycle.\nThe cost of gas is $3.75 per gallon, so he will spend 0.8 * $3.75 = $3.00 on gas for his motorcycle per week.\nThe toll for his motorcycle is $7 per trip, so he will spend 2 * $7 = $14 on toll for his motorcycle per week.\nAdding up the cost of gas and toll for his motorcycle, Geordie will spend $3.00 + $14 = $17 on his motorcycle per week.\nTo find out how much he spends driving to work and back on the same route in a week, we add the cost of his car and motorcycle: $42 + $17 = $59.\nThe answer is $\\boxed{59}$.\n",
+   "gold": "Geordie pays 12.50 * 3 = $<<12.50*3=37.50>>37.50 for car tolls driving to work three times a week.\nHe pays 7 * 2 = $<<7*2=14>>14 for motorcycle tolls driving to work twice a week.\nHe drives 14 * 5 = <<14*5=70>>70 miles to work each five-day workweek.\nHe uses 70 / 35 = <<70/35=2>>2 gallons of gas on the drive.\nHe spends 3.75 * 2 = $<<3.75*2=7.50>>7.50 on gas each week.\nThus, he spends 37.50 + 14 + 7.50 = $<<37.50+14+7.50=59>>59 driving to work.\nSince he drives to work and back from work, he spends 59 * 2 = $<<59*2=118>>118 a week.\n#### 118",
+   "n_blocks": 15,
+   "passes_per_block": [
+    9,
+    18,
+    16,
+    13,
+    20,
+    19,
+    12,
+    5,
+    5,
+    6,
+    4,
+    4,
+    6,
+    13,
+    6
+   ],
+   "stopped_eos": true,
+   "correct": 0
+  },
+  {
+   "idx": 3669,
+   "pred": " The vendor has 50 chocolate-flavored ice creams, and he sold 3/5 of them. So the number of chocolate-flavored ice creams sold is 50 * (3/5) = 30.\nThe number of chocolate-flavored ice creams that not sold is 50 - 30 = 20.\nThe vendor also has 54 mango-flavored ice creams, and he sold 2/3 of them. So the number of mango-flavored ice creams sold is 54 * (2/3) = 36.\nThe number of mango-flavored ice creams that not sold is 54 - 36 = 18.\nTo find the total number of ice creams that not sold, we add the number of chocolate-flavored ice creams not sold and the number of mango-flavored ice creams not sold: 20 + 18 = 38.\nSo the total number of ice creams that not sold is $\\boxed{38}$.\n",
+   "gold": "There were a total of 50 + 54 = <<50+54=104>>104 ice creams.\nThere were 50 x 3/5 = <<50*3/5=30>>30 chocolate-flavored ice creams sold.\nThere were 54 x 2/3 = <<54*2/3=36>>36 mango-flavored ice creams sold.\nA total of 30 + 36 = <<30+36=66>>66 ice creams were sold.\nSo, 104 - 66 = <<104-66=38>>38 ice creams were not sold.\n#### 38",
+   "n_blocks": 8,
+   "passes_per_block": [
+    5,
+    14,
+    12,
+    3,
+    3,
+    13,
+    9,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 3691,
+   "pred": " Nathan planted 5 strawberry plants and harvested 14 strawberries from each plant, so he harvested a total of 5 * 14 = 70 strawberries.\nHe planted 7 tomato plants and harvested 16 tomatoes from each plant, so he harvested a total of 7 * 16 = 112 tomatoes.\nHe distributed the strawberries into baskets of 7, so he had 70 / 7 = 10 baskets of strawberries.\nHe sold each basket of strawberries for $9, so he made 10 * $9 = $90 from the strawberry baskets.\nHe distributed the tomatoes into baskets of 7, so he had 112 / 7 = 16 baskets of tomatoes.\nHe sold each basket of tomatoes for $6, so he made 16 * $6 = $96 from selling the tomato baskets.\nTo find out how much money Nathan made in total, we add the money he made from the strawberry baskets and the tomato baskets: $90 + $96 = $186.\nThe answer is $\\boxed{186}$.\n",
+   "gold": "Nathan harvested a total of 5 x 14 = <<5*14=70>>70 strawberries\nHe harvested a total of 7 x 16 = <<7*16=112>>112 tomatoes.\nHe was able to fill 70/7 = <<70/7=10>>10 baskets with strawberries.\nHe was able to fill 112/7 = <<112/7=16>>16 baskets with tomatoes.\nHe made 10 x $9 = $<<10*9=90>>90 from the strawberries.\nHe made 16 x $ 6 = $<<16*6=96>>96 from the tomatoes.\nAll together, he made $90 + $96 = $<<90+96=186>>186 from his harvest.\n#### 186",
+   "n_blocks": 9,
+   "passes_per_block": [
+    1,
+    12,
+    4,
+    12,
+    10,
+    3,
+    10,
+    16,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 3867,
+   "pred": " Susan works five days a week, so in two weeks she will work 5 x 2 = 10 days.\nShe has six days of paid vacation, so the rest of her workdays will be unpaid vacation time. That means she will have 10 - 6 = 4 days of unpaid vacation time.\nShe works 8 hours a day, so in four days she will work 4 x 8 = 32 hours.\nShe gets paid $15 per hour, so she will miss 32 x $15 = $480 in pay on her vacation.\nThe answer is $\\boxed{480}$.\n",
+   "gold": "Susan works 2 * 5 = <<2*5=10>>10 days in two weeks.\nShe is taking 10 - 6 = <<10-6=4>>4 days of unpaid vacation.\nAt $15 per hour, she is paid 15 * 8 = $<<15*8=120>>120 per day.\nAt $120 per day, Susan will miss 120 * 4 = $<<120*4=480>>480 on her vacation.\n#### 480",
+   "n_blocks": 5,
+   "passes_per_block": [
+    12,
+    21,
+    20,
+    17,
+    9
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 3903,
+   "pred": " In the first hour, Manolo can make face-masks at a rate of one every four minutes. Since there are 60 minutes in an hour, he can make 60/4 = 15 face-masks in the first hour.\nFor the remaining three hours, Manolo can make face-masks at a rate of one every six minutes. Again, since there are 60 minutes in an hour, he can make 60/6 = 10 face-masks per hour for these three hours.\nSo in total, he can make 10 * 3 = 30 face-masks in the remaining three hours.\nAdding up the face-masks from the first hour and the remaining three hours, Manolo can make 15 + 30 = 45 face-masks in a four-hour shift. The answer is $\\boxed{45}$.\n",
+   "gold": "He makes 60/4=<<60/4=15>>15 in the first hour\nHe makes 60/6=<<60/6=10>>10 in each subsequent hour\nThere are 4-1=<<4-1=3>>3 more hours in his shift\nHe makes 15+10*3=<<15+10*3=45>>45.\n#### 45",
+   "n_blocks": 7,
+   "passes_per_block": [
+    9,
+    13,
+    14,
+    14,
+    20,
+    12,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 3904,
+   "pred": " Mary has 6 classes and needs 1 folder for each class, so she needs 6 folders at $6 each, which is 6 * $6 = $36.\nShe also needs 3 pencils for each class, so she needs 6 pencils at $2 each, which is 6 * $2 = $12.\nFor every 6 pencils, she needs 1 eraser. Since she has 6 pencils, she needs 1 eraser at $1 each, which is 1 * $1 = $1.\nThe total cost of the folders, pencils, and erasers is $36 + $12 + $1 = $49.\nIf she spends $80 in total, then the cost of the set of paints is $80 - $49 = $31.\nThe answer is $\\boxed{31}$.\n",
+   "gold": "Mary needs 6*1= <<6*1=6>>6 folders.\nMary needs 6*3= <<6*3=18>>18 pencils.\nMary needs 18/6= <<18/6=3>>3 erasers.\nMary spends 6*6= $<<6*6=36>>36 on folders.\nMary spends 18*2= $<<18*2=36>>36 on pencils.\nMary spends 3*1= $<<3*1=3>>3 on erasers.\nMary spends 36+36+3= $<<36+36+3=75>>75 on all the supplies except the paints.\nMary spends 80-75= $<<80-75=5>>5 on the paint set.\n#### 5",
+   "n_blocks": 7,
+   "passes_per_block": [
+    7,
+    19,
+    12,
+    18,
+    11,
+    13,
+    3
+   ],
+   "stopped_eos": true,
+   "correct": 0
+  },
+  {
+   "idx": 3907,
+   "pred": " Melany has $120000 to spend on wire mesh, and each foot of wire mesh is sold at $30. So the number of feet of wire mesh she can buy is $120000 / $30 = 4000 feet.\nThe field is 5000 feet square, so the length of the field that will not be fenced is 5000 - 4000 = 1000 feet.\nThe answer is $\\boxed{1000}$.",
+   "gold": "Since one-foot wire mesh is sold at $30, with $120000, Melany can buy $120000/$30 = <<120000/30=4000>>4000 feet of wire mesh.\nIf Melany has to fence 5000 feet of the field and has 4000 feet of wire mesh, she will not fence 5000-4000 = <<5000-4000=1000>>1000 feet of the field.\n#### 1000",
+   "n_blocks": 4,
+   "passes_per_block": [
+    14,
+    19,
+    21,
+    4
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 3980,
+   "pred": " If there were 2 swallows, and they were half as many as bluebirds, then the number of bluebirds is $2 \\times 2 = 4$.\nIf there were three times more cardinals than bluebirds, then the number of cardinals is $3 \\times 4 = 12$.\nTo find the total number of birds in the tree, we add up the number of cardinals, bluebirds, and swallows: $12 + 4 + 2 = 18$.\nSo the total number of birds in the crape myrtle tree is $\\boxed{18}$. answer is: $18$\n",
+   "gold": "With half as many swallows as bluebirds, there are 2*2=<<2*2=4>>4 bluebirds.\nWith three times more cardinals than bluebirds, there are 3*4=<<3*4=12>>12 cardinals,\nIf there were 2 swallows, then the total number of birds in the crape myrtle tree is 2+4+12=<<2+4+12=18>>18 birds.\n#### 18",
+   "n_blocks": 5,
+   "passes_per_block": [
+    9,
+    10,
+    6,
+    9,
+    10
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 3984,
+   "pred": " Judson contributed $500.\nKenny contributed 20% more money than Judson, so Kenny contributed $500 + ($500 * 0.2) = $500 + $100 = $600.\nCamilo contributed $200 more than Kenny, so Camilo contributed $600 + $200 = $800.\nTo find the total cost of painting the house, we add up the amounts that each person contributed: $500 + $600 + $800 = $1900.\nThe answer is $\\boxed{1900}$.\n",
+   "gold": "If Judson paid $500, Kenny contributed 20/100*$500 = $<<500*20/100=100>>100 more than Judson.\nIn total, Kenny contributed $500+$100 = $<<500+100=600>>600\nKenny and Judson contributed a total of $600+$500 = $<<600+500=1100>>1100\nIf Camilo contributed $200 more than Kenny, then he contributed $600+$200 = $800\nThe total amount of money the three contributed for the house painting is $1100+$800 = $<<1100+800=1900>>1900\n#### 1900",
+   "n_blocks": 5,
+   "passes_per_block": [
+    4,
+    13,
+    3,
+    11,
+    6
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 4008,
+   "pred": " A typical person has 10 fingers and 10 toes, so they have a total of $10 + 10 = 20$ fingers and toes.\nIf Kris has been suspended for three times as many days as a typical person has fingers and toes, then she has been suspended for $3 \\times 20 = 60$ days.\nSince each instance of bullying gets her suspended for 3 days, the number of instances of bullying she is responsible for is $\\frac{60}{3} = 20$.\nThe answer is $\\boxed{20}$.\n",
+   "gold": "Three times as many days as a typical person has fingers and toes is 3*20=<<3*20=60>>60 days\nThree days per instance of bullying is 60/3=<<60/3=20>>20 instances of bullying.\n#### 20",
+   "n_blocks": 5,
+   "passes_per_block": [
+    9,
+    10,
+    11,
+    11,
+    5
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  },
+  {
+   "idx": 4035,
+   "pred": " Randy feeds each pig 10 pounds of feed per day. Since he has 2 pigs, then the total amount of feed needed per day is $10 \\times 2 = 20$ pounds.\nTo find out how much feed is needed per week, we need to multiply the daily amount by the number of days in a week. There are 7 days in a week, so the total amount of feed needed per week is $20 \\times 7 = 140$ pounds.\nTherefore, Randy's pigs will be fed 140 pounds of pig feed per week. The answer is $\\boxed{140}$.\n",
+   "gold": "2 pigs fed for 7 days is a total of 7*2=<<7*2=14>>14 feedings.\nAt 10 pounds per feeding, this amounts to a total of 10*14=<<10*14=140>>140 pounds of pig feed per week.\n#### 140",
+   "n_blocks": 6,
+   "passes_per_block": [
+    2,
+    19,
+    17,
+    9,
+    12,
+    2
+   ],
+   "stopped_eos": true,
+   "correct": 1
+  }
+ ]
+}

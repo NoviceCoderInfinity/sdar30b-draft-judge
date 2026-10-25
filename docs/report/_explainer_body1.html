@@ -1,0 +1,159 @@
+<div class="wrap">
+
+<header class="masthead">
+  <h1>Draft-aligned decoding of a 30B diffusion model</h1>
+  <p class="deck">A small model writes the block. A 39-million-parameter adapter teaches the big model
+  to judge it. This is what the mechanism is, why it should work, and what actually happened.</p>
+  <p class="byline">
+    <span>SDAR-30B-A3B · block 32</span>
+    <span>branch drafter-voting</span>
+    <span>6-7 September 2026</span>
+  </p>
+</header>
+
+<div class="callout warn">
+  <h4>Read this before the numbers</h4>
+  <p><strong>The trained judge ties the training-free baseline; it does not beat it.</strong> The best
+  trained setting reaches 94.0% accuracy at 7.93 passes per block. A rule that needs no training at all
+  reaches 95.0% at the same 7.93 passes. Round 1 of training failed outright at 38.0%. Round 2a is a large
+  qualitative repair of round 1, and a real mechanism result, but it is not yet a better speed/accuracy
+  frontier.</p>
+  <p>All decode comparisons below are on <strong>100 prompts</strong>, so a 95% interval is about
+  ±5 accuracy points. Only the training-free rule has been confirmed on a 500-item held-out set.</p>
+</div>
+
+<section>
+  <div class="num">01</div>
+  <div class="body">
+    <h2>The machine you are trying to speed up</h2>
+    <p class="lede">Everything downstream follows from three facts about how this particular model
+    writes text. None of them hold for an ordinary autoregressive LLM.</p>
+
+    <p><strong>It writes 32 tokens at a time, not one.</strong> SDAR-30B-A3B-Chat-b32 is a
+    <em>block-diffusion</em> language model. It takes a block of 32 empty slots, each holding a special
+    <code>[MASK]</code> token, and runs one forward pass over the whole sequence. That pass produces a
+    probability distribution over the full 151,936-token vocabulary <em>at every one of the 32 slots
+    simultaneously</em>, each conditioned on the prompt, on all previously finished blocks, and on
+    whatever is currently sitting in the other 31 slots.</p>
+
+    <p><strong>It commits only where it is already sure.</strong> After the pass, a slot is filled in
+    permanently if its top token's probability exceeds 0.95. Everything else stays <code>[MASK]</code>
+    and is looked at again next pass. At least one slot is forced to commit per pass so the loop cannot
+    stall. Repeat until the block is full, then run one more forward pass to write the finished block
+    into the key/value cache. I will call each of these forwards a <strong>pass</strong>.</p>
+
+    <p><strong>Each pass is expensive in a specific way.</strong> The model is a mixture of experts:
+    48 layers, and in each layer 128 separate feed-forward "experts", of which each token position
+    picks its own top 8. With 32 positions × 8 picks per layer, the <em>union</em> of experts that must
+    actually be loaded from memory is far larger than 8 &mdash; measured at <strong>43.1 experts per
+    layer</strong> when the block is all masks, and <strong>64.5</strong> when it is full of tokens.
+    Since the weights of an expert must be fetched to run it, the honest cost unit is the
+    <strong>expert-layer execution</strong>: one expert, running at one layer, in one pass. Divided by
+    the tokens the model actually produced, this is the number to reduce.</p>
+
+    <div class="grid2">
+      <div class="stat"><div class="k">passes per block</div><div class="v">9.31</div>
+        <div class="d">stock decode, 100 GSM8K prompts, 620 blocks</div></div>
+      <div class="stat"><div class="k">expert-layer exec / token</div><div class="v">1,091</div>
+        <div class="d">48 layers × ~58 experts × 0.39 forwards</div></div>
+      <div class="stat"><div class="k">accuracy</div><div class="v">95.0%</div>
+        <div class="d">the number that must not fall</div></div>
+      <div class="stat"><div class="k">wall clock</div><div class="v">187 ms</div>
+        <div class="d">per generated token, in our reference loop</div></div>
+    </div>
+
+    <p>Those four numbers are the baseline every later result is paired against, item by item, on the
+    same 100 prompts. <span class="tag t-act">actual</span> They come from
+    <code>logs/draftalign/da_decode/gsm8k_B32_t95_stock</code>.</p>
+  </div>
+</section>
+
+<section>
+  <div class="num">02</div>
+  <div class="body">
+    <h2>Why it takes nine passes when one would do</h2>
+    <p class="lede">The block does not need nine passes because the model is unsure what to say. It
+    needs nine passes because of the difference between a marginal and a conditional distribution.</p>
+
+    <p>Consider one slot in the middle of an otherwise empty block. The model is being asked: what token
+    goes here, given the prompt and given that <em>everything around it is still unknown</em>? The text
+    could continue "So the total is", or "Therefore the total is", or "The total is therefore". All
+    three are correct. The model's probability splits across them &mdash; 0.4 / 0.35 / 0.25, say. Nothing
+    reaches 0.95, so nothing commits, even though <em>any</em> of the three would have been fine.</p>
+
+    <p>Formally, the distribution at an open slot is a <strong>marginal</strong> over every completion of
+    the block that is consistent with what has been committed:</p>
+
+    <div class="eq">
+p(x<sub>i</sub> | committed) = &Sigma;<sub>rest</sub> p(x<sub>i</sub>, rest | committed)
+  <span class="cmt">&larr; flat wherever phrasing is free</span>
+
+p(x<sub>i</sub> | committed, <b>rest = D</b>) 
+  <span class="cmt">&larr; peaked: one concrete completion to judge</span>
+    </div>
+
+    <p>A slot whose token is <em>forced</em> by the prefix &mdash; the second digit of "10 &times; 2 = 20"
+    &mdash; gets 0.99 and commits immediately. So pass 1 commits only the forced slots, on average
+    <strong>7.5 of the 29.4 generated slots</strong> in a block. Each commit then forces a few more slots,
+    which commit next pass, which force a few more. That chain is the nine passes.</p>
+
+    <p>The waste is measurable and large. At pass 1 the model's own top guess <em>already equals the
+    token the block eventually ends with</em> at <strong>58.4%</strong> of slots &mdash; but only 25.6% of
+    slots pass the threshold. <strong>A third of all tokens in the finished text are right at pass 1 and
+    committed later anyway</strong>, purely because the marginal was too flat to clear 0.95.</p>
+
+    <p>The second line of the equation is the whole idea. If some other process proposes one concrete
+    completion <em>D</em> for the rest of the block, then every slot becomes a conditional question
+    &mdash; "is this token right, given these specific neighbours?" &mdash; and conditional questions are
+    peaked where marginal ones are flat. Judging is easy where generating is hard.</p>
+
+    {{FIG_F2}}
+  </div>
+</section>
+
+<section>
+  <div class="num">03</div>
+  <div class="body">
+    <h2>The proposal: a 1.7B model writes the block first</h2>
+    <p class="lede">A small dense model of the same family, SDAR-1.7B-Chat-b32, fills all 32 slots in
+    8 of its own cheap denoising steps. Its guess <em>D</em> becomes the concrete completion the big
+    model conditions on.</p>
+
+    <h3 class="kicker">How good is the draft, and what does it cost</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>drafter setting</th><th>slot agreement with the big model</th>
+        <th>forwards / block</th><th>ms / forward</th></tr></thead>
+      <tbody>
+        <tr><td>4 static steps</td><td>0.497</td><td>3.98</td><td>18.1</td></tr>
+        <tr class="hi"><td>8 static steps <em>(used)</em></td><td>0.558</td><td>7.86</td><td>18.0</td></tr>
+        <tr><td>dynamic, threshold .90</td><td>0.586</td><td>10.59</td><td>18.0</td></tr>
+        <tr class="bad"><td>the 30B itself, one pass on an empty block</td><td>&mdash;</td>
+          <td>1.00</td><td>369</td></tr>
+      </tbody>
+    </table></div>
+
+    <p><strong>Agreement 0.558</strong> means: for a randomly chosen slot, the 1.7B's token is the token
+    the 30B eventually writes there, 55.8% of the time. That number is the hard ceiling on how much any
+    draft-based scheme can save, and it is also why this is not classical speculative decoding &mdash;
+    more on that below.</p>
+
+    <p>The cost arithmetic is favourable and simple. Eight drafter forwards cost 8 &times; 18 = 144 ms,
+    against 369 ms for a single forward of the big model on an empty block. So <strong>the entire draft
+    costs about 0.4 of one big-model pass</strong>. The draft is worth it if it removes more than about
+    half a pass out of 9.31. The target was to remove five or six.</p>
+
+    <div class="callout note">
+      <h4>Why this is not speculative decoding</h4>
+      <p>In classical speculative decoding the big model is autoregressive, so its output at position
+      <em>i</em> is <em>by construction</em> a judgement of the token at <em>i+1</em>, produced without
+      having seen it. The verifier is free, exact, and acceptance is a <strong>prefix</strong>: reject the
+      third drafted token and the fourth is discarded too, because it assumed the third. At 56% agreement
+      the accepted prefix averages about two tokens &mdash; which is what earlier work on this branch
+      found.</p>
+      <p>Here the big model has <em>bidirectional</em> attention inside the block. There is no free
+      verifier, but acceptance is <strong>per slot</strong>: the judge reads all 32 at once, so its verdict
+      on slot 20 can be right when slot 17 was wrong. At 56% agreement that is ~18 slots per pass instead
+      of ~2. That is the prize, and it is exactly what a causal verifier cannot deliver.</p>
+    </div>
+  </div>
+</section>

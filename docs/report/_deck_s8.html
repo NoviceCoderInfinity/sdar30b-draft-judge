@@ -1,0 +1,119 @@
+<!-- 30 -->
+<section class="slide">
+  <div class="eyebrow">Chapter IX &middot; round 3, the drafter</div>
+  <h2>Same objective it was born with. Different teacher.</h2>
+  <p class="lede">The drafter is itself a block-diffusion model, built from Qwen3-1.7B with 50 B tokens of continued pretraining and 4 B tokens of supervised fine-tuning, both under the objective below. We do not invent a new one. We change <em>y</em>.</p>
+  <div class="figbox">
+    <svg viewBox="0 0 700 266" role="img" aria-label="The block-diffusion objective is unchanged; only the target text y changes, from SDAR's own SFT answers to the 30B teacher's answer to the same problem.">
+      <defs><marker id="m30" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><polygon points="0,0 10,5 0,10" fill="currentColor"/></marker></defs>
+      <rect x="0" y="8" width="700" height="76" fill="var(--paper)" stroke="var(--rule)"/>
+      <text x="16" y="32" font-family="IBM Plex Mono, monospace" font-size="13" fill="var(--ink)">for each 32-token block of y:  mask a random fraction m ~ U(0,1) of its tokens</text>
+      <text x="16" y="58" font-family="IBM Plex Mono, monospace" font-size="13" fill="var(--ink)">loss = mean over masked slots of  &minus;log q&#966;( y&#7522; | masked block, clean prefix )</text>
+      <text x="16" y="76" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)">identical to SDAR's own training. Not modified, not reweighted, no extra term.</text>
+      <text x="350" y="106" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="15" fill="var(--draft)">the only thing that changes is y</text>
+      <line x1="240" y1="114" x2="150" y2="140" stroke="var(--muted)" stroke-width="1.3" marker-end="url(#m30)"/>
+      <line x1="460" y1="114" x2="550" y2="140" stroke="var(--commit)" stroke-width="1.6" marker-end="url(#m30)"/>
+      <rect x="0" y="146" width="330" height="70" fill="none" stroke="var(--muted)"/>
+      <text x="16" y="168" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="1" fill="var(--muted)">BEFORE</text>
+      <text x="16" y="190" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">y = whatever answer SDAR's own</text>
+      <text x="16" y="209" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">supervised set happened to contain</text>
+      <rect x="370" y="146" width="330" height="70" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width="1.6"/>
+      <text x="386" y="168" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="1" fill="var(--commit)">AFTER</text>
+      <text x="386" y="190" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink)">y = the 30B's <strong>own answer</strong> to the</text>
+      <text x="386" y="209" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink)">same problem, kept only when correct</text>
+      <text x="0" y="236" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">Hard-label sequence distillation: the student trains on the teacher's own samples</text>
+      <text x="0" y="256" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">(Kim &amp; Rush 2016). All 1.7 B parameters move.</text>
+    </svg>
+  </div>
+  <div class="callout"><b>Why this is the standard move.</b> Speculative decoding always trains its drafter on the target model's outputs. What is unusual here is only that the target is a diffusion model, so the objective the drafter already has happens to be exactly the right one to reuse.</div>
+</section>
+
+<!-- 31 -->
+<section class="slide">
+  <div class="eyebrow">Chapter IX &middot; round 3, the drafter</div>
+  <h2>A very light touch, aimed at style rather than ability</h2>
+  <div class="cols" style="grid-template-columns:1fr;">
+    <div class="stack">
+      <div class="figbox">
+        <svg viewBox="0 0 700 168" role="img" aria-label="On a log scale, the fine-tune's 3.7 million tokens sit far below the drafter's own 4 billion token supervised set and 50 billion token continued pretraining.">
+          <text x="0" y="14" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">tokens the drafter has been trained on &mdash; log scale</text>
+          <g font-family="IBM Plex Mono, monospace" font-size="13">
+            <text x="0" y="44" fill="var(--ink-2)">continued pretraining</text>
+            <rect x="200" y="30" width="440" height="20" fill="none" stroke="var(--rule)"/>
+            <rect x="200" y="30" width="440" height="20" fill="var(--paper)" stroke="var(--muted)"/>
+            <text x="652" y="45" fill="var(--muted)">50 B</text>
+            <text x="0" y="80" fill="var(--ink-2)">its own supervised set</text>
+            <rect x="200" y="66" width="440" height="20" fill="none" stroke="var(--rule)"/>
+            <rect x="200" y="66" width="337" height="20" fill="var(--paper)" stroke="var(--muted)"/>
+            <text x="652" y="81" fill="var(--muted)">4 B</text>
+            <text x="0" y="116" fill="var(--commit)">this fine-tune</text>
+            <rect x="200" y="102" width="440" height="20" fill="none" stroke="var(--rule)"/>
+            <rect x="200" y="102" width="54" height="20" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width="1.6"/>
+            <text x="652" y="117" fill="var(--commit)">3.7 M</text>
+          </g>
+          <text x="0" y="146" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">about <tspan font-weight="600">0.09%</tspan> of its own supervised set &mdash; and only about half of</text>
+          <text x="0" y="164" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">those tokens carry a loss, since the mask ratio is uniform on [0, 1]</text>
+        </svg>
+      </div>
+      <div class="num-strip">
+        <div><div class="v">8,757</div><div class="k">problems, teacher answer correct</div></div>
+        <div><div class="v">212 <small>tok</small></div><div class="k">mean answer length</div></div>
+        <div><div class="v">2</div><div class="k">epochs</div></div>
+        <div><div class="v">1,095</div><div class="k">optimiser steps, batch 16</div></div>
+      </div>
+      <div class="callout"><b>Enough for what, exactly.</b> Enough to move <em>style</em>: which of several fine phrasings to prefer, how to lay an equation out. That is a low-information change and it is precisely what raises token-level agreement. <strong>Not</strong> enough to teach new mathematical ability &mdash; and it does not need to, because the judge supplies the correctness.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 32 -->
+<section class="slide">
+  <div class="eyebrow">Chapter IX &middot; round 3, the drafter</div>
+  <h2>What could break, and the two gates that would catch it</h2>
+  <table>
+    <thead><tr><th>failure</th><th>risk</th><th>reasoning</th></tr></thead>
+    <tbody>
+      <tr><td>forgets how to decode blocks at all</td><td>low</td><td>the objective is the one that gave it the ability; lr 1e-5 is far below pretraining rates; the run is ~1,100 steps</td></tr>
+      <tr><td>loses general ability outside GSM8K, MATH, MBPP</td><td>likely, and out of scope</td><td>the claim is measured on these three families. If a general drafter is wanted later, mix in general data or switch to LoRA</td></tr>
+      <tr class="hero"><td><strong>drifts toward the teacher on average while getting worse at the slots the judge needs</strong></td><td>the one that would actually hurt</td><td>training loss would look fine while agreement stalls, so the loss cannot be the acceptance criterion</td></tr>
+    </tbody>
+  </table>
+  <div class="cols" style="grid-template-columns:1fr 1fr;">
+    <div class="stack">
+      <div class="callout good"><b>Gate 1 &mdash; paired agreement.</b> Replay the teacher's blocks on 100 held-out problems, count slot agreement, fine-tuned against stock, bootstrap interval on the per-item difference. Stock is <strong>0.558</strong>. If agreement does not rise, the fine-tune is discarded.</div>
+    </div>
+    <div class="stack">
+      <div class="callout"><b>Gate 2 &mdash; the drafter's own accuracy.</b> Decode GSM8K with the 1.7B alone, before and after. If that falls by more than a few points while agreement rises, it is copying surface form and losing competence, and we switch to LoRA at a lower rate. <em>This gate is not built yet.</em></div>
+    </div>
+  </div>
+</section>
+
+<!-- 33 -->
+<section class="slide">
+  <div class="eyebrow">Chapter IX &middot; round 3, the drafter</div>
+  <h2>A better drafter also raises the bar it has to clear</h2>
+  <div class="figbox">
+    <svg viewBox="0 0 700 226" role="img" aria-label="A new drafter invalidates the judge's training data, so the data is regenerated and the judge retrained; and the training-free rule improves with the same drafter, so the comparison bar moves up too.">
+      <defs><marker id="m33" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><polygon points="0,0 10,5 0,10" fill="currentColor"/></marker></defs>
+      <rect x="0" y="20" width="150" height="56" fill="var(--commit-soft)" stroke="var(--commit)" stroke-width="1.6"/>
+      <text x="75" y="44" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="14" fill="var(--commit)">new drafter</text>
+      <text x="75" y="64" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-2)">agreement &gt; 0.558</text>
+      <line x1="152" y1="48" x2="196" y2="48" stroke="currentColor" stroke-width="1.4" marker-end="url(#m33)"/>
+      <rect x="200" y="20" width="160" height="56" fill="none" stroke="currentColor"/>
+      <text x="280" y="44" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="14" fill="currentColor">regenerate data</text>
+      <text x="280" y="64" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)">its drafts, not the old ones</text>
+      <line x1="362" y1="48" x2="406" y2="48" stroke="currentColor" stroke-width="1.4" marker-end="url(#m33)"/>
+      <rect x="410" y="20" width="160" height="56" fill="none" stroke="currentColor"/>
+      <text x="490" y="44" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="14" fill="currentColor">retrain the judge</text>
+      <text x="490" y="64" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)">on the new error profile</text>
+      <path d="M 490 78 C 490 106, 75 106, 75 80" stroke="var(--muted)" stroke-width="1.2" fill="none" stroke-dasharray="5 3"/>
+      <text x="350" y="102" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)">the judge's corruption process IS the drafter's errors, so a new drafter stales the corpus</text>
+      <line x1="0" y1="126" x2="700" y2="126" stroke="var(--rule)"/>
+      <text x="0" y="150" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="15" fill="var(--wrong)">and the baseline moves with it</text>
+      <text x="0" y="176" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">The training-free rule uses the same drafter. Give it a better one and it accepts more too,</text>
+      <text x="0" y="196" font-family="Source Serif 4, serif" font-size="15" fill="var(--ink-2)">so the 95.0% at 7.93 passes that the judge has to beat gets cheaper on its own.</text>
+      <text x="0" y="220" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--commit)">every comparison is judge vs free rule USING THE SAME DRAFTER. Never across drafters.</text>
+    </svg>
+  </div>
+  <div class="callout bad"><b>Which is why round 3 is not a free win.</b> It lifts the ceiling on confirmations and it lifts the baseline at the same time. The question it answers is not "is the drafter better" but "does the judge extract more from a better drafter than the free rule does".</div>
+</section>

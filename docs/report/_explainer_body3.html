@@ -1,0 +1,134 @@
+<section>
+  <div class="num">06</div>
+  <div class="body">
+    <h2>Building the missing verifier</h2>
+    <p class="lede">The plan is to teach the model, and only the model, one new behaviour: at a slot that
+    holds a tentative draft token, output <em>the token that actually belongs there</em> rather than a
+    copy of the next input.</p>
+
+    <h3 class="kicker">What is trained</h3>
+    <p>Nothing large. The experts, the embeddings, the output head and the drafter are all frozen. The
+    trainable set is a rank-32 LoRA adapter on the four attention projections of all 48 layers, plus one
+    vector:</p>
+
+    <div class="tbl"><table>
+      <thead><tr><th>trainable part</th><th>where</th><th>parameters</th></tr></thead>
+      <tbody>
+        <tr><td>LoRA rank 32, &alpha; = 64, on q, k, v, o</td><td>all 48 layers</td><td>26,738,688</td></tr>
+        <tr><td>the draft-flag vector</td><td>added to input embeddings</td><td>2,048</td></tr>
+        <tr class="hi"><td>total, round 2a</td><td></td><td>26,740,736 &nbsp;<em>(0.09% of 30.5 B)</em></td></tr>
+        <tr class="bad"><td>round 1 also trained the 128-way router gates</td><td>all 48 layers</td>
+          <td>+12,582,912</td></tr>
+      </tbody>
+    </table></div>
+
+    <p>LoRA writes <code>W x + (&alpha;/r)·B A x</code> with thin trainable <em>A</em> and <em>B</em>, and
+    <em>B</em> initialised to zero, so training starts at <em>exactly</em> the stock model. Attention is
+    the right place for this update: "copy the token at my own slot" is an identity attention pattern and
+    "infer a slot from its neighbours" is the masked-slot machinery SDAR already has. The adapter's job is
+    to change <strong>which of the two fires at a filled slot</strong> &mdash; a change in where attention
+    looks, which is precisely what a low-rank update to q, k, v, o can express.</p>
+
+    {{DIA_LAYER}}
+
+    <h3 class="kicker">What one training example is</h3>
+    <p>One example is an (item, block) pair, and its <em>state</em> is re-randomised every time it is
+    drawn. This corruption process is the heart of the method, because it must reproduce the states the
+    judge will actually meet:</p>
+    <ul>
+      <li>with probability 0.4, nothing is committed &mdash; the pass-1 state;</li>
+      <li>otherwise, a recorded denoising pass is drawn and its committed set is used;</li>
+      <li>each still-open slot then holds the drafter's token with probability 1&minus;<em>m</em> and
+        <code>[MASK]</code> with probability <em>m</em>, with <em>m</em> uniform on [0,1];</li>
+      <li>with probability 0.3, <em>m</em> = 0 exactly &mdash; every open slot draft-filled, the literal
+        pass-1 inference state.</li>
+    </ul>
+    <p>Crucially, <strong>the corruption is the real drafter's own errors</strong>, not uniform noise.
+    Prior work on correcting filled tokens in diffusion models corrupts with random or self-sampled
+    tokens; here the wrong tokens the judge must learn to catch are exactly the wrong tokens it will meet.</p>
+
+    <div class="slots">
+      <span class="slot s-c">C</span><span class="slot s-c">C</span><span class="slot s-t">D</span>
+      <span class="slot s-c">C</span><span class="slot s-m">▨</span><span class="slot s-t">D</span>
+      <span class="slot s-t">D</span><span class="slot s-m">▨</span><span class="slot s-c">C</span>
+      <span class="slot s-t">D</span><span class="slot s-t">D</span><span class="slot s-m">▨</span>
+    </div>
+    <p class="legend"><span><b class="s-c">C</b> committed &mdash; input only, no loss</span>
+      <span><b class="s-t">D</b> draft token &mdash; input only, never a target</span>
+      <span><b class="s-m">▨</b> <code>[MASK]</code></span></p>
+
+    <h3 class="kicker">The targets, and the loss</h3>
+    <p>The target at every open slot is <strong>the token that block ended up with in the big model's own
+    decode</strong> &mdash; specifically, the free rule's decode from section 5, keeping only items whose
+    final answer was correct. Quality is protected by the targets being the model's own outputs, not by
+    any exactness argument. Where the draft was right, the target equals it (a <em>confirmation</em>);
+    where it was wrong, the target differs (an <em>override</em>).</p>
+
+    <div class="eq">
+L = mean<sub>i&isin;O</sub> [ &minus;log p<sub>i</sub>(T<sub>i</sub>) ]            <span class="cmt">cross-entropy, all open slots</span>
+  + &beta; · mean<sub>i&isin;C</sub> H( softmax(z<sub>i</sub> / &tau;) )      <span class="cmt">sharpen, only where already right</span>
+
+O = open slots,  C = { i &isin; O : argmax p<sub>i</sub> = T<sub>i</sub> }
+&beta; = 2.0,  &tau; = 0.5,  the [MASK] column removed before H
+    </div>
+
+    <p>The first term teaches <em>what</em> to say. The second is dParallel's certainty forcing: where the
+    model's top guess is already the target, push its probability toward 1 so the slot clears the 0.95
+    commit threshold in one pass instead of three. It is never applied to a wrong slot, so it sharpens a
+    correct distribution rather than entrenching a wrong one. The <code>[MASK]</code> column is removed
+    because entropy could otherwise be minimised by piling probability on a token that is never a legal
+    output.</p>
+
+    <p><strong>Not in the loss:</strong> the drafter; any pull toward the original model; committed slots;
+    prefix tokens.</p>
+
+    <div class="callout note">
+      <h4>The budget, and its honest smallness</h4>
+      <p>Round 1 and round 2a both trained on 3,000 GSM8K prompts &rarr; 2,843 correct &rarr;
+      <strong>16,905 blocks</strong> (16,334 train / 571 held out, split by item so no block of a held-out
+      item is ever trained on). Two epochs at a global batch of 32 states is
+      <strong>1,057 optimiser steps</strong>, AdamW at 2e&minus;5, cosine decay, ~5.3 s per step on 8 GPUs.
+      With ~20 open slots per block that is roughly 600,000 supervised slots &mdash; <strong>7 to 15 times
+      less than dParallel used</strong> for a comparable behaviour change. Under-confidence was flagged in
+      advance as the first thing to go wrong, and it is exactly what went wrong.</p>
+    </div>
+
+    {{FIG_F7}}
+  </div>
+</section>
+
+<section>
+  <div class="num">07</div>
+  <div class="body">
+    <h2>Round 1 failed, and the failure was informative</h2>
+    <p class="lede">The first adapter had no draft flag and no gate. It was worse than doing nothing.</p>
+
+    <p>The diagnostic is a single comparison. At draft-filled slots, round 1's held-out accuracy reached
+    <strong>0.393</strong>. The trivial policy "just copy the input token" scores <strong>0.556</strong>,
+    because that is the drafter's agreement rate. <strong>The trained judge was well below the do-nothing
+    baseline.</strong></p>
+
+    <p>Two structural causes, both fixed in round 2a:</p>
+    <ol>
+      <li><strong>The model could not tell a guess from a fact.</strong> In round 1's input, a tentative
+      draft token and a permanently committed token are byte-identical. So the judge had to first infer
+      <em>which slots it was even being asked about</em> &mdash; impossible when the drafter's mistakes are
+      plausible. At inference we know exactly which slots are drafts, and we were withholding it. Every
+      speculative-decoding verifier is told; every diffusion model is told its noise level. We told it
+      nothing.</li>
+      <li><strong>The adapter leaked.</strong> One delta applied at every position let the judging task
+      bleed into masked and committed slots, disturbing ordinary decoding.</li>
+    </ol>
+
+    <p>Round 2a adds the flag and the gate, freezes the router gates, keeps the same data and the same
+    1,057-step budget, and is trained from scratch &mdash; so any gain is attributable to the mechanism
+    and not to more compute.</p>
+
+    {{FIG_F4}}
+
+    <p>The repair is unambiguous at the level of the mechanism. Held-out accuracy at draft slots goes
+    0.393 &rarr; <strong>0.579</strong>, finally above the 0.556 copy baseline; confident commits go from
+    77% right to <strong>96%</strong> right; and the all-mask regime stays pinned at the stock value
+    through every evaluation, exactly as the gating guarantees.</p>
+  </div>
+</section>
