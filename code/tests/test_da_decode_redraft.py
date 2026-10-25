@@ -137,3 +137,78 @@ def test_judge_diag_counts_next_slot_copies():
     # pass 1: 11 flagged slots (52..62) have a different next token; all 11 copy it; slot 63 has no next slot
     assert (b.copy_flag_hit, b.copy_flag_n) == (11, 11)
     assert b.copy_mask_n == 0 and res.judge_diag is True
+
+
+# ---------------------------------------------------------------------------
+# phase 4: --redraft-ban-rejected (the re-draft may not re-propose the token the judge rejected at that slot)
+# ---------------------------------------------------------------------------
+def repeat_drafter_fn(pos, tok, is_mask, ids, cached, pkv):
+    """A drafter that keeps proposing its first draft g (the rejected token) at every [MASK] slot; a is runner-up."""
+    if not is_mask:
+        return onehot_row(tok)
+    return logprob_row({g_tok(pos): .70, a_tok(pos): .20, 0: .10})
+
+
+def run_with(drafter, **kw):
+    moe = meter_for(judge_fn)
+    dr = SeqCache(ScriptedLM(drafter), BL, "drafter")
+    res = da_generate(moe, dr, prompt_ids(PLEN), mask_id=MASK, gen_length=GEN, block_length=BL, threshold=.95,
+                      draft="s8", judge="full", tau_commit=.95, stopping_criteria_idx=EOS_IDS, **kw)
+    return moe, dr, res
+
+
+def test_ban_off_is_the_phase3_loop():
+    for k in (1, 2):
+        _, _, a = run(full_redraft_every=k)
+        _, _, b = run(full_redraft_every=k, redraft_ban_rejected=False)
+        assert torch.equal(a.x, b.x)
+        assert [blk.full_passes for blk in a.blocks] == [blk.full_passes for blk in b.blocks]
+        assert b.redraft_ban_rejected is False
+    _, _, a = run_with(repeat_drafter_fn, full_redraft_every=1)
+    _, _, b = run_with(repeat_drafter_fn, full_redraft_every=1, redraft_ban_rejected=False)
+    assert torch.equal(a.x, b.x)
+    assert a.blocks[0].n_redraft_eq_old == b.blocks[0].n_redraft_eq_old
+
+
+def test_ban_never_reproposes_the_rejected_token():
+    _, _, off = run_with(repeat_drafter_fn, full_redraft_every=1)
+    assert off.blocks[0].n_redraft_eq_old == 8                    # without the ban every re-draft repeats g
+    _, dr, on = run_with(repeat_drafter_fn, full_redraft_every=1, redraft_ban_rejected=True)
+    b = on.blocks[0]
+    assert on.redraft_ban_rejected is True
+    assert b.n_redraft_rounds >= 1 and b.n_redraft_eq_old == 0    # ... with it, never
+    assert b.n_redraft_eq_judge == b.n_redraft_slots               # the runner-up a is the judge's choice here
+    # this script's judge confirms whatever real token a slot holds, so the re-drafted token is what gets committed:
+    # the repeated g without the ban, the runner-up a with it
+    for p in VALID:
+        if p in F_COMMIT or p in F_KEEP:
+            continue
+        assert int(off.blocks[0].tokens[p - 32]) == g_tok(p)
+        assert int(b.tokens[p - 32]) == a_tok(p)
+
+
+def test_ban_needs_a_redraft():
+    import pytest
+    with pytest.raises(NotImplementedError):
+        run(redraft_ban_rejected=True)
+
+
+def test_draft_block_ban_argument():
+    from draftalign.drafter import draft_block
+    final = torch.tensor([g_tok(p) for p in range(32, 64)])
+    valid = torch.zeros(BL, dtype=torch.bool); valid[PLEN - 32:] = True
+
+    def fresh():
+        dr = SeqCache(ScriptedLM(repeat_drafter_fn), BL, "drafter")
+        dr.prefill(prompt_ids(PLEN)[:, :32])
+        return dr
+
+    base = draft_block(fresh(), final.clone(), valid, 32, "s8", MASK)
+    none = draft_block(fresh(), final.clone(), valid, 32, "s8", MASK, ban=None)
+    assert torch.equal(base["tokens"], none["tokens"]) and torch.equal(base["p_commit"], none["p_commit"])
+    ban = torch.full((BL,), -1, dtype=torch.long)
+    ban[valid] = final[valid]                                     # ban g at every valid slot
+    out = draft_block(fresh(), final.clone(), valid, 32, "s8", MASK, ban=ban)
+    for p in VALID:
+        assert int(out["tokens"][p - 32]) == a_tok(p)
+    assert torch.equal(out["tokens"][~valid], final[~valid])      # fixed slots untouched

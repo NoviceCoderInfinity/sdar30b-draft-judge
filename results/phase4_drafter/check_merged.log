@@ -1,0 +1,5 @@
+🚨 `store_kv` is part of SDARModel.forward's signature, but not documented. Make sure to add it to the docstring of the function in /workspace/diffusion-moe-general-expert/hf_cache/modules/transformers_modules/merged/modeling_sdar.py.
+[1 load] AutoModelForCausalLM.from_pretrained(/workspace/diffusion-moe-general-expert/logs/phase4/train/main/merged, trust_remote_code=True, local_files_only=True): SDARForCausalLM, 2,031,739,904 parameters, torch.bfloat16 -> PASS
+[2 run_da_decode --drafter] resolves to /workspace/diffusion-moe-general-expert/logs/phase4/train/main/merged (tag _dr3d174340); cell ifeval_B32_t95_dv-s8_full_c95_rd1_ban_dr3d174340 -> PASS
+[3 forward] finite logits (1, 32, 151936) -> PASS
+[check_merged] ALL PASS

@@ -1,0 +1,2685 @@
+{
+ "arm": "rd1_gate3",
+ "n_new": {
+  "aime": 24,
+  "gpqa": 54,
+  "gsm8k500": 128,
+  "humaneval": 44,
+  "ifeval541": 136,
+  "math500": 128,
+  "mbpp": 65
+ },
+ "new": "/workspace/diffusion-moe-general-expert/logs/phase4/decode/rd1_gate3",
+ "new_alone": {
+  "per_set": {
+   "aime": {
+    "accuracy_pct": 20.833333333333336,
+    "blocks": 609,
+    "correct": 5,
+    "cpu_process_s": 1210.070667,
+    "cpu_thread_s": 1209.764928,
+    "cpu_thread_s_per_answer": 50.406872,
+    "drafter_forwards_by_kind": {
+     "draft": 4861,
+     "flush": 609,
+     "prefill": 24,
+     "redraft": 7418
+    },
+    "drafter_fwd_per_block": 20.16256157635468,
+    "drafter_s": 127.638,
+    "drafter_s_by_kind": {
+     "draft": 47.898,
+     "flush": 6.343,
+     "prefill": 0.344,
+     "redraft": 73.052
+    },
+    "drafter_s_per_answer": 5.31825,
+    "experts_activated_total": 11492474,
+    "experts_by_kind": {
+     "denoise": 0,
+     "judge": 9681932,
+     "kvflush": 1707972,
+     "prefill": 102570,
+     "rejudge": 0
+    },
+    "experts_per_30b_forward": 2662.1436182534167,
+    "experts_per_layer_forward": 55.46132538027952,
+    "experts_per_token": 608.1961261642675,
+    "gpu_active_s": 660.1128640000001,
+    "gpu_active_s_per_answer": 27.50470266666667,
+    "gpu_names": [
+     "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+    ],
+    "gpu_share_pct": 54.5644323872156,
+    "judge_passes_per_block": 6.0492610837438425,
+    "length_cap_hits": 8,
+    "loops": 0,
+    "moe_s": 1070.65,
+    "moe_s_by_kind": {
+     "denoise": 0.0,
+     "judge": 903.996,
+     "kvflush": 153.062,
+     "prefill": 13.592,
+     "rejudge": 0.0
+    },
+    "moe_s_per_answer": 44.61041666666667,
+    "ms_per_token": 64.02339119390348,
+    "n": 24,
+    "n_forward_30b": 4317,
+    "n_judge": 3684,
+    "outside_forwards_s": 11.497999999999962,
+    "redraft_repeat_rate": 0.0,
+    "seconds_per_answer": 50.40775,
+    "seconds_total": 1209.786,
+    "tok_s": 15.61929134574214,
+    "tokens": 18896
+   },
+   "gpqa": {
+    "accuracy_pct": 38.88888888888889,
+    "blocks": 948,
+    "correct": 21,
+    "cpu_process_s": 2518.340804,
+    "cpu_thread_s": 2517.745804,
+    "cpu_thread_s_per_answer": 46.6249222962963,
+    "drafter_forwards_by_kind": {
+     "draft": 7541,
+     "flush": 948,
+     "prefill": 54,
+     "redraft": 17901
+    },
+    "drafter_fwd_per_block": 26.837552742616033,
+    "drafter_s": 259.876,
+    "drafter_s_by_kind": {
+     "draft": 73.68,
+     "flush": 9.788,
+     "prefill": 0.975,
+     "redraft": 175.434
+    },
+    "drafter_s_per_answer": 4.812518518518518,
+    "experts_activated_total": 23861026,
+    "experts_by_kind": {
+     "denoise": 0,
+     "judge": 21032023,
+     "kvflush": 2590605,
+     "prefill": 238398,
+     "rejudge": 0
+    },
+    "experts_per_30b_forward": 2541.3809777399083,
+    "experts_per_layer_forward": 52.945437036248094,
+    "experts_per_token": 834.710207794025,
+    "gpu_active_s": 1377.914383,
+    "gpu_active_s_per_answer": 25.516933018518518,
+    "gpu_names": [
+     "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+    ],
+    "gpu_share_pct": 54.72326824645906,
+    "judge_passes_per_block": 8.84704641350211,
+    "length_cap_hits": 2,
+    "loops": 1,
+    "moe_s": 2229.978,
+    "moe_s_by_kind": {
+     "denoise": 0.0,
+     "judge": 1963.855,
+     "kvflush": 231.182,
+     "prefill": 34.938,
+     "rejudge": 0.0
+    },
+    "moe_s_per_answer": 41.29588888888889,
+    "ms_per_token": 88.08395718183726,
+    "n": 54,
+    "n_forward_30b": 9389,
+    "n_judge": 8387,
+    "outside_forwards_s": 28.113999999999805,
+    "redraft_repeat_rate": 0.0,
+    "seconds_per_answer": 46.62903703703704,
+    "seconds_total": 2517.968,
+    "tok_s": 11.352805119048377,
+    "tokens": 28586
+   },
+   "gsm8k500": {
+    "accuracy_pct": 91.40625,
+    "blocks": 795,
+    "correct": 117,
+    "cpu_process_s": 1684.346718,
+    "cpu_thread_s": 1683.903386,
+    "cpu_thread_s_per_answer": 13.155495203125,
+    "drafter_forwards_by_kind": {
+     "draft": 6252,
+     "flush": 795,
+     "prefill": 128,
+     "redraft": 8662
+    },
+    "drafter_fwd_per_block": 18.759748427672957,
+    "drafter_s": 156.479,
+    "drafter_s_by_kind": {
+     "draft": 61.142,
+     "flush": 8.343,
+     "prefill": 1.648,
+     "redraft": 85.344
+    },
+    "drafter_s_per_answer": 1.2224921875,
+    "experts_activated_total": 16205157,
+    "experts_by_kind": {
+     "denoise": 0,
+     "judge": 13303990,
+     "kvflush": 2450402,
+     "prefill": 450765,
+     "rejudge": 0
+    },
+    "experts_per_30b_forward": 2906.2333213773313,
+    "experts_per_layer_forward": 60.546527528694405,
+    "experts_per_token": 755.0627620911379,
+    "gpu_active_s": 905.393671,
+    "gpu_active_s_per_answer": 7.0733880546875,
+    "gpu_names": [
+     "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+    ],
+    "gpu_share_pct": 53.768141589241544,
+    "judge_passes_per_block": 5.8528301886792455,
+    "length_cap_hits": 0,
+    "loops": 0,
+    "moe_s": 1512.894,
+    "moe_s_by_kind": {
+     "denoise": 0.0,
+     "judge": 1246.131,
+     "kvflush": 220.684,
+     "prefill": 46.08,
+     "rejudge": 0.0
+    },
+    "moe_s_per_answer": 11.819484375,
+    "ms_per_token": 78.45890410958904,
+    "n": 128,
+    "n_forward_30b": 5576,
+    "n_judge": 4653,
+    "outside_forwards_s": 14.511999999999972,
+    "redraft_repeat_rate": 0.0,
+    "seconds_per_answer": 13.1553515625,
+    "seconds_total": 1683.885,
+    "tok_s": 12.74552597119162,
+    "tokens": 21462
+   },
+   "humaneval": {
+    "accuracy_pct": 70.45454545454545,
+    "blocks": 209,
+    "correct": 31,
+    "cpu_process_s": 368.23754,
+    "cpu_thread_s": 368.125446,
+    "cpu_thread_s_per_answer": 8.36648740909091,
+    "drafter_forwards_by_kind": {
+     "draft": 1634,
+     "flush": 209,
+     "prefill": 44,
+     "redraft": 1801
+    },
+    "drafter_fwd_per_block": 16.435406698564595,
+    "drafter_s": 36.937,
+    "drafter_s_by_kind": {
+     "draft": 16.184,
+     "flush": 2.264,
+     "prefill": 0.64,
+     "redraft": 17.849
+    },
+    "drafter_s_per_answer": 0.8394772727272727,
+    "experts_activated_total": 3386506,
+    "experts_by_kind": {
+     "denoise": 0,
+     "judge": 2597100,
+     "kvflush": 573104,
+     "prefill": 216302,
+     "rejudge": 0
+    },
+    "experts_per_30b_forward": 2654.0015673981193,
+    "experts_per_layer_forward": 55.29169932079415,
+    "experts_per_token": 613.8310676092079,
+    "gpu_active_s": 194.745621,
+    "gpu_active_s_per_answer": 4.426036840909091,
+    "gpu_names": [
+     "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+    ],
+    "gpu_share_pct": 52.90447939191758,
+    "judge_passes_per_block": 4.894736842105263,
+    "length_cap_hits": 1,
+    "loops": 1,
+    "moe_s": 327.211,
+    "moe_s_by_kind": {
+     "denoise": 0.0,
+     "judge": 249.848,
+     "kvflush": 52.66,
+     "prefill": 24.703,
+     "rejudge": 0.0
+    },
+    "moe_s_per_answer": 7.436613636363637,
+    "ms_per_token": 66.72249410911728,
+    "n": 44,
+    "n_forward_30b": 1276,
+    "n_judge": 1023,
+    "outside_forwards_s": 3.9599999999999937,
+    "redraft_repeat_rate": 0.0,
+    "seconds_per_answer": 8.366090909090909,
+    "seconds_total": 368.108,
+    "tok_s": 14.987449335521097,
+    "tokens": 5517
+   },
+   "ifeval541": {
+    "accuracy_pct": 50.73529411764706,
+    "blocks": 1792,
+    "correct": 69,
+    "cpu_process_s": 5572.536127,
+    "cpu_thread_s": 5571.269694,
+    "cpu_thread_s_per_answer": 40.96521833823529,
+    "drafter_forwards_by_kind": {
+     "draft": 14219,
+     "flush": 1792,
+     "prefill": 127,
+     "redraft": 45681
+    },
+    "drafter_fwd_per_block": 33.426339285714285,
+    "drafter_s": 610.857,
+    "drafter_s_by_kind": {
+     "draft": 140.341,
+     "flush": 18.619,
+     "prefill": 1.414,
+     "redraft": 450.488
+    },
+    "drafter_s_per_answer": 4.491595588235294,
+    "experts_activated_total": 49696658,
+    "experts_by_kind": {
+     "denoise": 0,
+     "judge": 45243277,
+     "kvflush": 4075847,
+     "prefill": 377534,
+     "rejudge": 0
+    },
+    "experts_per_30b_forward": 2211.0004893891532,
+    "experts_per_layer_forward": 46.06251019560736,
+    "experts_per_token": 926.3814263878015,
+    "gpu_active_s": 3014.304802,
+    "gpu_active_s_per_answer": 22.164005897058825,
+    "gpu_names": [
+     "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+    ],
+    "gpu_share_pct": 54.0972514591231,
+    "judge_passes_per_block": 11.472098214285714,
+    "length_cap_hits": 24,
+    "loops": 22,
+    "moe_s": 4903.551,
+    "moe_s_by_kind": {
+     "denoise": 0.0,
+     "judge": 4381.619,
+     "kvflush": 377.901,
+     "prefill": 144.033,
+     "rejudge": 0.0
+    },
+    "moe_s_per_answer": 36.055522058823534,
+    "ms_per_token": 103.86629012414718,
+    "n": 136,
+    "n_forward_30b": 22477,
+    "n_judge": 20558,
+    "outside_forwards_s": 57.603000000000065,
+    "redraft_repeat_rate": 0.0,
+    "seconds_per_answer": 40.97066911764706,
+    "seconds_total": 5572.011,
+    "tok_s": 9.62776275926232,
+    "tokens": 53646
+   },
+   "math500": {
+    "accuracy_pct": 71.875,
+    "blocks": 2177,
+    "correct": 92,
+    "cpu_process_s": 3916.327122,
+    "cpu_thread_s": 3915.407395,
+    "cpu_thread_s_per_answer": 30.5891202734375,
+    "drafter_forwards_by_kind": {
+     "draft": 17298,
+     "flush": 2177,
+     "prefill": 128,
+     "redraft": 20719
+    },
+    "drafter_fwd_per_block": 17.463022508038584,
+    "drafter_s": 401.709,
+    "drafter_s_by_kind": {
+     "draft": 171.396,
+     "flush": 22.758,
+     "prefill": 1.577,
+     "redraft": 205.977
+    },
+    "drafter_s_per_answer": 3.1383515625,
+    "experts_activated_total": 36755507,
+    "experts_by_kind": {
+     "denoise": 0,
+     "judge": 30041943,
+     "kvflush": 6227099,
+     "prefill": 486465,
+     "rejudge": 0
+    },
+    "experts_per_30b_forward": 2745.20180745388,
+    "experts_per_layer_forward": 57.19170432195583,
+    "experts_per_token": 559.0701356777805,
+    "gpu_active_s": 2109.802952,
+    "gpu_active_s_per_answer": 16.4828355625,
+    "gpu_names": [
+     "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+    ],
+    "gpu_share_pct": 53.881309381918555,
+    "judge_passes_per_block": 5.091410197519522,
+    "length_cap_hits": 10,
+    "loops": 4,
+    "moe_s": 3470.109,
+    "moe_s_by_kind": {
+     "denoise": 0.0,
+     "judge": 2839.956,
+     "kvflush": 566.26,
+     "prefill": 63.895,
+     "rejudge": 0.0
+    },
+    "moe_s_per_answer": 27.1102265625,
+    "ms_per_token": 59.55903200292042,
+    "n": 128,
+    "n_forward_30b": 13389,
+    "n_judge": 11084,
+    "outside_forwards_s": 43.83099999999996,
+    "redraft_repeat_rate": 0.0,
+    "seconds_per_answer": 30.5910078125,
+    "seconds_total": 3915.649,
+    "tok_s": 16.79006468659474,
+    "tokens": 65744
+   },
+   "mbpp": {
+    "accuracy_pct": 67.6923076923077,
+    "blocks": 181,
+    "correct": 44,
+    "cpu_process_s": 443.135664,
+    "cpu_thread_s": 443.00567,
+    "cpu_thread_s_per_answer": 6.815471846153846,
+    "drafter_forwards_by_kind": {
+     "draft": 1386,
+     "flush": 181,
+     "prefill": 65,
+     "redraft": 3275
+    },
+    "drafter_fwd_per_block": 25.751381215469614,
+    "drafter_s": 49.037,
+    "drafter_s_by_kind": {
+     "draft": 13.769,
+     "flush": 1.937,
+     "prefill": 0.934,
+     "redraft": 32.395
+    },
+    "drafter_s_per_answer": 0.7544153846153846,
+    "experts_activated_total": 4016560,
+    "experts_by_kind": {
+     "denoise": 0,
+     "judge": 3221474,
+     "kvflush": 492640,
+     "prefill": 302446,
+     "rejudge": 0
+    },
+    "experts_per_30b_forward": 2515.065748278021,
+    "experts_per_layer_forward": 52.39720308912544,
+    "experts_per_token": 1087.6144056322773,
+    "gpu_active_s": 235.759144,
+    "gpu_active_s_per_answer": 3.6270637538461536,
+    "gpu_names": [
+     "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+    ],
+    "gpu_share_pct": 53.22021002826261,
+    "judge_passes_per_block": 7.464088397790055,
+    "length_cap_hits": 0,
+    "loops": 0,
+    "moe_s": 389.05,
+    "moe_s_by_kind": {
+     "denoise": 0.0,
+     "judge": 310.676,
+     "kvflush": 45.174,
+     "prefill": 33.198,
+     "rejudge": 0.0
+    },
+    "moe_s_per_answer": 5.985384615384616,
+    "ms_per_token": 119.95342539940428,
+    "n": 65,
+    "n_forward_30b": 1597,
+    "n_judge": 1351,
+    "outside_forwards_s": 4.900999999999989,
+    "redraft_repeat_rate": 0.0,
+    "seconds_per_answer": 6.8152,
+    "seconds_total": 442.988,
+    "tok_s": 8.336568936404598,
+    "tokens": 3693
+   }
+  },
+  "pooled": {
+   "accuracy_pct": 65.45768566493955,
+   "blocks": 6711,
+   "correct": 379,
+   "cpu_process_s": 15712.994642,
+   "cpu_thread_s": 15709.222323,
+   "cpu_thread_s_per_answer": 27.131644772020724,
+   "drafter_forwards_by_kind": {
+    "draft": 53191,
+    "flush": 6711,
+    "prefill": 570,
+    "redraft": 105457
+   },
+   "drafter_fwd_per_block": 23.639994039636417,
+   "drafter_s": 1642.533,
+   "drafter_s_by_kind": {
+    "draft": 524.411,
+    "flush": 70.053,
+    "prefill": 7.532,
+    "redraft": 1040.538
+   },
+   "drafter_s_per_answer": 2.836844559585492,
+   "experts_activated_total": 145413888,
+   "experts_by_kind": {
+    "denoise": 0,
+    "judge": 125121739,
+    "kvflush": 18117669,
+    "prefill": 2174480,
+    "rejudge": 0
+   },
+   "experts_per_30b_forward": 2506.2285724134367,
+   "experts_per_layer_forward": 52.21309525861326,
+   "experts_per_token": 736.1088567610254,
+   "gpu_active_s": 8498.033437,
+   "gpu_active_s_per_answer": 14.677087110535407,
+   "gpu_names": [
+    "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+   ],
+   "gpu_share_pct": 54.09178723386649,
+   "judge_passes_per_block": 7.5607212039934435,
+   "length_cap_hits": 45,
+   "loops": 28,
+   "moe_s": 13903.443,
+   "moe_s_by_kind": {
+    "denoise": 0.0,
+    "judge": 11896.081,
+    "kvflush": 1646.923,
+    "prefill": 360.439,
+    "rejudge": 0.0
+   },
+   "moe_s_per_answer": 24.012854922279793,
+   "ms_per_token": 79.52858603652857,
+   "n": 579,
+   "n_forward_30b": 58021,
+   "n_judge": 50740,
+   "outside_forwards_s": 164.41900000000123,
+   "redraft_repeat_rate": 0.0,
+   "seconds_per_answer": 27.133670120898103,
+   "seconds_total": 15710.395,
+   "tok_s": 12.574095049806195,
+   "tokens": 197544
+  }
+ },
+ "utc": "2026-10-12T21:36:27Z",
+ "vs_phase3": {
+  "per_set": {
+   "aime": {
+    "cross_machine_time_ratio_new_over_ref": 0.46455847809833717,
+    "cross_machine_tok_s_ratio_new_over_ref": 2.1205974979824767,
+    "delta_accuracy_pts_ci95": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "experts_per_token_ratio": 0.9936555173699894,
+    "judge_passes_reduction_pct": -1.1214870948239142,
+    "n_paired": 24,
+    "new": {
+     "accuracy_pct": 20.833333333333336,
+     "blocks": 609,
+     "correct": 5,
+     "cpu_process_s": 1210.070667,
+     "cpu_thread_s": 1209.764928,
+     "cpu_thread_s_per_answer": 50.406872,
+     "drafter_forwards_by_kind": {
+      "draft": 4861,
+      "flush": 609,
+      "prefill": 24,
+      "redraft": 7418
+     },
+     "drafter_fwd_per_block": 20.16256157635468,
+     "drafter_s": 127.638,
+     "drafter_s_by_kind": {
+      "draft": 47.898,
+      "flush": 6.343,
+      "prefill": 0.344,
+      "redraft": 73.052
+     },
+     "drafter_s_per_answer": 5.31825,
+     "experts_activated_total": 11492474,
+     "experts_by_kind": {
+      "denoise": 0,
+      "judge": 9681932,
+      "kvflush": 1707972,
+      "prefill": 102570,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2662.1436182534167,
+     "experts_per_layer_forward": 55.46132538027952,
+     "experts_per_token": 608.1961261642675,
+     "gpu_active_s": 660.1128640000001,
+     "gpu_active_s_per_answer": 27.50470266666667,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+     ],
+     "gpu_share_pct": 54.5644323872156,
+     "judge_passes_per_block": 6.0492610837438425,
+     "length_cap_hits": 8,
+     "loops": 0,
+     "moe_s": 1070.65,
+     "moe_s_by_kind": {
+      "denoise": 0.0,
+      "judge": 903.996,
+      "kvflush": 153.062,
+      "prefill": 13.592,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 44.61041666666667,
+     "ms_per_token": 64.02339119390348,
+     "n": 24,
+     "n_forward_30b": 4317,
+     "n_judge": 3684,
+     "outside_forwards_s": 11.497999999999962,
+     "redraft_repeat_rate": 0.0,
+     "seconds_per_answer": 50.40775,
+     "seconds_total": 1209.786,
+     "tok_s": 15.61929134574214,
+     "tokens": 18896
+    },
+    "phase3": {
+     "accuracy_pct": 20.833333333333336,
+     "blocks": 617,
+     "correct": 5,
+     "cpu_process_s": 2605.223189,
+     "cpu_thread_s": 2604.302902,
+     "cpu_thread_s_per_answer": 108.51262091666666,
+     "drafter_forwards_by_kind": {
+      "draft": 4925,
+      "flush": 617,
+      "prefill": 24,
+      "redraft": 7925
+     },
+     "drafter_fwd_per_block": 20.826580226904376,
+     "drafter_s": 285.02,
+     "drafter_s_by_kind": {
+      "draft": 103.748,
+      "flush": 13.442,
+      "prefill": 0.688,
+      "redraft": 167.143
+     },
+     "drafter_s_per_answer": 11.875833333333333,
+     "experts_activated_total": 11740296,
+     "experts_by_kind": {
+      "denoise": 0,
+      "judge": 9889616,
+      "kvflush": 1748110,
+      "prefill": 102570,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2710.1329639889195,
+     "experts_per_layer_forward": 56.461103416435826,
+     "experts_per_token": 612.079453625984,
+     "gpu_active_s": 710.276964,
+     "gpu_active_s_per_answer": 29.594873500000002,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+     ],
+     "gpu_share_pct": 27.274673820340738,
+     "judge_passes_per_block": 5.982171799027553,
+     "length_cap_hits": 8,
+     "loops": 0,
+     "moe_s": 2298.622,
+     "moe_s_by_kind": {
+      "denoise": 0.0,
+      "judge": 1945.015,
+      "kvflush": 329.777,
+      "prefill": 23.83,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 95.77591666666666,
+     "ms_per_token": 135.76784317814503,
+     "n": 24,
+     "n_forward_30b": 4332,
+     "n_judge": 3691,
+     "outside_forwards_s": 20.521000000000186,
+     "redraft_repeat_rate": 0.19820816281384804,
+     "seconds_per_answer": 108.50679166666667,
+     "seconds_total": 2604.163,
+     "tok_s": 7.365514370644234,
+     "tokens": 19181
+    }
+   },
+   "gpqa": {
+    "cross_machine_time_ratio_new_over_ref": 0.46462940628538274,
+    "cross_machine_tok_s_ratio_new_over_ref": 2.046172083041085,
+    "delta_accuracy_pts_ci95": [
+     3.7037037037037033,
+     -3.7037037037037033,
+     11.11111111111111
+    ],
+    "experts_per_token_ratio": 1.037788823805267,
+    "judge_passes_reduction_pct": -3.2172809125113444,
+    "n_paired": 54,
+    "new": {
+     "accuracy_pct": 38.88888888888889,
+     "blocks": 948,
+     "correct": 21,
+     "cpu_process_s": 2518.340804,
+     "cpu_thread_s": 2517.745804,
+     "cpu_thread_s_per_answer": 46.6249222962963,
+     "drafter_forwards_by_kind": {
+      "draft": 7541,
+      "flush": 948,
+      "prefill": 54,
+      "redraft": 17901
+     },
+     "drafter_fwd_per_block": 26.837552742616033,
+     "drafter_s": 259.876,
+     "drafter_s_by_kind": {
+      "draft": 73.68,
+      "flush": 9.788,
+      "prefill": 0.975,
+      "redraft": 175.434
+     },
+     "drafter_s_per_answer": 4.812518518518518,
+     "experts_activated_total": 23861026,
+     "experts_by_kind": {
+      "denoise": 0,
+      "judge": 21032023,
+      "kvflush": 2590605,
+      "prefill": 238398,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2541.3809777399083,
+     "experts_per_layer_forward": 52.945437036248094,
+     "experts_per_token": 834.710207794025,
+     "gpu_active_s": 1377.914383,
+     "gpu_active_s_per_answer": 25.516933018518518,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+     ],
+     "gpu_share_pct": 54.72326824645906,
+     "judge_passes_per_block": 8.84704641350211,
+     "length_cap_hits": 2,
+     "loops": 1,
+     "moe_s": 2229.978,
+     "moe_s_by_kind": {
+      "denoise": 0.0,
+      "judge": 1963.855,
+      "kvflush": 231.182,
+      "prefill": 34.938,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 41.29588888888889,
+     "ms_per_token": 88.08395718183726,
+     "n": 54,
+     "n_forward_30b": 9389,
+     "n_judge": 8387,
+     "outside_forwards_s": 28.113999999999805,
+     "redraft_repeat_rate": 0.0,
+     "seconds_per_answer": 46.62903703703704,
+     "seconds_total": 2517.968,
+     "tok_s": 11.352805119048377,
+     "tokens": 28586
+    },
+    "phase3": {
+     "accuracy_pct": 35.18518518518518,
+     "blocks": 989,
+     "correct": 19,
+     "cpu_process_s": 5421.344312,
+     "cpu_thread_s": 5419.373734,
+     "cpu_thread_s_per_answer": 100.35877285185185,
+     "drafter_forwards_by_kind": {
+      "draft": 7869,
+      "flush": 989,
+      "prefill": 54,
+      "redraft": 20553
+     },
+     "drafter_fwd_per_block": 28.738119312436805,
+     "drafter_s": 620.91,
+     "drafter_s_by_kind": {
+      "draft": 165.316,
+      "flush": 21.368,
+      "prefill": 1.683,
+      "redraft": 432.544
+     },
+     "drafter_s_per_answer": 11.498333333333333,
+     "experts_activated_total": 24184175,
+     "experts_by_kind": {
+      "denoise": 0,
+      "judge": 21267246,
+      "kvflush": 2678531,
+      "prefill": 238398,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2540.3545168067226,
+     "experts_per_layer_forward": 52.92405243347339,
+     "experts_per_token": 804.3160502860184,
+     "gpu_active_s": 1487.878434,
+     "gpu_active_s_per_answer": 27.553304333333333,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+     ],
+     "gpu_share_pct": 27.455157230522587,
+     "judge_passes_per_block": 8.57128412537917,
+     "length_cap_hits": 6,
+     "loops": 2,
+     "moe_s": 4753.9039999999995,
+     "moe_s_by_kind": {
+      "denoise": 0.0,
+      "judge": 4200.572,
+      "kvflush": 503.933,
+      "prefill": 49.401,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 88.03525925925925,
+     "ms_per_token": 180.23493414926168,
+     "n": 54,
+     "n_forward_30b": 9520,
+     "n_judge": 8477,
+     "outside_forwards_s": 44.49000000000058,
+     "redraft_repeat_rate": 0.22369311453222804,
+     "seconds_per_answer": 100.35748148148149,
+     "seconds_total": 5419.304,
+     "tok_s": 5.5483139532308945,
+     "tokens": 30068
+    }
+   },
+   "gsm8k500": {
+    "cross_machine_time_ratio_new_over_ref": 0.4639219566060083,
+    "cross_machine_tok_s_ratio_new_over_ref": 2.1155154329812054,
+    "delta_accuracy_pts_ci95": [
+     0.0,
+     -2.34375,
+     2.34375
+    ],
+    "experts_per_token_ratio": 0.9897188100323584,
+    "judge_passes_reduction_pct": 1.8854598615672735,
+    "n_paired": 128,
+    "new": {
+     "accuracy_pct": 91.40625,
+     "blocks": 795,
+     "correct": 117,
+     "cpu_process_s": 1684.346718,
+     "cpu_thread_s": 1683.903386,
+     "cpu_thread_s_per_answer": 13.155495203125,
+     "drafter_forwards_by_kind": {
+      "draft": 6252,
+      "flush": 795,
+      "prefill": 128,
+      "redraft": 8662
+     },
+     "drafter_fwd_per_block": 18.759748427672957,
+     "drafter_s": 156.479,
+     "drafter_s_by_kind": {
+      "draft": 61.142,
+      "flush": 8.343,
+      "prefill": 1.648,
+      "redraft": 85.344
+     },
+     "drafter_s_per_answer": 1.2224921875,
+     "experts_activated_total": 16205157,
+     "experts_by_kind": {
+      "denoise": 0,
+      "judge": 13303990,
+      "kvflush": 2450402,
+      "prefill": 450765,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2906.2333213773313,
+     "experts_per_layer_forward": 60.546527528694405,
+     "experts_per_token": 755.0627620911379,
+     "gpu_active_s": 905.393671,
+     "gpu_active_s_per_answer": 7.0733880546875,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+     ],
+     "gpu_share_pct": 53.768141589241544,
+     "judge_passes_per_block": 5.8528301886792455,
+     "length_cap_hits": 0,
+     "loops": 0,
+     "moe_s": 1512.894,
+     "moe_s_by_kind": {
+      "denoise": 0.0,
+      "judge": 1246.131,
+      "kvflush": 220.684,
+      "prefill": 46.08,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 11.819484375,
+     "ms_per_token": 78.45890410958904,
+     "n": 128,
+     "n_forward_30b": 5576,
+     "n_judge": 4653,
+     "outside_forwards_s": 14.511999999999972,
+     "redraft_repeat_rate": 0.0,
+     "seconds_per_answer": 13.1553515625,
+     "seconds_total": 1683.885,
+     "tok_s": 12.74552597119162,
+     "tokens": 21462
+    },
+    "phase3": {
+     "accuracy_pct": 91.40625,
+     "blocks": 807,
+     "correct": 117,
+     "cpu_process_s": 3631.103516,
+     "cpu_thread_s": 3629.83566,
+     "cpu_thread_s_per_answer": 28.35809109375,
+     "drafter_forwards_by_kind": {
+      "draft": 6348,
+      "flush": 807,
+      "prefill": 128,
+      "redraft": 9688
+     },
+     "drafter_fwd_per_block": 19.87112763320942,
+     "drafter_s": 357.561,
+     "drafter_s_by_kind": {
+      "draft": 132.942,
+      "flush": 17.495,
+      "prefill": 3.347,
+      "redraft": 203.782
+     },
+     "drafter_s_per_answer": 2.7934453125,
+     "experts_activated_total": 16683236,
+     "experts_by_kind": {
+      "denoise": 0,
+      "judge": 13745322,
+      "kvflush": 2487149,
+      "prefill": 450765,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2901.9370325273962,
+     "experts_per_layer_forward": 60.45702151098742,
+     "experts_per_token": 762.9063471739528,
+     "gpu_active_s": 980.755712,
+     "gpu_active_s_per_answer": 7.662154,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+     ],
+     "gpu_share_pct": 27.02049776935829,
+     "judge_passes_per_block": 5.965303593556381,
+     "length_cap_hits": 0,
+     "loops": 0,
+     "moe_s": 3245.56,
+     "moe_s_by_kind": {
+      "denoise": 0.0,
+      "judge": 2689.979,
+      "kvflush": 465.865,
+      "prefill": 89.72,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 25.3559375,
+     "ms_per_token": 165.98102249862814,
+     "n": 128,
+     "n_forward_30b": 5749,
+     "n_judge": 4814,
+     "outside_forwards_s": 26.55199999999985,
+     "redraft_repeat_rate": 0.25174162796382304,
+     "seconds_per_answer": 28.3568203125,
+     "seconds_total": 3629.673,
+     "tok_s": 6.024785152822307,
+     "tokens": 21868
+    }
+   },
+   "humaneval": {
+    "cross_machine_time_ratio_new_over_ref": 0.43004828445889975,
+    "cross_machine_tok_s_ratio_new_over_ref": 2.009207834029234,
+    "delta_accuracy_pts_ci95": [
+     4.545454545454546,
+     -4.545454545454546,
+     13.636363636363635
+    ],
+    "experts_per_token_ratio": 1.0221246367976824,
+    "judge_passes_reduction_pct": 1.5210660923408392,
+    "n_paired": 44,
+    "new": {
+     "accuracy_pct": 70.45454545454545,
+     "blocks": 209,
+     "correct": 31,
+     "cpu_process_s": 368.23754,
+     "cpu_thread_s": 368.125446,
+     "cpu_thread_s_per_answer": 8.36648740909091,
+     "drafter_forwards_by_kind": {
+      "draft": 1634,
+      "flush": 209,
+      "prefill": 44,
+      "redraft": 1801
+     },
+     "drafter_fwd_per_block": 16.435406698564595,
+     "drafter_s": 36.937,
+     "drafter_s_by_kind": {
+      "draft": 16.184,
+      "flush": 2.264,
+      "prefill": 0.64,
+      "redraft": 17.849
+     },
+     "drafter_s_per_answer": 0.8394772727272727,
+     "experts_activated_total": 3386506,
+     "experts_by_kind": {
+      "denoise": 0,
+      "judge": 2597100,
+      "kvflush": 573104,
+      "prefill": 216302,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2654.0015673981193,
+     "experts_per_layer_forward": 55.29169932079415,
+     "experts_per_token": 613.8310676092079,
+     "gpu_active_s": 194.745621,
+     "gpu_active_s_per_answer": 4.426036840909091,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+     ],
+     "gpu_share_pct": 52.90447939191758,
+     "judge_passes_per_block": 4.894736842105263,
+     "length_cap_hits": 1,
+     "loops": 1,
+     "moe_s": 327.211,
+     "moe_s_by_kind": {
+      "denoise": 0.0,
+      "judge": 249.848,
+      "kvflush": 52.66,
+      "prefill": 24.703,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 7.436613636363637,
+     "ms_per_token": 66.72249410911728,
+     "n": 44,
+     "n_forward_30b": 1276,
+     "n_judge": 1023,
+     "outside_forwards_s": 3.9599999999999937,
+     "redraft_repeat_rate": 0.0,
+     "seconds_per_answer": 8.366090909090909,
+     "seconds_total": 368.108,
+     "tok_s": 14.987449335521097,
+     "tokens": 5517
+    },
+    "phase3": {
+     "accuracy_pct": 65.9090909090909,
+     "blocks": 236,
+     "correct": 29,
+     "cpu_process_s": 856.330132,
+     "cpu_thread_s": 856.0063710000001,
+     "cpu_thread_s_per_answer": 19.454690250000002,
+     "drafter_forwards_by_kind": {
+      "draft": 1850,
+      "flush": 236,
+      "prefill": 44,
+      "redraft": 2356
+     },
+     "drafter_fwd_per_block": 17.822033898305083,
+     "drafter_s": 94.465,
+     "drafter_s_by_kind": {
+      "draft": 38.737,
+      "flush": 5.14,
+      "prefill": 1.254,
+      "redraft": 49.334
+     },
+     "drafter_s_per_answer": 2.146931818181818,
+     "experts_activated_total": 3834475,
+     "experts_by_kind": {
+      "denoise": 0,
+      "judge": 2972940,
+      "kvflush": 645233,
+      "prefill": 216302,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2639.0055058499656,
+     "experts_per_layer_forward": 54.979281371874286,
+     "experts_per_token": 600.5442443226311,
+     "gpu_active_s": 233.041264,
+     "gpu_active_s_per_answer": 5.296392363636364,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+     ],
+     "gpu_share_pct": 27.225432696744857,
+     "judge_passes_per_block": 4.970338983050848,
+     "length_cap_hits": 2,
+     "loops": 1,
+     "moe_s": 754.082,
+     "moe_s_by_kind": {
+      "denoise": 0.0,
+      "judge": 587.421,
+      "kvflush": 121.611,
+      "prefill": 45.049,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 17.138227272727274,
+     "ms_per_token": 134.05935787000783,
+     "n": 44,
+     "n_forward_30b": 1453,
+     "n_judge": 1173,
+     "outside_forwards_s": 7.422000000000054,
+     "redraft_repeat_rate": 0.39841525318806487,
+     "seconds_per_answer": 19.45384090909091,
+     "seconds_total": 855.969,
+     "tok_s": 7.4593822907137985,
+     "tokens": 6385
+    }
+   },
+   "ifeval541": {
+    "cross_machine_time_ratio_new_over_ref": 0.4627742380435552,
+    "cross_machine_tok_s_ratio_new_over_ref": 2.1682368578910203,
+    "delta_accuracy_pts_ci95": [
+     0.7352941176470588,
+     -5.88235294117647,
+     6.636029411764606
+    ],
+    "experts_per_token_ratio": 0.966914710235203,
+    "judge_passes_reduction_pct": 3.272869563013281,
+    "n_paired": 136,
+    "new": {
+     "accuracy_pct": 50.73529411764706,
+     "blocks": 1792,
+     "correct": 69,
+     "cpu_process_s": 5572.536127,
+     "cpu_thread_s": 5571.269694,
+     "cpu_thread_s_per_answer": 40.96521833823529,
+     "drafter_forwards_by_kind": {
+      "draft": 14219,
+      "flush": 1792,
+      "prefill": 127,
+      "redraft": 45681
+     },
+     "drafter_fwd_per_block": 33.426339285714285,
+     "drafter_s": 610.857,
+     "drafter_s_by_kind": {
+      "draft": 140.341,
+      "flush": 18.619,
+      "prefill": 1.414,
+      "redraft": 450.488
+     },
+     "drafter_s_per_answer": 4.491595588235294,
+     "experts_activated_total": 49696658,
+     "experts_by_kind": {
+      "denoise": 0,
+      "judge": 45243277,
+      "kvflush": 4075847,
+      "prefill": 377534,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2211.0004893891532,
+     "experts_per_layer_forward": 46.06251019560736,
+     "experts_per_token": 926.3814263878015,
+     "gpu_active_s": 3014.304802,
+     "gpu_active_s_per_answer": 22.164005897058825,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+     ],
+     "gpu_share_pct": 54.0972514591231,
+     "judge_passes_per_block": 11.472098214285714,
+     "length_cap_hits": 24,
+     "loops": 22,
+     "moe_s": 4903.551,
+     "moe_s_by_kind": {
+      "denoise": 0.0,
+      "judge": 4381.619,
+      "kvflush": 377.901,
+      "prefill": 144.033,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 36.055522058823534,
+     "ms_per_token": 103.86629012414718,
+     "n": 136,
+     "n_forward_30b": 22477,
+     "n_judge": 20558,
+     "outside_forwards_s": 57.603000000000065,
+     "redraft_repeat_rate": 0.0,
+     "seconds_per_answer": 40.97066911764706,
+     "seconds_total": 5572.011,
+     "tok_s": 9.62776275926232,
+     "tokens": 53646
+    },
+    "phase3": {
+     "accuracy_pct": 50.0,
+     "blocks": 1782,
+     "correct": 68,
+     "cpu_process_s": 12044.843887,
+     "cpu_thread_s": 12040.773729,
+     "cpu_thread_s_per_answer": 88.53510094852942,
+     "drafter_forwards_by_kind": {
+      "draft": 14139,
+      "flush": 1782,
+      "prefill": 127,
+      "redraft": 54006
+     },
+     "drafter_fwd_per_block": 38.24074074074074,
+     "drafter_s": 1486.016,
+     "drafter_s_by_kind": {
+      "draft": 298.881,
+      "flush": 38.834,
+      "prefill": 2.927,
+      "redraft": 1145.378
+     },
+     "drafter_s_per_answer": 10.926588235294119,
+     "experts_activated_total": 51222777,
+     "experts_by_kind": {
+      "denoise": 0,
+      "judge": 46744631,
+      "kvflush": 4100612,
+      "prefill": 377534,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2222.824900190939,
+     "experts_per_layer_forward": 46.30885208731123,
+     "experts_per_token": 958.0797733054018,
+     "gpu_active_s": 3248.770814,
+     "gpu_active_s_per_answer": 23.88802069117647,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+     ],
+     "gpu_share_pct": 26.982133345160136,
+     "judge_passes_per_block": 11.86026936026936,
+     "length_cap_hits": 26,
+     "loops": 25,
+     "moe_s": 10445.329,
+     "moe_s_by_kind": {
+      "denoise": 0.0,
+      "judge": 9571.645,
+      "kvflush": 797.189,
+      "prefill": 76.499,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 76.80388970588236,
+     "ms_per_token": 225.20671853957802,
+     "n": 136,
+     "n_forward_30b": 23044,
+     "n_judge": 21135,
+     "outside_forwards_s": 109.10699999999952,
+     "redraft_repeat_rate": 0.2929780654980413,
+     "seconds_per_answer": 88.53273529411764,
+     "seconds_total": 12040.452,
+     "tok_s": 4.440364863378884,
+     "tokens": 53464
+    }
+   },
+   "math500": {
+    "cross_machine_time_ratio_new_over_ref": 0.4433429195774504,
+    "cross_machine_tok_s_ratio_new_over_ref": 2.0874664665672853,
+    "delta_accuracy_pts_ci95": [
+     -0.78125,
+     -4.6875,
+     3.125
+    ],
+    "experts_per_token_ratio": 0.9973658501188679,
+    "judge_passes_reduction_pct": 1.1380774797083215,
+    "n_paired": 128,
+    "new": {
+     "accuracy_pct": 71.875,
+     "blocks": 2177,
+     "correct": 92,
+     "cpu_process_s": 3916.327122,
+     "cpu_thread_s": 3915.407395,
+     "cpu_thread_s_per_answer": 30.5891202734375,
+     "drafter_forwards_by_kind": {
+      "draft": 17298,
+      "flush": 2177,
+      "prefill": 128,
+      "redraft": 20719
+     },
+     "drafter_fwd_per_block": 17.463022508038584,
+     "drafter_s": 401.709,
+     "drafter_s_by_kind": {
+      "draft": 171.396,
+      "flush": 22.758,
+      "prefill": 1.577,
+      "redraft": 205.977
+     },
+     "drafter_s_per_answer": 3.1383515625,
+     "experts_activated_total": 36755507,
+     "experts_by_kind": {
+      "denoise": 0,
+      "judge": 30041943,
+      "kvflush": 6227099,
+      "prefill": 486465,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2745.20180745388,
+     "experts_per_layer_forward": 57.19170432195583,
+     "experts_per_token": 559.0701356777805,
+     "gpu_active_s": 2109.802952,
+     "gpu_active_s_per_answer": 16.4828355625,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+     ],
+     "gpu_share_pct": 53.881309381918555,
+     "judge_passes_per_block": 5.091410197519522,
+     "length_cap_hits": 10,
+     "loops": 4,
+     "moe_s": 3470.109,
+     "moe_s_by_kind": {
+      "denoise": 0.0,
+      "judge": 2839.956,
+      "kvflush": 566.26,
+      "prefill": 63.895,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 27.1102265625,
+     "ms_per_token": 59.55903200292042,
+     "n": 128,
+     "n_forward_30b": 13389,
+     "n_judge": 11084,
+     "outside_forwards_s": 43.83099999999996,
+     "redraft_repeat_rate": 0.0,
+     "seconds_per_answer": 30.5910078125,
+     "seconds_total": 3915.649,
+     "tok_s": 16.79006468659474,
+     "tokens": 65744
+    },
+    "phase3": {
+     "accuracy_pct": 72.65625,
+     "blocks": 2333,
+     "correct": 93,
+     "cpu_process_s": 8835.512006,
+     "cpu_thread_s": 8832.451616,
+     "cpu_thread_s_per_answer": 69.00352825,
+     "drafter_forwards_by_kind": {
+      "draft": 18546,
+      "flush": 2333,
+      "prefill": 128,
+      "redraft": 24556
+     },
+     "drafter_fwd_per_block": 18.474924989284183,
+     "drafter_s": 967.448,
+     "drafter_s_by_kind": {
+      "draft": 392.492,
+      "flush": 50.737,
+      "prefill": 3.218,
+      "redraft": 521.001
+     },
+     "drafter_s_per_answer": 7.5581875,
+     "experts_activated_total": 39820677,
+     "experts_by_kind": {
+      "denoise": 0,
+      "judge": 32660627,
+      "kvflush": 6673585,
+      "prefill": 486465,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2750.8066454821774,
+     "experts_per_layer_forward": 57.3084717808787,
+     "experts_per_token": 560.5466997001647,
+     "gpu_active_s": 2395.535358,
+     "gpu_active_s_per_answer": 18.715119984375,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+     ],
+     "gpu_share_pct": 27.12305519638591,
+     "judge_passes_per_block": 5.150021431633091,
+     "length_cap_hits": 13,
+     "loops": 4,
+     "moe_s": 7797.956,
+     "moe_s_by_kind": {
+      "denoise": 0.0,
+      "judge": 6440.109,
+      "kvflush": 1262.317,
+      "prefill": 95.525,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 60.92153125,
+     "ms_per_token": 124.32748208730416,
+     "n": 128,
+     "n_forward_30b": 14476,
+     "n_judge": 12015,
+     "outside_forwards_s": 66.69600000000025,
+     "redraft_repeat_rate": 0.22557722244007938,
+     "seconds_per_answer": 69.00078125,
+     "seconds_total": 8832.1,
+     "tok_s": 8.043273966553821,
+     "tokens": 71039
+    }
+   },
+   "mbpp": {
+    "cross_machine_time_ratio_new_over_ref": 0.4701604532342184,
+    "cross_machine_tok_s_ratio_new_over_ref": 2.0042779462347617,
+    "delta_accuracy_pts_ci95": [
+     3.076923076923077,
+     -4.615384615384616,
+     12.307692307692308
+    ],
+    "experts_per_token_ratio": 1.02677380047174,
+    "judge_passes_reduction_pct": 1.9974199012661287,
+    "n_paired": 65,
+    "new": {
+     "accuracy_pct": 67.6923076923077,
+     "blocks": 181,
+     "correct": 44,
+     "cpu_process_s": 443.135664,
+     "cpu_thread_s": 443.00567,
+     "cpu_thread_s_per_answer": 6.815471846153846,
+     "drafter_forwards_by_kind": {
+      "draft": 1386,
+      "flush": 181,
+      "prefill": 65,
+      "redraft": 3275
+     },
+     "drafter_fwd_per_block": 25.751381215469614,
+     "drafter_s": 49.037,
+     "drafter_s_by_kind": {
+      "draft": 13.769,
+      "flush": 1.937,
+      "prefill": 0.934,
+      "redraft": 32.395
+     },
+     "drafter_s_per_answer": 0.7544153846153846,
+     "experts_activated_total": 4016560,
+     "experts_by_kind": {
+      "denoise": 0,
+      "judge": 3221474,
+      "kvflush": 492640,
+      "prefill": 302446,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2515.065748278021,
+     "experts_per_layer_forward": 52.39720308912544,
+     "experts_per_token": 1087.6144056322773,
+     "gpu_active_s": 235.759144,
+     "gpu_active_s_per_answer": 3.6270637538461536,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+     ],
+     "gpu_share_pct": 53.22021002826261,
+     "judge_passes_per_block": 7.464088397790055,
+     "length_cap_hits": 0,
+     "loops": 0,
+     "moe_s": 389.05,
+     "moe_s_by_kind": {
+      "denoise": 0.0,
+      "judge": 310.676,
+      "kvflush": 45.174,
+      "prefill": 33.198,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 5.985384615384616,
+     "ms_per_token": 119.95342539940428,
+     "n": 65,
+     "n_forward_30b": 1597,
+     "n_judge": 1351,
+     "outside_forwards_s": 4.900999999999989,
+     "redraft_repeat_rate": 0.0,
+     "seconds_per_answer": 6.8152,
+     "seconds_total": 442.988,
+     "tok_s": 8.336568936404598,
+     "tokens": 3693
+    },
+    "phase3": {
+     "accuracy_pct": 64.61538461538461,
+     "blocks": 185,
+     "correct": 42,
+     "cpu_process_s": 942.590561,
+     "cpu_thread_s": 942.232401,
+     "cpu_thread_s_per_answer": 14.495883092307691,
+     "drafter_forwards_by_kind": {
+      "draft": 1418,
+      "flush": 185,
+      "prefill": 65,
+      "redraft": 3558
+     },
+     "drafter_fwd_per_block": 26.897297297297296,
+     "drafter_s": 109.727,
+     "drafter_s_by_kind": {
+      "draft": 29.607,
+      "flush": 4.021,
+      "prefill": 1.828,
+      "redraft": 74.273
+     },
+     "drafter_s_per_answer": 1.6881076923076923,
+     "experts_activated_total": 4151217,
+     "experts_by_kind": {
+      "denoise": 0,
+      "judge": 3345087,
+      "kvflush": 503684,
+      "prefill": 302446,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2502.240506329114,
+     "experts_per_layer_forward": 52.13001054852321,
+     "experts_per_token": 1059.2541464659353,
+     "gpu_active_s": 255.98325,
+     "gpu_active_s_per_answer": 3.938203846153846,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+     ],
+     "gpu_share_pct": 27.168501368066007,
+     "judge_passes_per_block": 7.616216216216216,
+     "length_cap_hits": 0,
+     "loops": 0,
+     "moe_s": 823.907,
+     "moe_s_by_kind": {
+      "denoise": 0.0,
+      "judge": 667.792,
+      "kvflush": 94.727,
+      "prefill": 61.392,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 12.67549230769231,
+     "ms_per_token": 240.4200051033427,
+     "n": 65,
+     "n_forward_30b": 1659,
+     "n_judge": 1409,
+     "outside_forwards_s": 8.571999999999974,
+     "redraft_repeat_rate": 0.4346492290304351,
+     "seconds_per_answer": 14.495476923076923,
+     "seconds_total": 942.206,
+     "tok_s": 4.159387649834537,
+     "tokens": 3919
+    }
+   }
+  },
+  "pooled": {
+   "cross_machine_time_ratio_new_over_ref": 0.45771051962181303,
+   "cross_machine_tok_s_ratio_new_over_ref": 2.0958779264918426,
+   "delta_accuracy_pts_ci95": [
+    1.0362694300518136,
+    -1.2089810017271159,
+    3.1088082901554404
+   ],
+   "experts_per_token_ratio": 0.9996414276657232,
+   "judge_passes_reduction_pct": 0.3311233324155949,
+   "n_paired": 579,
+   "new": {
+    "accuracy_pct": 65.45768566493955,
+    "blocks": 6711,
+    "correct": 379,
+    "cpu_process_s": 15712.994642,
+    "cpu_thread_s": 15709.222323,
+    "cpu_thread_s_per_answer": 27.131644772020724,
+    "drafter_forwards_by_kind": {
+     "draft": 53191,
+     "flush": 6711,
+     "prefill": 570,
+     "redraft": 105457
+    },
+    "drafter_fwd_per_block": 23.639994039636417,
+    "drafter_s": 1642.533,
+    "drafter_s_by_kind": {
+     "draft": 524.411,
+     "flush": 70.053,
+     "prefill": 7.532,
+     "redraft": 1040.538
+    },
+    "drafter_s_per_answer": 2.836844559585492,
+    "experts_activated_total": 145413888,
+    "experts_by_kind": {
+     "denoise": 0,
+     "judge": 125121739,
+     "kvflush": 18117669,
+     "prefill": 2174480,
+     "rejudge": 0
+    },
+    "experts_per_30b_forward": 2506.2285724134367,
+    "experts_per_layer_forward": 52.21309525861326,
+    "experts_per_token": 736.1088567610254,
+    "gpu_active_s": 8498.033437,
+    "gpu_active_s_per_answer": 14.677087110535407,
+    "gpu_names": [
+     "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+    ],
+    "gpu_share_pct": 54.09178723386649,
+    "judge_passes_per_block": 7.5607212039934435,
+    "length_cap_hits": 45,
+    "loops": 28,
+    "moe_s": 13903.443,
+    "moe_s_by_kind": {
+     "denoise": 0.0,
+     "judge": 11896.081,
+     "kvflush": 1646.923,
+     "prefill": 360.439,
+     "rejudge": 0.0
+    },
+    "moe_s_per_answer": 24.012854922279793,
+    "ms_per_token": 79.52858603652857,
+    "n": 579,
+    "n_forward_30b": 58021,
+    "n_judge": 50740,
+    "outside_forwards_s": 164.41900000000123,
+    "redraft_repeat_rate": 0.0,
+    "seconds_per_answer": 27.133670120898103,
+    "seconds_total": 15710.395,
+    "tok_s": 12.574095049806195,
+    "tokens": 197544
+   },
+   "phase3": {
+    "accuracy_pct": 64.42141623488774,
+    "blocks": 6949,
+    "correct": 373,
+    "cpu_process_s": 34336.947603,
+    "cpu_thread_s": 34324.976413,
+    "cpu_thread_s_per_answer": 59.28320624006908,
+    "drafter_forwards_by_kind": {
+     "draft": 55095,
+     "flush": 6949,
+     "prefill": 570,
+     "redraft": 122642
+    },
+    "drafter_fwd_per_block": 25.57734925888617,
+    "drafter_s": 3921.147,
+    "drafter_s_by_kind": {
+     "draft": 1161.722,
+     "flush": 151.036,
+     "prefill": 14.945,
+     "redraft": 2593.457
+    },
+    "drafter_s_per_answer": 6.772274611398964,
+    "experts_activated_total": 151636853,
+    "experts_by_kind": {
+     "denoise": 0,
+     "judge": 130625469,
+     "kvflush": 18836904,
+     "prefill": 2174480,
+     "rejudge": 0
+    },
+    "experts_per_30b_forward": 2517.50457390467,
+    "experts_per_layer_forward": 52.448011956347294,
+    "experts_per_token": 736.3728997105728,
+    "gpu_active_s": 9312.241796,
+    "gpu_active_s_per_answer": 16.083319164075995,
+    "gpu_names": [
+     "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+    ],
+    "gpu_share_pct": 27.13051474066136,
+    "judge_passes_per_block": 7.585839689163908,
+    "length_cap_hits": 55,
+    "loops": 32,
+    "moe_s": 30119.36,
+    "moe_s_by_kind": {
+     "denoise": 0.0,
+     "judge": 26102.532,
+     "kvflush": 3575.419,
+     "prefill": 441.416,
+     "rejudge": 0.0
+    },
+    "moe_s_per_answer": 52.019620034542314,
+    "ms_per_token": 166.68220799906763,
+    "n": 579,
+    "n_forward_30b": 60233,
+    "n_judge": 52714,
+    "outside_forwards_s": 283.35999999999785,
+    "redraft_repeat_rate": 0.26477899341470756,
+    "seconds_per_answer": 59.28129015544041,
+    "seconds_total": 34323.867,
+    "tok_s": 5.9994405641998325,
+    "tokens": 205924
+   }
+  }
+ },
+ "vs_vanilla": {
+  "per_set": {
+   "aime": {
+    "cross_machine_time_ratio_new_over_ref": 0.3602544620643016,
+    "cross_machine_tok_s_ratio_new_over_ref": 2.6476106151968373,
+    "delta_accuracy_pts_ci95": [
+     4.166666666666666,
+     0.0,
+     12.5
+    ],
+    "experts_per_token_ratio": 0.6427545920027851,
+    "judge_passes_reduction_pct": 40.16288184965455,
+    "n_paired": 24,
+    "new": {
+     "accuracy_pct": 20.833333333333336,
+     "blocks": 609,
+     "correct": 5,
+     "cpu_process_s": 1210.070667,
+     "cpu_thread_s": 1209.764928,
+     "cpu_thread_s_per_answer": 50.406872,
+     "drafter_forwards_by_kind": {
+      "draft": 4861,
+      "flush": 609,
+      "prefill": 24,
+      "redraft": 7418
+     },
+     "drafter_fwd_per_block": 20.16256157635468,
+     "drafter_s": 127.638,
+     "drafter_s_by_kind": {
+      "draft": 47.898,
+      "flush": 6.343,
+      "prefill": 0.344,
+      "redraft": 73.052
+     },
+     "drafter_s_per_answer": 5.31825,
+     "experts_activated_total": 11492474,
+     "experts_by_kind": {
+      "denoise": 0,
+      "judge": 9681932,
+      "kvflush": 1707972,
+      "prefill": 102570,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2662.1436182534167,
+     "experts_per_layer_forward": 55.46132538027952,
+     "experts_per_token": 608.1961261642675,
+     "gpu_active_s": 660.1128640000001,
+     "gpu_active_s_per_answer": 27.50470266666667,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+     ],
+     "gpu_share_pct": 54.5644323872156,
+     "judge_passes_per_block": 6.0492610837438425,
+     "length_cap_hits": 8,
+     "loops": 0,
+     "moe_s": 1070.65,
+     "moe_s_by_kind": {
+      "denoise": 0.0,
+      "judge": 903.996,
+      "kvflush": 153.062,
+      "prefill": 13.592,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 44.61041666666667,
+     "ms_per_token": 64.02339119390348,
+     "n": 24,
+     "n_forward_30b": 4317,
+     "n_judge": 3684,
+     "outside_forwards_s": 11.497999999999962,
+     "redraft_repeat_rate": 0.0,
+     "seconds_per_answer": 50.40775,
+     "seconds_total": 1209.786,
+     "tok_s": 15.61929134574214,
+     "tokens": 18896
+    },
+    "vanilla": {
+     "accuracy_pct": 16.666666666666664,
+     "blocks": 639,
+     "correct": 4,
+     "cpu_process_s": null,
+     "cpu_thread_s": null,
+     "cpu_thread_s_per_answer": null,
+     "drafter_forwards_by_kind": {
+      "draft": 0,
+      "flush": 0,
+      "prefill": 0,
+      "redraft": 0
+     },
+     "drafter_fwd_per_block": 0.0,
+     "drafter_s": 0.0,
+     "drafter_s_by_kind": {
+      "draft": 0.0,
+      "flush": 0.0,
+      "prefill": 0.0,
+      "redraft": 0.0
+     },
+     "drafter_s_per_answer": 0.0,
+     "experts_activated_total": 18745838,
+     "experts_by_kind": {
+      "denoise": 16838366,
+      "judge": 0,
+      "kvflush": 1804902,
+      "prefill": 102570,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2631.7335392390846,
+     "experts_per_layer_forward": 54.82778206748093,
+     "experts_per_token": 946.2338094997729,
+     "gpu_active_s": null,
+     "gpu_active_s_per_answer": null,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Workstation Edition"
+     ],
+     "gpu_share_pct": null,
+     "judge_passes_per_block": 10.109546165884193,
+     "length_cap_hits": 6,
+     "loops": 1,
+     "moe_s": 3347.904,
+     "moe_s_by_kind": {
+      "denoise": 3007.137,
+      "judge": 0.0,
+      "kvflush": 320.406,
+      "prefill": 20.359,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 139.496,
+     "ms_per_token": 169.50901014587856,
+     "n": 24,
+     "n_forward_30b": 7123,
+     "n_judge": 0,
+     "outside_forwards_s": 10.239000000000033,
+     "redraft_repeat_rate": null,
+     "seconds_per_answer": 139.922625,
+     "seconds_total": 3358.143,
+     "tok_s": 5.899391419603036,
+     "tokens": 19811
+    }
+   },
+   "gpqa": {
+    "cross_machine_time_ratio_new_over_ref": 0.3406057231687069,
+    "cross_machine_tok_s_ratio_new_over_ref": 2.707670392101212,
+    "delta_accuracy_pts_ci95": [
+     -1.8518518518518516,
+     -12.962962962962962,
+     9.25925925925926
+    ],
+    "experts_per_token_ratio": 0.6230333430607565,
+    "judge_passes_reduction_pct": 42.53412079192096,
+    "n_paired": 54,
+    "new": {
+     "accuracy_pct": 38.88888888888889,
+     "blocks": 948,
+     "correct": 21,
+     "cpu_process_s": 2518.340804,
+     "cpu_thread_s": 2517.745804,
+     "cpu_thread_s_per_answer": 46.6249222962963,
+     "drafter_forwards_by_kind": {
+      "draft": 7541,
+      "flush": 948,
+      "prefill": 54,
+      "redraft": 17901
+     },
+     "drafter_fwd_per_block": 26.837552742616033,
+     "drafter_s": 259.876,
+     "drafter_s_by_kind": {
+      "draft": 73.68,
+      "flush": 9.788,
+      "prefill": 0.975,
+      "redraft": 175.434
+     },
+     "drafter_s_per_answer": 4.812518518518518,
+     "experts_activated_total": 23861026,
+     "experts_by_kind": {
+      "denoise": 0,
+      "judge": 21032023,
+      "kvflush": 2590605,
+      "prefill": 238398,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2541.3809777399083,
+     "experts_per_layer_forward": 52.945437036248094,
+     "experts_per_token": 834.710207794025,
+     "gpu_active_s": 1377.914383,
+     "gpu_active_s_per_answer": 25.516933018518518,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+     ],
+     "gpu_share_pct": 54.72326824645906,
+     "judge_passes_per_block": 8.84704641350211,
+     "length_cap_hits": 2,
+     "loops": 1,
+     "moe_s": 2229.978,
+     "moe_s_by_kind": {
+      "denoise": 0.0,
+      "judge": 1963.855,
+      "kvflush": 231.182,
+      "prefill": 34.938,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 41.29588888888889,
+     "ms_per_token": 88.08395718183726,
+     "n": 54,
+     "n_forward_30b": 9389,
+     "n_judge": 8387,
+     "outside_forwards_s": 28.113999999999805,
+     "redraft_repeat_rate": 0.0,
+     "seconds_per_answer": 46.62903703703704,
+     "seconds_total": 2517.968,
+     "tok_s": 11.352805119048377,
+     "tokens": 28586
+    },
+    "vanilla": {
+     "accuracy_pct": 40.74074074074074,
+     "blocks": 1022,
+     "correct": 22,
+     "cpu_process_s": null,
+     "cpu_thread_s": null,
+     "cpu_thread_s_per_answer": null,
+     "drafter_forwards_by_kind": {
+      "draft": 0,
+      "flush": 0,
+      "prefill": 0,
+      "redraft": 0
+     },
+     "drafter_fwd_per_block": 0.0,
+     "drafter_s": 0.0,
+     "drafter_s_by_kind": {
+      "draft": 0.0,
+      "flush": 0.0,
+      "prefill": 0.0,
+      "redraft": 0.0
+     },
+     "drafter_s_per_answer": 0.0,
+     "experts_activated_total": 41526955,
+     "experts_by_kind": {
+      "denoise": 38501299,
+      "judge": 0,
+      "kvflush": 2787258,
+      "prefill": 238398,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2470.372099940512,
+     "experts_per_layer_forward": 51.46608541542732,
+     "experts_per_token": 1339.7520647825527,
+     "gpu_active_s": null,
+     "gpu_active_s_per_answer": null,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Workstation Edition"
+     ],
+     "gpu_share_pct": null,
+     "judge_passes_per_block": 15.395303326810176,
+     "length_cap_hits": 6,
+     "loops": 2,
+     "moe_s": 7368.874,
+     "moe_s_by_kind": {
+      "denoise": 6834.717,
+      "judge": 0.0,
+      "kvflush": 489.759,
+      "prefill": 44.395,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 136.46062962962964,
+     "ms_per_token": 238.50232288037165,
+     "n": 54,
+     "n_forward_30b": 16810,
+     "n_judge": 0,
+     "outside_forwards_s": 23.744000000000597,
+     "redraft_repeat_rate": null,
+     "seconds_per_answer": 136.90033333333335,
+     "seconds_total": 7392.618,
+     "tok_s": 4.192831281151007,
+     "tokens": 30996
+    }
+   },
+   "gsm8k500": {
+    "cross_machine_time_ratio_new_over_ref": 0.3972936415227578,
+    "cross_machine_tok_s_ratio_new_over_ref": 2.5445358961616997,
+    "delta_accuracy_pts_ci95": [
+     1.5625,
+     -1.5625,
+     5.46875
+    ],
+    "experts_per_token_ratio": 0.6418450450306988,
+    "judge_passes_reduction_pct": 42.10277057587858,
+    "n_paired": 128,
+    "new": {
+     "accuracy_pct": 91.40625,
+     "blocks": 795,
+     "correct": 117,
+     "cpu_process_s": 1684.346718,
+     "cpu_thread_s": 1683.903386,
+     "cpu_thread_s_per_answer": 13.155495203125,
+     "drafter_forwards_by_kind": {
+      "draft": 6252,
+      "flush": 795,
+      "prefill": 128,
+      "redraft": 8662
+     },
+     "drafter_fwd_per_block": 18.759748427672957,
+     "drafter_s": 156.479,
+     "drafter_s_by_kind": {
+      "draft": 61.142,
+      "flush": 8.343,
+      "prefill": 1.648,
+      "redraft": 85.344
+     },
+     "drafter_s_per_answer": 1.2224921875,
+     "experts_activated_total": 16205157,
+     "experts_by_kind": {
+      "denoise": 0,
+      "judge": 13303990,
+      "kvflush": 2450402,
+      "prefill": 450765,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2906.2333213773313,
+     "experts_per_layer_forward": 60.546527528694405,
+     "experts_per_token": 755.0627620911379,
+     "gpu_active_s": 905.393671,
+     "gpu_active_s_per_answer": 7.0733880546875,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+     ],
+     "gpu_share_pct": 53.768141589241544,
+     "judge_passes_per_block": 5.8528301886792455,
+     "length_cap_hits": 0,
+     "loops": 0,
+     "moe_s": 1512.894,
+     "moe_s_by_kind": {
+      "denoise": 0.0,
+      "judge": 1246.131,
+      "kvflush": 220.684,
+      "prefill": 46.08,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 11.819484375,
+     "ms_per_token": 78.45890410958904,
+     "n": 128,
+     "n_forward_30b": 5576,
+     "n_judge": 4653,
+     "outside_forwards_s": 14.511999999999972,
+     "redraft_repeat_rate": 0.0,
+     "seconds_per_answer": 13.1553515625,
+     "seconds_total": 1683.885,
+     "tok_s": 12.74552597119162,
+     "tokens": 21462
+    },
+    "vanilla": {
+     "accuracy_pct": 89.84375,
+     "blocks": 789,
+     "correct": 115,
+     "cpu_process_s": null,
+     "cpu_thread_s": null,
+     "cpu_thread_s_per_answer": null,
+     "drafter_forwards_by_kind": {},
+     "drafter_fwd_per_block": 0.0,
+     "drafter_s": null,
+     "drafter_s_by_kind": {},
+     "drafter_s_per_answer": null,
+     "experts_activated_total": 24974848,
+     "experts_by_kind": {
+      "denoise": 22092112,
+      "kvflush": 2431971,
+      "prefill": 450765
+     },
+     "experts_per_30b_forward": 2808.371528168222,
+     "experts_per_layer_forward": 58.507740170171296,
+     "experts_per_token": 1176.394159208667,
+     "gpu_active_s": null,
+     "gpu_active_s_per_answer": null,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Workstation Edition"
+     ],
+     "gpu_share_pct": null,
+     "judge_passes_per_block": 10.108998732572877,
+     "length_cap_hits": 0,
+     "loops": 0,
+     "moe_s": null,
+     "moe_s_by_kind": {
+      "denoise": 3748.028,
+      "kvflush": 409.83,
+      "prefill": 76.052
+     },
+     "moe_s_per_answer": null,
+     "ms_per_token": 199.64149788035797,
+     "n": 128,
+     "n_forward_30b": 8893,
+     "n_judge": 0,
+     "outside_forwards_s": null,
+     "redraft_repeat_rate": null,
+     "seconds_per_answer": 33.1124140625,
+     "seconds_total": 4238.389,
+     "tok_s": 5.008978647311514,
+     "tokens": 21230
+    }
+   },
+   "humaneval": {
+    "cross_machine_time_ratio_new_over_ref": 0.4414813109107438,
+    "cross_machine_tok_s_ratio_new_over_ref": 2.601283353633672,
+    "delta_accuracy_pts_ci95": [
+     -6.8181818181818175,
+     -18.181818181818183,
+     4.545454545454546
+    ],
+    "experts_per_token_ratio": 0.6227736512922728,
+    "judge_passes_reduction_pct": 43.188759926695184,
+    "n_paired": 44,
+    "new": {
+     "accuracy_pct": 70.45454545454545,
+     "blocks": 209,
+     "correct": 31,
+     "cpu_process_s": 368.23754,
+     "cpu_thread_s": 368.125446,
+     "cpu_thread_s_per_answer": 8.36648740909091,
+     "drafter_forwards_by_kind": {
+      "draft": 1634,
+      "flush": 209,
+      "prefill": 44,
+      "redraft": 1801
+     },
+     "drafter_fwd_per_block": 16.435406698564595,
+     "drafter_s": 36.937,
+     "drafter_s_by_kind": {
+      "draft": 16.184,
+      "flush": 2.264,
+      "prefill": 0.64,
+      "redraft": 17.849
+     },
+     "drafter_s_per_answer": 0.8394772727272727,
+     "experts_activated_total": 3386506,
+     "experts_by_kind": {
+      "denoise": 0,
+      "judge": 2597100,
+      "kvflush": 573104,
+      "prefill": 216302,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2654.0015673981193,
+     "experts_per_layer_forward": 55.29169932079415,
+     "experts_per_token": 613.8310676092079,
+     "gpu_active_s": 194.745621,
+     "gpu_active_s_per_answer": 4.426036840909091,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+     ],
+     "gpu_share_pct": 52.90447939191758,
+     "judge_passes_per_block": 4.894736842105263,
+     "length_cap_hits": 1,
+     "loops": 1,
+     "moe_s": 327.211,
+     "moe_s_by_kind": {
+      "denoise": 0.0,
+      "judge": 249.848,
+      "kvflush": 52.66,
+      "prefill": 24.703,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 7.436613636363637,
+     "ms_per_token": 66.72249410911728,
+     "n": 44,
+     "n_forward_30b": 1276,
+     "n_judge": 1023,
+     "outside_forwards_s": 3.9599999999999937,
+     "redraft_repeat_rate": 0.0,
+     "seconds_per_answer": 8.366090909090909,
+     "seconds_total": 368.108,
+     "tok_s": 14.987449335521097,
+     "tokens": 5517
+    },
+    "vanilla": {
+     "accuracy_pct": 77.27272727272727,
+     "blocks": 190,
+     "correct": 34,
+     "cpu_process_s": null,
+     "cpu_thread_s": null,
+     "cpu_thread_s_per_answer": null,
+     "drafter_forwards_by_kind": {
+      "draft": 0,
+      "flush": 0,
+      "prefill": 0,
+      "redraft": 0
+     },
+     "drafter_fwd_per_block": 0.0,
+     "drafter_s": 0.0,
+     "drafter_s_by_kind": {
+      "draft": 0.0,
+      "flush": 0.0,
+      "prefill": 0.0,
+      "redraft": 0.0
+     },
+     "drafter_s_per_answer": 0.0,
+     "experts_activated_total": 4735018,
+     "experts_by_kind": {
+      "denoise": 3986200,
+      "judge": 0,
+      "kvflush": 532516,
+      "prefill": 216302,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2530.741849278461,
+     "experts_per_layer_forward": 52.7237885266346,
+     "experts_per_token": 985.6407160699417,
+     "gpu_active_s": null,
+     "gpu_active_s_per_answer": null,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Workstation Edition"
+     ],
+     "gpu_share_pct": null,
+     "judge_passes_per_block": 8.615789473684211,
+     "length_cap_hits": 0,
+     "loops": 0,
+     "moe_s": 830.943,
+     "moe_s_by_kind": {
+      "denoise": 697.838,
+      "judge": 0.0,
+      "kvflush": 91.832,
+      "prefill": 41.272,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 18.88506818181818,
+     "ms_per_token": 173.56411323896754,
+     "n": 44,
+     "n_forward_30b": 1871,
+     "n_judge": 0,
+     "outside_forwards_s": 2.8590000000000373,
+     "redraft_repeat_rate": null,
+     "seconds_per_answer": 18.950045454545457,
+     "seconds_total": 833.802,
+     "tok_s": 5.761559698825381,
+     "tokens": 4804
+    }
+   },
+   "ifeval541": {
+    "cross_machine_time_ratio_new_over_ref": 0.9224537751743546,
+    "cross_machine_tok_s_ratio_new_over_ref": 1.3544754893234483,
+    "delta_accuracy_pts_ci95": [
+     -2.941176470588235,
+     -10.294117647058822,
+     5.147058823529411
+    ],
+    "experts_per_token_ratio": 0.5869900546441053,
+    "judge_passes_reduction_pct": 43.276591861654346,
+    "n_paired": 136,
+    "new": {
+     "accuracy_pct": 50.73529411764706,
+     "blocks": 1792,
+     "correct": 69,
+     "cpu_process_s": 5572.536127,
+     "cpu_thread_s": 5571.269694,
+     "cpu_thread_s_per_answer": 40.96521833823529,
+     "drafter_forwards_by_kind": {
+      "draft": 14219,
+      "flush": 1792,
+      "prefill": 127,
+      "redraft": 45681
+     },
+     "drafter_fwd_per_block": 33.426339285714285,
+     "drafter_s": 610.857,
+     "drafter_s_by_kind": {
+      "draft": 140.341,
+      "flush": 18.619,
+      "prefill": 1.414,
+      "redraft": 450.488
+     },
+     "drafter_s_per_answer": 4.491595588235294,
+     "experts_activated_total": 49696658,
+     "experts_by_kind": {
+      "denoise": 0,
+      "judge": 45243277,
+      "kvflush": 4075847,
+      "prefill": 377534,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2211.0004893891532,
+     "experts_per_layer_forward": 46.06251019560736,
+     "experts_per_token": 926.3814263878015,
+     "gpu_active_s": 3014.304802,
+     "gpu_active_s_per_answer": 22.164005897058825,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+     ],
+     "gpu_share_pct": 54.0972514591231,
+     "judge_passes_per_block": 11.472098214285714,
+     "length_cap_hits": 24,
+     "loops": 22,
+     "moe_s": 4903.551,
+     "moe_s_by_kind": {
+      "denoise": 0.0,
+      "judge": 4381.619,
+      "kvflush": 377.901,
+      "prefill": 144.033,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 36.055522058823534,
+     "ms_per_token": 103.86629012414718,
+     "n": 136,
+     "n_forward_30b": 22477,
+     "n_judge": 20558,
+     "outside_forwards_s": 57.603000000000065,
+     "redraft_repeat_rate": 0.0,
+     "seconds_per_answer": 40.97066911764706,
+     "seconds_total": 5572.011,
+     "tok_s": 9.62776275926232,
+     "tokens": 53646
+    },
+    "vanilla": {
+     "accuracy_pct": 53.67647058823529,
+     "blocks": 1478,
+     "correct": 73,
+     "cpu_process_s": null,
+     "cpu_thread_s": null,
+     "cpu_thread_s_per_answer": null,
+     "drafter_forwards_by_kind": {
+      "draft": 0,
+      "flush": 0,
+      "prefill": 0,
+      "redraft": 0
+     },
+     "drafter_fwd_per_block": 0.0,
+     "drafter_s": 0.0,
+     "drafter_s_by_kind": {
+      "draft": 0.0,
+      "flush": 0.0,
+      "prefill": 0.0,
+      "redraft": 0.0
+     },
+     "drafter_s_per_answer": 0.0,
+     "experts_activated_total": 67761136,
+     "experts_by_kind": {
+      "denoise": 63963377,
+      "judge": 0,
+      "kvflush": 3420225,
+      "prefill": 377534,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2151.352065276058,
+     "experts_per_layer_forward": 44.81983469325121,
+     "experts_per_token": 1578.189305012111,
+     "gpu_active_s": null,
+     "gpu_active_s_per_answer": null,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+     ],
+     "gpu_share_pct": null,
+     "judge_passes_per_block": 20.224627875507444,
+     "length_cap_hits": 12,
+     "loops": 10,
+     "moe_s": 6011.245,
+     "moe_s_by_kind": {
+      "denoise": 5672.815,
+      "judge": 0.0,
+      "kvflush": 302.549,
+      "prefill": 35.883,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 44.200330882352944,
+     "ms_per_token": 140.6843441401155,
+     "n": 136,
+     "n_forward_30b": 31497,
+     "n_judge": 0,
+     "outside_forwards_s": 29.177999999999884,
+     "redraft_repeat_rate": null,
+     "seconds_per_answer": 44.414874999999995,
+     "seconds_total": 6040.423,
+     "tok_s": 7.108111468352465,
+     "tokens": 42936
+    }
+   },
+   "math500": {
+    "cross_machine_time_ratio_new_over_ref": 0.39673229851492703,
+    "cross_machine_tok_s_ratio_new_over_ref": 2.51443377180158,
+    "delta_accuracy_pts_ci95": [
+     0.0,
+     -6.25,
+     6.25
+    ],
+    "experts_per_token_ratio": 0.6581642922534985,
+    "judge_passes_reduction_pct": 40.115579411718116,
+    "n_paired": 128,
+    "new": {
+     "accuracy_pct": 71.875,
+     "blocks": 2177,
+     "correct": 92,
+     "cpu_process_s": 3916.327122,
+     "cpu_thread_s": 3915.407395,
+     "cpu_thread_s_per_answer": 30.5891202734375,
+     "drafter_forwards_by_kind": {
+      "draft": 17298,
+      "flush": 2177,
+      "prefill": 128,
+      "redraft": 20719
+     },
+     "drafter_fwd_per_block": 17.463022508038584,
+     "drafter_s": 401.709,
+     "drafter_s_by_kind": {
+      "draft": 171.396,
+      "flush": 22.758,
+      "prefill": 1.577,
+      "redraft": 205.977
+     },
+     "drafter_s_per_answer": 3.1383515625,
+     "experts_activated_total": 36755507,
+     "experts_by_kind": {
+      "denoise": 0,
+      "judge": 30041943,
+      "kvflush": 6227099,
+      "prefill": 486465,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2745.20180745388,
+     "experts_per_layer_forward": 57.19170432195583,
+     "experts_per_token": 559.0701356777805,
+     "gpu_active_s": 2109.802952,
+     "gpu_active_s_per_answer": 16.4828355625,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+     ],
+     "gpu_share_pct": 53.881309381918555,
+     "judge_passes_per_block": 5.091410197519522,
+     "length_cap_hits": 10,
+     "loops": 4,
+     "moe_s": 3470.109,
+     "moe_s_by_kind": {
+      "denoise": 0.0,
+      "judge": 2839.956,
+      "kvflush": 566.26,
+      "prefill": 63.895,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 27.1102265625,
+     "ms_per_token": 59.55903200292042,
+     "n": 128,
+     "n_forward_30b": 13389,
+     "n_judge": 11084,
+     "outside_forwards_s": 43.83099999999996,
+     "redraft_repeat_rate": 0.0,
+     "seconds_per_answer": 30.5910078125,
+     "seconds_total": 3915.649,
+     "tok_s": 16.79006468659474,
+     "tokens": 65744
+    },
+    "vanilla": {
+     "accuracy_pct": 71.875,
+     "blocks": 2183,
+     "correct": 92,
+     "cpu_process_s": null,
+     "cpu_thread_s": null,
+     "cpu_thread_s_per_answer": null,
+     "drafter_forwards_by_kind": {
+      "draft": 0,
+      "flush": 0,
+      "prefill": 0,
+      "redraft": 0
+     },
+     "drafter_fwd_per_block": 0.0,
+     "drafter_s": 0.0,
+     "drafter_s_by_kind": {
+      "draft": 0.0,
+      "flush": 0.0,
+      "prefill": 0.0,
+      "redraft": 0.0
+     },
+     "drafter_s_per_answer": 0.0,
+     "experts_activated_total": 55982249,
+     "experts_by_kind": {
+      "denoise": 49224533,
+      "judge": 0,
+      "kvflush": 6271251,
+      "prefill": 486465,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2682.298356571319,
+     "experts_per_layer_forward": 55.88121576190248,
+     "experts_per_token": 849.4385706699037,
+     "gpu_active_s": null,
+     "gpu_active_s_per_answer": null,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Workstation Edition"
+     ],
+     "gpu_share_pct": null,
+     "judge_passes_per_block": 8.502061383417315,
+     "length_cap_hits": 6,
+     "loops": 1,
+     "moe_s": 9840.573,
+     "moe_s_by_kind": {
+      "denoise": 8656.313,
+      "judge": 0.0,
+      "kvflush": 1096.225,
+      "prefill": 88.031,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 76.8794765625,
+     "ms_per_token": 149.75724148395418,
+     "n": 128,
+     "n_forward_30b": 20871,
+     "n_judge": 0,
+     "outside_forwards_s": 29.177999999999884,
+     "redraft_repeat_rate": null,
+     "seconds_per_answer": 77.1074296875,
+     "seconds_total": 9869.751,
+     "tok_s": 6.677473423594982,
+     "tokens": 65905
+    }
+   },
+   "mbpp": {
+    "cross_machine_time_ratio_new_over_ref": 0.44918085646812606,
+    "cross_machine_tok_s_ratio_new_over_ref": 2.4367613101595698,
+    "delta_accuracy_pts_ci95": [
+     1.5384615384615385,
+     -10.76923076923077,
+     13.846153846153847
+    ],
+    "experts_per_token_ratio": 0.6426821574628394,
+    "judge_passes_reduction_pct": 38.37660287120082,
+    "n_paired": 65,
+    "new": {
+     "accuracy_pct": 67.6923076923077,
+     "blocks": 181,
+     "correct": 44,
+     "cpu_process_s": 443.135664,
+     "cpu_thread_s": 443.00567,
+     "cpu_thread_s_per_answer": 6.815471846153846,
+     "drafter_forwards_by_kind": {
+      "draft": 1386,
+      "flush": 181,
+      "prefill": 65,
+      "redraft": 3275
+     },
+     "drafter_fwd_per_block": 25.751381215469614,
+     "drafter_s": 49.037,
+     "drafter_s_by_kind": {
+      "draft": 13.769,
+      "flush": 1.937,
+      "prefill": 0.934,
+      "redraft": 32.395
+     },
+     "drafter_s_per_answer": 0.7544153846153846,
+     "experts_activated_total": 4016560,
+     "experts_by_kind": {
+      "denoise": 0,
+      "judge": 3221474,
+      "kvflush": 492640,
+      "prefill": 302446,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2515.065748278021,
+     "experts_per_layer_forward": 52.39720308912544,
+     "experts_per_token": 1087.6144056322773,
+     "gpu_active_s": 235.759144,
+     "gpu_active_s_per_answer": 3.6270637538461536,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+     ],
+     "gpu_share_pct": 53.22021002826261,
+     "judge_passes_per_block": 7.464088397790055,
+     "length_cap_hits": 0,
+     "loops": 0,
+     "moe_s": 389.05,
+     "moe_s_by_kind": {
+      "denoise": 0.0,
+      "judge": 310.676,
+      "kvflush": 45.174,
+      "prefill": 33.198,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 5.985384615384616,
+     "ms_per_token": 119.95342539940428,
+     "n": 65,
+     "n_forward_30b": 1597,
+     "n_judge": 1351,
+     "outside_forwards_s": 4.900999999999989,
+     "redraft_repeat_rate": 0.0,
+     "seconds_per_answer": 6.8152,
+     "seconds_total": 442.988,
+     "tok_s": 8.336568936404598,
+     "tokens": 3693
+    },
+    "vanilla": {
+     "accuracy_pct": 66.15384615384615,
+     "blocks": 169,
+     "correct": 43,
+     "cpu_process_s": null,
+     "cpu_thread_s": null,
+     "cpu_thread_s_per_answer": null,
+     "drafter_forwards_by_kind": {
+      "draft": 0,
+      "flush": 0,
+      "prefill": 0,
+      "redraft": 0
+     },
+     "drafter_fwd_per_block": 0.0,
+     "drafter_s": 0.0,
+     "drafter_s_by_kind": {
+      "draft": 0.0,
+      "flush": 0.0,
+      "prefill": 0.0,
+      "redraft": 0.0
+     },
+     "drafter_s_per_answer": 0.0,
+     "experts_activated_total": 5709838,
+     "experts_by_kind": {
+      "denoise": 4939845,
+      "judge": 0,
+      "kvflush": 467547,
+      "prefill": 302446,
+      "rejudge": 0
+     },
+     "experts_per_30b_forward": 2503.217010083297,
+     "experts_per_layer_forward": 52.15035437673535,
+     "experts_per_token": 1692.3052756372258,
+     "gpu_active_s": null,
+     "gpu_active_s_per_answer": null,
+     "gpu_names": [
+      "NVIDIA RTX PRO 6000 Blackwell Workstation Edition"
+     ],
+     "gpu_share_pct": null,
+     "judge_passes_per_block": 12.112426035502958,
+     "length_cap_hits": 0,
+     "loops": 0,
+     "moe_s": 982.984,
+     "moe_s_by_kind": {
+      "denoise": 849.147,
+      "judge": 0.0,
+      "kvflush": 79.376,
+      "prefill": 54.463,
+      "rejudge": 0.0
+     },
+     "moe_s_per_answer": 15.12283076923077,
+     "ms_per_token": 292.29786603438055,
+     "n": 65,
+     "n_forward_30b": 2281,
+     "n_judge": 0,
+     "outside_forwards_s": 3.228999999999928,
+     "redraft_repeat_rate": null,
+     "seconds_per_answer": 15.172507692307692,
+     "seconds_total": 986.213,
+     "tok_s": 3.421167638228253,
+     "tokens": 3374
+    }
+   }
+  },
+  "pooled": {
+   "cross_machine_time_ratio_new_over_ref": 0.480156246432729,
+   "cross_machine_tok_s_ratio_new_over_ref": 2.1761598603209142,
+   "delta_accuracy_pts_ci95": [
+    -0.690846286701209,
+    -3.7996545768566494,
+    2.4179620034542317
+   ],
+   "experts_per_token_ratio": 0.6341979933063655,
+   "judge_passes_reduction_pct": 40.56585645051687,
+   "n_paired": 579,
+   "new": {
+    "accuracy_pct": 65.45768566493955,
+    "blocks": 6711,
+    "correct": 379,
+    "cpu_process_s": 15712.994642,
+    "cpu_thread_s": 15709.222323,
+    "cpu_thread_s_per_answer": 27.131644772020724,
+    "drafter_forwards_by_kind": {
+     "draft": 53191,
+     "flush": 6711,
+     "prefill": 570,
+     "redraft": 105457
+    },
+    "drafter_fwd_per_block": 23.639994039636417,
+    "drafter_s": 1642.533,
+    "drafter_s_by_kind": {
+     "draft": 524.411,
+     "flush": 70.053,
+     "prefill": 7.532,
+     "redraft": 1040.538
+    },
+    "drafter_s_per_answer": 2.836844559585492,
+    "experts_activated_total": 145413888,
+    "experts_by_kind": {
+     "denoise": 0,
+     "judge": 125121739,
+     "kvflush": 18117669,
+     "prefill": 2174480,
+     "rejudge": 0
+    },
+    "experts_per_30b_forward": 2506.2285724134367,
+    "experts_per_layer_forward": 52.21309525861326,
+    "experts_per_token": 736.1088567610254,
+    "gpu_active_s": 8498.033437,
+    "gpu_active_s_per_answer": 14.677087110535407,
+    "gpu_names": [
+     "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+    ],
+    "gpu_share_pct": 54.09178723386649,
+    "judge_passes_per_block": 7.5607212039934435,
+    "length_cap_hits": 45,
+    "loops": 28,
+    "moe_s": 13903.443,
+    "moe_s_by_kind": {
+     "denoise": 0.0,
+     "judge": 11896.081,
+     "kvflush": 1646.923,
+     "prefill": 360.439,
+     "rejudge": 0.0
+    },
+    "moe_s_per_answer": 24.012854922279793,
+    "ms_per_token": 79.52858603652857,
+    "n": 579,
+    "n_forward_30b": 58021,
+    "n_judge": 50740,
+    "outside_forwards_s": 164.41900000000123,
+    "redraft_repeat_rate": 0.0,
+    "seconds_per_answer": 27.133670120898103,
+    "seconds_total": 15710.395,
+    "tok_s": 12.574095049806195,
+    "tokens": 197544
+   },
+   "vanilla": {
+    "accuracy_pct": 66.14853195164075,
+    "blocks": 6470,
+    "correct": 383,
+    "cpu_process_s": null,
+    "cpu_thread_s": null,
+    "cpu_thread_s_per_answer": null,
+    "drafter_forwards_by_kind": {
+     "draft": 0,
+     "flush": 0,
+     "prefill": 0,
+     "redraft": 0
+    },
+    "drafter_fwd_per_block": 0.0,
+    "drafter_s": null,
+    "drafter_s_by_kind": {
+     "draft": 0.0,
+     "flush": 0.0,
+     "prefill": 0.0,
+     "redraft": 0.0
+    },
+    "drafter_s_per_answer": null,
+    "experts_activated_total": 219435882,
+    "experts_by_kind": {
+     "denoise": 199545732,
+     "judge": 0,
+     "kvflush": 17715670,
+     "prefill": 2174480,
+     "rejudge": 0
+    },
+    "experts_per_30b_forward": 2456.0235712846684,
+    "experts_per_layer_forward": 51.16715773509726,
+    "experts_per_token": 1160.6925038083955,
+    "gpu_active_s": null,
+    "gpu_active_s_per_answer": null,
+    "gpu_names": [
+     "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+     "NVIDIA RTX PRO 6000 Blackwell Workstation Edition"
+    ],
+    "gpu_share_pct": null,
+    "judge_passes_per_block": 12.721174652241112,
+    "length_cap_hits": 30,
+    "loops": 14,
+    "moe_s": null,
+    "moe_s_by_kind": {
+     "denoise": 29465.996,
+     "judge": 0.0,
+     "kvflush": 2789.976,
+     "prefill": 360.454,
+     "rejudge": 0.0
+    },
+    "moe_s_per_answer": null,
+    "ms_per_token": 173.06691668077184,
+    "n": 579,
+    "n_forward_30b": 89346,
+    "n_judge": 0,
+    "outside_forwards_s": null,
+    "redraft_repeat_rate": null,
+    "seconds_per_answer": 56.51008462867012,
+    "seconds_total": 32719.339,
+    "tok_s": 5.778111837772762,
+    "tokens": 189056
+   }
+  }
+ }
+}

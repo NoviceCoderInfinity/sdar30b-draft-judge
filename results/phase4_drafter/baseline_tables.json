@@ -1,0 +1,1762 @@
+{
+ "definition": "Three result tables for the operator (13 Oct 06:15 IST), from the measured files of report_p4.py and speedup_chain.py.\n\n    /venv/p2/bin/python code/drafter_lora/baseline_tables.py --out results/phase4_drafter/baseline_tables.json\n\n  Table V   every entry against the vanilla 30B MoE (baseline = vanilla): Phase 3 rd1 / Phase 4 rd1 / Phase 3 rd2 /\n            Phase 4 rd2 -- speed (chained, x vanilla), accuracy delta vs vanilla [95% CI], judge passes per block,\n            30B experts activated per token, looping outputs, length-cap hits (vanilla's own value shown first)\n  Table rd1 Phase 4 rd1 with TWO baselines side by side: Phase 3 rd1 and vanilla\n  Table rd2 the same for rd2\nOnly benchmarks whose Gate 4 decode is complete enter a table (others are listed as running / queued); pooled rows use\nthe complete benchmarks only.  Speed: vs Phase 3 = GPU-active time ratio (cross-machine, about 5% optimistic);\nvs vanilla = the chained estimate of speedup_chain.py, and -- for Phase 4, once the vanilla 30B has been decoded on this\nbox (vanilla_same_box.json, complete benchmarks only; the pooled value only when it covers every benchmark of the\ntable) -- the MEASURED same-machine wall-clock ratio sum(seconds vanilla) / sum(seconds Phase 4) [95% paired bootstrap].\nPhase 3 was decoded on the Phase 3 machine: with phase3_same_box.json present, its speed on THIS machine (vs vanilla,\nand Phase 4 vs Phase 3) is its recorded per-forward work priced at this machine's measured per-forward costs\n(phase3_same_box.py; the pricing reproduces the measured Phase 4 and vanilla times within -0.7% to +2.5%) and replaces\nthe chained / cross-machine figures in the .md (they stay in the .json as *_chained).  Counts and accuracy are measured\non the same items.\n",
+ "status": {
+  "rd1": {
+   "ifeval541": "done",
+   "math500": "done",
+   "gpqa": "done",
+   "aime": "done",
+   "humaneval": "done",
+   "mbpp": "done",
+   "gsm8k500": "done"
+  },
+  "rd2": {
+   "ifeval541": "done",
+   "math500": "done",
+   "gpqa": "done",
+   "aime": "done",
+   "humaneval": "done",
+   "mbpp": "done",
+   "gsm8k500": "done"
+  }
+ },
+ "vanilla_table": [
+  {
+   "benchmark": "IFEval",
+   "vanilla": {
+    "accuracy_pct": 52.68022181146026,
+    "judge_passes_per_block": 20.228924288526937,
+    "experts_per_token": 1576.5493709209122,
+    "loops": 44,
+    "length_cap_hits": 46,
+    "n": 541
+   },
+   "p3_rd1": {
+    "speed_vs_vanilla_chained": 1.0707939720413029,
+    "speed_vs_vanilla_measured": [
+     1.062939937285107,
+     1.0241241060911714,
+     1.1036131800537916
+    ],
+    "accuracy_pct": 46.58040665434381,
+    "dacc_vs_vanilla": [
+     -6.099815157116451,
+     -10.166358595194085,
+     -1.8484288354898337
+    ],
+    "judge_passes_per_block": 11.305768455022186,
+    "passes_vs_vanilla_pct": -44.110876615251456,
+    "experts_per_token": 894.1944149576728,
+    "experts_vs_vanilla_pct": -43.281546937198314,
+    "loops": 107,
+    "length_cap_hits": 112
+   },
+   "p4_rd1": {
+    "speed_vs_vanilla_chained": 1.157390527319552,
+    "speed_vs_vanilla_measured": [
+     1.10166509163847,
+     1.0578670651182969,
+     1.143960678542496
+    ],
+    "accuracy_pct": 46.21072088724584,
+    "dacc_vs_vanilla": [
+     -6.469500924214418,
+     -10.35120147874307,
+     -2.4029574861367835
+    ],
+    "judge_passes_per_block": 11.311153531497137,
+    "passes_vs_vanilla_pct": -44.08425593884701,
+    "experts_per_token": 896.2345131137126,
+    "experts_vs_vanilla_pct": -43.152144192592345,
+    "loops": 104,
+    "length_cap_hits": 106
+   },
+   "p3_rd2": {
+    "speed_vs_vanilla_chained": 1.1546134211225736,
+    "speed_vs_vanilla_measured": [
+     1.1259492173531944,
+     1.0874324037487386,
+     1.166714858710894
+    ],
+    "accuracy_pct": 48.059149722735675,
+    "dacc_vs_vanilla": [
+     -4.621072088724584,
+     -8.502772643253234,
+     -0.734750462107234
+    ],
+    "judge_passes_per_block": 12.227807172251616,
+    "passes_vs_vanilla_pct": -39.55285512049321,
+    "experts_per_token": 974.4289936203679,
+    "experts_vs_vanilla_pct": -38.192294412500814,
+    "loops": 94,
+    "length_cap_hits": 91
+   },
+   "p4_rd2": {
+    "speed_vs_vanilla_chained": 1.1657414400458,
+    "speed_vs_vanilla_measured": [
+     1.0866149250943127,
+     1.0443522007144583,
+     1.1296250056994732
+    ],
+    "accuracy_pct": 46.02587800369686,
+    "dacc_vs_vanilla": [
+     -6.654343807763401,
+     -10.536044362292053,
+     -2.5878003696857674
+    ],
+    "judge_passes_per_block": 11.53284280936455,
+    "passes_vs_vanilla_pct": -42.988353483998495,
+    "experts_per_token": 912.289941983216,
+    "experts_vs_vanilla_pct": -42.13375370221875,
+    "loops": 107,
+    "length_cap_hits": 113
+   },
+   "sets_in_pool": null
+  },
+  {
+   "benchmark": "MATH-500",
+   "vanilla": {
+    "accuracy_pct": 72.4,
+    "judge_passes_per_block": 8.524915392694597,
+    "experts_per_token": 853.5445472305661,
+    "loops": 4,
+    "length_cap_hits": 31,
+    "n": 500
+   },
+   "p3_rd1": {
+    "speed_vs_vanilla_chained": 1.200056691646918,
+    "speed_vs_vanilla_measured": [
+     1.208332124332265,
+     1.1778988292452384,
+     1.2346661046527334
+    ],
+    "accuracy_pct": 70.8,
+    "dacc_vs_vanilla": [
+     -1.6,
+     -4.8,
+     1.6
+    ],
+    "judge_passes_per_block": 5.235158057054742,
+    "passes_vs_vanilla_pct": -38.58991185365903,
+    "experts_per_token": 571.4675241111063,
+    "experts_vs_vanilla_pct": -33.04772129758131,
+    "loops": 15,
+    "length_cap_hits": 64
+   },
+   "p4_rd1": {
+    "speed_vs_vanilla_chained": 1.3345181039843843,
+    "speed_vs_vanilla_measured": [
+     1.2754443535092082,
+     1.2482537149719748,
+     1.3032135375268368
+    ],
+    "accuracy_pct": 71.6,
+    "dacc_vs_vanilla": [
+     -0.8,
+     -3.8,
+     2.1999999999999997
+    ],
+    "judge_passes_per_block": 5.231926305970149,
+    "passes_vs_vanilla_pct": -38.627821333527436,
+    "experts_per_token": 575.580097143518,
+    "experts_vs_vanilla_pct": -32.56589840435853,
+    "loops": 7,
+    "length_cap_hits": 33
+   },
+   "p3_rd2": {
+    "speed_vs_vanilla_chained": 1.221706780517422,
+    "speed_vs_vanilla_measured": [
+     1.264212422802793,
+     1.2361331076732087,
+     1.2913986210823079
+    ],
+    "accuracy_pct": 70.2,
+    "dacc_vs_vanilla": [
+     -2.1999999999999997,
+     -5.0,
+     0.8
+    ],
+    "judge_passes_per_block": 5.456355637879139,
+    "passes_vs_vanilla_pct": -35.99519307188728,
+    "experts_per_token": 598.2123016327372,
+    "experts_vs_vanilla_pct": -29.91434324386312,
+    "loops": 5,
+    "length_cap_hits": 33
+   },
+   "p4_rd2": {
+    "speed_vs_vanilla_chained": 1.3168231340716385,
+    "speed_vs_vanilla_measured": [
+     1.3076072087514528,
+     1.2808667784688896,
+     1.3336504168877559
+    ],
+    "accuracy_pct": 70.6,
+    "dacc_vs_vanilla": [
+     -1.7999999999999998,
+     -5.0,
+     1.4000000000000001
+    ],
+    "judge_passes_per_block": 5.280839289831681,
+    "passes_vs_vanilla_pct": -38.05405629764863,
+    "experts_per_token": 581.7450399244179,
+    "experts_vs_vanilla_pct": -31.84362294716031,
+    "loops": 6,
+    "length_cap_hits": 37
+   },
+   "sets_in_pool": null
+  },
+  {
+   "benchmark": "GPQA",
+   "vanilla": {
+    "accuracy_pct": 37.37373737373738,
+    "judge_passes_per_block": 16.07146799116998,
+    "experts_per_token": 1381.1100128101464,
+    "loops": 6,
+    "length_cap_hits": 24,
+    "n": 198
+   },
+   "p3_rd1": {
+    "speed_vs_vanilla_chained": 1.4239336852607736,
+    "speed_vs_vanilla_measured": [
+     1.3652366469416393,
+     1.3039240757028387,
+     1.4292712882104288
+    ],
+    "accuracy_pct": 37.37373737373738,
+    "dacc_vs_vanilla": [
+     0.0,
+     -7.575757575757576,
+     8.080808080808081
+    ],
+    "judge_passes_per_block": 9.213772123893806,
+    "passes_vs_vanilla_pct": -42.670002958310604,
+    "experts_per_token": 854.880799941796,
+    "experts_vs_vanilla_pct": -38.10190411968929,
+    "loops": 11,
+    "length_cap_hits": 25
+   },
+   "p4_rd1": {
+    "speed_vs_vanilla_chained": 1.516285412940324,
+    "speed_vs_vanilla_measured": [
+     1.3850156779580427,
+     1.3320329253386907,
+     1.443173984224065
+    ],
+    "accuracy_pct": 36.86868686868687,
+    "dacc_vs_vanilla": [
+     -0.5050505050505051,
+     -7.575757575757576,
+     6.565656565656567
+    ],
+    "judge_passes_per_block": 9.49059829059829,
+    "passes_vs_vanilla_pct": -40.94753325699534,
+    "experts_per_token": 876.3537965521779,
+    "experts_vs_vanilla_pct": -36.54714045776414,
+    "loops": 6,
+    "length_cap_hits": 15
+   },
+   "p3_rd2": {
+    "speed_vs_vanilla_chained": 1.4737241951515032,
+    "speed_vs_vanilla_measured": [
+     1.4281640335304784,
+     1.3708087976017722,
+     1.489072317940519
+    ],
+    "accuracy_pct": 37.878787878787875,
+    "dacc_vs_vanilla": [
+     0.5050505050505051,
+     -6.565656565656567,
+     7.07070707070707
+    ],
+    "judge_passes_per_block": 9.557016290368678,
+    "passes_vs_vanilla_pct": -40.534266716522005,
+    "experts_per_token": 884.2945668714423,
+    "experts_vs_vanilla_pct": -35.97218478836693,
+    "loops": 9,
+    "length_cap_hits": 24
+   },
+   "p4_rd2": {
+    "speed_vs_vanilla_chained": 1.555577893153996,
+    "speed_vs_vanilla_measured": [
+     1.442010487770488,
+     1.3845954466603196,
+     1.5046372778271515
+    ],
+    "accuracy_pct": 36.86868686868687,
+    "dacc_vs_vanilla": [
+     -0.5050505050505051,
+     -8.080808080808081,
+     6.565656565656567
+    ],
+    "judge_passes_per_block": 9.612625538020087,
+    "passes_vs_vanilla_pct": -40.18825446871762,
+    "experts_per_token": 886.2209284727871,
+    "experts_vs_vanilla_pct": -35.83270555908923,
+    "loops": 7,
+    "length_cap_hits": 23
+   },
+   "sets_in_pool": null
+  },
+  {
+   "benchmark": "AIME",
+   "vanilla": {
+    "accuracy_pct": 6.666666666666667,
+    "judge_passes_per_block": 10.765769554247267,
+    "experts_per_token": 997.7138424853338,
+    "loops": 4,
+    "length_cap_hits": 25,
+    "n": 90
+   },
+   "p3_rd1": {
+    "speed_vs_vanilla_chained": 1.3702164550777058,
+    "speed_vs_vanilla_measured": [
+     1.3684770152297436,
+     1.306446232920117,
+     1.4314609578343334
+    ],
+    "accuracy_pct": 5.555555555555555,
+    "dacc_vs_vanilla": [
+     -1.1111111111111112,
+     -5.555555555555555,
+     2.2222222222222223
+    ],
+    "judge_passes_per_block": 6.381258023106547,
+    "passes_vs_vanilla_pct": -40.72641076931617,
+    "experts_per_token": 646.0547220500104,
+    "experts_vs_vanilla_pct": -35.2464910739667,
+    "loops": 6,
+    "length_cap_hits": 26
+   },
+   "p4_rd1": {
+    "speed_vs_vanilla_chained": 1.5065486361313487,
+    "speed_vs_vanilla_measured": [
+     1.4300700078917064,
+     1.3574363310344035,
+     1.5052507387176683
+    ],
+    "accuracy_pct": 7.777777777777778,
+    "dacc_vs_vanilla": [
+     1.1111111111111112,
+     -2.2222222222222223,
+     4.444444444444445
+    ],
+    "judge_passes_per_block": 6.202836269875376,
+    "passes_vs_vanilla_pct": -42.38371684792139,
+    "experts_per_token": 624.8320475352845,
+    "experts_vs_vanilla_pct": -37.373621480603106,
+    "loops": 5,
+    "length_cap_hits": 31
+   },
+   "p3_rd2": {
+    "speed_vs_vanilla_chained": 1.4504020336766106,
+    "speed_vs_vanilla_measured": [
+     1.4184908185166776,
+     1.346691235222098,
+     1.4971314201614683
+    ],
+    "accuracy_pct": 5.555555555555555,
+    "dacc_vs_vanilla": [
+     -1.1111111111111112,
+     -3.3333333333333335,
+     0.0
+    ],
+    "judge_passes_per_block": 6.532399299474606,
+    "passes_vs_vanilla_pct": -39.322504846878594,
+    "experts_per_token": 662.8766364907424,
+    "experts_vs_vanilla_pct": -33.56044506313577,
+    "loops": 6,
+    "length_cap_hits": 27
+   },
+   "p4_rd2": {
+    "speed_vs_vanilla_chained": 1.5609193482943786,
+    "speed_vs_vanilla_measured": [
+     1.4458298722640408,
+     1.3762700405397237,
+     1.5190506754119657
+    ],
+    "accuracy_pct": 7.777777777777778,
+    "dacc_vs_vanilla": [
+     1.1111111111111112,
+     -3.3333333333333335,
+     6.666666666666667
+    ],
+    "judge_passes_per_block": 6.430769230769231,
+    "passes_vs_vanilla_pct": -40.266516031525214,
+    "experts_per_token": 652.412057804781,
+    "experts_vs_vanilla_pct": -34.60930078111336,
+    "loops": 6,
+    "length_cap_hits": 23
+   },
+   "sets_in_pool": null
+  },
+  {
+   "benchmark": "HumanEval",
+   "vanilla": {
+    "accuracy_pct": 78.04878048780488,
+    "judge_passes_per_block": 8.25563909774436,
+    "experts_per_token": 982.3371000429896,
+    "loops": 0,
+    "length_cap_hits": 0,
+    "n": 164
+   },
+   "p3_rd1": {
+    "speed_vs_vanilla_chained": 1.1286789586674375,
+    "speed_vs_vanilla_measured": [
+     1.0767168476680653,
+     0.9981912768993277,
+     1.1613063287409626
+    ],
+    "accuracy_pct": 75.60975609756098,
+    "dacc_vs_vanilla": [
+     -2.4390243902439024,
+     -9.146341463414634,
+     3.6737804878047946
+    ],
+    "judge_passes_per_block": 4.5840386940749696,
+    "passes_vs_vanilla_pct": -44.4738482411684,
+    "experts_per_token": 578.4581064870351,
+    "experts_vs_vanilla_pct": -41.114093475475954,
+    "loops": 2,
+    "length_cap_hits": 5
+   },
+   "p4_rd1": {
+    "speed_vs_vanilla_chained": 1.3783184796355237,
+    "speed_vs_vanilla_measured": [
+     1.2563038911920499,
+     1.1508865700781141,
+     1.3710516418607104
+    ],
+    "accuracy_pct": 76.82926829268293,
+    "dacc_vs_vanilla": [
+     -1.2195121951219512,
+     -7.926829268292683,
+     5.487804878048781
+    ],
+    "judge_passes_per_block": 4.666189111747851,
+    "passes_vs_vanilla_pct": -43.47876576844588,
+    "experts_per_token": 622.930808282471,
+    "experts_vs_vanilla_pct": -36.58685921001966,
+    "loops": 1,
+    "length_cap_hits": 2
+   },
+   "p3_rd2": {
+    "speed_vs_vanilla_chained": 1.3922263844732612,
+    "speed_vs_vanilla_measured": [
+     1.3171027082207554,
+     1.2112972400455257,
+     1.4345560317033497
+    ],
+    "accuracy_pct": 79.8780487804878,
+    "dacc_vs_vanilla": [
+     1.8292682926829267,
+     -3.0640243902439015,
+     6.707317073170732
+    ],
+    "judge_passes_per_block": 4.649635036496351,
+    "passes_vs_vanilla_pct": -43.67928416630104,
+    "experts_per_token": 627.3705016840986,
+    "experts_vs_vanilla_pct": -36.1349070846817,
+    "loops": 0,
+    "length_cap_hits": 1
+   },
+   "p4_rd2": {
+    "speed_vs_vanilla_chained": 1.3937475629318312,
+    "speed_vs_vanilla_measured": [
+     1.2554936008325175,
+     1.1679143676515127,
+     1.3571202011104602
+    ],
+    "accuracy_pct": 75.0,
+    "dacc_vs_vanilla": [
+     -3.048780487804878,
+     -9.146341463414634,
+     3.048780487804878
+    ],
+    "judge_passes_per_block": 4.628691983122363,
+    "passes_vs_vanilla_pct": -43.93296596035753,
+    "experts_per_token": 617.7469805412659,
+    "experts_vs_vanilla_pct": -37.11456275913516,
+    "loops": 1,
+    "length_cap_hits": 1
+   },
+   "sets_in_pool": null
+  },
+  {
+   "benchmark": "MBPP",
+   "vanilla": {
+    "accuracy_pct": 65.36964980544747,
+    "judge_passes_per_block": 11.92548435171386,
+    "experts_per_token": 1713.9583619309083,
+    "loops": 0,
+    "length_cap_hits": 0,
+    "n": 257
+   },
+   "p3_rd1": {
+    "speed_vs_vanilla_chained": 1.2911797142076356,
+    "speed_vs_vanilla_measured": [
+     1.2142777019415198,
+     1.1686712013500338,
+     1.259550549275631
+    ],
+    "accuracy_pct": 71.20622568093385,
+    "dacc_vs_vanilla": [
+     5.836575875486381,
+     0.0,
+     11.673151750972762
+    ],
+    "judge_passes_per_block": 7.1737891737891735,
+    "passes_vs_vanilla_pct": -39.84488208432223,
+    "experts_per_token": 1062.222229994404,
+    "experts_vs_vanilla_pct": -38.02520215265163,
+    "loops": 0,
+    "length_cap_hits": 0
+   },
+   "p4_rd1": {
+    "speed_vs_vanilla_chained": 1.3768209037896677,
+    "speed_vs_vanilla_measured": [
+     1.221652713464438,
+     1.1774385423478555,
+     1.2684750372759541
+    ],
+    "accuracy_pct": 70.42801556420234,
+    "dacc_vs_vanilla": [
+     5.058365758754864,
+     -0.7782101167315175,
+     11.284046692607005
+    ],
+    "judge_passes_per_block": 7.123563218390805,
+    "passes_vs_vanilla_pct": -40.26604699399863,
+    "experts_per_token": 1073.835405946255,
+    "experts_vs_vanilla_pct": -37.3476375040701,
+    "loops": 0,
+    "length_cap_hits": 0
+   },
+   "p3_rd2": {
+    "speed_vs_vanilla_chained": 1.3671037244292101,
+    "speed_vs_vanilla_measured": [
+     1.2904893261497767,
+     1.2468872195450358,
+     1.3381502741639097
+    ],
+    "accuracy_pct": 69.26070038910505,
+    "dacc_vs_vanilla": [
+     3.8910505836575875,
+     -1.9455252918287937,
+     9.72762645914397
+    ],
+    "judge_passes_per_block": 7.296296296296297,
+    "passes_vs_vanilla_pct": -38.817610412211764,
+    "experts_per_token": 1121.73950763755,
+    "experts_vs_vanilla_pct": -34.55269786286858,
+    "loops": 0,
+    "length_cap_hits": 0
+   },
+   "p4_rd2": {
+    "speed_vs_vanilla_chained": 1.4330684807159468,
+    "speed_vs_vanilla_measured": [
+     1.2903020503535594,
+     1.240697392566051,
+     1.342394160056963
+    ],
+    "accuracy_pct": 70.42801556420234,
+    "dacc_vs_vanilla": [
+     5.058365758754864,
+     -0.7782101167315175,
+     10.894941634241246
+    ],
+    "judge_passes_per_block": 7.305882352941176,
+    "passes_vs_vanilla_pct": -38.73722745784143,
+    "experts_per_token": 1109.9844182321247,
+    "experts_vs_vanilla_pct": -35.238542377328216,
+    "loops": 0,
+    "length_cap_hits": 0
+   },
+   "sets_in_pool": null
+  },
+  {
+   "benchmark": "GSM8K",
+   "vanilla": {
+    "accuracy_pct": 90.2,
+    "judge_passes_per_block": 10.056056701030927,
+    "experts_per_token": 1164.1722940727307,
+    "loops": 0,
+    "length_cap_hits": 0,
+    "n": 500
+   },
+   "p3_rd1": {
+    "speed_vs_vanilla_chained": 1.3341585263919713,
+    "speed_vs_vanilla_measured": [
+     1.2771429402918613,
+     1.2504369303255556,
+     1.3020593483892586
+    ],
+    "accuracy_pct": 91.6,
+    "dacc_vs_vanilla": [
+     1.4000000000000001,
+     -0.6,
+     3.4000000000000004
+    ],
+    "judge_passes_per_block": 5.929581892486639,
+    "passes_vs_vanilla_pct": -41.03472097687407,
+    "experts_per_token": 754.5449669394739,
+    "experts_vs_vanilla_pct": -35.186142911906956,
+    "loops": 1,
+    "length_cap_hits": 1
+   },
+   "p4_rd1": {
+    "speed_vs_vanilla_chained": 1.4357904814755955,
+    "speed_vs_vanilla_measured": [
+     1.3127072868272713,
+     1.2819010829614041,
+     1.342230197356751
+    ],
+    "accuracy_pct": 91.4,
+    "dacc_vs_vanilla": [
+     1.2,
+     -0.6,
+     3.0
+    ],
+    "judge_passes_per_block": 5.7675007918910355,
+    "passes_vs_vanilla_pct": -42.64649689873205,
+    "experts_per_token": 741.7790677261928,
+    "experts_vs_vanilla_pct": -36.28270733611439,
+    "loops": 0,
+    "length_cap_hits": 0
+   },
+   "p3_rd2": {
+    "speed_vs_vanilla_chained": 1.3559033897882997,
+    "speed_vs_vanilla_measured": [
+     1.2983374055958394,
+     1.270722817747454,
+     1.324831865036732
+    ],
+    "accuracy_pct": 92.0,
+    "dacc_vs_vanilla": [
+     1.7999999999999998,
+     0.0,
+     3.8
+    ],
+    "judge_passes_per_block": 6.033616085453974,
+    "passes_vs_vanilla_pct": -40.000178351864115,
+    "experts_per_token": 769.8813814858628,
+    "experts_vs_vanilla_pct": -33.86877651996715,
+    "loops": 1,
+    "length_cap_hits": 1
+   },
+   "p4_rd2": {
+    "speed_vs_vanilla_chained": 1.4673852384426538,
+    "speed_vs_vanilla_measured": [
+     1.3431878439787115,
+     1.3181291735672185,
+     1.3684073646514294
+    ],
+    "accuracy_pct": 91.6,
+    "dacc_vs_vanilla": [
+     1.4000000000000001,
+     -0.4,
+     3.2
+    ],
+    "judge_passes_per_block": 5.9036682615629985,
+    "passes_vs_vanilla_pct": -41.292412751036245,
+    "experts_per_token": 760.4676999540674,
+    "experts_vs_vanilla_pct": -34.67739235627628,
+    "loops": 0,
+    "length_cap_hits": 0
+   },
+   "sets_in_pool": null
+  },
+  {
+   "benchmark": "pooled",
+   "vanilla": {
+    "accuracy_pct": 65.5111111111111,
+    "judge_passes_per_block": 12.790430116269615,
+    "experts_per_token": 1166.7602428048026,
+    "loops": 58,
+    "length_cap_hits": 126,
+    "n": 2250
+   },
+   "p3_rd1": {
+    "speed_vs_vanilla_chained": 1.2177682849549643,
+    "speed_vs_vanilla_measured": [
+     1.1990250263067692,
+     1.1800085518233285,
+     1.2193014510751694
+    ],
+    "accuracy_pct": 64.44444444444444,
+    "dacc_vs_vanilla": [
+     -1.0666666666666667,
+     -2.7555555555555555,
+     0.6666666666666667
+    ],
+    "judge_passes_per_block": 7.635674601714559,
+    "passes_vs_vanilla_pct": -40.30165887852459,
+    "experts_per_token": 735.1923515535519,
+    "experts_vs_vanilla_pct": -36.988566752479876,
+    "loops": 142,
+    "length_cap_hits": 233
+   },
+   "p4_rd1": {
+    "speed_vs_vanilla_chained": 1.3273990692263637,
+    "speed_vs_vanilla_measured": [
+     1.2459883215876921,
+     1.2257069391361828,
+     1.2671500785200174
+    ],
+    "accuracy_pct": 64.53333333333333,
+    "dacc_vs_vanilla": [
+     -0.9777777777777777,
+     -2.6222222222222222,
+     0.5344444444444384
+    ],
+    "judge_passes_per_block": 7.680964331888356,
+    "passes_vs_vanilla_pct": -39.947568126594454,
+    "experts_per_token": 740.9552134856096,
+    "experts_vs_vanilla_pct": -36.49464677469556,
+    "loops": 123,
+    "length_cap_hits": 187
+   },
+   "p3_rd2": {
+    "speed_vs_vanilla_chained": 1.277667152597687,
+    "speed_vs_vanilla_measured": [
+     1.2594823447078356,
+     1.2399024318894531,
+     1.2796714630321935
+    ],
+    "accuracy_pct": 64.88888888888889,
+    "dacc_vs_vanilla": [
+     -0.6222222222222222,
+     -2.1333333333333333,
+     0.8888888888888888
+    ],
+    "judge_passes_per_block": 7.9946057125116425,
+    "passes_vs_vanilla_pct": -37.495411492515906,
+    "experts_per_token": 774.9180335196706,
+    "experts_vs_vanilla_pct": -33.583781389668644,
+    "loops": 115,
+    "length_cap_hits": 177
+   },
+   "p4_rd2": {
+    "speed_vs_vanilla_chained": 1.3394588704435726,
+    "speed_vs_vanilla_measured": [
+     1.2617559936243408,
+     1.240691829343668,
+     1.2836380751197802
+    ],
+    "accuracy_pct": 64.17777777777778,
+    "dacc_vs_vanilla": [
+     -1.3333333333333335,
+     -2.933333333333333,
+     0.2222222222222222
+    ],
+    "judge_passes_per_block": 7.827160960847362,
+    "passes_vs_vanilla_pct": -38.80455239037585,
+    "experts_per_token": 754.3771781835137,
+    "experts_vs_vanilla_pct": -35.34428492609171,
+    "loops": 127,
+    "length_cap_hits": 197
+   },
+   "sets_in_pool": {
+    "rd1": [
+     "ifeval541",
+     "math500",
+     "gpqa",
+     "aime",
+     "humaneval",
+     "mbpp",
+     "gsm8k500"
+    ],
+    "rd2": [
+     "ifeval541",
+     "math500",
+     "gpqa",
+     "aime",
+     "humaneval",
+     "mbpp",
+     "gsm8k500"
+    ]
+   }
+  }
+ ],
+ "rd_tables": {
+  "rd1": [
+   {
+    "benchmark": "IFEval",
+    "n": 541,
+    "speed_vs_p3_cross_machine_gpu": 1.080871351108903,
+    "speed_vs_vanilla_chained": 1.157390527319552,
+    "speed_vs_vanilla_measured": [
+     1.10166509163847,
+     1.0578670651182969,
+     1.143960678542496
+    ],
+    "speed_vs_p3_this_machine": [
+     1.0364321190642931,
+     1.0066222978311576,
+     1.0654593352376336
+    ],
+    "accuracy": {
+     "p4": 46.21072088724584,
+     "p3": 46.58040665434381,
+     "vanilla": 52.68022181146026,
+     "d_vs_p3": [
+      -0.36968576709796674,
+      -3.3271719038817005,
+      2.7726432532347505
+     ],
+     "d_vs_vanilla": [
+      -6.469500924214418,
+      -10.35120147874307,
+      -2.4029574861367835
+     ]
+    },
+    "judge_passes_per_block": {
+     "p4": 11.311153531497137,
+     "p3": 11.305768455022186,
+     "vanilla": 20.228924288526937,
+     "vs_p3_pct": 0.04763122910551587,
+     "vs_vanilla_pct": -44.08425593884701
+    },
+    "drafter_fwd_per_block": {
+     "p4": 32.24775020452686,
+     "p3": 36.707543364259784,
+     "vanilla": 0.0,
+     "vs_p3_pct": -12.149527729156596
+    },
+    "experts_per_token": {
+     "p4": 896.2345131137126,
+     "p3": 894.1944149576728,
+     "vanilla": 1576.5493709209122,
+     "vs_p3_pct": 0.22814928408341206,
+     "vs_vanilla_pct": -43.152144192592345
+    },
+    "loops": {
+     "p4": 104,
+     "p3": 107,
+     "vanilla": 44
+    },
+    "length_cap_hits": {
+     "p4": 106,
+     "p3": 112,
+     "vanilla": 46
+    }
+   },
+   {
+    "benchmark": "MATH-500",
+    "n": 500,
+    "speed_vs_p3_cross_machine_gpu": 1.1120458835598306,
+    "speed_vs_vanilla_chained": 1.3345181039843843,
+    "speed_vs_vanilla_measured": [
+     1.2754443535092082,
+     1.2482537149719748,
+     1.3032135375268368
+    ],
+    "speed_vs_p3_this_machine": [
+     1.055541210752822,
+     1.03354608270405,
+     1.0785204419364391
+    ],
+    "accuracy": {
+     "p4": 71.6,
+     "p3": 70.8,
+     "vanilla": 72.4,
+     "d_vs_p3": [
+      0.8,
+      -1.7999999999999998,
+      3.2
+     ],
+     "d_vs_vanilla": [
+      -0.8,
+      -3.8,
+      2.1999999999999997
+     ]
+    },
+    "judge_passes_per_block": {
+     "p4": 5.231926305970149,
+     "p3": 5.235158057054742,
+     "vanilla": 8.524915392694597,
+     "vs_p3_pct": -0.06173168124765649,
+     "vs_vanilla_pct": -38.627821333527436
+    },
+    "drafter_fwd_per_block": {
+     "p4": 17.85576026119403,
+     "p3": 18.666372948562618,
+     "vanilla": 0.0,
+     "vs_p3_pct": -4.3426362989871015
+    },
+    "experts_per_token": {
+     "p4": 575.580097143518,
+     "p3": 571.4675241111063,
+     "vanilla": 853.5445472305661,
+     "vs_p3_pct": 0.7196512240671193,
+     "vs_vanilla_pct": -32.56589840435853
+    },
+    "loops": {
+     "p4": 7,
+     "p3": 15,
+     "vanilla": 4
+    },
+    "length_cap_hits": {
+     "p4": 33,
+     "p3": 64,
+     "vanilla": 31
+    }
+   },
+   {
+    "benchmark": "GPQA",
+    "n": 198,
+    "speed_vs_p3_cross_machine_gpu": 1.0648567616845426,
+    "speed_vs_vanilla_chained": 1.516285412940324,
+    "speed_vs_vanilla_measured": [
+     1.3850156779580427,
+     1.3320329253386907,
+     1.443173984224065
+    ],
+    "speed_vs_p3_this_machine": [
+     1.0144876209269007,
+     0.978164927811054,
+     1.0528770527243008
+    ],
+    "accuracy": {
+     "p4": 36.86868686868687,
+     "p3": 37.37373737373738,
+     "vanilla": 37.37373737373738,
+     "d_vs_p3": [
+      -0.5050505050505051,
+      -6.565656565656567,
+      5.063131313131245
+     ],
+     "d_vs_vanilla": [
+      -0.5050505050505051,
+      -7.575757575757576,
+      6.565656565656567
+     ]
+    },
+    "judge_passes_per_block": {
+     "p4": 9.49059829059829,
+     "p3": 9.213772123893806,
+     "vanilla": 16.07146799116998,
+     "vs_p3_pct": 3.0044824528121294,
+     "vs_vanilla_pct": -40.94753325699534
+    },
+    "drafter_fwd_per_block": {
+     "p4": 29.352991452991454,
+     "p3": 31.27295353982301,
+     "vanilla": 0.0,
+     "vs_p3_pct": -6.1393692296657365
+    },
+    "experts_per_token": {
+     "p4": 876.3537965521779,
+     "p3": 854.880799941796,
+     "vanilla": 1381.1100128101464,
+     "vs_p3_pct": 2.511811776781503,
+     "vs_vanilla_pct": -36.54714045776414
+    },
+    "loops": {
+     "p4": 6,
+     "p3": 11,
+     "vanilla": 6
+    },
+    "length_cap_hits": {
+     "p4": 15,
+     "p3": 25,
+     "vanilla": 24
+    }
+   },
+   {
+    "benchmark": "AIME",
+    "n": 90,
+    "speed_vs_p3_cross_machine_gpu": 1.099496820774869,
+    "speed_vs_vanilla_chained": 1.5065486361313487,
+    "speed_vs_vanilla_measured": [
+     1.4300700078917064,
+     1.3574363310344035,
+     1.5052507387176683
+    ],
+    "speed_vs_p3_this_machine": [
+     1.0450084232153671,
+     1.0023383818136842,
+     1.0902003345475566
+    ],
+    "accuracy": {
+     "p4": 7.777777777777778,
+     "p3": 5.555555555555555,
+     "vanilla": 6.666666666666667,
+     "d_vs_p3": [
+      2.2222222222222223,
+      0.0,
+      5.555555555555555
+     ],
+     "d_vs_vanilla": [
+      1.1111111111111112,
+      -2.2222222222222223,
+      4.444444444444445
+     ]
+    },
+    "judge_passes_per_block": {
+     "p4": 6.202836269875376,
+     "p3": 6.381258023106547,
+     "vanilla": 10.765769554247267,
+     "vs_p3_pct": -2.7960278770284064,
+     "vs_vanilla_pct": -42.38371684792139
+    },
+    "drafter_fwd_per_block": {
+     "p4": 20.48173614095402,
+     "p3": 22.064612751390673,
+     "vanilla": 0.0,
+     "vs_p3_pct": -7.173824568196374
+    },
+    "experts_per_token": {
+     "p4": 624.8320475352845,
+     "p3": 646.0547220500104,
+     "vanilla": 997.7138424853338,
+     "vs_p3_pct": -3.2849654666068817,
+     "vs_vanilla_pct": -37.373621480603106
+    },
+    "loops": {
+     "p4": 5,
+     "p3": 6,
+     "vanilla": 4
+    },
+    "length_cap_hits": {
+     "p4": 31,
+     "p3": 26,
+     "vanilla": 25
+    }
+   },
+   {
+    "benchmark": "HumanEval",
+    "n": 164,
+    "speed_vs_p3_cross_machine_gpu": 1.2211785016908796,
+    "speed_vs_vanilla_chained": 1.3783184796355237,
+    "speed_vs_vanilla_measured": [
+     1.2563038911920499,
+     1.1508865700781141,
+     1.3710516418607104
+    ],
+    "speed_vs_p3_this_machine": [
+     1.166791337864668,
+     1.0726498925527068,
+     1.2663942226436191
+    ],
+    "accuracy": {
+     "p4": 76.82926829268293,
+     "p3": 75.60975609756098,
+     "vanilla": 78.04878048780488,
+     "d_vs_p3": [
+      1.2195121951219512,
+      -3.6585365853658534,
+      6.097560975609756
+     ],
+     "d_vs_vanilla": [
+      -1.2195121951219512,
+      -7.926829268292683,
+      5.487804878048781
+     ]
+    },
+    "judge_passes_per_block": {
+     "p4": 4.666189111747851,
+     "p3": 4.5840386940749696,
+     "vanilla": 8.25563909774436,
+     "vs_p3_pct": 1.7920969510808016,
+     "vs_vanilla_pct": -43.47876576844588
+    },
+    "drafter_fwd_per_block": {
+     "p4": 15.96704871060172,
+     "p3": 17.020556227327692,
+     "vanilla": 0.0,
+     "vs_p3_pct": -6.18961861560371
+    },
+    "experts_per_token": {
+     "p4": 622.930808282471,
+     "p3": 578.4581064870351,
+     "vanilla": 982.3371000429896,
+     "vs_p3_pct": 7.6881456576894935,
+     "vs_vanilla_pct": -36.58685921001966
+    },
+    "loops": {
+     "p4": 1,
+     "p3": 2,
+     "vanilla": 0
+    },
+    "length_cap_hits": {
+     "p4": 2,
+     "p3": 5,
+     "vanilla": 0
+    }
+   },
+   {
+    "benchmark": "MBPP",
+    "n": 257,
+    "speed_vs_p3_cross_machine_gpu": 1.0663278617528373,
+    "speed_vs_vanilla_chained": 1.3768209037896677,
+    "speed_vs_vanilla_measured": [
+     1.221652713464438,
+     1.1774385423478555,
+     1.2684750372759541
+    ],
+    "speed_vs_p3_this_machine": [
+     1.006073578977137,
+     0.9817661344457993,
+     1.030078366251543
+    ],
+    "accuracy": {
+     "p4": 70.42801556420234,
+     "p3": 71.20622568093385,
+     "vanilla": 65.36964980544747,
+     "d_vs_p3": [
+      -0.7782101167315175,
+      -5.447470817120623,
+      3.8910505836575875
+     ],
+     "d_vs_vanilla": [
+      5.058365758754864,
+      -0.7782101167315175,
+      11.284046692607005
+     ]
+    },
+    "judge_passes_per_block": {
+     "p4": 7.123563218390805,
+     "p3": 7.1737891737891735,
+     "vanilla": 11.92548435171386,
+     "vs_p3_pct": -0.7001314672290482,
+     "vs_vanilla_pct": -40.26604699399863
+    },
+    "drafter_fwd_per_block": {
+     "p4": 24.43103448275862,
+     "p3": 25.581196581196583,
+     "vanilla": 0.0,
+     "vs_p3_pct": -4.496123137896479
+    },
+    "experts_per_token": {
+     "p4": 1073.835405946255,
+     "p3": 1062.222229994404,
+     "vanilla": 1713.9583619309083,
+     "vs_p3_pct": 1.0932906150826982,
+     "vs_vanilla_pct": -37.3476375040701
+    },
+    "loops": {
+     "p4": 0,
+     "p3": 0,
+     "vanilla": 0
+    },
+    "length_cap_hits": {
+     "p4": 0,
+     "p3": 0,
+     "vanilla": 0
+    }
+   },
+   {
+    "benchmark": "GSM8K",
+    "n": 500,
+    "speed_vs_p3_cross_machine_gpu": 1.0761768208748568,
+    "speed_vs_vanilla_chained": 1.4357904814755955,
+    "speed_vs_vanilla_measured": [
+     1.3127072868272713,
+     1.2819010829614041,
+     1.342230197356751
+    ],
+    "speed_vs_p3_this_machine": [
+     1.0278468019619502,
+     1.0065230610687437,
+     1.0480547620966032
+    ],
+    "accuracy": {
+     "p4": 91.4,
+     "p3": 91.6,
+     "vanilla": 90.2,
+     "d_vs_p3": [
+      -0.2,
+      -1.7999999999999998,
+      1.4000000000000001
+     ],
+     "d_vs_vanilla": [
+      1.2,
+      -0.6,
+      3.0
+     ]
+    },
+    "judge_passes_per_block": {
+     "p4": 5.7675007918910355,
+     "p3": 5.929581892486639,
+     "vanilla": 10.056056701030927,
+     "vs_p3_pct": -2.7334321969813113,
+     "vs_vanilla_pct": -42.64649689873205
+    },
+    "drafter_fwd_per_block": {
+     "p4": 18.70256572695597,
+     "p3": 19.69475007859164,
+     "vanilla": 0.0,
+     "vs_p3_pct": -5.037811333864961
+    },
+    "experts_per_token": {
+     "p4": 741.7790677261928,
+     "p3": 754.5449669394739,
+     "vanilla": 1164.1722940727307,
+     "vs_p3_pct": -1.6918672541228474,
+     "vs_vanilla_pct": -36.28270733611439
+    },
+    "loops": {
+     "p4": 0,
+     "p3": 1,
+     "vanilla": 0
+    },
+    "length_cap_hits": {
+     "p4": 0,
+     "p3": 1,
+     "vanilla": 0
+    }
+   },
+   {
+    "benchmark": "pooled",
+    "n": 2250,
+    "speed_vs_p3_cross_machine_gpu": 1.0900259808256165,
+    "speed_vs_vanilla_chained": 1.3273990692263637,
+    "speed_vs_vanilla_measured": [
+     1.2459883215876921,
+     1.2257069391361828,
+     1.2671500785200174
+    ],
+    "speed_vs_p3_this_machine": [
+     1.0391679024628695,
+     1.025931314774097,
+     1.0531758328541774
+    ],
+    "accuracy": {
+     "p4": 64.53333333333333,
+     "p3": 64.44444444444444,
+     "vanilla": 65.5111111111111,
+     "d_vs_p3": [
+      0.08888888888888889,
+      -1.2,
+      1.3777777777777778
+     ],
+     "d_vs_vanilla": [
+      -0.9777777777777777,
+      -2.6222222222222222,
+      0.5344444444444384
+     ]
+    },
+    "judge_passes_per_block": {
+     "p4": 7.680964331888356,
+     "p3": 7.635674601714559,
+     "vanilla": 12.790430116269615,
+     "vs_p3_pct": 0.5931333187460419,
+     "vs_vanilla_pct": -39.947568126594454
+    },
+    "drafter_fwd_per_block": {
+     "p4": 23.861852612365958,
+     "p3": 25.821295853416242,
+     "vanilla": 0.0,
+     "vs_p3_pct": -7.588477558112339
+    },
+    "experts_per_token": {
+     "p4": 740.9552134856096,
+     "p3": 735.1923515535519,
+     "vanilla": 1166.7602428048026,
+     "vs_p3_pct": 0.7838577101461963,
+     "vs_vanilla_pct": -36.49464677469556
+    },
+    "loops": {
+     "p4": 123,
+     "p3": 142,
+     "vanilla": 58
+    },
+    "length_cap_hits": {
+     "p4": 187,
+     "p3": 233,
+     "vanilla": 126
+    }
+   }
+  ],
+  "rd2": [
+   {
+    "benchmark": "IFEval",
+    "n": 541,
+    "speed_vs_p3_cross_machine_gpu": 1.0096378742180279,
+    "speed_vs_vanilla_chained": 1.1657414400458,
+    "speed_vs_vanilla_measured": [
+     1.0866149250943127,
+     1.0443522007144583,
+     1.1296250056994732
+    ],
+    "speed_vs_p3_this_machine": [
+     0.9650656604643802,
+     0.9379850094826995,
+     0.9929128728912999
+    ],
+    "accuracy": {
+     "p4": 46.02587800369686,
+     "p3": 48.059149722735675,
+     "vanilla": 52.68022181146026,
+     "d_vs_p3": [
+      -2.033271719038817,
+      -5.545286506469501,
+      1.2939001848428837
+     ],
+     "d_vs_vanilla": [
+      -6.654343807763401,
+      -10.536044362292053,
+      -2.5878003696857674
+     ]
+    },
+    "judge_passes_per_block": {
+     "p4": 11.53284280936455,
+     "p3": 12.227807172251616,
+     "vanilla": 20.228924288526937,
+     "vs_p3_pct": -5.683474993489746,
+     "vs_vanilla_pct": -42.988353483998495
+    },
+    "drafter_fwd_per_block": {
+     "p4": 21.23732441471572,
+     "p3": 23.659465020576132,
+     "vanilla": 0.0,
+     "vs_p3_pct": -10.23751214895996
+    },
+    "experts_per_token": {
+     "p4": 912.289941983216,
+     "p3": 974.4289936203679,
+     "vanilla": 1576.5493709209122,
+     "vs_p3_pct": -6.376970722749342,
+     "vs_vanilla_pct": -42.13375370221875
+    },
+    "loops": {
+     "p4": 107,
+     "p3": 94,
+     "vanilla": 44
+    },
+    "length_cap_hits": {
+     "p4": 113,
+     "p3": 91,
+     "vanilla": 46
+    }
+   },
+   {
+    "benchmark": "MATH-500",
+    "n": 500,
+    "speed_vs_p3_cross_machine_gpu": 1.0778553046205837,
+    "speed_vs_vanilla_chained": 1.3168231340716385,
+    "speed_vs_vanilla_measured": [
+     1.3076072087514528,
+     1.2808667784688896,
+     1.3336504168877559
+    ],
+    "speed_vs_p3_this_machine": [
+     1.0343255493823202,
+     1.0137144663045705,
+     1.056671946866281
+    ],
+    "accuracy": {
+     "p4": 70.6,
+     "p3": 70.2,
+     "vanilla": 72.4,
+     "d_vs_p3": [
+      0.4,
+      -2.8000000000000003,
+      3.4000000000000004
+     ],
+     "d_vs_vanilla": [
+      -1.7999999999999998,
+      -5.0,
+      1.4000000000000001
+     ]
+    },
+    "judge_passes_per_block": {
+     "p4": 5.280839289831681,
+     "p3": 5.456355637879139,
+     "vanilla": 8.524915392694597,
+     "vs_p3_pct": -3.216732187121163,
+     "vs_vanilla_pct": -38.05405629764863
+    },
+    "drafter_fwd_per_block": {
+     "p4": 12.855891169010837,
+     "p3": 13.391525816161149,
+     "vanilla": 0.0,
+     "vs_p3_pct": -3.9998029687094983
+    },
+    "experts_per_token": {
+     "p4": 581.7450399244179,
+     "p3": 598.2123016327372,
+     "vanilla": 853.5445472305661,
+     "vs_p3_pct": -2.752745415527924,
+     "vs_vanilla_pct": -31.84362294716031
+    },
+    "loops": {
+     "p4": 6,
+     "p3": 5,
+     "vanilla": 4
+    },
+    "length_cap_hits": {
+     "p4": 37,
+     "p3": 33,
+     "vanilla": 31
+    }
+   },
+   {
+    "benchmark": "GPQA",
+    "n": 198,
+    "speed_vs_p3_cross_machine_gpu": 1.0555420737962968,
+    "speed_vs_vanilla_chained": 1.555577893153996,
+    "speed_vs_vanilla_measured": [
+     1.442010487770488,
+     1.3845954466603196,
+     1.5046372778271515
+    ],
+    "speed_vs_p3_this_machine": [
+     1.00969528283511,
+     0.9718761565695939,
+     1.0494523797060142
+    ],
+    "accuracy": {
+     "p4": 36.86868686868687,
+     "p3": 37.878787878787875,
+     "vanilla": 37.37373737373738,
+     "d_vs_p3": [
+      -1.0101010101010102,
+      -7.07070707070707,
+      5.05050505050505
+     ],
+     "d_vs_vanilla": [
+      -0.5050505050505051,
+      -8.080808080808081,
+      6.565656565656567
+     ]
+    },
+    "judge_passes_per_block": {
+     "p4": 9.612625538020087,
+     "p3": 9.557016290368678,
+     "vanilla": 16.07146799116998,
+     "vs_p3_pct": 0.581868294055865,
+     "vs_vanilla_pct": -40.18825446871762
+    },
+    "drafter_fwd_per_block": {
+     "p4": 19.051076040172166,
+     "p3": 20.074306944841382,
+     "vanilla": 0.0,
+     "vs_p3_pct": -5.097216593732323
+    },
+    "experts_per_token": {
+     "p4": 886.2209284727871,
+     "p3": 884.2945668714423,
+     "vanilla": 1381.1100128101464,
+     "vs_p3_pct": 0.21784161901619026,
+     "vs_vanilla_pct": -35.83270555908923
+    },
+    "loops": {
+     "p4": 7,
+     "p3": 9,
+     "vanilla": 6
+    },
+    "length_cap_hits": {
+     "p4": 23,
+     "p3": 24,
+     "vanilla": 24
+    }
+   },
+   {
+    "benchmark": "AIME",
+    "n": 90,
+    "speed_vs_p3_cross_machine_gpu": 1.0761977107392897,
+    "speed_vs_vanilla_chained": 1.5609193482943786,
+    "speed_vs_vanilla_measured": [
+     1.4458298722640408,
+     1.3762700405397237,
+     1.5190506754119657
+    ],
+    "speed_vs_p3_this_machine": [
+     1.0192733385302781,
+     0.9724231867943807,
+     1.066063950184693
+    ],
+    "accuracy": {
+     "p4": 7.777777777777778,
+     "p3": 5.555555555555555,
+     "vanilla": 6.666666666666667,
+     "d_vs_p3": [
+      2.2222222222222223,
+      -3.3333333333333335,
+      7.777777777777778
+     ],
+     "d_vs_vanilla": [
+      1.1111111111111112,
+      -3.3333333333333335,
+      6.666666666666667
+     ]
+    },
+    "judge_passes_per_block": {
+     "p4": 6.430769230769231,
+     "p3": 6.532399299474606,
+     "vanilla": 10.765769554247267,
+     "vs_p3_pct": -1.5557846978758505,
+     "vs_vanilla_pct": -40.266516031525214
+    },
+    "drafter_fwd_per_block": {
+     "p4": 14.564395604395605,
+     "p3": 15.123905429071804,
+     "vanilla": 0.0,
+     "vs_p3_pct": -3.6995062373286647
+    },
+    "experts_per_token": {
+     "p4": 652.412057804781,
+     "p3": 662.8766364907424,
+     "vanilla": 997.7138424853338,
+     "vs_p3_pct": -1.5786615653495706,
+     "vs_vanilla_pct": -34.60930078111336
+    },
+    "loops": {
+     "p4": 6,
+     "p3": 6,
+     "vanilla": 4
+    },
+    "length_cap_hits": {
+     "p4": 23,
+     "p3": 27,
+     "vanilla": 25
+    }
+   },
+   {
+    "benchmark": "HumanEval",
+    "n": 164,
+    "speed_vs_p3_cross_machine_gpu": 1.0010926229207655,
+    "speed_vs_vanilla_chained": 1.3937475629318312,
+    "speed_vs_vanilla_measured": [
+     1.2554936008325175,
+     1.1679143676515127,
+     1.3571202011104602
+    ],
+    "speed_vs_p3_this_machine": [
+     0.9532237637932851,
+     0.8812322850724803,
+     1.036525483654794
+    ],
+    "accuracy": {
+     "p4": 75.0,
+     "p3": 79.8780487804878,
+     "vanilla": 78.04878048780488,
+     "d_vs_p3": [
+      -4.878048780487805,
+      -9.75609756097561,
+      0.0
+     ],
+     "d_vs_vanilla": [
+      -3.048780487804878,
+      -9.146341463414634,
+      3.048780487804878
+     ]
+    },
+    "judge_passes_per_block": {
+     "p4": 4.628691983122363,
+     "p3": 4.649635036496351,
+     "vanilla": 8.25563909774436,
+     "vs_p3_pct": -0.45042359689738687,
+     "vs_vanilla_pct": -43.93296596035753
+    },
+    "drafter_fwd_per_block": {
+     "p4": 11.69901547116737,
+     "p3": 11.38832116788321,
+     "vanilla": 0.0,
+     "vs_p3_pct": 2.728183537362505
+    },
+    "experts_per_token": {
+     "p4": 617.7469805412659,
+     "p3": 627.3705016840986,
+     "vanilla": 982.3371000429896,
+     "vs_p3_pct": -1.5339454304911682,
+     "vs_vanilla_pct": -37.11456275913516
+    },
+    "loops": {
+     "p4": 1,
+     "p3": 0,
+     "vanilla": 0
+    },
+    "length_cap_hits": {
+     "p4": 1,
+     "p3": 1,
+     "vanilla": 0
+    }
+   },
+   {
+    "benchmark": "MBPP",
+    "n": 257,
+    "speed_vs_p3_cross_machine_gpu": 1.0482514641047285,
+    "speed_vs_vanilla_chained": 1.4330684807159468,
+    "speed_vs_vanilla_measured": [
+     1.2903020503535594,
+     1.240697392566051,
+     1.342394160056963
+    ],
+    "speed_vs_p3_this_machine": [
+     0.9998548800114634,
+     0.9744899522779603,
+     1.0266253144588693
+    ],
+    "accuracy": {
+     "p4": 70.42801556420234,
+     "p3": 69.26070038910505,
+     "vanilla": 65.36964980544747,
+     "d_vs_p3": [
+      1.1673151750972763,
+      -3.501945525291829,
+      6.22568093385214
+     ],
+     "d_vs_vanilla": [
+      5.058365758754864,
+      -0.7782101167315175,
+      10.894941634241246
+     ]
+    },
+    "judge_passes_per_block": {
+     "p4": 7.305882352941176,
+     "p3": 7.296296296296297,
+     "vanilla": 11.92548435171386,
+     "vs_p3_pct": 0.13138250223947434,
+     "vs_vanilla_pct": -38.73722745784143
+    },
+    "drafter_fwd_per_block": {
+     "p4": 15.604411764705882,
+     "p3": 15.084444444444445,
+     "vanilla": 0.0,
+     "vs_p3_pct": 3.447043225068458
+    },
+    "experts_per_token": {
+     "p4": 1109.9844182321247,
+     "p3": 1121.73950763755,
+     "vanilla": 1713.9583619309083,
+     "vs_p3_pct": -1.0479339744556504,
+     "vs_vanilla_pct": -35.238542377328216
+    },
+    "loops": {
+     "p4": 0,
+     "p3": 0,
+     "vanilla": 0
+    },
+    "length_cap_hits": {
+     "p4": 0,
+     "p3": 0,
+     "vanilla": 0
+    }
+   },
+   {
+    "benchmark": "GSM8K",
+    "n": 500,
+    "speed_vs_p3_cross_machine_gpu": 1.0822196105518698,
+    "speed_vs_vanilla_chained": 1.4673852384426538,
+    "speed_vs_vanilla_measured": [
+     1.3431878439787115,
+     1.3181291735672185,
+     1.3684073646514294
+    ],
+    "speed_vs_p3_this_machine": [
+     1.0345445168486762,
+     1.0182286599440806,
+     1.0527689652755652
+    ],
+    "accuracy": {
+     "p4": 91.6,
+     "p3": 92.0,
+     "vanilla": 90.2,
+     "d_vs_p3": [
+      -0.4,
+      -1.6,
+      0.8
+     ],
+     "d_vs_vanilla": [
+      1.4000000000000001,
+      -0.4,
+      3.2
+     ]
+    },
+    "judge_passes_per_block": {
+     "p4": 5.9036682615629985,
+     "p3": 6.033616085453974,
+     "vanilla": 10.056056701030927,
+     "vs_p3_pct": -2.153730400650744,
+     "vs_vanilla_pct": -41.292412751036245
+    },
+    "drafter_fwd_per_block": {
+     "p4": 13.163636363636364,
+     "p3": 13.615142946905435,
+     "vanilla": 0.0,
+     "vs_p3_pct": -3.316208908197271
+    },
+    "experts_per_token": {
+     "p4": 760.4676999540674,
+     "p3": 769.8813814858628,
+     "vanilla": 1164.1722940727307,
+     "vs_p3_pct": -1.2227444068886428,
+     "vs_vanilla_pct": -34.67739235627628
+    },
+    "loops": {
+     "p4": 0,
+     "p3": 1,
+     "vanilla": 0
+    },
+    "length_cap_hits": {
+     "p4": 0,
+     "p3": 1,
+     "vanilla": 0
+    }
+   },
+   {
+    "benchmark": "pooled",
+    "n": 2250,
+    "speed_vs_p3_cross_machine_gpu": 1.0483629227849005,
+    "speed_vs_vanilla_chained": 1.3394588704435726,
+    "speed_vs_vanilla_measured": [
+     1.2617559936243408,
+     1.240691829343668,
+     1.2836380751197802
+    ],
+    "speed_vs_p3_this_machine": [
+     1.0018052249212217,
+     0.988584567199664,
+     1.0153861222022875
+    ],
+    "accuracy": {
+     "p4": 64.17777777777778,
+     "p3": 64.88888888888889,
+     "vanilla": 65.5111111111111,
+     "d_vs_p3": [
+      -0.7111111111111111,
+      -2.09,
+      0.6666666666666667
+     ],
+     "d_vs_vanilla": [
+      -1.3333333333333335,
+      -2.933333333333333,
+      0.2222222222222222
+     ]
+    },
+    "judge_passes_per_block": {
+     "p4": 7.827160960847362,
+     "p3": 7.9946057125116425,
+     "vanilla": 12.790430116269615,
+     "vs_p3_pct": -2.0944716685930898,
+     "vs_vanilla_pct": -38.80455239037585
+    },
+    "drafter_fwd_per_block": {
+     "p4": 16.265746169850576,
+     "p3": 17.182474386836386,
+     "vanilla": 0.0,
+     "vs_p3_pct": -5.335251468136171
+    },
+    "experts_per_token": {
+     "p4": 754.3771781835137,
+     "p3": 774.9180335196706,
+     "vanilla": 1166.7602428048026,
+     "vs_p3_pct": -2.6507132945223333,
+     "vs_vanilla_pct": -35.34428492609171
+    },
+    "loops": {
+     "p4": 127,
+     "p3": 115,
+     "vanilla": 58
+    },
+    "length_cap_hits": {
+     "p4": 197,
+     "p3": 177,
+     "vanilla": 126
+    }
+   }
+  ]
+ }
+}

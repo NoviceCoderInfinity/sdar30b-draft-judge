@@ -157,6 +157,8 @@ def cell_name(ds: str, args, adapter_hash=None) -> str:
             s += f"_rd{int(args.full_redraft_every)}"        # phase 3: re-draft the [MASK] slots every K passes
             if int(getattr(args, "full_redraft_rate", 4) or 4) != 4:
                 s += f"r{int(args.full_redraft_rate)}"
+            if getattr(args, "redraft_ban_rejected", False):
+                s += "_ban"                                  # phase 4: the rejected token is banned at re-draft time
         return s + drafter_info(args)["tag"] + tail
     s = f"{ds}_B{BLOCK}_t{t}_dv-{args.draft}_c{pct(args.tau_commit)}_a{pct(args.tau_acc)}_q{pct(args.tau_acc_q)}"
     if args.rejudge:
@@ -296,6 +298,9 @@ def build_parser():
                          "the committed tokens only (tentative drafts hidden, kept); 0 = off")
     ap.add_argument("--full-redraft-rate", type=int, default=4,
                     help="re-draft: slots per drafter step (steps = ceil(#[MASK] / rate), at most 8)")
+    ap.add_argument("--redraft-ban-rejected", action="store_true",
+                    help="re-draft (phase 4): the drafter may not re-propose, at a re-drafted slot, the token the judge "
+                         "rejected there (its logit is -inf before choosing and ranking); appends _ban to the cell")
     ap.add_argument("--judge-diag", action="store_true",
                     help="full judge: record next-slot copy counts at the open slots (changes no decision)")
     ap.add_argument("--adapter", default=None, help="adapter dir (load_adapter + merge_lora before instrumenting)")
@@ -363,6 +368,8 @@ def resolve_args(args):
         raise NotImplementedError("--full-redraft-every is not combined with --judge-passes")
     if getattr(args, "judge_diag", False) and (args.stock or args.judge != "full"):
         raise NotImplementedError("--judge-diag is for --judge full")
+    if getattr(args, "redraft_ban_rejected", False) and not rde:
+        raise NotImplementedError("--redraft-ban-rejected needs --full-redraft-every > 0 (it acts at re-draft time)")
     M = int(getattr(args, "pool", 0) or 0)
     assert M == 0 or M >= 8, f"--pool {M} is below the model's top-8"
     return args
@@ -424,6 +431,8 @@ def main(argv=None):
            **({"judge_passes": int(args.judge_passes)} if (not args.stock and args.judge == "full" and args.judge_passes) else {}),
            **({"full_redraft_every": int(args.full_redraft_every), "full_redraft_rate": int(args.full_redraft_rate)}
               if (not args.stock and args.judge == "full" and args.full_redraft_every) else {}),
+           **({"redraft_ban_rejected": True}
+              if (not args.stock and args.judge == "full" and args.full_redraft_every and args.redraft_ban_rejected) else {}),
            "pool_M": int(args.pool) or None, "pool_rule": args.pool_rule if args.pool else None,
            **({"tau_pool_cov": float(args.tau_pool_cov)} if args.pool and args.tau_pool_cov else {}),
            "pool_flush": bool(args.pool_flush and args.pool),
@@ -505,7 +514,8 @@ def main(argv=None):
                   judge_passes=0 if args.stock else int(args.judge_passes),
                   full_redraft_every=0 if args.stock else int(args.full_redraft_every),
                   full_redraft_rate=int(args.full_redraft_rate),
-                  judge_diag=bool(args.judge_diag and not args.stock))
+                  judge_diag=bool(args.judge_diag and not args.stock),
+                  redraft_ban_rejected=bool(args.redraft_ban_rejected and not args.stock))
     t_cell = time.time()
     n_new, n_ref, n_ref_ok = 0, 0, 0
     with open(dest, "a") as fh:

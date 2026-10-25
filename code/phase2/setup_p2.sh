@@ -79,9 +79,13 @@ if ! done_ models; then
       ln -s "$P2_MODELS_FROM/$m" hf_cache/hub/$m && say "linked $m from $P2_MODELS_FROM"
     fi
   done
+  if [ -f code/drafter_lora/hf_progress.py ]; then   # phase 4: same repos/revisions/cache, + progress lines, retries, size check
+    HF_HUB_OFFLINE=0 $PY code/drafter_lora/hf_progress.py --models b32,d32
+  else
   HF_HUB_OFFLINE=0 $PY -c "import sys; sys.path[:0]=['code/compat','code']; import os; import research_protocol as P; \
 os.environ['HF_HUB_OFFLINE']='0'; from huggingface_hub import snapshot_download; \
 [print(k, snapshot_download(P.MODELS[k]['repo'], revision=P.MODELS[k]['revision'], cache_dir=P.MODELS[k]['cache_dir'])) for k in ('b32','d32')]"
+  fi
   mark models
 fi
 

@@ -1,0 +1,466 @@
+{
+ "definition": "Phase 3 rd1 / rd2 timed for THIS machine, from Phase 3's recorded work.  Phase 3 was decoded on another box and was\nnot re-run here; its WORK is machine-independent and recorded per forward (decoding is deterministic: the vanilla\nre-decode here matched the earlier records on 2,250/2,250 questions), so its time here = that work priced at this\nmachine's per-forward costs, measured on the Phase 4 records of this machine.\n\n    /venv/p2/bin/python code/drafter_lora/phase3_same_box.py --out results/phase4_drafter/phase3_same_box.json\n\nPer benchmark, fitted on every 30B forward of Phase 4 rd1 + rd2 on this machine (forwards[k] = [kind, ms, distinct\nexperts summed over layers, layers, positions]; ctx = prompt tokens + 32 x block index; e = experts per layer):\n    judge forward  (kind 3)   ms = a + d x [any drafted slot, i.e. the judge LoRA runs] + b x ctx/1000 + c x e\n    KV-flush       (kind 2)   ms = a' + b' x ctx/1000 + c' x e\n    prefill        (kind 0)   = Phase 4's measured prefill of the same question on this machine (same prompt)\n    drafter                   = Phase 4's measured ms per drafter forward of each kind (same mode) x the forward count\n    host / other              = Phase 4's measured (seconds - 30B seconds - drafter seconds) per 30B forward (same mode)\nFlagged pass: pass 0 of a block, or tentative + redraft of the previous pass > 0 (code/draftalign/adapter.py skips the\nLoRA otherwise).  The same pricing applied to the vanilla records (kind 1 priced as an unflagged judge forward, its\nown host time) and to Phase 4 itself checks the model against measured times.\nReported:  P3 vs vanilla = sum(measured vanilla seconds) / sum(priced Phase 3 seconds);  P4 vs P3 = sum(priced Phase 3\nseconds) / sum(measured Phase 4 seconds); 95% range: paired bootstrap over questions (2,000, default_rng(0)), which\ncovers question sampling, not the pricing model's error (see the model checks).\n",
+ "per_set": {
+  "ifeval541": {
+   "fit_judge_a_flag_ctx_experts": [
+    25.04037211800348,
+    7.149002998258701,
+    0.8903757805276021,
+    3.9890433510425853
+   ],
+   "fit_flush_a_ctx_experts": [
+    24.209706590229363,
+    0.5226626285828603,
+    3.9836255677051575
+   ],
+   "rd1": {
+    "n": 541,
+    "p3_vs_vanilla": [
+     1.062939937285107,
+     1.0241241060911714,
+     1.1036131800537916
+    ],
+    "p4_vs_p3": [
+     1.0364321190642931,
+     1.0066222978311576,
+     1.0654593352376336
+    ],
+    "p4_vs_vanilla_measured": [
+     1.10166509163847,
+     1.0578670651182969,
+     1.143960678542496
+    ],
+    "check_p4_priced_vs_measured_pct": 0.6596972051454042,
+    "check_vanilla_priced_vs_measured_pct": 0.9702418855970896,
+    "p3_seconds_per_answer": 41.754951515554815,
+    "p4_seconds_per_answer": 40.2872033271719,
+    "vanilla_seconds_per_answer": 44.38300554528651
+   },
+   "rd2": {
+    "n": 541,
+    "p3_vs_vanilla": [
+     1.1259492173531944,
+     1.0874324037487386,
+     1.166714858710894
+    ],
+    "p4_vs_p3": [
+     0.9650656604643802,
+     0.9379850094826995,
+     0.9929128728912999
+    ],
+    "p4_vs_vanilla_measured": [
+     1.0866149250943127,
+     1.0443522007144583,
+     1.1296250056994732
+    ],
+    "check_p4_priced_vs_measured_pct": -0.650701041495616,
+    "check_vanilla_priced_vs_measured_pct": 0.9702418855970896,
+    "p3_seconds_per_answer": 39.41830134188386,
+    "p4_seconds_per_answer": 40.84520147874307,
+    "vanilla_seconds_per_answer": 44.38300554528651
+   }
+  },
+  "math500": {
+   "fit_judge_a_flag_ctx_experts": [
+    23.763527130480576,
+    11.134908511998125,
+    -0.8158639155831532,
+    3.909629767186219
+   ],
+   "fit_flush_a_ctx_experts": [
+    23.525554087444654,
+    -0.7899445211879687,
+    3.958503028519007
+   ],
+   "rd1": {
+    "n": 500,
+    "p3_vs_vanilla": [
+     1.208332124332265,
+     1.1778988292452384,
+     1.2346661046527334
+    ],
+    "p4_vs_p3": [
+     1.055541210752822,
+     1.03354608270405,
+     1.0785204419364391
+    ],
+    "p4_vs_vanilla_measured": [
+     1.2754443535092082,
+     1.2482537149719748,
+     1.3032135375268368
+    ],
+    "check_p4_priced_vs_measured_pct": -0.7307746227232181,
+    "check_vanilla_priced_vs_measured_pct": -0.7108393536519486,
+    "p3_seconds_per_answer": 33.424772201863696,
+    "p4_seconds_per_answer": 31.666004,
+    "vanilla_seconds_per_answer": 40.388226
+   },
+   "rd2": {
+    "n": 500,
+    "p3_vs_vanilla": [
+     1.264212422802793,
+     1.2361331076732087,
+     1.2913986210823079
+    ],
+    "p4_vs_p3": [
+     1.0343255493823202,
+     1.0137144663045705,
+     1.056671946866281
+    ],
+    "p4_vs_vanilla_measured": [
+     1.3076072087514528,
+     1.2808667784688896,
+     1.3336504168877559
+    ],
+    "check_p4_priced_vs_measured_pct": 0.749161926705777,
+    "check_vanilla_priced_vs_measured_pct": -0.7108393536519486,
+    "p3_seconds_per_answer": 31.947341500139842,
+    "p4_seconds_per_answer": 30.887123999999996,
+    "vanilla_seconds_per_answer": 40.388226
+   }
+  },
+  "gpqa": {
+   "fit_judge_a_flag_ctx_experts": [
+    21.52252899676703,
+    9.75736974936584,
+    -0.5657040871478898,
+    3.980309685450888
+   ],
+   "fit_flush_a_ctx_experts": [
+    18.946186435312562,
+    -0.808801447093214,
+    4.050325554540516
+   ],
+   "rd1": {
+    "n": 198,
+    "p3_vs_vanilla": [
+     1.3652366469416393,
+     1.3039240757028387,
+     1.4292712882104288
+    ],
+    "p4_vs_p3": [
+     1.0144876209269007,
+     0.978164927811054,
+     1.0528770527243008
+    ],
+    "p4_vs_vanilla_measured": [
+     1.3850156779580427,
+     1.3320329253386907,
+     1.443173984224065
+    ],
+    "check_p4_priced_vs_measured_pct": -0.22273927308186225,
+    "check_vanilla_priced_vs_measured_pct": 0.6406304936077412,
+    "p3_seconds_per_answer": 51.45421266345458,
+    "p4_seconds_per_answer": 50.71940909090909,
+    "vanilla_seconds_per_answer": 70.24717676767676
+   },
+   "rd2": {
+    "n": 198,
+    "p3_vs_vanilla": [
+     1.4281640335304784,
+     1.3708087976017722,
+     1.489072317940519
+    ],
+    "p4_vs_p3": [
+     1.00969528283511,
+     0.9718761565695939,
+     1.0494523797060142
+    ],
+    "p4_vs_vanilla_measured": [
+     1.442010487770488,
+     1.3845954466603196,
+     1.5046372778271515
+    ],
+    "check_p4_priced_vs_measured_pct": 0.23177256941930846,
+    "check_vanilla_priced_vs_measured_pct": 0.6406304936077412,
+    "p3_seconds_per_answer": 49.187050729756116,
+    "p4_seconds_per_answer": 48.714747474747476,
+    "vanilla_seconds_per_answer": 70.24717676767676
+   }
+  },
+  "aime": {
+   "fit_judge_a_flag_ctx_experts": [
+    28.15712584027666,
+    7.896707078507088,
+    -0.5381331161815371,
+    3.8357483764953493
+   ],
+   "fit_flush_a_ctx_experts": [
+    25.511591729154443,
+    -0.69847987804547,
+    3.875763532066303
+   ],
+   "rd1": {
+    "n": 90,
+    "p3_vs_vanilla": [
+     1.3684770152297436,
+     1.306446232920117,
+     1.4314609578343334
+    ],
+    "p4_vs_p3": [
+     1.0450084232153671,
+     1.0023383818136842,
+     1.0902003345475566
+    ],
+    "p4_vs_vanilla_measured": [
+     1.4300700078917064,
+     1.3574363310344035,
+     1.5052507387176683
+    ],
+    "check_p4_priced_vs_measured_pct": 0.27191816077098974,
+    "check_vanilla_priced_vs_measured_pct": -0.6667407576499751,
+    "p3_seconds_per_answer": 54.77714702726079,
+    "p4_seconds_per_answer": 52.417899999999996,
+    "vanilla_seconds_per_answer": 74.96126666666667
+   },
+   "rd2": {
+    "n": 90,
+    "p3_vs_vanilla": [
+     1.4184908185166776,
+     1.346691235222098,
+     1.4971314201614683
+    ],
+    "p4_vs_p3": [
+     1.0192733385302781,
+     0.9724231867943807,
+     1.066063950184693
+    ],
+    "p4_vs_vanilla_measured": [
+     1.4458298722640408,
+     1.3762700405397237,
+     1.5190506754119657
+    ],
+    "check_p4_priced_vs_measured_pct": -0.27497211993023907,
+    "check_vanilla_priced_vs_measured_pct": -0.6667407576499751,
+    "p3_seconds_per_answer": 52.84578912188801,
+    "p4_seconds_per_answer": 51.84653333333333,
+    "vanilla_seconds_per_answer": 74.96126666666667
+   }
+  },
+  "humaneval": {
+   "fit_judge_a_flag_ctx_experts": [
+    26.41166548959055,
+    8.023111974243152,
+    -5.163127192466144,
+    4.01204511367124
+   ],
+   "fit_flush_a_ctx_experts": [
+    19.361789635692347,
+    2.38576059751509,
+    4.0843292181963875
+   ],
+   "rd1": {
+    "n": 164,
+    "p3_vs_vanilla": [
+     1.0767168476680653,
+     0.9981912768993277,
+     1.1613063287409626
+    ],
+    "p4_vs_p3": [
+     1.166791337864668,
+     1.0726498925527068,
+     1.2663942226436191
+    ],
+    "p4_vs_vanilla_measured": [
+     1.2563038911920499,
+     1.1508865700781141,
+     1.3710516418607104
+    ],
+    "check_p4_priced_vs_measured_pct": 0.6799023925020853,
+    "check_vanilla_priced_vs_measured_pct": 2.454813658436761,
+    "p3_seconds_per_answer": 8.355883676560548,
+    "p4_seconds_per_answer": 7.161420731707317,
+    "vanilla_seconds_per_answer": 8.99692073170732
+   },
+   "rd2": {
+    "n": 164,
+    "p3_vs_vanilla": [
+     1.3171027082207554,
+     1.2112972400455257,
+     1.4345560317033497
+    ],
+    "p4_vs_p3": [
+     0.9532237637932851,
+     0.8812322850724803,
+     1.036525483654794
+    ],
+    "p4_vs_vanilla_measured": [
+     1.2554936008325175,
+     1.1679143676515127,
+     1.3571202011104602
+    ],
+    "check_p4_priced_vs_measured_pct": -0.6789704344330572,
+    "check_vanilla_priced_vs_measured_pct": 2.454813658436761,
+    "p3_seconds_per_answer": 6.830842177722843,
+    "p4_seconds_per_answer": 7.166042682926829,
+    "vanilla_seconds_per_answer": 8.99692073170732
+   }
+  },
+  "mbpp": {
+   "fit_judge_a_flag_ctx_experts": [
+    21.015490075025358,
+    11.745590640119334,
+    1.6209909437993366,
+    3.9075282568091994
+   ],
+   "fit_flush_a_ctx_experts": [
+    19.737993300168206,
+    5.418695442426154,
+    3.9759494333996046
+   ],
+   "rd1": {
+    "n": 257,
+    "p3_vs_vanilla": [
+     1.2142777019415198,
+     1.1686712013500338,
+     1.259550549275631
+    ],
+    "p4_vs_p3": [
+     1.006073578977137,
+     0.9817661344457993,
+     1.030078366251543
+    ],
+    "p4_vs_vanilla_measured": [
+     1.221652713464438,
+     1.1774385423478555,
+     1.2684750372759541
+    ],
+    "check_p4_priced_vs_measured_pct": -0.9522674777185047,
+    "check_vanilla_priced_vs_measured_pct": 2.242152609736503,
+    "p3_seconds_per_answer": 6.405607842416444,
+    "p4_seconds_per_answer": 6.366937743190661,
+    "vanilla_seconds_per_answer": 7.778186770428016
+   },
+   "rd2": {
+    "n": 257,
+    "p3_vs_vanilla": [
+     1.2904893261497767,
+     1.2468872195450358,
+     1.3381502741639097
+    ],
+    "p4_vs_p3": [
+     0.9998548800114634,
+     0.9744899522779603,
+     1.0266253144588693
+    ],
+    "p4_vs_vanilla_measured": [
+     1.2903020503535594,
+     1.240697392566051,
+     1.342394160056963
+    ],
+    "check_p4_priced_vs_measured_pct": 1.0052887894380635,
+    "check_vanilla_priced_vs_measured_pct": 2.242152609736503,
+    "p3_seconds_per_answer": 6.027315850518909,
+    "p4_seconds_per_answer": 6.028190661478599,
+    "vanilla_seconds_per_answer": 7.778186770428016
+   }
+  },
+  "gsm8k500": {
+   "fit_judge_a_flag_ctx_experts": [
+    24.786165133350103,
+    10.183731741496945,
+    0.4523698964721191,
+    3.9172929265420495
+   ],
+   "fit_flush_a_ctx_experts": [
+    23.32550912242356,
+    2.2976051692208044,
+    3.961444397669731
+   ],
+   "rd1": {
+    "n": 500,
+    "p3_vs_vanilla": [
+     1.2771429402918613,
+     1.2504369303255556,
+     1.3020593483892586
+    ],
+    "p4_vs_p3": [
+     1.0278468019619502,
+     1.0065230610687437,
+     1.0480547620966032
+    ],
+    "p4_vs_vanilla_measured": [
+     1.3127072868272713,
+     1.2819010829614041,
+     1.342230197356751
+    ],
+    "check_p4_priced_vs_measured_pct": -0.46765334351501764,
+    "check_vanilla_priced_vs_measured_pct": 2.0252120926295136,
+    "p3_seconds_per_answer": 13.628017233546709,
+    "p4_seconds_per_answer": 13.258802,
+    "vanilla_seconds_per_answer": 17.404926
+   },
+   "rd2": {
+    "n": 500,
+    "p3_vs_vanilla": [
+     1.2983374055958394,
+     1.270722817747454,
+     1.324831865036732
+    ],
+    "p4_vs_p3": [
+     1.0345445168486762,
+     1.0182286599440806,
+     1.0527689652755652
+    ],
+    "p4_vs_vanilla_measured": [
+     1.3431878439787115,
+     1.3181291735672185,
+     1.3684073646514294
+    ],
+    "check_p4_priced_vs_measured_pct": 0.4785693515644729,
+    "check_vanilla_priced_vs_measured_pct": 2.0252120926295136,
+    "p3_seconds_per_answer": 13.405549223941865,
+    "p4_seconds_per_answer": 12.957923999999998,
+    "vanilla_seconds_per_answer": 17.404926
+   }
+  }
+ },
+ "pooled": {
+  "rd1": {
+   "n": 2250,
+   "p3_vs_vanilla": [
+    1.1990250263067692,
+    1.1800085518233285,
+    1.2193014510751694
+   ],
+   "p4_vs_p3": [
+    1.0391679024628695,
+    1.025931314774097,
+    1.0531758328541774
+   ],
+   "p4_vs_vanilla_measured": [
+    1.2459883215876921,
+    1.2257069391361828,
+    1.2671500785200174
+   ],
+   "check_p4_priced_vs_measured_pct": -0.03244423236563598,
+   "check_vanilla_priced_vs_measured_pct": 0.5073186042784394,
+   "p3_seconds_per_answer": 28.55569198484213,
+   "p4_seconds_per_answer": 27.47938222222222,
+   "vanilla_seconds_per_answer": 34.23898933333333
+  },
+  "rd2": {
+   "n": 2250,
+   "p3_vs_vanilla": [
+    1.2594823447078356,
+    1.2399024318894531,
+    1.2796714630321935
+   ],
+   "p4_vs_p3": [
+    1.0018052249212217,
+    0.988584567199664,
+    1.0153861222022875
+   ],
+   "p4_vs_vanilla_measured": [
+    1.2617559936243408,
+    1.240691829343668,
+    1.2836380751197802
+   ],
+   "check_p4_priced_vs_measured_pct": 0.03281648382962299,
+   "check_vanilla_priced_vs_measured_pct": 0.5073186042784394,
+   "p3_seconds_per_answer": 27.184969664085138,
+   "p4_seconds_per_answer": 27.13598311111111,
+   "vanilla_seconds_per_answer": 34.23898933333333
+  }
+ }
+}

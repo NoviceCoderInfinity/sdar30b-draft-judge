@@ -95,6 +95,11 @@ def load_drafter(spec: str, device: str, model_key: str = "d32"):
         tok, model = load_sdar(spec, device)
         return tok, model, {"kind": "stock", "spec": spec,
                             "revision": P.MODELS[spec]["revision"]}
+    try:                                             # /venv/p2 (transformers 4.54.1): the LossKwargs shim, as load_sdar
+        from phase2.tf_compat import apply as _tf_compat
+        _tf_compat()
+    except ImportError:
+        pass
     from transformers import AutoModelForCausalLM, AutoTokenizer
     path = resolve_checkpoint(safe_out(spec))
     assert os.path.isdir(path), f"not a checkpoint directory: {path}"

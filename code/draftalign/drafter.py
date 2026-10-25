@@ -38,13 +38,15 @@ def masked_base(final: torch.Tensor, valid: torch.Tensor, mask_id: int) -> torch
 @torch.no_grad()
 def draft_block(seq, final: torch.Tensor, valid: torch.Tensor, lo: int, setting: str,
                 mask_id: int, threshold_strict: bool = True, static_steps: Optional[int] = None,
-                kind: Optional[str] = None) -> dict:
+                kind: Optional[str] = None, ban: Optional[torch.Tensor] = None) -> dict:
     """Generate the valid slots of block [lo, lo+bl) with the drafter behind `seq`.
 
     final [bl] long (device), valid [bl] bool (device). `static_steps` (static settings only)
     replaces the setting's step count (still capped at the number of open slots); `kind`
     replaces the timing label (default draft_<setting>; the phase-3 re-draft passes "redraft").
-    Both default to None, which is exactly the original call. Returns a dict of device tensors
+    `ban` [bl] long (phase 4): at every slot with ban >= 0 that token's logit is set to -inf at every step, before
+    tokens are chosen and confidences ranked (the re-draft may not re-propose the token the judge just rejected).
+    All three default to None, which is exactly the original call. Returns a dict of device tensors
     + python ints:
       tokens [bl]        the drafted block (fixed slots untouched)
       p_commit [bl]      fp32 confidence of each slot's token at the forward that committed it
@@ -79,12 +81,18 @@ def draft_block(seq, final: torch.Tensor, valid: torch.Tensor, lo: int, setting:
         steps = min(int(cfg["cap"]), n_open)                   # >= 1 commit per step
         nt = None
     label = kind or f"draft_{setting}"
+    if ban is not None:
+        ban = ban.to(dev)
+        ban_rows = torch.nonzero(ban >= 0).flatten()
+        ban_cols = ban[ban_rows]
 
     for step in range(steps):
         logits = seq.block_forward(cur, lo, store_kv=False, kind=label)
         lg = logits[0].to(torch.float32, copy=True)            # [bl, V] fp32 copy (MASK logit is overwritten)
         raw_mask += (lg.argmax(-1) == mask_id)[open_].sum()
         lg[:, mask_id] = float("-inf")
+        if ban is not None and ban_rows.numel():
+            lg[ban_rows, ban_cols] = float("-inf")
         probs = F.softmax(lg, dim=-1)
         conf, x0 = probs.max(dim=-1)
         last_probs = probs

@@ -26,6 +26,13 @@ same frozen checkpoint and block width; the only thing it ever trains is the LoR
 `code/phase2/` and `docs/PHASE2_DRAFTER_SWAP.md`; its stop rules are frozen in `code/phase2/rules.json`. It runs in
 `/venv/p2` (transformers 4.54.1 + the `LossKwargs` shim), not `/venv/r3`. No Phase 2 result exists yet.
 
+**Phase 4 (branch `phase4-drafter-lora`, 2026-10-12)** trains the *drafter* for the first time: a LoRA (r 32, attention +
+MLP, 34,865,152 parameters) on SDAR-1.7B, on the 1B corpus' waves A + B, for the rd1 / rd2 re-draft decoders. The judge
+and its 128M LoRA stay frozen. Its adapter is **ungated**, so unlike the judge's it is merged for decoding (`--drafter
+<train out>/merged`); `--redraft-ban-rejected` is its decode-time change. Everything lives in `code/drafter_lora/`
+(stages: `p4.sh setup|smoke|train|gate1|gate2|gate3|gate4`) and `docs/PHASE4_DRAFTER_LORA.md`. Runs in `/venv/p2`.
+No Phase 4 result exists yet.
+
 **The single most important measurement:** expert *pooling* is where the cost
 goes, not the drafter. `stock + DES M=32` is the cheapest arm at 654.9
 experts/token and 93.0 on calibvalid, with no drafter and no training. The

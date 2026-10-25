@@ -1,0 +1,11 @@
+{
+  "step": 20,
+  "event": "projection",
+  "sec_per_step": 6.751772767619083,
+  "pass_steps": 1285,
+  "projected_hours": 2.4100077795529224,
+  "measured_steps": 19,
+  "world_size": 8,
+  "items_per_step": 256,
+  "micro_tokens": 16384
+}

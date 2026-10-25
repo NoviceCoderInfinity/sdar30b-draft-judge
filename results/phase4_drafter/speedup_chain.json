@@ -1,0 +1,474 @@
+{
+ "utc": "2026-10-13T01:13:55Z",
+ "definition": "Phase 3 and Phase 4 speed vs the vanilla 30B MoE by CHAINING per-benchmark factors (operator, 13 Oct 05:00 IST).\nTime per answer throughout (the plan's speed measure; tokens/s is inflated by looping outputs).\n\n    /venv/p2/bin/python code/drafter_lora/speedup_chain.py --out results/phase4_drafter/speedup_chain.json\n\n  C  Phase 1 base over vanilla  = base_over_stock_phase2 (tok/s, the Phase 2 page's figure for the Phase 1 machine,\n                                  from results/phase3_8gpu/final_numbers.json; partly computed there) x\n                                  (vanilla tokens / base tokens on the same items) -> a time-per-answer ratio\n  B  Phase 3 rd over base       = sum(base seconds) / sum(rd seconds), same items, both decoded on the Phase 3 box\n                                  (measured, same machine)\n  A  Phase 4 rd over Phase 3 rd = sum(Phase 3 gpu_active_s) / sum(Phase 4 gpu_active_s), same items (NVML GPM GPU-active\n                                  time, same GPU model; CROSS-MACHINE: probably flatters Phase 4 by ~5%, see REPORT.md)\n  Phase 3 vs vanilla = B x C ;  Phase 4 vs vanilla = A x B x C   (two multiplications)\nPooled: estimated vanilla time summed over benchmarks / the arm's time summed (each benchmark's time x its factor).\nAccuracy: measured, paired with the vanilla records on the same items (bootstrap 2,000, default_rng(0)).\n",
+ "arms": {
+  "rd1": {
+   "per_set": {
+    "ifeval541": {
+     "n": 541,
+     "A_p4_over_p3_gpu": 1.080871351108903,
+     "B_p3_over_base_time": 0.9857195985299375,
+     "C_base_over_vanilla_time": 1.086306870268423,
+     "C_tps_phase2": 1.2496154793481586,
+     "p3_vs_vanilla": 1.0707939720413029,
+     "p4_vs_vanilla": 1.157390527319552,
+     "acc_vanilla": 52.68022181146026,
+     "acc_p3": 46.58040665434381,
+     "acc_p4": 46.21072088724584,
+     "dacc_p3_vs_vanilla": [
+      -6.099815157116451,
+      -10.166358595194085,
+      -1.8484288354898337
+     ],
+     "dacc_p4_vs_vanilla": [
+      -6.469500924214418,
+      -10.35120147874307,
+      -2.4029574861367835
+     ],
+     "dacc_p4_vs_p3": [
+      -0.36968576709796674,
+      -3.3271719038817005,
+      2.7726432532347505
+     ]
+    },
+    "math500": {
+     "n": 500,
+     "A_p4_over_p3_gpu": 1.1120458835598306,
+     "B_p3_over_base_time": 1.0146748423162604,
+     "C_base_over_vanilla_time": 1.182700744710961,
+     "C_tps_phase2": 1.186043280965443,
+     "p3_vs_vanilla": 1.200056691646918,
+     "p4_vs_vanilla": 1.3345181039843843,
+     "acc_vanilla": 72.39999999999999,
+     "acc_p3": 70.8,
+     "acc_p4": 71.6,
+     "dacc_p3_vs_vanilla": [
+      -1.6,
+      -4.8,
+      1.6
+     ],
+     "dacc_p4_vs_vanilla": [
+      -0.8,
+      -3.8,
+      2.1999999999999997
+     ],
+     "dacc_p4_vs_p3": [
+      0.8,
+      -1.7999999999999998,
+      3.2
+     ]
+    },
+    "gpqa": {
+     "n": 198,
+     "A_p4_over_p3_gpu": 1.0648567616845426,
+     "B_p3_over_base_time": 1.1188614848464942,
+     "C_base_over_vanilla_time": 1.2726630637894687,
+     "C_tps_phase2": 1.2306568230609516,
+     "p3_vs_vanilla": 1.4239336852607736,
+     "p4_vs_vanilla": 1.516285412940324,
+     "acc_vanilla": 37.37373737373738,
+     "acc_p3": 37.37373737373738,
+     "acc_p4": 36.868686868686865,
+     "dacc_p3_vs_vanilla": [
+      0.0,
+      -7.575757575757576,
+      8.080808080808081
+     ],
+     "dacc_p4_vs_vanilla": [
+      -0.5050505050505051,
+      -7.575757575757576,
+      6.565656565656567
+     ],
+     "dacc_p4_vs_p3": [
+      -0.5050505050505051,
+      -6.565656565656567,
+      5.063131313131245
+     ]
+    },
+    "aime": {
+     "n": 90,
+     "A_p4_over_p3_gpu": 1.099496820774869,
+     "B_p3_over_base_time": 1.0508056752733923,
+     "C_base_over_vanilla_time": 1.3039675054297848,
+     "C_tps_phase2": 1.2150329253334071,
+     "p3_vs_vanilla": 1.3702164550777058,
+     "p4_vs_vanilla": 1.5065486361313487,
+     "acc_vanilla": 6.666666666666667,
+     "acc_p3": 5.555555555555555,
+     "acc_p4": 7.777777777777778,
+     "dacc_p3_vs_vanilla": [
+      -1.1111111111111112,
+      -5.555555555555555,
+      2.2222222222222223
+     ],
+     "dacc_p4_vs_vanilla": [
+      1.1111111111111112,
+      -2.2222222222222223,
+      4.444444444444445
+     ],
+     "dacc_p4_vs_p3": [
+      2.2222222222222223,
+      0.0,
+      5.555555555555555
+     ]
+    },
+    "humaneval": {
+     "n": 164,
+     "A_p4_over_p3_gpu": 1.2211785016908796,
+     "B_p3_over_base_time": 0.9552684897757009,
+     "C_base_over_vanilla_time": 1.1815306070992186,
+     "C_tps_phase2": 1.2630179786998095,
+     "p3_vs_vanilla": 1.1286789586674375,
+     "p4_vs_vanilla": 1.3783184796355237,
+     "acc_vanilla": 78.04878048780488,
+     "acc_p3": 75.60975609756098,
+     "acc_p4": 76.82926829268293,
+     "dacc_p3_vs_vanilla": [
+      -2.4390243902439024,
+      -9.146341463414634,
+      3.6737804878047946
+     ],
+     "dacc_p4_vs_vanilla": [
+      -1.2195121951219512,
+      -7.926829268292683,
+      5.487804878048781
+     ],
+     "dacc_p4_vs_p3": [
+      1.2195121951219512,
+      -3.6585365853658534,
+      6.097560975609756
+     ]
+    },
+    "mbpp": {
+     "n": 257,
+     "A_p4_over_p3_gpu": 1.0663278617528373,
+     "B_p3_over_base_time": 1.0589949479125071,
+     "C_base_over_vanilla_time": 1.2192501170593981,
+     "C_tps_phase2": 1.2858239814546188,
+     "p3_vs_vanilla": 1.2911797142076356,
+     "p4_vs_vanilla": 1.3768209037896677,
+     "acc_vanilla": 65.36964980544747,
+     "acc_p3": 71.20622568093385,
+     "acc_p4": 70.42801556420234,
+     "dacc_p3_vs_vanilla": [
+      5.836575875486381,
+      0.0,
+      11.673151750972762
+     ],
+     "dacc_p4_vs_vanilla": [
+      5.058365758754864,
+      -0.7782101167315175,
+      11.284046692607005
+     ],
+     "dacc_p4_vs_p3": [
+      -0.7782101167315175,
+      -5.447470817120623,
+      3.8910505836575875
+     ]
+    },
+    "gsm8k500": {
+     "n": 500,
+     "A_p4_over_p3_gpu": 1.0761768208748568,
+     "B_p3_over_base_time": 1.075263347644557,
+     "C_base_over_vanilla_time": 1.240773740976611,
+     "C_tps_phase2": 1.2596778650964346,
+     "p3_vs_vanilla": 1.3341585263919713,
+     "p4_vs_vanilla": 1.4357904814755955,
+     "acc_vanilla": 90.2,
+     "acc_p3": 91.60000000000001,
+     "acc_p4": 91.4,
+     "dacc_p3_vs_vanilla": [
+      1.4000000000000001,
+      -0.6,
+      3.4000000000000004
+     ],
+     "dacc_p4_vs_vanilla": [
+      1.2,
+      -0.6,
+      3.0
+     ],
+     "dacc_p4_vs_p3": [
+      -0.2,
+      -1.7999999999999998,
+      1.4000000000000001
+     ]
+    }
+   },
+   "sets_done": [
+    "ifeval541",
+    "math500",
+    "gpqa",
+    "aime",
+    "humaneval",
+    "mbpp",
+    "gsm8k500"
+   ],
+   "pooled": {
+    "n": 2250,
+    "sets": [
+     "ifeval541",
+     "math500",
+     "gpqa",
+     "aime",
+     "humaneval",
+     "mbpp",
+     "gsm8k500"
+    ],
+    "p3_vs_vanilla": 1.2177682849549643,
+    "p4_vs_vanilla": 1.3273990692263637,
+    "acc_vanilla": 65.5111111111111,
+    "acc_p3": 64.44444444444444,
+    "acc_p4": 64.53333333333333,
+    "dacc_p3_vs_vanilla": [
+     -1.0666666666666667,
+     -2.7555555555555555,
+     0.6666666666666667
+    ],
+    "dacc_p4_vs_vanilla": [
+     -0.9777777777777777,
+     -2.6222222222222222,
+     0.5344444444444384
+    ],
+    "dacc_p4_vs_p3": [
+     0.08888888888888889,
+     -1.2,
+     1.3777777777777778
+    ]
+   }
+  },
+  "rd2": {
+   "per_set": {
+    "ifeval541": {
+     "n": 541,
+     "A_p4_over_p3_gpu": 1.0096378742180279,
+     "B_p3_over_base_time": 1.0628796086296244,
+     "C_base_over_vanilla_time": 1.086306870268423,
+     "C_tps_phase2": 1.2496154793481586,
+     "p3_vs_vanilla": 1.1546134211225736,
+     "p4_vs_vanilla": 1.1657414400458,
+     "acc_vanilla": 52.68022181146026,
+     "acc_p3": 48.059149722735675,
+     "acc_p4": 46.02587800369686,
+     "dacc_p3_vs_vanilla": [
+      -4.621072088724584,
+      -8.502772643253234,
+      -0.734750462107234
+     ],
+     "dacc_p4_vs_vanilla": [
+      -6.654343807763401,
+      -10.536044362292053,
+      -2.5878003696857674
+     ],
+     "dacc_p4_vs_p3": [
+      -2.033271719038817,
+      -5.545286506469501,
+      1.2939001848428837
+     ]
+    },
+    "math500": {
+     "n": 500,
+     "A_p4_over_p3_gpu": 1.0778553046205837,
+     "B_p3_over_base_time": 1.0329804779280778,
+     "C_base_over_vanilla_time": 1.182700744710961,
+     "C_tps_phase2": 1.186043280965443,
+     "p3_vs_vanilla": 1.221706780517422,
+     "p4_vs_vanilla": 1.3168231340716385,
+     "acc_vanilla": 72.39999999999999,
+     "acc_p3": 70.19999999999999,
+     "acc_p4": 70.6,
+     "dacc_p3_vs_vanilla": [
+      -2.1999999999999997,
+      -5.0,
+      0.8
+     ],
+     "dacc_p4_vs_vanilla": [
+      -1.7999999999999998,
+      -5.0,
+      1.4000000000000001
+     ],
+     "dacc_p4_vs_p3": [
+      0.4,
+      -2.8000000000000003,
+      3.4000000000000004
+     ]
+    },
+    "gpqa": {
+     "n": 198,
+     "A_p4_over_p3_gpu": 1.0555420737962968,
+     "B_p3_over_base_time": 1.157984573515756,
+     "C_base_over_vanilla_time": 1.2726630637894687,
+     "C_tps_phase2": 1.2306568230609516,
+     "p3_vs_vanilla": 1.4737241951515032,
+     "p4_vs_vanilla": 1.555577893153996,
+     "acc_vanilla": 37.37373737373738,
+     "acc_p3": 37.878787878787875,
+     "acc_p4": 36.868686868686865,
+     "dacc_p3_vs_vanilla": [
+      0.5050505050505051,
+      -6.565656565656567,
+      7.07070707070707
+     ],
+     "dacc_p4_vs_vanilla": [
+      -0.5050505050505051,
+      -8.080808080808081,
+      6.565656565656567
+     ],
+     "dacc_p4_vs_p3": [
+      -1.0101010101010102,
+      -7.07070707070707,
+      5.05050505050505
+     ]
+    },
+    "aime": {
+     "n": 90,
+     "A_p4_over_p3_gpu": 1.0761977107392897,
+     "B_p3_over_base_time": 1.112299215768081,
+     "C_base_over_vanilla_time": 1.3039675054297848,
+     "C_tps_phase2": 1.2150329253334071,
+     "p3_vs_vanilla": 1.4504020336766106,
+     "p4_vs_vanilla": 1.5609193482943786,
+     "acc_vanilla": 6.666666666666667,
+     "acc_p3": 5.555555555555555,
+     "acc_p4": 7.777777777777778,
+     "dacc_p3_vs_vanilla": [
+      -1.1111111111111112,
+      -3.3333333333333335,
+      0.0
+     ],
+     "dacc_p4_vs_vanilla": [
+      1.1111111111111112,
+      -3.3333333333333335,
+      6.666666666666667
+     ],
+     "dacc_p4_vs_p3": [
+      2.2222222222222223,
+      -3.3333333333333335,
+      7.777777777777778
+     ]
+    },
+    "humaneval": {
+     "n": 164,
+     "A_p4_over_p3_gpu": 1.0010926229207655,
+     "B_p3_over_base_time": 1.17832443451577,
+     "C_base_over_vanilla_time": 1.1815306070992186,
+     "C_tps_phase2": 1.2630179786998095,
+     "p3_vs_vanilla": 1.3922263844732612,
+     "p4_vs_vanilla": 1.3937475629318312,
+     "acc_vanilla": 78.04878048780488,
+     "acc_p3": 79.8780487804878,
+     "acc_p4": 75.0,
+     "dacc_p3_vs_vanilla": [
+      1.8292682926829267,
+      -3.0640243902439015,
+      6.707317073170732
+     ],
+     "dacc_p4_vs_vanilla": [
+      -3.048780487804878,
+      -9.146341463414634,
+      3.048780487804878
+     ],
+     "dacc_p4_vs_p3": [
+      -4.878048780487805,
+      -9.75609756097561,
+      0.0
+     ]
+    },
+    "mbpp": {
+     "n": 257,
+     "A_p4_over_p3_gpu": 1.0482514641047285,
+     "B_p3_over_base_time": 1.121266018597076,
+     "C_base_over_vanilla_time": 1.2192501170593981,
+     "C_tps_phase2": 1.2858239814546188,
+     "p3_vs_vanilla": 1.3671037244292101,
+     "p4_vs_vanilla": 1.4330684807159468,
+     "acc_vanilla": 65.36964980544747,
+     "acc_p3": 69.26070038910505,
+     "acc_p4": 70.42801556420234,
+     "dacc_p3_vs_vanilla": [
+      3.8910505836575875,
+      -1.9455252918287937,
+      9.72762645914397
+     ],
+     "dacc_p4_vs_vanilla": [
+      5.058365758754864,
+      -0.7782101167315175,
+      10.894941634241246
+     ],
+     "dacc_p4_vs_p3": [
+      1.1673151750972763,
+      -3.501945525291829,
+      6.22568093385214
+     ]
+    },
+    "gsm8k500": {
+     "n": 500,
+     "A_p4_over_p3_gpu": 1.0822196105518698,
+     "B_p3_over_base_time": 1.092788592319072,
+     "C_base_over_vanilla_time": 1.240773740976611,
+     "C_tps_phase2": 1.2596778650964346,
+     "p3_vs_vanilla": 1.3559033897882997,
+     "p4_vs_vanilla": 1.4673852384426538,
+     "acc_vanilla": 90.2,
+     "acc_p3": 92.0,
+     "acc_p4": 91.60000000000001,
+     "dacc_p3_vs_vanilla": [
+      1.7999999999999998,
+      0.0,
+      3.8
+     ],
+     "dacc_p4_vs_vanilla": [
+      1.4000000000000001,
+      -0.4,
+      3.2
+     ],
+     "dacc_p4_vs_p3": [
+      -0.4,
+      -1.6,
+      0.8
+     ]
+    }
+   },
+   "sets_done": [
+    "ifeval541",
+    "math500",
+    "gpqa",
+    "aime",
+    "humaneval",
+    "mbpp",
+    "gsm8k500"
+   ],
+   "pooled": {
+    "n": 2250,
+    "sets": [
+     "ifeval541",
+     "math500",
+     "gpqa",
+     "aime",
+     "humaneval",
+     "mbpp",
+     "gsm8k500"
+    ],
+    "p3_vs_vanilla": 1.277667152597687,
+    "p4_vs_vanilla": 1.3394588704435726,
+    "acc_vanilla": 65.5111111111111,
+    "acc_p3": 64.88888888888889,
+    "acc_p4": 64.17777777777778,
+    "dacc_p3_vs_vanilla": [
+     -0.6222222222222222,
+     -2.1333333333333333,
+     0.8888888888888888
+    ],
+    "dacc_p4_vs_vanilla": [
+     -1.3333333333333335,
+     -2.933333333333333,
+     0.2222222222222222
+    ],
+    "dacc_p4_vs_p3": [
+     -0.7111111111111111,
+     -2.09,
+     0.6666666666666667
+    ]
+   }
+  }
+ }
+}
